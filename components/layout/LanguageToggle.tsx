@@ -19,7 +19,7 @@ export default function LanguageToggle() {
         <button
           key={item}
           onClick={() => switchTo(item)}
-          className={`rounded-full px-2 py-1 transition ${locale === item ? 'bg-current text-sand' : 'opacity-65 hover:opacity-100'}`}
+          className={`min-h-8 rounded-full px-2.5 py-1 transition ${locale === item ? 'bg-terracotta text-cream' : 'opacity-65 hover:opacity-100'}`}
           aria-label={`Switch to ${item.toUpperCase()}`}
         >
           {item.toUpperCase()}

@@ -1,5 +1,5 @@
 {
-  "meta": {"title": "Book Directly - Farm El Baya", "description": "Send a direct booking request for Farm El Baya in Testour. No platform fees, no middleman, better direct rates."},
-  "hero": {"heading": "Book your stay directly.", "subhead": "No platform fees. No middleman. Just you, the farm, and a better rate."},
-  "form": {"submit": "Send booking request →", "success": "Your request has been sent. Mahdi will be in touch via WhatsApp or email within 24 hours. We look forward to welcoming you.", "error": "Something went wrong. Please email us directly at contact@farmelbaya.com", "payment": "Payment is settled on arrival. Tunisian guests may pay by cash or bank transfer. International guests may pay by card - Stripe payment link coming soon.", "deposit": "A 30% deposit may be required during peak season to confirm your reservation."}
+  "meta": {"title": "Request Availability - Farm El Baya", "description": "Send your dates for a direct farm stay request at Farm El Baya in Testour. Private rooms, breakfast included, direct rates from 180 DT/night."},
+  "hero": {"heading": "Request your farm stay.", "subhead": "Send your dates, get availability within 24 hours, and confirm directly with Mahdi before any deposit."},
+  "form": {"submit": "Request availability", "success": "Your request has been sent. Mahdi will be in touch via WhatsApp or email within 24 hours. We look forward to welcoming you.", "error": "Something went wrong. Please email us directly at contact@farmelbaya.com", "payment": "Payment is settled on arrival. Tunisian guests may pay by cash or bank transfer. International guests may pay by card when confirmed.", "deposit": "A 30% deposit may be required during peak season to confirm your reservation."}
 }

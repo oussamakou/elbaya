@@ -16,10 +16,10 @@ export default function Navbar() {
   const isForge = pathname.includes('/forge');
   const links = useMemo(() => [
     ['stay', t('stay')],
-    ['farm', t('farm')],
     ['experiences', t('experiences')],
-    ['forge', t('forge')],
-    ['book', t('book')]
+    ['farm', t('farm')],
+    ['book', t('book')],
+    ['forge', t('forge')]
   ], [t]);
 
   useEffect(() => {
@@ -29,18 +29,19 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const tone = isForge ? 'text-cream' : scrolled ? 'text-earth' : 'text-cream';
+  const startsOnLight = pathname.includes('/book');
+  const tone = isForge ? 'text-cream' : scrolled || startsOnLight ? 'text-earth' : 'text-cream';
   const shell = scrolled ? (isForge ? 'bg-dusk/92 border-cream/10' : 'bg-sand/92 border-mist') : 'bg-transparent border-transparent';
 
   return (
     <header className={`fixed inset-x-0 top-0 z-50 border-b backdrop-blur-sm transition duration-500 ${shell} ${tone}`}>
       <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-8">
-        <Link href="/" locale={locale} className="relative h-14 w-36">
-          <Image src="/assets/images/logo.webp" alt="Farm El Baya" fill className={`object-contain object-left ${isForge ? 'brightness-0 invert' : ''}`} priority />
+        <Link href="/" locale={locale} className="relative h-16 w-32 shrink-0 overflow-visible">
+          <Image src="/assets/images/logo.png" alt="Farm El Baya" fill className="scale-[2.25] object-contain object-left" priority />
         </Link>
-        <div className="hidden items-center gap-9 text-sm font-medium md:flex">
+        <div className="hidden items-center gap-8 text-sm font-medium md:flex">
           {links.map(([href, label]) => (
-            <Link key={href} href={`/${href}`} className={`${href === 'forge' ? 'font-semibold tracking-wide' : ''} transition hover:text-terracotta`}>
+            <Link key={href} href={`/${href}`} className={`${href === 'forge' ? 'opacity-70' : ''} transition hover:text-terracotta hover:opacity-100`}>
               {label}
             </Link>
           ))}

@@ -1,9 +1,9 @@
 {
-  "meta": {"title": "Stay at Farm El Baya - Rooms Under the Olive Trees", "description": "Three private rooms on a permaculture farm in Testour. Breakfast included, direct booking, lunch and dinner on request."},
-  "hero": "Sleep under the olive trees.",
-  "intro": "Three rooms. Each with its own bathroom, its own light, its own quiet. Breakfast is always included - made fresh from the farm each morning. This is not a hotel. It is a home that welcomes strangers warmly.",
+  "meta": {"title": "Stay at Farm El Baya - Private Rooms Under Olive Trees", "description": "Three private rooms on a permaculture farm in Testour. Private bathrooms, breakfast included, direct rate from 180 DT/night, lunch and dinner on request."},
+  "hero": "Private rooms under the olive trees.",
+  "intro": "Three private rooms. Each with its own bathroom, its own light, and its own quiet. Breakfast is always included - made fresh from the farm each morning. This is not a hotel. It is a living farm that welcomes guests warmly.",
   "rooms": ["Room One", "Room Two", "Room Three"],
   "breakfast": {"heading": "What breakfast looks like", "text": "Every morning, breakfast is set. Farm eggs cooked fresh. Olive oil pressed from trees you can see from your window. Homemade yogurt. Pomegranate seeds. Tunisian flatbreads. Seasonal fruit. Juice. This is how the day begins here."},
-  "cabin": {"label": "COMING SOON · SUMMER 2025", "heading": "The Olive Cabin", "text": "A standalone cabin being built among the olive trees. Private. Quiet. Its own outdoor kitchen. Its own sky. Available this summer - join the list to be first to know.", "button": "Notify me when it's ready"},
+  "cabin": {"label": "COMING SOON", "heading": "The Olive Cabin", "text": "A standalone cabin being built among the olive trees. Private. Quiet. Its own outdoor kitchen. Its own sky. Join the list to be first to know.", "button": "Notify me when it's ready"},
   "nearby": {"heading": "Nearby - beyond the farm", "items": ["Testour town - 15 min · Pomegranates, Andalusian heritage, local market", "Archaeological sites - 20-40 min · Roman ruins in the region", "River - nearby · Swimming and walking", "Tunis - 1 hour · Day trips possible"]}
 }

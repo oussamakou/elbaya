@@ -3,6 +3,7 @@ import type {Metadata} from 'next';
 import {setRequestLocale} from 'next-intl/server';
 import {getContent, img} from '@/content';
 import ExperienceCard from '@/components/ui/ExperienceCard';
+import BookingConfidence from '@/components/sections/BookingConfidence';
 
 export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
   const {locale} = await params;
@@ -22,10 +23,22 @@ export default async function Experiences({params}: {params: Promise<{locale: st
         <h1 className="relative mx-auto max-w-6xl font-serif text-5xl italic leading-tight md:text-7xl">{content.hero}</h1>
       </section>
       <section className="px-5 py-24">
-        <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-2">
-          {content.items.map((item, index) => <ExperienceCard key={item[0]} item={item} index={index} />)}
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-10 max-w-2xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bark">{locale === 'fr' ? 'Ce qui est inclus' : 'Included and available'}</p>
+            <h2 className="mt-3 font-serif text-5xl italic">{locale === 'fr' ? 'Choisissez votre rythme.' : 'Choose your pace.'}</h2>
+            <p className="mt-4 leading-7 text-earth/72">
+              {locale === 'fr'
+                ? 'Certaines experiences sont incluses dans chaque sejour. D autres sont saisonnieres ou organisees sur demande avec Mahdi.'
+                : 'Some experiences are included with every stay. Others are seasonal or arranged on request with Mahdi.'}
+            </p>
+          </div>
+          <div className="grid gap-5 md:grid-cols-2">
+            {content.items.map((item, index) => <ExperienceCard key={item[0]} item={item} index={index} />)}
+          </div>
         </div>
       </section>
+      <BookingConfidence locale={locale} />
     </>
   );
 }

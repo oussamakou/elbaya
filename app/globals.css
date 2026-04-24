@@ -30,10 +30,27 @@ body {
   color: #2C1810;
   font-family: var(--font-dm-sans), system-ui, sans-serif;
   font-weight: 300;
+  overflow-x: hidden;
 }
 
 ::selection {
   background: rgba(196, 98, 45, 0.22);
+}
+
+/* Custom scrollbar for an elegant feel */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #F5F0E8; 
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(44, 24, 16, 0.15); 
+  border-radius: 10px;
+  border: 2px solid #F5F0E8;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(44, 24, 16, 0.3); 
 }
 
 a {
@@ -48,6 +65,10 @@ select {
   font: inherit;
 }
 
+.text-balance {
+  text-wrap: balance;
+}
+
 .grain {
   position: relative;
 }
@@ -57,28 +78,45 @@ select {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.08;
+  opacity: 0.12;
   background-image:
-    linear-gradient(115deg, rgba(255,255,255,.05) 0 1px, transparent 1px),
-    radial-gradient(circle at 30% 20%, rgba(255,255,255,.08), transparent 18rem);
-  background-size: 13px 13px, auto;
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: 10;
+  mix-blend-mode: overlay;
 }
 
 .field {
+  display: block;
   width: 100%;
-  border: 1px solid #EDE8DF;
-  border-radius: 14px;
-  background: rgba(250, 247, 242, 0.92);
+  min-height: 3.25rem;
+  margin-top: 0.5rem;
+  border: 1px solid rgba(44, 24, 16, 0.22);
+  border-radius: 8px;
+  background: rgba(245, 240, 232, 0.72);
   padding: 0.9rem 1rem;
   color: #2C1810;
   outline: none;
-  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  transition: all 300ms ease;
+  border-bottom-color: rgba(44, 24, 16, 0.42);
 }
 
 .field:focus {
-  border-color: rgba(92, 94, 47, 0.55);
-  box-shadow: 0 0 0 4px rgba(92, 94, 47, 0.1);
-  background: #FAF7F2;
+  border-color: rgba(196, 98, 45, 0.65);
+  background: rgba(250, 247, 242, 0.86);
+  box-shadow: 0 0 0 3px rgba(196, 98, 45, 0.12);
+}
+
+.field-dark {
+  border-color: rgba(250, 247, 242, 0.16);
+  border-bottom-color: rgba(250, 247, 242, 0.32);
+  background: rgba(250, 247, 242, 0.05);
+  color: #FAF7F2;
+}
+
+.field-dark:focus {
+  border-color: rgba(250, 247, 242, 0.74);
+  background: rgba(250, 247, 242, 0.08);
+  box-shadow: 0 0 0 3px rgba(250, 247, 242, 0.1);
 }
 
 @media (prefers-reduced-motion: reduce) {

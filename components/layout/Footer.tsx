@@ -13,7 +13,9 @@ export default function Footer() {
     <footer className="border-t border-mist bg-sand px-5 py-16 text-earth">
       <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1fr_auto] md:items-end">
         <div className="space-y-5">
-          <Image src="/assets/images/logo.webp" alt="Farm El Baya" width={170} height={70} className="h-auto w-40" />
+          <div className="relative h-28 w-48 overflow-visible">
+            <Image src="/assets/images/logo.png" alt="Farm El Baya" fill className="scale-[2.1] object-contain object-left" />
+          </div>
           <p className="font-serif text-3xl italic">{t('tagline')}</p>
           <p className="text-sm text-bark">{t('direct')}</p>
         </div>
