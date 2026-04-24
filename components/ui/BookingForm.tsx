@@ -5,7 +5,19 @@ import {useState} from 'react';
 import {track} from '@vercel/analytics';
 import WhatsAppLink from './WhatsAppLink';
 
-const hearOptions = ['Google', 'Airbnb', 'Booking.com', 'Instagram', 'Friend', 'Other'];
+const hearOptions = ['Google', 'Airbnb', 'Booking.com', 'Instagram', 'AI / LLM (ChatGPT, Claude, Perplexity)', 'Friend', 'Other'];
+const roomOptions = [
+  'No preference - choose the best available room',
+  'Olive Room - warm interior and olive-grove window',
+  'Garden Room - closest to the garden paths',
+  'Rooftop Room - easiest access for stargazing'
+];
+const roomOptionsFr = [
+  'Sans preference - choisissez la meilleure chambre disponible',
+  'Chambre Olivier - interieure chaleureuse et vue oliviers',
+  'Chambre Jardin - proche des sentiers du jardin',
+  'Chambre Toit - acces facile au rooftop'
+];
 
 export default function BookingForm({locale, copy}: {locale: string; copy: {submit: string; success: string; error: string; payment: string; deposit: string}}) {
   const fr = locale === 'fr';
@@ -52,9 +64,10 @@ export default function BookingForm({locale, copy}: {locale: string; copy: {subm
               : 'Your message confirms rooms, meals, and arrival details. You get a clear reply before anything is confirmed.'}
           </p>
           <div className="mt-7 space-y-3 text-sm text-cream/82">
+            <p>{fr ? 'Seulement 3 chambres privees sur la ferme' : 'Only 3 private rooms on the farm'}</p>
+            <p>{fr ? 'Week-ends et saisons de recolte partent en premier' : 'Weekends and harvest seasons fill first'}</p>
             <p>{fr ? 'Reponse sous 24 heures' : 'Reply within 24 hours'}</p>
-            <p>{fr ? 'Petit-dejeuner inclus' : 'Breakfast included'}</p>
-            <p>{fr ? 'Paiement a l arrivee' : 'Payment on arrival'}</p>
+            <p>{fr ? 'Aucun paiement avant confirmation' : 'No payment before confirmation'}</p>
             <p>{fr ? 'Ajoutez votre numero WhatsApp pour une reponse plus rapide' : 'Add your WhatsApp number for the fastest reply'}</p>
           </div>
           <WhatsAppLink locale={locale} className="mt-8 inline-flex w-full items-center justify-center rounded-full border border-cream/45 px-5 py-3 text-sm font-semibold text-cream transition hover:bg-cream hover:text-dusk">
@@ -72,8 +85,7 @@ export default function BookingForm({locale, copy}: {locale: string; copy: {subm
             <label className="space-y-2 text-sm font-medium">{labels.out}<input className="field" name="checkOut" type="date" required /></label>
             <label className="space-y-2 text-sm font-medium md:col-span-2">{labels.room}
               <select className="field" name="room">
-                <option>{fr ? 'Sans preference' : 'No preference'}</option>
-                <option>Room 1</option><option>Room 2</option><option>Room 3</option>
+                {(fr ? roomOptionsFr : roomOptions).map((room) => <option key={room}>{room}</option>)}
               </select>
             </label>
             <fieldset className="space-y-3 rounded-[8px] border border-mist p-4 md:col-span-2">
@@ -98,8 +110,8 @@ export default function BookingForm({locale, copy}: {locale: string; copy: {subm
             </div>
             {status === 'success' && (
               <div className="flex items-center gap-4 rounded-[8px] bg-sand p-4 md:col-span-2">
-                <span className="relative block h-16 w-28 overflow-hidden">
-                  <Image src="/assets/images/logo.png" alt="" fill className="scale-[3] object-contain" />
+                <span className="relative block h-24 w-40 overflow-visible">
+                  <Image src="/assets/images/logo.png" alt="" fill className="scale-[1.25] object-contain" />
                 </span>
                 <p className="text-sm leading-6 text-earth/75">{copy.success}</p>
               </div>

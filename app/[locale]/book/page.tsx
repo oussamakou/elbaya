@@ -20,17 +20,17 @@ export default async function Book({params}: {params: Promise<{locale: string}>}
   const fr = locale === 'fr';
   const facts = fr
     ? [
-        {label: 'Tarif', value: '180 DT / nuit'},
+        {label: 'Tarif direct', value: 'A partir de 180 DT / nuit'},
         {label: 'Inclus', value: 'Petit-dejeuner'},
         {label: 'Paiement', value: 'A l arrivee'},
-        {label: 'Reponse', value: 'Sous 24 heures'},
+        {label: 'Disponibilite', value: '3 chambres seulement'},
         {label: 'Lieu', value: 'Testour, 1h de Tunis'}
       ]
     : [
-        {label: 'Rate', value: '180 DT / night'},
+        {label: 'Direct rate', value: 'From 180 DT / night'},
         {label: 'Included', value: 'Breakfast'},
         {label: 'Payment', value: 'On arrival'},
-        {label: 'Reply time', value: 'Within 24 hours'},
+        {label: 'Availability', value: 'Only 3 rooms'},
         {label: 'Location', value: 'Testour, 1h from Tunis'}
       ];
 
@@ -39,13 +39,16 @@ export default async function Book({params}: {params: Promise<{locale: string}>}
       <section className="bg-sand px-5 pb-16 pt-40 text-center">
         <h1 className="font-serif text-6xl italic md:text-7xl">{content.hero.heading}</h1>
         <p className="mx-auto mt-5 max-w-xl text-lg leading-8 text-earth/72">{content.hero.subhead}</p>
+        <p className="mx-auto mt-5 max-w-2xl text-sm font-medium uppercase tracking-[0.18em] text-bark">
+          {fr ? 'Week-ends, recoltes et petits groupes se confirment vite.' : 'Weekends, harvest dates, and small groups confirm fastest.'}
+        </p>
       </section>
       <QuickFacts facts={facts} />
       <section className="px-5 py-14">
         <div className="mx-auto grid max-w-4xl gap-5 md:grid-cols-3">
           {(fr
-            ? ['Envoyez vos dates', 'Mahdi confirme les disponibilites', 'Vous confirmez avant tout acompte']
-            : ['Send your dates', 'Mahdi confirms availability', 'You confirm before any deposit']
+            ? ['Envoyez vos dates et preferences', 'Mahdi propose la meilleure option disponible', 'Vous confirmez seulement si tout vous convient']
+            : ['Send your dates and preferences', 'Mahdi suggests the best available fit', 'You confirm only if everything works']
           ).map((step, index) => (
             <div key={step} className="border border-mist bg-cream p-5">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bark">Step {index + 1}</p>

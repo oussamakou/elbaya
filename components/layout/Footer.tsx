@@ -13,8 +13,8 @@ export default function Footer() {
     <footer className="border-t border-mist bg-sand px-8 py-16 text-earth md:px-5">
       <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1fr_auto] md:items-end">
         <div className="space-y-5">
-          <div className="relative h-28 w-48 overflow-hidden">
-            <Image src="/assets/images/logo.png" alt="Farm El Baya" fill className="scale-[3.1] object-contain" />
+          <div className="relative h-44 w-64 overflow-visible">
+            <Image src="/assets/images/logo.png" alt="Farm El Baya" fill className="origin-left scale-[1.6] object-contain object-left" />
           </div>
           <p className="font-serif text-3xl italic">{t('tagline')}</p>
           <p className="text-sm text-bark">{t('direct')}</p>

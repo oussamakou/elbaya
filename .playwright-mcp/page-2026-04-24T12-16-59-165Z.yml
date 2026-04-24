@@ -1,0 +1,217 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - link "Farm El Baya" [ref=e4] [cursor=pointer]:
+        - /url: /en
+        - img "Farm El Baya" [ref=e5]
+      - button "Open menu" [ref=e6]:
+        - img [ref=e7]
+  - main [ref=e8]:
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - heading "Request your farm stay." [level=1] [ref=e11]
+        - paragraph [ref=e12]: There are only three private rooms on the farm. Send your dates, get the best available fit within 24 hours, and confirm directly with Mahdi before any deposit.
+        - paragraph [ref=e13]: Weekends, harvest dates, and small groups confirm fastest.
+      - generic [ref=e15]:
+        - generic [ref=e16]:
+          - paragraph [ref=e17]: Direct rate
+          - paragraph [ref=e18]: From 180 DT / night
+        - generic [ref=e19]:
+          - paragraph [ref=e20]: Included
+          - paragraph [ref=e21]: Breakfast
+        - generic [ref=e22]:
+          - paragraph [ref=e23]: Payment
+          - paragraph [ref=e24]: On arrival
+        - generic [ref=e25]:
+          - paragraph [ref=e26]: Availability
+          - paragraph [ref=e27]: Only 3 rooms
+        - generic [ref=e28]:
+          - paragraph [ref=e29]: Location
+          - paragraph [ref=e30]: Testour, 1h from Tunis
+      - generic [ref=e32]:
+        - generic [ref=e33]:
+          - paragraph [ref=e34]: Step 1
+          - paragraph [ref=e35]: Send your dates and preferences
+        - generic [ref=e36]:
+          - paragraph [ref=e37]: Step 2
+          - paragraph [ref=e38]: Mahdi suggests the best available fit
+        - generic [ref=e39]:
+          - paragraph [ref=e40]: Step 3
+          - paragraph [ref=e41]: You confirm only if everything works
+      - generic [ref=e43]:
+        - complementary [ref=e44]:
+          - paragraph [ref=e45]: Before you request
+          - heading "A request, not an instant charge." [level=2] [ref=e46]
+          - paragraph [ref=e47]: Your message confirms rooms, meals, and arrival details. You get a clear reply before anything is confirmed.
+          - generic [ref=e48]:
+            - paragraph [ref=e49]: Only 3 private rooms on the farm
+            - paragraph [ref=e50]: Weekends and harvest seasons fill first
+            - paragraph [ref=e51]: Reply within 24 hours
+            - paragraph [ref=e52]: No payment before confirmation
+            - paragraph [ref=e53]: Add your WhatsApp number for the fastest reply
+          - link "Quick question on WhatsApp" [ref=e54] [cursor=pointer]:
+            - /url: https://wa.me/97466290007?text=Hi%20Mahdi%2C%20I%20would%20like%20to%20check%20availability%20at%20Farm%20El%20Baya.
+        - generic [ref=e56]:
+          - generic [ref=e57]:
+            - text: Full name *
+            - textbox "Full name *" [ref=e58]
+          - generic [ref=e59]:
+            - text: Email address *
+            - textbox "Email address *" [ref=e60]
+          - generic [ref=e61]:
+            - text: WhatsApp / Phone *
+            - textbox "WhatsApp / Phone *" [ref=e62]
+          - generic [ref=e63]:
+            - text: Number of guests *
+            - spinbutton "Number of guests *" [ref=e64]
+          - generic [ref=e65]:
+            - text: Check-in date *
+            - textbox "Check-in date *" [ref=e66]
+          - generic [ref=e67]:
+            - text: Check-out date *
+            - textbox "Check-out date *" [ref=e68]
+          - generic [ref=e69]:
+            - text: Room preference
+            - combobox "Room preference" [ref=e70]:
+              - option "No preference - choose the best available room" [selected]
+              - option "Olive Room - warm interior and olive-grove window"
+              - option "Garden Room - closest to the garden paths"
+              - option "Rooftop Room - easiest access for stargazing"
+          - group "Meal requests" [ref=e71]:
+            - generic [ref=e72]: Meal requests
+            - generic [ref=e73]:
+              - checkbox "Breakfast only (included)" [ref=e74]
+              - text: Breakfast only (included)
+            - generic [ref=e75]:
+              - checkbox "Lunch on some days (on request)" [ref=e76]
+              - text: Lunch on some days (on request)
+            - generic [ref=e77]:
+              - checkbox "Dinner on some days (on request)" [ref=e78]
+              - text: Dinner on some days (on request)
+          - generic [ref=e79]:
+            - text: Special requests or notes
+            - textbox "Special requests or notes" [ref=e80]:
+              - /placeholder: Arrival time, allergies, meals, questions...
+          - generic [ref=e81]:
+            - text: How did you hear about us?
+            - combobox "How did you hear about us?" [ref=e82]:
+              - option "Google" [selected]
+              - option "Airbnb"
+              - option "Booking.com"
+              - option "Instagram"
+              - option "AI / LLM (ChatGPT, Claude, Perplexity)"
+              - option "Friend"
+              - option "Other"
+          - generic [ref=e83]:
+            - paragraph [ref=e84]: Payment is settled on arrival. Tunisian guests may pay by cash or bank transfer. International guests may pay by card when confirmed.
+            - paragraph [ref=e85]: A 30% deposit may be required during peak season to confirm your reservation.
+          - generic [ref=e86]:
+            - button "Request availability" [ref=e87]
+            - paragraph [ref=e88]: You will not be charged by sending this form.
+      - generic [ref=e90]:
+        - generic [ref=e91]:
+          - paragraph [ref=e92]: Before you come
+          - heading "Simple stay policies." [level=2] [ref=e93]
+          - paragraph [ref=e94]: Final details are confirmed with Mahdi after your request, before any deposit is taken.
+        - generic [ref=e95]:
+          - generic [ref=e96]:
+            - heading "Check-in" [level=3] [ref=e97]
+            - paragraph [ref=e98]: From 3:00 PM. Earlier arrival is possible when the room is ready.
+          - generic [ref=e99]:
+            - heading "Check-out" [level=3] [ref=e100]
+            - paragraph [ref=e101]: By 11:00 AM, with flexibility when there is no same-day arrival.
+          - generic [ref=e102]:
+            - heading "Deposit" [level=3] [ref=e103]
+            - paragraph [ref=e104]: A 30% deposit may be requested in peak periods to secure your dates.
+          - generic [ref=e105]:
+            - heading "Cancellation" [level=3] [ref=e106]
+            - paragraph [ref=e107]: Free cancellation up to 7 days before arrival when no special event or group booking applies.
+          - generic [ref=e108]:
+            - heading "Payment" [level=3] [ref=e109]
+            - paragraph [ref=e110]: Payment is settled on arrival by cash, bank transfer, or card link when confirmed.
+          - generic [ref=e111]:
+            - heading "Meals" [level=3] [ref=e112]
+            - paragraph [ref=e113]: Breakfast is included. Lunch and dinner are available on request and confirmed before arrival.
+          - generic [ref=e114]:
+            - heading "Families" [level=3] [ref=e115]
+            - paragraph [ref=e116]: Families and children are welcome. Please mention children ages in the booking notes.
+          - generic [ref=e117]:
+            - heading "Parking" [level=3] [ref=e118]
+            - paragraph [ref=e119]: Free on-site parking is available. A car is recommended for the easiest arrival.
+          - generic [ref=e120]:
+            - heading "Wi-Fi" [level=3] [ref=e121]
+            - paragraph [ref=e122]: Wi-Fi is available for basic use. This is a rural farm, so connection quality can vary.
+          - generic [ref=e123]:
+            - heading "Animals" [level=3] [ref=e124]
+            - paragraph [ref=e125]: The farm has free-roaming animals and working dogs. Please ask before bringing pets.
+      - generic [ref=e126]:
+        - generic [ref=e127]:
+          - generic [ref=e128]:
+            - paragraph [ref=e129]: Getting here
+            - heading "Near Testour, one hour from Tunis." [level=2] [ref=e130]
+            - paragraph [ref=e131]: The farm is easiest to reach by car, and exact arrival details are shared after your booking request. Free parking is available on site.
+            - link "Request availability" [ref=e132] [cursor=pointer]:
+              - /url: /en/book
+          - generic [ref=e133]:
+            - generic [ref=e134]:
+              - paragraph [ref=e135]: Tunis
+              - paragraph [ref=e136]: About 1 hour by car
+            - generic [ref=e137]:
+              - paragraph [ref=e138]: Testour
+              - paragraph [ref=e139]: About 15 minutes away
+            - generic [ref=e140]:
+              - paragraph [ref=e141]: Parking
+              - paragraph [ref=e142]: Free on site
+            - generic [ref=e143]:
+              - paragraph [ref=e144]: Arrival
+              - paragraph [ref=e145]: Exact details sent after confirmation
+        - iframe [ref=e147]
+      - generic [ref=e149]:
+        - heading "Practical questions" [level=2] [ref=e150]
+        - generic [ref=e151]:
+          - group [ref=e152]:
+            - generic "What is included? +" [ref=e153] [cursor=pointer]:
+              - text: What is included?
+              - generic [ref=e154]: +
+          - group [ref=e155]:
+            - generic "Can I request lunch or dinner? +" [ref=e156] [cursor=pointer]:
+              - text: Can I request lunch or dinner?
+              - generic [ref=e157]: +
+          - group [ref=e158]:
+            - generic "How do I get there? +" [ref=e159] [cursor=pointer]:
+              - text: How do I get there?
+              - generic [ref=e160]: +
+          - group [ref=e161]:
+            - generic "Do I pay now? +" [ref=e162] [cursor=pointer]:
+              - text: Do I pay now?
+              - generic [ref=e163]: +
+  - contentinfo [ref=e164]:
+    - generic [ref=e165]:
+      - generic [ref=e166]:
+        - img "Farm El Baya" [ref=e168]
+        - paragraph [ref=e169]: A living farm in Testour, Tunisia.
+        - paragraph [ref=e170]: Book directly - no commissions, better rates.
+      - generic [ref=e171]:
+        - generic [ref=e172]:
+          - link "Stay" [ref=e173] [cursor=pointer]:
+            - /url: /en/stay
+          - link "The Farm" [ref=e174] [cursor=pointer]:
+            - /url: /en/farm
+          - link "Experiences" [ref=e175] [cursor=pointer]:
+            - /url: /en/experiences
+          - link "Forge" [ref=e176] [cursor=pointer]:
+            - /url: /en/forge
+          - link "Book" [ref=e177] [cursor=pointer]:
+            - /url: /en/book
+        - paragraph [ref=e178]:
+          - link "@farmelbaya" [ref=e179] [cursor=pointer]:
+            - /url: https://www.instagram.com/farm_elbaya/
+          - text: ·
+          - link "@holistic.athlete" [ref=e180] [cursor=pointer]:
+            - /url: https://www.instagram.com/holistic.athlete/
+        - paragraph [ref=e181]:
+          - text: © Farm El Baya ·
+          - link "farmelbaya.com" [ref=e182] [cursor=pointer]:
+            - /url: https://farmelbaya.com
+  - button "Open Next.js Dev Tools" [ref=e188] [cursor=pointer]:
+    - img [ref=e189]

@@ -1,5 +1,5 @@
 {
   "meta": {"title": "Demander les disponibilites - Farm El Baya", "description": "Envoyez vos dates pour une demande de reservation directe a Farm El Baya, Testour. Chambres privees, petit-dejeuner inclus, des 180 DT/nuit."},
-  "hero": {"heading": "Demandez votre sejour.", "subhead": "Envoyez vos dates, recevez les disponibilites sous 24 heures, puis confirmez directement avec Mahdi avant tout acompte."},
+  "hero": {"heading": "Demandez votre sejour.", "subhead": "Il n y a que trois chambres privees sur la ferme. Envoyez vos dates, recevez la meilleure option disponible sous 24 heures, puis confirmez directement avec Mahdi avant tout acompte."},
   "form": {"submit": "Demander les disponibilites", "success": "Votre demande a ete envoyee. Mahdi vous contactera par WhatsApp ou par e-mail dans les 24 heures. Nous avons hate de vous accueillir.", "error": "Un probleme est survenu. Envoyez-nous directement un e-mail a contact@farmelbaya.com", "payment": "Le paiement se fait a l arrivee. Les hotes tunisiens peuvent payer en especes ou par virement. Les hotes internationaux peuvent payer par carte apres confirmation.", "deposit": "Un acompte de 30 % peut etre demande en haute saison pour confirmer la reservation."}
 }

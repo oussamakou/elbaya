@@ -36,8 +36,8 @@ export default function Navbar() {
   return (
     <header className={`fixed inset-x-0 top-0 z-50 border-b backdrop-blur-sm transition duration-500 ${shell} ${tone}`}>
       <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-8 md:px-8">
-        <Link href="/" locale={locale} className="relative h-16 w-32 shrink-0 overflow-hidden">
-          <Image src="/assets/images/logo.png" alt="Farm El Baya" fill className="scale-[3.4] object-contain" priority />
+        <Link href="/" locale={locale} className="relative h-24 w-44 shrink-0 overflow-visible">
+          <Image src="/assets/images/logo.png" alt="Farm El Baya" fill className="scale-[1.6] object-contain" priority />
         </Link>
         <div className="hidden items-center gap-8 text-sm font-medium md:flex">
           {links.map(([href, label]) => (
