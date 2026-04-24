@@ -2,15 +2,17 @@
 
 import {Leaf, Soup, PersonStanding} from 'lucide-react';
 import {motion} from 'framer-motion';
+import {Link} from '@/i18n/routing';
 
 const icons = [Leaf, Soup, PersonStanding];
+const hrefs = ['/stay', '/experiences', '/farm'];
 
 export default function ThreePillars({items}: {items: {title: string; text: string}[]}) {
   return (
     <section className="relative px-5 py-32 md:py-48 overflow-hidden bg-sand">
       {/* Decorative large background text */}
-      <div className="absolute top-0 left-0 w-full overflow-hidden leading-none select-none pointer-events-none opacity-[0.03]">
-        <span className="block font-serif text-[20vw] whitespace-nowrap italic translate-y-[-20%]">
+      <div className="absolute inset-x-0 top-0 overflow-hidden px-5 leading-none select-none pointer-events-none opacity-[0.035]">
+        <span className="block max-w-full translate-y-[-12%] whitespace-nowrap font-serif text-[clamp(4.5rem,13vw,11rem)] italic">
           El Baya Retreat
         </span>
       </div>
@@ -44,12 +46,12 @@ export default function ThreePillars({items}: {items: {title: string; text: stri
                 <h2 className="font-serif text-4xl md:text-5xl italic text-dusk mb-6">{item.title}</h2>
                 <p className="text-base leading-relaxed text-earth/80 font-light">{item.text}</p>
                 
-                <div className="mt-8 flex items-center gap-4 group cursor-pointer w-max">
+                <Link href={hrefs[index]} className="group mt-8 flex w-max items-center gap-4">
                   <span className="text-xs uppercase tracking-widest text-terracotta font-medium group-hover:text-olive transition-colors">
                     Discover More
                   </span>
                   <div className="w-8 h-px bg-terracotta group-hover:w-12 group-hover:bg-olive transition-all duration-300" />
-                </div>
+                </Link>
               </motion.article>
             );
           })}

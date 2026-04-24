@@ -1,4 +1,5 @@
 import type {ReactNode} from 'react';
+import TrackedLink from './TrackedLink';
 
 const phone = '97466290007';
 
@@ -18,9 +19,5 @@ export default function WhatsAppLink({
   children: ReactNode;
   className?: string;
 }) {
-  return (
-    <a href={href(locale)} target="_blank" rel="noreferrer" className={className}>
-      {children}
-    </a>
-  );
+  return <TrackedLink href={href(locale)} event="whatsapp_click" target="_blank" rel="noreferrer" className={className}>{children}</TrackedLink>;
 }

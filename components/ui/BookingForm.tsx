@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import {useState} from 'react';
+import {track} from '@vercel/analytics';
 import WhatsAppLink from './WhatsAppLink';
 
 const hearOptions = ['Google', 'Airbnb', 'Booking.com', 'Instagram', 'Friend', 'Other'];
@@ -24,15 +25,18 @@ export default function BookingForm({locale, copy}: {locale: string; copy: {subm
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    track('booking_form_submit_attempt');
     const form = event.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
     if (String(data.checkOut) <= String(data.checkIn)) {
       setStatus('error');
+      track('booking_form_validation_error', {reason: 'checkout_before_checkin'});
       return;
     }
     setStatus('loading');
     const res = await fetch('/api/book', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)});
     setStatus(res.ok ? 'success' : 'error');
+    track(res.ok ? 'booking_form_success' : 'booking_form_error');
     if (res.ok) form.reset();
   }
 
@@ -94,7 +98,9 @@ export default function BookingForm({locale, copy}: {locale: string; copy: {subm
             </div>
             {status === 'success' && (
               <div className="flex items-center gap-4 rounded-[8px] bg-sand p-4 md:col-span-2">
-                <Image src="/assets/images/logo.png" alt="" width={140} height={60} className="scale-[2] object-contain" />
+                <span className="relative block h-16 w-28 overflow-hidden">
+                  <Image src="/assets/images/logo.png" alt="" fill className="scale-[3] object-contain" />
+                </span>
                 <p className="text-sm leading-6 text-earth/75">{copy.success}</p>
               </div>
             )}

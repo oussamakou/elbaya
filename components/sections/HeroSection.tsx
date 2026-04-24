@@ -19,7 +19,7 @@ export default function HeroSection({headline, subhead, cta, image}: {headline: 
   const lines = headline.split('\n');
 
   return (
-    <section ref={containerRef} className="relative flex min-h-screen items-center justify-center overflow-hidden bg-dusk px-5 text-center text-cream">
+    <section ref={containerRef} className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-dusk px-5 pb-28 pt-24 text-center text-cream md:pb-32">
       {/* Parallax Background */}
       <motion.div style={{y, opacity}} className="absolute inset-0 z-0">
         <Image src={image} alt="" fill priority sizes="100vw" className="object-cover opacity-80" />
@@ -31,7 +31,7 @@ export default function HeroSection({headline, subhead, cta, image}: {headline: 
       <div className="grain absolute inset-0 z-0 mix-blend-overlay" />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto max-w-5xl pt-20">
+      <div className="relative z-10 mx-auto max-w-5xl -translate-y-3 md:-translate-y-6">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -73,7 +73,7 @@ export default function HeroSection({headline, subhead, cta, image}: {headline: 
                 hidden: {opacity: 0, scale: 0.95},
                 visible: {opacity: 1, scale: 1, transition: {duration: 0.8, ease: 'easeOut', delay: 0.9}}
               }}
-              className="mt-12"
+              className="mt-8 md:mt-10"
             >
               <Button href="/book">{cta}</Button>
             </motion.div>
@@ -86,7 +86,7 @@ export default function HeroSection({headline, subhead, cta, image}: {headline: 
         initial={{opacity: 0}}
         animate={{opacity: 1}}
         transition={{delay: 1.5, duration: 1}}
-        className="absolute bottom-10 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3 z-10"
+        className="absolute bottom-5 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-3 sm:flex md:bottom-7"
       >
         <span className="text-[10px] uppercase tracking-[0.3em] text-cream/50">Scroll</span>
         <div className="h-14 w-[1px] overflow-hidden bg-cream/20">

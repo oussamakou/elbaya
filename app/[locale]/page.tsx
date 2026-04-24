@@ -13,7 +13,7 @@ import BookingConfidence from '@/components/sections/BookingConfidence';
 export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
   const {locale} = await params;
   const content = getContent(locale, 'home');
-  return {title: content.meta.title, description: content.meta.description, alternates: {canonical: `/${locale}`}, openGraph: {images: [img('breakfast.webp')]}};
+  return {title: content.meta.title, description: content.meta.description, alternates: {canonical: `/${locale}`}, openGraph: {images: [img('rooftop_nightsky.webp')]}};
 }
 
 export default async function Home({params}: {params: Promise<{locale: string}>}) {
@@ -39,7 +39,7 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
 
   return (
     <>
-      <HeroSection image={img('breakfast.webp')} headline={content.hero.headline} subhead={content.hero.subhead} cta={content.hero.cta} />
+      <HeroSection image={img('rooftop_nightsky.webp')} headline={content.hero.headline} subhead={content.hero.subhead} cta={content.hero.cta} />
       <QuickFacts facts={facts} />
       <QuoteBanner quote={content.quote} />
       <ThreePillars items={content.pillars} />

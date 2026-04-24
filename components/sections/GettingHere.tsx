@@ -1,5 +1,7 @@
 import Button from '@/components/ui/Button';
 
+const mapSrc = 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d818818.2669424629!2d8.80395109557902!3d36.710338520382045!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fcbf00137dc5b9%3A0x403d5bedd2361d8c!2sFarm%20elbaya!5e0!3m2!1sen!2stn!4v1777031837659!5m2!1sen!2stn';
+
 export default function GettingHere({locale}: {locale: string}) {
   const fr = locale === 'fr';
   return (
@@ -26,6 +28,18 @@ export default function GettingHere({locale}: {locale: string}) {
             </div>
           ))}
         </div>
+      </div>
+      <div className="mx-auto mt-10 max-w-7xl overflow-hidden rounded-[8px] border border-mist bg-cream">
+        <iframe
+          src={mapSrc}
+          width="600"
+          height="450"
+          loading="lazy"
+          allowFullScreen
+          referrerPolicy="no-referrer-when-downgrade"
+          className="h-[360px] w-full border-0 md:h-[450px]"
+          title="Farm El Baya on Google Maps"
+        />
       </div>
     </section>
   );
