@@ -6,7 +6,7 @@ const policies = {
     ['Cancellation', 'Free cancellation up to 7 days before arrival when no special event or group booking applies.'],
     ['Payment', 'Payment is settled on arrival by cash, bank transfer, or card link when confirmed.'],
     ['Meals', 'Breakfast is included. Lunch and dinner are available on request and confirmed before arrival.'],
-    ['Families', 'Families and children are welcome. Please mention children ages in the booking notes.'],
+    ['Families', 'Families and children are welcome. The farm includes open outdoor space and a kids playground area. Please mention children ages in the booking notes.'],
     ['Parking', 'Free on-site parking is available. A car is recommended for the easiest arrival.'],
     ['Wi-Fi', 'Wi-Fi is available for basic use. This is a rural farm, so connection quality can vary.'],
     ['Animals', 'The farm has free-roaming animals and working dogs. Please ask before bringing pets.']
@@ -18,7 +18,7 @@ const policies = {
     ['Annulation', 'Annulation gratuite jusqu a 7 jours avant l arrivee hors evenement special ou groupe.'],
     ['Paiement', 'Paiement a l arrivee en especes, virement, ou lien carte apres confirmation.'],
     ['Repas', 'Petit-dejeuner inclus. Dejeuner et diner sur demande, confirmes avant l arrivee.'],
-    ['Familles', 'Les familles et enfants sont bienvenus. Indiquez les ages dans votre demande.'],
+    ['Familles', 'Les familles et enfants sont bienvenus. La ferme inclut des espaces exterieurs et une aire de jeux enfants. Indiquez les ages dans votre demande.'],
     ['Parking', 'Parking gratuit sur place. Une voiture est recommandee pour arriver facilement.'],
     ['Wi-Fi', 'Wi-Fi disponible pour un usage simple. La connexion peut varier en zone rurale.'],
     ['Animaux', 'La ferme a des animaux en liberte et des chiens de travail. Demandez avant de venir avec un animal.']

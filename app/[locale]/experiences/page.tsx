@@ -4,6 +4,7 @@ import {setRequestLocale} from 'next-intl/server';
 import {getContent, img} from '@/content';
 import ExperienceCard from '@/components/ui/ExperienceCard';
 import BookingConfidence from '@/components/sections/BookingConfidence';
+import MovementFamilySection from '@/components/sections/MovementFamilySection';
 
 export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
   const {locale} = await params;
@@ -18,10 +19,11 @@ export default async function Experiences({params}: {params: Promise<{locale: st
   return (
     <>
       <section className="relative flex min-h-[82vh] items-end overflow-hidden bg-dusk px-5 pb-20 text-cream">
-        <Image src={img('pullups_dips_bars_in_thefarm.webp')} alt="" fill priority className="object-cover animate-breathe opacity-80" />
+        <Image src={img('mouvement_research.png')} alt="" fill priority className="object-cover animate-breathe opacity-80" />
         <div className="absolute inset-0 bg-gradient-to-t from-dusk via-dusk/30 to-transparent" />
         <h1 className="relative mx-auto max-w-6xl font-serif text-5xl italic leading-tight md:text-7xl">{content.hero}</h1>
       </section>
+      <MovementFamilySection locale={locale} />
       <section className="px-5 py-24">
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 max-w-2xl">

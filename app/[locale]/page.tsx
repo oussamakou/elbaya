@@ -9,6 +9,7 @@ import ForgeTeaser from '@/components/sections/ForgeTeaser';
 import QuickFacts from '@/components/sections/QuickFacts';
 import TrustReviews from '@/components/sections/TrustReviews';
 import BookingConfidence from '@/components/sections/BookingConfidence';
+import MovementFamilySection from '@/components/sections/MovementFamilySection';
 
 export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
   const {locale} = await params;
@@ -27,14 +28,14 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
         {label: 'Tarif direct', value: 'A partir de 180 DT / nuit'},
         {label: 'Inclus', value: 'Petit-dejeuner de la ferme'},
         {label: 'Distance', value: '1 heure de Tunis'},
-        {label: 'Experiences', value: 'Repas, mouvement, recoltes'}
+        {label: 'Famille', value: 'Aire de jeux et Mouvement Research'}
       ]
     : [
         {label: 'Rooms', value: '3 private rooms'},
         {label: 'Direct rate', value: 'From 180 DT / night'},
         {label: 'Included', value: 'Farm breakfast every morning'},
         {label: 'Distance', value: '1 hour from Tunis'},
-        {label: 'Experiences', value: 'Meals, movement, harvests'}
+        {label: 'Families', value: 'Playground and Mouvement Research'}
       ];
 
   return (
@@ -43,6 +44,7 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
       <QuickFacts facts={facts} />
       <QuoteBanner quote={content.quote} />
       <ThreePillars items={content.pillars} />
+      <MovementFamilySection locale={locale} />
       <BookingConfidence locale={locale} />
       <PhotoGrid photos={photos} />
       <TrustReviews heading={content.reviews.heading} subhead={content.reviews.subhead} reviews={content.reviews.items} />

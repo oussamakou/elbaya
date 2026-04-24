@@ -1,11 +1,13 @@
 {
-  "meta": {"title": "Experiences - Movement, Harvests, Bees, and Slow Days", "description": "Farm breakfasts, movement sessions, beekeeping, olive harvest, stargazing, garden work, and visits around Testour."},
+  "meta": {"title": "Experiences - Mouvement Research, Harvests, Bees, and Slow Days", "description": "Farm breakfasts, Mouvement Research, kids playground, beekeeping, olive harvest, stargazing, garden work, and visits around Testour."},
   "hero": "There is always something to do. And always permission to do nothing.",
   "items": [
     ["Farm Breakfast", "Made every morning from what the farm produces. Eggs, oil, yogurt, fruit, bread, juice.", "Included"],
+    ["Mouvement Research", "Mahdi's indoor and outdoor practice space for handstands, calisthenics, rings, climbing, mobility, strength and physical exploration.", "Included · On request"],
+    ["Kids Playground Area", "A family-friendly play area with trampoline-style play and open farm space for children to move, climb, run and explore.", "Included"],
     ["Access to 40 Acres", "Walk the trails. Sit under the olive trees. Watch the animals. The land is yours to explore.", "Included"],
     ["Rooftop Stargazing", "One of the farm's best-kept secrets. The rooftop at night, far from city light.", "Included"],
-    ["Morning Movement with Mahdi", "Yoga, calisthenics, mobility, handstand practice. Every morning, if you want it.", "Included · On request"],
+    ["Morning Movement with Mahdi", "Yoga, calisthenics, mobility, handstand practice. Every morning, if you want it and Mahdi is available.", "On request"],
     ["Beekeeping Session", "Suit up and visit the hives with Mahdi. Learn how the bees live and how the honey is made.", "On request"],
     ["Olive Harvest", "October to December - join the harvest, press your own oil, take a bottle home.", "Seasonal · Autumn"],
     ["Pomegranate & Fruit Harvest", "Pomegranates, figs, almonds - depending on the season, there is always something to pick.", "Seasonal"],
