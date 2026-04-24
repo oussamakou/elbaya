@@ -1,0 +1,11 @@
+{
+  "meta": {"title": "La ferme - Ferme El Baya à Testour", "description": "L'histoire de la ferme familiale de Mahdi, passée des oliviers en monoculture à un lieu vivant de permaculture, d'animaux, de jardins et d'accueil."},
+  "hero": "C'est une ferme en devenir.",
+  "blocks": [
+    {"heading": "Il y a quatre ans, Mahdi a choisi une autre voie.", "text": "Sa famille cultivait cette terre depuis des générations - 16 hectares d'oliviers, travaillés de manière conventionnelle. Mahdi a commencé la transition. Vers la permaculture. Vers la biodiversité. Vers une ferme qui coopère avec la nature au lieu de lutter contre elle. Ce n'est pas terminé. Ça ne le sera peut-être jamais. C'est justement ça.", "image": "beekeeping_activity.webp"},
+    {"heading": "La terre, et ce qu'elle donne.", "text": "Des olives pressées en huile que les hôtes ramènent en bouteille. Des grenades cueillies à l'automne et pressées à la main. Amandes, figues, pêches, prunes. Une serre pour cultiver toute l'année. Des légumes sortis de terre quelques heures avant l'assiette. Des ruches entre les arbres, suivies saison après saison.", "image": "open_air_kitchen.webp"},
+    {"heading": "Les animaux circulent à leur rythme.", "text": "Un cheval. Un âne. Des moutons. Des poules et des canards. Un paon qui n'obéit à personne. Deux Malinois qui rendent la nuit paisible. Le jour, chacun va où il veut. Vous les croiserez là où vous ne les attendez pas. Ici, c'est normal.", "image": "livestock.webp"}
+  ],
+  "mahdi": {"quote": "J'aime le mouvement, la musique, construire de mes mains, méditer, et accueillir le monde sur ma terre.", "text": "Mahdi est coach de callisthénie, professeur de yoga, constructeur, apiculteur, fermier et hôte. Il ajoute à la ferme avec la patience de quelqu'un qui sait que le vivant ne suit pas les délais."},
+  "map": {"heading": "Explorer les terres", "quote": "Perdez-vous exprès. Les meilleurs endroits ne sont pas toujours sur la carte."}
+}

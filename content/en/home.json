@@ -1,0 +1,18 @@
+{
+  "meta": {"title": "Farm El Baya - A Living Farm Stay in Testour, Tunisia", "description": "Permaculture farm stay one hour from Tunis. Breakfast included, olive trees, animals, movement sessions. Book directly."},
+  "hero": {"headline": "A living farm.\nAn open table.\nA place to exhale.", "subhead": "40 acres of permaculture in Testour, Tunisia. One hour from Tunis. Come as a guest. Leave as something more.", "cta": "Book a stay →"},
+  "quote": "Get lost on purpose. The best places aren't always on the map.",
+  "pillars": [
+    {"title": "The land", "text": "40 acres of olive trees, pomegranates, fig trees, almonds, and beehives. A farm in transition - from monoculture to something alive."},
+    {"title": "The table", "text": "Breakfast from the farm's eggs, olive oil, yogurt, and seasonal fruit. Lunch and dinner on request - Tunisian home cooking by Mahdi's mother."},
+    {"title": "The body", "text": "Morning yoga, calisthenics, handstands, and movement with Mahdi for guests who want to move in open air."}
+  ],
+  "reviews": {"heading": "What guests say", "subhead": "From Finland to California. From France to Tunisia.", "items": [
+    {"quote": "You can see that everything on the farm is made with love and purpose. You feel good and relaxed there. The food that you get there is the best food you will get in Tunisia.", "name": "Helmi", "detail": "🇫🇮 Finland · November 2025"},
+    {"quote": "Leaving the farm I feel grounded, nourished, and inspired. The time I spent here was immersive. I was provided with more food than I could eat.", "name": "Mariah", "detail": "🇺🇸 United States · March 2025"},
+    {"quote": "I wanted to stay only one night but stayed for two. To be honest, I wanted to stay a whole week.", "name": "Lorenzo", "detail": "🇮🇹 Italy · Google Review"},
+    {"quote": "Un coup de cœur et un coup de foudre. Quand simplicité rime avec authenticité, hospitalité et générosité.", "name": "Souhir", "detail": "🇹🇳 Tunisia · Google Review"},
+    {"quote": "Combining organic farming, sports, and personal development is simply fantastic. You can feel that it is his passion that drives him.", "name": "Roméo", "detail": "🇫🇷 France · November 2025"}
+  ]},
+  "forge": {"label": "COMING THIS SUMMER", "heading": "Forge.", "text": "A seven-day men's retreat on this land. Physical work. Cold mornings. Honest conversation. Something is being built here.", "button": "Notify me →"}
+}

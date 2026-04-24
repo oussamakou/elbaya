@@ -1,0 +1,5 @@
+{
+  "nav": {"stay": "Stay", "farm": "The Farm", "experiences": "Experiences", "forge": "Forge", "book": "Book", "bookNow": "Book now", "apply": "Apply"},
+  "footer": {"tagline": "A living farm in Testour, Tunisia.", "direct": "Book directly - no commissions, better rates.", "legal": "© Farm El Baya · farmelbaya.com"},
+  "common": {"email": "Your email address", "notify": "Notify me", "backFarm": "← Back to Farm El Baya"}
+}

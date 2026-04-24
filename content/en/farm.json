@@ -1,0 +1,11 @@
+{
+  "meta": {"title": "The Farm - Farm El Baya in Testour", "description": "The story of Mahdi's family olive farm becoming a permaculture farm stay with animals, gardens, bees, and open land."},
+  "hero": "This is a farm in progress.",
+  "blocks": [
+    {"heading": "Four years ago, Mahdi made a decision.", "text": "His family had farmed this land for generations - 40 acres of monoculture olives, managed the conventional way. Four years ago, Mahdi began the transition. To permaculture. To biodiversity. To a farm that works with nature instead of against it. It is not finished. It may never be finished. That is the point.", "image": "beekeeping_activity.webp"},
+    {"heading": "The land and what it grows.", "text": "Olives, pressed into oil guests take home in bottles. Pomegranates picked in autumn and juiced by hand. Almonds, figs, peaches, plums. A greenhouse for year-round growing. Vegetables pulled from the ground hours before your plate. Beehives among the trees, tended through the seasons.", "image": "open_air_kitchen.webp"},
+    {"heading": "The animals roam freely.", "text": "A horse. A donkey. Sheep. Chickens and ducks. A peacock who answers to no one. Two Malinois dogs who make the nights feel safe. During the day, all of them go wherever they please. You will find them in unexpected places. That is normal here.", "image": "livestock.webp"}
+  ],
+  "mahdi": {"quote": "I enjoy movement, music, building with my hands, meditating, and hosting the world on my land.", "text": "Mahdi is a calisthenics coach, yoga teacher, builder, beekeeper, farmer, and host. He keeps adding to the farm with the patience of someone who knows living things do not respond to deadlines."},
+  "map": {"heading": "Explore the land", "quote": "Get lost on purpose. The best places aren't always on the map."}
+}

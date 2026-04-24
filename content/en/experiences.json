@@ -1,0 +1,18 @@
+{
+  "meta": {"title": "Experiences - Movement, Harvests, Bees, and Slow Days", "description": "Farm breakfasts, movement sessions, beekeeping, olive harvest, stargazing, garden work, and visits around Testour."},
+  "hero": "There is always something to do. And always permission to do nothing.",
+  "items": [
+    ["Farm Breakfast", "Made every morning from what the farm produces. Eggs, oil, yogurt, fruit, bread, juice.", "Included"],
+    ["Access to 40 Acres", "Walk the trails. Sit under the olive trees. Watch the animals. The land is yours to explore.", "Included"],
+    ["Rooftop Stargazing", "One of the farm's best-kept secrets. The rooftop at night, far from city light.", "Included"],
+    ["Morning Movement with Mahdi", "Yoga, calisthenics, mobility, handstand practice. Every morning, if you want it.", "Included · On request"],
+    ["Beekeeping Session", "Suit up and visit the hives with Mahdi. Learn how the bees live and how the honey is made.", "On request"],
+    ["Olive Harvest", "October to December - join the harvest, press your own oil, take a bottle home.", "Seasonal · Autumn"],
+    ["Pomegranate & Fruit Harvest", "Pomegranates, figs, almonds - depending on the season, there is always something to pick.", "Seasonal"],
+    ["Greenhouse & Garden", "Planting, watering, harvesting vegetables from the food garden. Hands in the soil.", "On request"],
+    ["Animal Care", "Feed the chickens. Walk with the donkey. Spend time with the horse. The animals are daily life here.", "Daily"],
+    ["Eco-Construction Workshop", "Mahdi is always building something. If you want to help and learn, you are welcome.", "On request"],
+    ["Outdoor Kitchen Sessions", "Communal cooking around the open-air kitchen. Fire, food, conversation.", "On request"],
+    ["Visit Testour Town", "15 minutes away - pomegranates, Andalusian heritage, and the weekly market. Mahdi takes guests weekly.", "Weekly"]
+  ]
+}

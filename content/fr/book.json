@@ -1,0 +1,5 @@
+{
+  "meta": {"title": "Réserver en direct - Ferme El Baya", "description": "Envoyez une demande de réservation directe pour la Ferme El Baya à Testour. Pas de frais de plateforme, pas d'intermédiaire."},
+  "hero": {"heading": "Réservez votre séjour en direct.", "subhead": "Pas de frais de plateforme. Pas d'intermédiaire. Juste vous, la ferme, et un meilleur tarif."},
+  "form": {"submit": "Envoyer ma demande →", "success": "Votre demande a été envoyée. Mahdi vous contactera par WhatsApp ou par e-mail dans les 24 heures. Nous avons hâte de vous accueillir.", "error": "Something went wrong. Please email us directly at contact@farmelbaya.com", "payment": "Le paiement se fait à l'arrivée. Les hôtes tunisiens peuvent payer en espèces ou par virement. Les hôtes internationaux pourront payer par carte - lien Stripe bientôt disponible.", "deposit": "Un acompte de 30 % peut être demandé en haute saison pour confirmer la réservation."}
+}

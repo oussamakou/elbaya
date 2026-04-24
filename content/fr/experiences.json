@@ -1,0 +1,18 @@
+{
+  "meta": {"title": "Expériences - Mouvement, récoltes, abeilles et journées lentes", "description": "Petits-déjeuners de ferme, mouvement, apiculture, récolte des olives, ciel étoilé, jardin et sorties autour de Testour."},
+  "hero": "Il y a toujours quelque chose à faire. Et toujours la permission de ne rien faire.",
+  "items": [
+    ["Petit-déjeuner de ferme", "Préparé chaque matin avec ce que la ferme donne. Œufs, huile, yaourt, fruits, pain, jus.", "Inclus"],
+    ["Accès aux 16 hectares", "Marcher les sentiers. S'asseoir sous les oliviers. Regarder les animaux. La terre est à explorer.", "Inclus"],
+    ["Étoiles sur le toit", "Un secret bien gardé de la ferme. Le toit, la nuit, loin des lumières de la ville.", "Inclus"],
+    ["Mouvement avec Mahdi", "Yoga, callisthénie, mobilité, équilibres. Chaque matin, si vous en avez envie.", "Inclus · Sur demande"],
+    ["Apiculture", "Enfilez la combinaison et visitez les ruches avec Mahdi. Comprendre les abeilles, le miel, la saison.", "Sur demande"],
+    ["Récolte des olives", "D'octobre à décembre - participer, presser son huile, repartir avec une bouteille.", "Saison · Automne"],
+    ["Grenades et fruits", "Grenades, figues, amandes - selon la saison, il y a toujours quelque chose à cueillir.", "Saison"],
+    ["Serre et potager", "Planter, arroser, récolter les légumes du jardin. Les mains dans la terre.", "Sur demande"],
+    ["Soin des animaux", "Nourrir les poules. Marcher avec l'âne. Passer du temps avec le cheval. Ici, les animaux font partie du jour.", "Quotidien"],
+    ["Éco-construction", "Mahdi construit toujours quelque chose. Si vous voulez apprendre en aidant, vous êtes bienvenu.", "Sur demande"],
+    ["Cuisine dehors", "Cuisine commune autour de la cuisine en plein air. Feu, nourriture, conversation.", "Sur demande"],
+    ["Visite de Testour", "À 15 minutes - grenades, héritage andalou et marché hebdomadaire. Mahdi y accompagne les hôtes.", "Hebdomadaire"]
+  ]
+}

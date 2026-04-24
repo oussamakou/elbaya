@@ -1,0 +1,9 @@
+{
+  "meta": {"title": "Séjourner à la Ferme El Baya - Chambres sous les oliviers", "description": "Trois chambres privées dans une ferme permaculturelle à Testour. Petit-déjeuner inclus, réservation directe, déjeuner et dîner sur demande."},
+  "hero": "Dormir sous les oliviers.",
+  "intro": "Trois chambres. Chacune avec sa propre salle de bain, sa propre lumière, son silence. Le petit-déjeuner est toujours inclus - préparé chaque matin à partir de la ferme. Ce n'est pas un hôtel. C'est une maison qui accueille chaleureusement les étrangers.",
+  "rooms": ["Chambre Une", "Chambre Deux", "Chambre Trois"],
+  "breakfast": {"heading": "À quoi ressemble le petit-déjeuner", "text": "Chaque matin, la table est dressée. Œufs frais de la ferme. Huile d'olive pressée à partir des arbres que vous voyez depuis votre fenêtre. Yaourt maison. Grenade. Galettes tunisiennes. Fruits de saison. Jus. Ici, la journée commence comme ça."},
+  "cabin": {"label": "BIENTÔT · ÉTÉ 2025", "heading": "La Cabane aux Oliviers", "text": "Une cabane indépendante en cours de construction au milieu des oliviers. Privée. Silencieuse. Sa cuisine dehors. Son ciel à elle. Disponible cet été - rejoignez la liste.", "button": "Me prévenir quand c'est prêt"},
+  "nearby": {"heading": "Autour - au-delà de la ferme", "items": ["Testour - 15 min · Grenades, héritage andalou, marché local", "Sites archéologiques - 20-40 min · Ruines romaines de la région", "Rivière - tout près · Baignade et marche", "Tunis - 1 h · Excursions possibles"]}
+}

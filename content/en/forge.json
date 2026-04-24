@@ -1,0 +1,10 @@
+{
+  "meta": {"title": "Forge - Men's Retreat at Farm El Baya", "description": "A seven-day men's retreat in Testour: physical work, cold mornings, honest conversation, real food, and the land as teacher."},
+  "hero": {"label": "FARM EL BAYA · TESTOUR · SUMMER 2025", "heading": "Where men are forged,\nin the earth.", "body": "A seven-day retreat for men who are done coasting. Physical work. Cold mornings. Real food. Honest conversation. No wifi dependency. No performance. Just the work of becoming who you already know you should be.", "cta": "Apply for early access →"},
+  "stats": ["15 men max", "7 days", "1 hour from Tunis"],
+  "week": [["01 · ARRIVAL", "Transition from the city to the site. Setting the intention. The first fire."], ["02 · THE BODY", "Days 2 & 3. Physical testing. Calisthenics, breathwork, cold exposure. Finding your edge."], ["03 · THE LAND", "Days 4 & 5. Working with the soil. Beekeeping. Harvesting. Building. The farm as teacher."], ["04 · INNER WORK", "Confronting the internal silence. Honest dialogue. Meditation. The transition back to self-governance."], ["05 · DEPARTURE", "Closing the circle. Integration. Return to the world with a new baseline."]],
+  "notFor": "For men who feel the gap between who they are and who they could be.\nFor those who seek discomfort as a teacher.\nFor honest conversation without social performance.\nWarning: this is not a spa weekend.",
+  "included": ["Accommodation", "Organic food", "All sessions", "Facilitation"],
+  "faq": [["Who is this for?", "Men ready to work physically, speak honestly, and spend a week close to the land."], ["Do I need to be very fit?", "No. You need willingness, not performance. Sessions scale to the person."], ["Is there internet?", "There is signal when needed. The retreat is designed to reduce dependency."], ["How do applications work?", "Send your email. Mahdi reviews each application individually. You will hear back within 48 hours."]],
+  "waitlist": "15 spots. Applications reviewed individually. Not everyone is accepted."
+}

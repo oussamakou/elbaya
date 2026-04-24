@@ -1,0 +1,10 @@
+{
+  "meta": {"title": "Forge - Retraite hommes à Farm El Baya", "description": "Une retraite de sept jours à Testour : travail physique, matins froids, conversations vraies, nourriture simple et la terre comme professeur."},
+  "hero": {"label": "FARM EL BAYA · TESTOUR · ÉTÉ 2025", "heading": "Là où les hommes se forgent,\ndans la terre.", "body": "Une retraite de sept jours pour les hommes qui ne veulent plus avancer en pilote automatique. Travail physique. Matins froids. Vraie nourriture. Conversations honnêtes. Moins de wifi. Moins de rôle à jouer. Le travail de devenir celui que vous savez déjà devoir être.", "cta": "Candidater →"},
+  "stats": ["15 hommes max", "7 jours", "1 h de Tunis"],
+  "week": [["01 · ARRIVÉE", "Quitter la ville. Entrer dans le lieu. Poser l'intention. Le premier feu."], ["02 · LE CORPS", "Jours 2 et 3. Test physique. Callisthénie, respiration, froid. Trouver son seuil."], ["03 · LA TERRE", "Jours 4 et 5. Travailler le sol. Ruches. Récolte. Construction. La ferme comme professeur."], ["04 · TRAVAIL INTÉRIEUR", "Rencontrer le silence intérieur. Dialogue franc. Méditation. Revenir à sa propre gouvernance."], ["05 · DÉPART", "Fermer le cercle. Intégrer. Retourner au monde avec une nouvelle base."]],
+  "notFor": "Pour les hommes qui sentent l'écart entre ce qu'ils sont et ce qu'ils pourraient être.\nPour ceux qui cherchent l'inconfort comme professeur.\nPour des conversations sans performance sociale.\nAttention : ce n'est pas un week-end spa.",
+  "included": ["Hébergement", "Nourriture bio", "Toutes les sessions", "Facilitation"],
+  "faq": [["Pour qui ?", "Pour des hommes prêts à travailler physiquement, parler vrai et passer une semaine près de la terre."], ["Faut-il être très sportif ?", "Non. Il faut de la volonté, pas une performance. Les sessions s'adaptent."], ["Y a-t-il internet ?", "Il y a du réseau si nécessaire. La retraite est pensée pour réduire la dépendance."], ["Comment candidater ?", "Laissez votre e-mail. Mahdi étudie chaque demande. Réponse sous 48 heures."]],
+  "waitlist": "15 places. Candidatures étudiées une par une. Tout le monde n'est pas accepté."
+}
