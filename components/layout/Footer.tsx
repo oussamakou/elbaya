@@ -13,8 +13,8 @@ export default function Footer() {
     <footer className="border-t border-mist bg-sand px-8 py-16 text-earth md:px-5">
       <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1fr_auto] md:items-end">
         <div className="space-y-5">
-          <div className="relative h-44 w-64 overflow-visible">
-            <Image src="/assets/images/logo.png" alt="Farm El Baya" fill className="origin-left scale-[1.6] object-contain object-left" />
+          <div className="relative h-40 w-44">
+            <Image src="/assets/images/logo-cropped.png" alt="Farm El Baya" fill className="object-contain object-left" sizes="176px" />
           </div>
           <p className="font-serif text-3xl italic">{t('tagline')}</p>
           <p className="text-sm text-bark">{t('direct')}</p>
@@ -28,7 +28,7 @@ export default function Footer() {
             {' · '}
             <a href="https://www.instagram.com/holistic.athlete/" target="_blank" rel="noreferrer" className="transition hover:text-earth">@holistic.athlete</a>
           </p>
-          <p className="text-xs uppercase tracking-[0.22em] text-bark">
+          <p className="max-w-full break-words text-xs uppercase tracking-[0.12em] text-bark sm:tracking-[0.22em]">
             © Farm El Baya · <a href="https://farmelbaya.com" target="_blank" rel="noreferrer" className="transition hover:text-earth">farmelbaya.com</a>
           </p>
         </div>

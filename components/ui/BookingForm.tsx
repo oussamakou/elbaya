@@ -110,8 +110,8 @@ export default function BookingForm({locale, copy}: {locale: string; copy: {subm
             </div>
             {status === 'success' && (
               <div className="flex items-center gap-4 rounded-[8px] bg-sand p-4 md:col-span-2">
-                <span className="relative block h-24 w-40 overflow-visible">
-                  <Image src="/assets/images/logo.png" alt="" fill className="scale-[1.25] object-contain" />
+                <span className="relative block h-16 w-20">
+                  <Image src="/assets/images/logo-cropped.png" alt="" fill className="object-contain" />
                 </span>
                 <p className="text-sm leading-6 text-earth/75">{copy.success}</p>
               </div>
