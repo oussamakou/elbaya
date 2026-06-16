@@ -10,7 +10,7 @@ const copy = {
     family: 'Families are welcome too. Children have open farm space and a dedicated playground area with trampoline-style play, so slow days are easier for parents and more alive for kids.',
     cta: 'See experiences',
     cards: [
-      ['Mouvement Research', 'A training and research facility for strength, balance, mobility, climbing, rings, and bodyweight practice.'],
+      ['Mouvement Research', 'A training and research facility for strength, balance, mobility, rings, bodyweight practice.'],
       ['Open-air practice', 'Move under the trees, practice handstands, or join simple morning movement when Mahdi is available.'],
       ['Kids playground', 'A family-friendly play area with trampoline-style play and space for children to move outside.']
     ]
@@ -22,7 +22,7 @@ const copy = {
     family: 'Les familles sont bienvenues. Les enfants ont de l espace sur la ferme et une aire de jeux dediee avec trampoline, pour des journees plus simples pour les parents et plus vivantes pour les enfants.',
     cta: 'Voir les experiences',
     cards: [
-      ['Mouvement Research', 'Un espace de pratique pour force, equilibre, mobilite, grimpe, anneaux et poids du corps.'],
+      ['Mouvement Research', 'Un espace de pratique pour force, equilibre, mobilite, anneaux, poids du corps et grimpe.'],
       ['Pratique en plein air', 'Bouger sous les arbres, travailler les equilibres ou rejoindre un mouvement matinal quand Mahdi est disponible.'],
       ['Aire de jeux enfants', 'Un espace famille avec trampoline et de la place dehors pour que les enfants bougent.']
     ]
