@@ -6,15 +6,15 @@ export default function Footer() {
   const t = useTranslations('footer');
   const locale = useLocale();
   const links = locale === 'fr'
-    ? [['/stay', 'Sejour'], ['/farm', 'La ferme'], ['/experiences', 'Experiences'], ['/forge', 'Forge'], ['/book', 'Reserver']]
+    ? [['/stay', 'Séjour'], ['/farm', 'La ferme'], ['/experiences', 'Expériences'], ['/forge', 'Forge'], ['/book', 'Réserver']]
     : [['/stay', 'Stay'], ['/farm', 'The Farm'], ['/experiences', 'Experiences'], ['/forge', 'Forge'], ['/book', 'Book']];
 
   return (
     <footer className="border-t border-mist bg-sand px-6 py-12 text-earth md:px-5">
       <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-[1fr_auto] md:items-end">
         <div className="space-y-4">
-          <div className="relative h-96 w-96 md:h-72 md:w-80">
-            <Image src="/assets/images/logo.png" alt="Farm El Baya" fill className="object-contain object-left" sizes="420px" />
+          <div className="relative h-40 w-56 md:h-56 md:w-72">
+            <Image src="/assets/images/logo.png" alt="Farm El Baya" fill className="object-contain object-left" sizes="(max-width: 768px) 224px, 288px" />
           </div>
           <p className="font-serif text-3xl italic">{t('tagline')}</p>
           <p className="text-sm text-bark">{t('direct')}</p>

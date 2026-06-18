@@ -9,9 +9,9 @@ type Props = {
 } & ComponentProps<'button'>;
 
 const styles = {
-  primary: 'bg-terracotta text-cream hover:bg-earth',
-  ghost: 'border border-earth/20 text-earth hover:bg-earth hover:text-cream',
-  dark: 'border border-cream/55 text-cream hover:bg-cream hover:text-dusk'
+  primary: 'bg-terracotta text-cream hover:bg-[#A8501C]',
+  ghost: 'border border-earth/40 text-earth hover:bg-earth hover:text-cream',
+  dark: 'border border-cream/55 text-cream hover:bg-cream/20'
 };
 
 export default function Button({children, href, variant = 'primary', className = '', ...props}: Props) {

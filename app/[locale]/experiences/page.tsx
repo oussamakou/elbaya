@@ -19,7 +19,7 @@ export default async function Experiences({params}: {params: Promise<{locale: st
   return (
     <>
       <section className="relative flex min-h-[82vh] items-end overflow-hidden bg-dusk px-5 pb-20 text-cream">
-        <Image src={img('mouvement_research.png')} alt="" fill priority className="object-cover animate-breathe opacity-80" />
+        <Image src={img('movement_research_lab.jpeg')} alt="" fill priority className="object-cover animate-breathe opacity-80" />
         <div className="absolute inset-0 bg-gradient-to-t from-dusk via-dusk/30 to-transparent" />
         <h1 className="relative mx-auto max-w-6xl font-serif text-5xl italic leading-tight md:text-7xl">{content.hero}</h1>
       </section>
@@ -31,7 +31,7 @@ export default async function Experiences({params}: {params: Promise<{locale: st
             <h2 className="mt-3 font-serif text-5xl italic">{locale === 'fr' ? 'Choisissez votre rythme.' : 'Choose your pace.'}</h2>
             <p className="mt-4 leading-7 text-earth/72">
               {locale === 'fr'
-                ? 'Certaines experiences sont incluses dans chaque sejour. D autres sont saisonnieres ou organisees sur demande avec Mahdi.'
+                ? 'Certaines expériences sont incluses dans chaque séjour. D’autres sont saisonnières ou organisées sur demande avec Mahdi.'
                 : 'Some experiences are included with every stay. Others are seasonal or arranged on request with Mahdi.'}
             </p>
           </div>

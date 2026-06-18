@@ -29,6 +29,20 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Mobile menu: close on Escape and lock background scroll while open.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
   const startsOnLight = pathname.includes('/book');
   const tone = isForge ? 'text-cream' : scrolled || startsOnLight ? 'text-earth' : 'text-cream';
   const shell = scrolled ? (isForge ? 'bg-dusk/92 border-cream/10' : 'bg-sand/92 border-mist') : 'bg-transparent border-transparent';
@@ -36,14 +50,13 @@ export default function Navbar() {
   return (
     <header className={`fixed inset-x-0 top-0 z-50 border-b backdrop-blur-sm transition duration-500 ${shell} ${tone}`}>
       <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-8 md:px-8">
-        <Link href="/" locale={locale} className="relative h-28 w-32 shrink-0">
+        <Link href="/" locale={locale} className="relative block h-14 w-28 shrink-0 md:h-16 md:w-32">
           <Image
-            width={800}
-            height={800}
-            sizes="(max-width: 768px) 96px, 128px"
+            fill
+            sizes="(max-width: 768px) 112px, 128px"
             src="/assets/images/logo.png"
             alt="Farm El Baya logo"
-            className="object-contain"
+            className="object-contain object-left"
             priority
           />
         </Link>
@@ -56,21 +69,21 @@ export default function Navbar() {
         </div>
         <div className="hidden items-center gap-3 md:flex">
           <LanguageToggle />
-          <Link href={isForge ? '/forge#apply' : '/book'} className={`rounded-full px-5 py-2.5 text-sm font-medium transition active:scale-[0.97] ${isForge ? 'border border-cream/60 hover:bg-cream hover:text-dusk' : 'bg-terracotta text-cream hover:bg-earth'}`}>
+          <Link href={isForge ? '/forge#apply' : '/book'} className={`rounded-full px-5 py-2.5 text-sm font-medium transition active:scale-[0.97] ${isForge ? 'border border-cream/60 hover:bg-cream/20' : 'bg-terracotta text-cream hover:bg-[#A8501C]'}`}>
             {isForge ? `${t('apply')} →` : t('bookNow')}
           </Link>
         </div>
-        <button onClick={() => setOpen(true)} className="md:hidden" aria-label="Open menu"><Menu /></button>
+        <button onClick={() => setOpen(true)} className="md:hidden" aria-label="Open menu" aria-expanded={open} aria-controls="mobile-menu"><Menu /></button>
       </nav>
       {open && (
-        <div className={`fixed inset-0 z-50 flex min-h-screen flex-col bg-sand px-6 py-6 text-earth md:hidden`}>
-          <button onClick={() => setOpen(false)} className="ml-auto" aria-label="Close menu"><X /></button>
+        <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" className={`fixed inset-0 z-50 flex min-h-screen flex-col bg-sand px-6 py-6 text-earth md:hidden`}>
+          <button onClick={() => setOpen(false)} className="ml-auto" aria-label="Close menu" autoFocus><X /></button>
           <div className="mt-16 flex flex-col gap-8 font-serif text-5xl italic">
             {links.map(([href, label]) => <Link key={href} href={`/${href}`} onClick={() => setOpen(false)}>{label}</Link>)}
           </div>
           <div className="mt-auto flex items-center justify-between">
             <LanguageToggle />
-            <Link href="/book" onClick={() => setOpen(false)} className="rounded-full bg-terracotta px-5 py-3 text-sm font-medium text-cream">{t('bookNow')}</Link>
+            <Link href="/book" onClick={() => setOpen(false)} className="rounded-full bg-terracotta px-5 py-3 text-sm font-medium text-cream transition hover:bg-[#A8501C] active:scale-[0.97]">{t('bookNow')}</Link>
           </div>
         </div>
       )}

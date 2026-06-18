@@ -27,7 +27,7 @@ const reviews = [
     href: 'https://maps.app.goo.gl/JqLswfhXiLULhk7M8'
   },
   {
-    quote: 'Un sejour absolument incroyable dans cette ferme aux portes de Tunis. Le rooftop offre un ciel etoile a couper le souffle. Un sejour parfait.',
+    quote: 'Un séjour absolument incroyable dans cette ferme aux portes de Tunis. Le rooftop offre un ciel étoilé à couper le souffle. Un séjour parfait.',
     name: 'Mehdi Slim',
     detail: 'Google Reviews · 5 stars · Tunisia',
     href: 'https://maps.app.goo.gl/4V1VoMsU2WNQuTUHA'

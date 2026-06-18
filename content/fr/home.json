@@ -1,18 +1,18 @@
 {
-  "meta": {"title": "Farm El Baya - Sejour a la ferme a Testour, Tunisie", "description": "Chambres privees dans une ferme permaculturelle a une heure de Tunis. Petit-dejeuner inclus, animaux, oliviers, mouvement et reservation directe des 180 DT/nuit."},
-  "hero": {"headline": "Dormir sous\nles oliviers.", "subhead": "Trois chambres privees dans une ferme permaculturelle de 40 acres a Testour, a une heure de Tunis. Petit-dejeuner inclus chaque matin.", "cta": "Verifier les disponibilites"},
+  "meta": {"title": "Farm El Baya - Séjour à la ferme à Testour, Tunisie", "description": "Chambres privées dans une ferme permaculturelle à une heure de Tunis. Petit-déjeuner inclus, animaux, oliviers, mouvement et réservation directe dès 180 DT/nuit."},
+  "hero": {"headline": "Dormir sous\nles oliviers.", "subhead": "Trois chambres privées dans une ferme permaculturelle de 40 acres à Testour, à une heure de Tunis. Petit-déjeuner inclus chaque matin.", "cta": "Vérifier les disponibilités"},
   "quote": "Se perdre volontairement. Les meilleurs lieux ne sont pas toujours sur la carte.",
   "pillars": [
-    {"title": "Les chambres", "text": "Trois chambres privees avec salle de bain privee, des matins calmes et un tarif direct a partir de 180 DT la nuit."},
-    {"title": "La table", "text": "Petit-dejeuner avec oeufs de la ferme, huile d olive, yaourt et fruits de saison. Dejeuner et diner sur demande - cuisine tunisienne maison."},
-    {"title": "La terre", "text": "40 acres d oliviers, grenadiers, figuiers, amandiers, ruches, animaux, sentiers, toit pour les etoiles, Mouvement Research et aire de jeux enfants."}
+    {"title": "Les chambres", "text": "Trois chambres privées avec salle de bain privée, des matins calmes et un tarif direct à partir de 180 DT la nuit."},
+    {"title": "La table", "text": "Petit-déjeuner avec œufs de la ferme, huile d'olive, yaourt et fruits de saison. Déjeuner et dîner sur demande - cuisine tunisienne maison."},
+    {"title": "La terre", "text": "40 acres d'oliviers, grenadiers, figuiers, amandiers, ruches, animaux, sentiers, toit pour les étoiles, Mouvement Research et aire de jeux enfants."}
   ],
-  "reviews": {"heading": "Les invites repartent ancres.", "subhead": "Les avis parlent de la nourriture, du calme, de l hospitalite et du sentiment d entrer dans une vraie vie de ferme.", "items": [
-    {"quote": "Tout sur la ferme est fait avec amour et intention. On s y sent bien et detendu. La nourriture est la meilleure que vous trouverez en Tunisie.", "name": "Helmi", "detail": "Finlande · Novembre 2025"},
-    {"quote": "Je quitte la ferme ancree, nourrie et inspiree. Le sejour etait immersif. Il y avait plus de nourriture que je pouvais manger.", "name": "Mariah", "detail": "Etats-Unis · Mars 2025"},
-    {"quote": "Je voulais rester une nuit seulement mais je suis reste deux. Honnetement, je voulais rester toute une semaine.", "name": "Lorenzo", "detail": "Italie · Google Review"},
-    {"quote": "Un coup de coeur et un coup de foudre. Quand simplicite rime avec authenticite, hospitalite et generosite.", "name": "Souhir", "detail": "Tunisie · Google Review"},
-    {"quote": "Combiner agriculture bio, sport et developpement personnel est fantastique. On sent que c est sa passion qui le porte.", "name": "Romeo", "detail": "France · Novembre 2025"}
+  "reviews": {"heading": "Les invités repartent ancrés.", "subhead": "Les avis parlent de la nourriture, du calme, de l'hospitalité et du sentiment d'entrer dans une vraie vie de ferme.", "items": [
+    {"quote": "Tout sur la ferme est fait avec amour et intention. On s'y sent bien et détendu. La nourriture est la meilleure que vous trouverez en Tunisie.", "name": "Helmi", "detail": "Finlande · Novembre 2025"},
+    {"quote": "Je quitte la ferme ancrée, nourrie et inspirée. Le séjour était immersif. Il y avait plus de nourriture que je pouvais manger.", "name": "Mariah", "detail": "États-Unis · Mars 2025"},
+    {"quote": "Je voulais rester une nuit seulement mais je suis resté deux. Honnêtement, je voulais rester toute une semaine.", "name": "Lorenzo", "detail": "Italie · Google Review"},
+    {"quote": "Un coup de cœur et un coup de foudre. Quand simplicité rime avec authenticité, hospitalité et générosité.", "name": "Souhir", "detail": "Tunisie · Google Review"},
+    {"quote": "Combiner agriculture bio, sport et développement personnel est fantastique. On sent que c'est sa passion qui le porte.", "name": "Romeo", "detail": "France · Novembre 2025"}
   ]},
-  "forge": {"label": "CET ETE", "heading": "Forge.", "text": "Une retraite masculine separee de sept jours sur cette terre. Travail physique. Matins froids. Conversations franches.", "button": "Me prevenir"}
+  "forge": {"label": "CET ÉTÉ", "heading": "Forge.", "text": "Une retraite masculine séparée de sept jours sur cette terre. Travail physique. Matins froids. Conversations franches.", "button": "Me prévenir"}
 }

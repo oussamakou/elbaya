@@ -6,17 +6,17 @@ const rooms = [
   {
     image: 'room-interior.webp',
     en: {name: 'Olive Room', bed: 'Queen bed + optional single', detail: 'Warm interior, olive-grove window, private bathroom'},
-    fr: {name: 'Chambre Olivier', bed: 'Lit queen + lit simple possible', detail: 'Interieur chaleureux, vue oliviers, salle de bain privee'}
+    fr: {name: 'Chambre Olivier', bed: 'Lit queen + lit simple possible', detail: 'Intérieur chaleureux, vue oliviers, salle de bain privée'}
   },
   {
     image: 'room_exterior_vibe.webp',
     en: {name: 'Garden Room', bed: 'Double bed + flexible guest setup', detail: 'Closest to the garden paths, quiet entrance, private bathroom'},
-    fr: {name: 'Chambre Jardin', bed: 'Lit double + couchage flexible', detail: 'Proche des sentiers du jardin, entree calme, salle de bain privee'}
+    fr: {name: 'Chambre Jardin', bed: 'Lit double + couchage flexible', detail: 'Proche des sentiers du jardin, entrée calme, salle de bain privée'}
   },
   {
     image: 'rooftop_nightsky.webp',
     en: {name: 'Rooftop Room', bed: 'Double bed, best for 1-2 guests', detail: 'Easy rooftop access for stargazing, private bathroom'},
-    fr: {name: 'Chambre Toit', bed: 'Lit double, ideale pour 1-2 hotes', detail: 'Acces facile au rooftop pour les etoiles, salle de bain privee'}
+    fr: {name: 'Chambre Toit', bed: 'Lit double, idéale pour 1-2 hôtes', detail: 'Accès facile au rooftop pour les étoiles, salle de bain privée'}
   }
 ];
 
@@ -35,10 +35,10 @@ export default function RoomCard({name, locale, index = 0}: {name: string; local
         <h2 className="font-serif text-3xl italic">{copy.name}</h2>
         <div className="mt-4 space-y-2 text-sm leading-6 text-earth/75">
           <p>{copy.bed}</p>
-          <p>{fr ? "Jusqu'a 3 hotes" : 'Up to 3 guests'}</p>
+          <p>{fr ? "Jusqu'à 3 hôtes" : 'Up to 3 guests'}</p>
           <p>{copy.detail}</p>
-          <p>{fr ? "Petit-dejeuner inclus : oeufs, huile d'olive, yaourt maison, fruits, pains tunisiens, jus." : "Breakfast included: farm eggs, olive oil, homemade yogurt, seasonal fruit, Tunisian breads, fresh juice."}</p>
-          <p>{fr ? 'Dejeuner et diner sur demande.' : 'Lunch and dinner available on request.'}</p>
+          <p>{fr ? "Petit-déjeuner inclus : œufs, huile d'olive, yaourt maison, fruits, pains tunisiens, jus." : "Breakfast included: farm eggs, olive oil, homemade yogurt, seasonal fruit, Tunisian breads, fresh juice."}</p>
+          <p>{fr ? 'Déjeuner et dîner sur demande.' : 'Lunch and dinner available on request.'}</p>
         </div>
         <Button href="/book" className="mt-6">{fr ? 'Demander cette chambre' : 'Request this room'}</Button>
       </div>

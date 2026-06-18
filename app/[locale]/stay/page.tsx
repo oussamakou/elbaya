@@ -24,11 +24,11 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
   const fr = locale === 'fr';
   const facts = fr
     ? [
-        {label: 'Chambres', value: '3 chambres privees'},
-        {label: 'Salle de bain', value: 'Privee pour chaque chambre'},
+        {label: 'Chambres', value: '3 chambres privées'},
+        {label: 'Salle de bain', value: 'Privée pour chaque chambre'},
         {label: 'Tarif', value: '180 DT / nuit'},
-        {label: 'Repas', value: 'Petit-dejeuner inclus'},
-        {label: 'Reponse', value: 'Sous 24 heures'}
+        {label: 'Repas', value: 'Petit-déjeuner inclus'},
+        {label: 'Réponse', value: 'Sous 24 heures'}
       ]
     : [
         {label: 'Rooms', value: '3 private rooms'},
@@ -48,7 +48,7 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
       <QuickFacts facts={facts} />
       <section className="px-5 py-20 text-center">
         <p className="mx-auto max-w-3xl font-serif text-3xl leading-snug md:text-4xl">{content.intro}</p>
-        <Button href="/book" className="mt-8">{fr ? 'Verifier les disponibilites' : 'Check availability'}</Button>
+        <Button href="/book" className="mt-8">{fr ? 'Vérifier les disponibilités' : 'Check availability'}</Button>
       </section>
       <section className="px-5 pb-24">
         <div className="mx-auto grid max-w-7xl gap-5 md:grid-cols-3">

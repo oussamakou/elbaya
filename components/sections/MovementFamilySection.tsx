@@ -17,13 +17,13 @@ const copy = {
   },
   fr: {
     eyebrow: 'Mouvement et espace famille',
-    heading: 'Une ferme ou le corps peut bouger.',
-    text: 'Farm El Baya inclut maintenant l espace Mouvement Research de Mahdi : un lieu interieur et exterieur pour equilibres, callisthenie, mobilite, anneaux, grimpe et exploration physique.',
-    family: 'Les familles sont bienvenues. Les enfants ont de l espace sur la ferme et une aire de jeux dediee avec trampoline, pour des journees plus simples pour les parents et plus vivantes pour les enfants.',
-    cta: 'Voir les experiences',
+    heading: 'Une ferme où le corps peut bouger.',
+    text: "Farm El Baya inclut maintenant l'espace Mouvement Research de Mahdi : un lieu intérieur et extérieur pour équilibres, callisthénie, mobilité, anneaux, grimpe et exploration physique.",
+    family: "Les familles sont bienvenues. Les enfants ont de l'espace sur la ferme et une aire de jeux dédiée avec trampoline, pour des journées plus simples pour les parents et plus vivantes pour les enfants.",
+    cta: 'Voir les expériences',
     cards: [
-      ['Mouvement Research', 'Un espace de pratique pour force, equilibre, mobilite, anneaux, poids du corps et grimpe.'],
-      ['Pratique en plein air', 'Bouger sous les arbres, travailler les equilibres ou rejoindre un mouvement matinal quand Mahdi est disponible.'],
+      ['Mouvement Research', 'Un espace de pratique pour force, équilibre, mobilité, anneaux, poids du corps et grimpe.'],
+      ['Pratique en plein air', 'Bouger sous les arbres, travailler les équilibres ou rejoindre un mouvement matinal quand Mahdi est disponible.'],
       ['Aire de jeux enfants', 'Un espace famille avec trampoline et de la place dehors pour que les enfants bougent.']
     ]
   }

@@ -24,9 +24,9 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
   const fr = locale === 'fr';
   const facts = fr
     ? [
-        {label: 'Chambres', value: '3 chambres privees'},
-        {label: 'Tarif direct', value: 'A partir de 180 DT / nuit'},
-        {label: 'Inclus', value: 'Petit-dejeuner de la ferme'},
+        {label: 'Chambres', value: '3 chambres privées'},
+        {label: 'Tarif direct', value: 'À partir de 180 DT / nuit'},
+        {label: 'Inclus', value: 'Petit-déjeuner de la ferme'},
         {label: 'Distance', value: '1 heure de Tunis'},
         {label: 'Famille', value: 'Aire de jeux et Mouvement Research'}
       ]
@@ -38,8 +38,23 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
         {label: 'Families', value: 'Playground and Mouvement Research'}
       ];
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'LodgingBusiness',
+    name: 'Farm El Baya',
+    description: content.meta.description,
+    url: `https://farmelbaya.com/${locale}`,
+    image: `https://farmelbaya.com${img('rooftop_nightsky.webp')}`,
+    telephone: '+97466290007',
+    priceRange: 'From 180 TND / night',
+    address: {'@type': 'PostalAddress', addressLocality: 'Testour', addressRegion: 'Béja', addressCountry: 'TN'},
+    geo: {'@type': 'GeoCoordinates', latitude: 36.7103385, longitude: 8.803951},
+    sameAs: ['https://www.instagram.com/farm_elbaya/', 'https://www.booking.com/hotel/tn/farm-el-baya.fr.html']
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}} />
       <HeroSection image={img('rooftop_nightsky.webp')} headline={content.hero.headline} subhead={content.hero.subhead} cta={content.hero.cta} />
       <QuickFacts facts={facts} />
       <QuoteBanner quote={content.quote} />
