@@ -24,18 +24,18 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
   const fr = locale === 'fr';
   const facts = fr
     ? [
-        {label: 'Chambres', value: '3 chambres privées'},
-        {label: 'Tarif direct', value: 'À partir de 180 DT / nuit'},
-        {label: 'Inclus', value: 'Petit-déjeuner de la ferme'},
+        {label: 'Chambre', value: 'Chambre Baya · 3 hôtes'},
+        {label: 'Tarif direct', value: 'Dès 180 DT / nuit'},
+        {label: 'Sur la ferme', value: 'Mouvement, animaux, oliviers'},
         {label: 'Distance', value: '1 heure de Tunis'},
         {label: 'Famille', value: 'Aire de jeux et Mouvement Research'}
       ]
     : [
-        {label: 'Rooms', value: '3 private rooms'},
+        {label: 'Room', value: 'Baya Room · sleeps 3'},
         {label: 'Direct rate', value: 'From 180 DT / night'},
-        {label: 'Included', value: 'Farm breakfast every morning'},
+        {label: 'On the farm', value: 'Movement, animals, olive groves'},
         {label: 'Distance', value: '1 hour from Tunis'},
-        {label: 'Families', value: 'Playground and Mouvement Research'}
+        {label: 'Families', value: 'Playground & Mouvement Research'}
       ];
 
   const jsonLd = {

@@ -1,20 +1,27 @@
 {
-  "meta": {"title": "Expériences - Mouvement Research, récoltes, abeilles et journées lentes", "description": "Petits-déjeuners de ferme, Mouvement Research, aire de jeux enfants, apiculture, récolte des olives, ciel étoilé, jardin et sorties autour de Testour."},
+  "meta": {"title": "Expériences - Mouvement Research, récoltes, abeilles et journées lentes", "description": "Repas de ferme, Mouvement Research, aire de jeux enfants, apiculture, récolte des olives, visites guidées de Dougga et Testour, ciel étoilé et journées lentes près de Testour."},
   "hero": "Il y a toujours quelque chose à faire. Et toujours la permission de ne rien faire.",
   "items": [
-    ["Petit-déjeuner de ferme", "Préparé chaque matin avec ce que la ferme donne. Œufs, huile, yaourt, fruits, pain, jus.", "Inclus"],
-    ["Mouvement Research", "L'espace intérieur et extérieur de Mahdi pour équilibres, callisthénie, anneaux, mobilité, force et grimpe.", "Inclus · Sur demande"],
-    ["Aire de jeux enfants", "Un espace famille avec trampoline et de la place sur la ferme pour que les enfants bougent, grimpent, courent et explorent.", "Inclus"],
     ["Accès aux 40 acres", "Marcher les sentiers. S'asseoir sous les oliviers. Regarder les animaux. La terre est à explorer.", "Inclus"],
+    ["Mouvement Research", "L'espace intérieur et extérieur de Mahdi pour équilibres, callisthénie, anneaux, mobilité, force et grimpe.", "Inclus"],
+    ["Aire de jeux enfants", "Un espace famille avec trampoline et de la place sur la ferme pour que les enfants bougent, grimpent, courent et explorent.", "Inclus"],
     ["Étoiles sur le toit", "Un secret bien gardé de la ferme. Le toit, la nuit, loin des lumières de la ville.", "Inclus"],
-    ["Mouvement avec Mahdi", "Yoga, callisthénie, mobilité, équilibres. Chaque matin, si vous en avez envie et si Mahdi est disponible.", "Sur demande"],
-    ["Apiculture", "Enfilez la combinaison et visitez les ruches avec Mahdi. Comprendre les abeilles, le miel, la saison.", "Sur demande"],
-    ["Récolte des olives", "D'octobre à décembre - participer, presser son huile, repartir avec une bouteille.", "Saison · Automne"],
-    ["Grenades et fruits", "Grenades, figues, amandes - selon la saison, il y a toujours quelque chose à cueillir.", "Saison"],
-    ["Serre et potager", "Planter, arroser, récolter les légumes du jardin. Les mains dans la terre.", "Sur demande"],
-    ["Soin des animaux", "Nourrir les poules. Marcher avec l'âne. Passer du temps avec le cheval. Ici, les animaux font partie du jour.", "Quotidien"],
-    ["Éco-construction", "Mahdi construit toujours quelque chose. Si vous voulez apprendre en aidant, vous êtes bienvenu.", "Sur demande"],
-    ["Cuisine dehors", "Cuisine commune autour de la cuisine en plein air. Feu, nourriture, conversation.", "Sur demande"],
-    ["Visite de Testour", "À 15 minutes - grenades, héritage andalou et marché hebdomadaire. Mahdi y accompagne les hôtes.", "Hebdomadaire"]
+    ["Séance avec Mahdi", "Une séance de 90 minutes avec Mahdi : bilan de mouvement, entraînement et votre propre plan d'entraînement à emporter.", "70 DT / personne"],
+    ["Apiculture", "Enfilez la combinaison et visitez les ruches avec Mahdi. Comprendre les abeilles, le miel, la saison.", "40 DT / personne"],
+    ["Récolte des olives", "D'octobre à décembre - participez à la récolte et pressez votre huile. Huile d'olive facturée à part selon la taille et la qualité.", "50 DT / personne · Automne"],
+    ["Cuisine en plein air", "Cuisinez et préparez le pain avec la famille autour de la cuisine extérieure. Feu, nourriture, conversation - le repas partagé est inclus.", "70 DT / personne"],
+    ["Visite guidée - Testour ou Dougga", "Un guide professionnel vous fait découvrir la médina andalouse de Testour ou la cité romaine de Dougga, avec une dégustation d'huile d'olive et la visite d'un moulin à huile biologique.", "Dès 50 DT / personne"],
+    ["Petit-déjeuner de ferme", "Un petit-déjeuner de la ferme préparé chaque matin. Œufs, huile, yaourt, fruits, pain, jus.", "20 DT / personne"],
+    ["Soin des animaux", "Nourrir les poules. Marcher avec l'âne. Passer du temps avec le cheval. Ici, les animaux font partie du jour.", "Inclus"],
+    ["Grenades et fruits", "Grenades, figues, amandes - selon la saison, il y a toujours quelque chose à cueillir.", "Saison"]
+  ],
+  "eventsHeading": "Culture et événements à proximité",
+  "eventsSubhead": "Planifiez votre séjour autour des festivals de la région et de son héritage romain - tout à quelques minutes en voiture.",
+  "events": [
+    ["Festival de Dougga", "Théâtre classique et musique dans l'amphithéâtre romain de Dougga, site classé au patrimoine mondial de l'UNESCO, à proximité.", "Juillet"],
+    ["Festival de la Grenade de Testour", "La célèbre fête d'automne de la récolte des grenades, à 15 minutes.", "Fin octobre"],
+    ["Festival de Jazz", "Du jazz live dans la région chaque printemps.", "Fin avril"],
+    ["Dougga romaine", "L'une des cités romaines les mieux conservées d'Afrique du Nord - temples, théâtre et mosaïques, à 20-40 minutes.", "Toute l'année"],
+    ["Médina de Testour", "Héritage andalou, mosquée historique et marché hebdomadaire, à 15 minutes.", "Toute l'année"]
   ]
 }

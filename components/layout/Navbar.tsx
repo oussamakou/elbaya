@@ -73,11 +73,11 @@ export default function Navbar() {
             {isForge ? `${t('apply')} →` : t('bookNow')}
           </Link>
         </div>
-        <button onClick={() => setOpen(true)} className="md:hidden" aria-label="Open menu" aria-expanded={open} aria-controls="mobile-menu"><Menu /></button>
+        <button onClick={() => setOpen(true)} className="-m-2 p-2 md:hidden" aria-label="Open menu" aria-expanded={open} aria-controls="mobile-menu"><Menu /></button>
       </nav>
       {open && (
         <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" className={`fixed inset-0 z-50 flex min-h-screen flex-col bg-sand px-6 py-6 text-earth md:hidden`}>
-          <button onClick={() => setOpen(false)} className="ml-auto" aria-label="Close menu" autoFocus><X /></button>
+          <button onClick={() => setOpen(false)} className="-m-2 ml-auto p-2" aria-label="Close menu" autoFocus><X /></button>
           <div className="mt-16 flex flex-col gap-8 font-serif text-5xl italic">
             {links.map(([href, label]) => <Link key={href} href={`/${href}`} onClick={() => setOpen(false)}>{label}</Link>)}
           </div>

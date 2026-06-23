@@ -5,16 +5,16 @@ const content = {
   en: {
     eyebrow: 'Book direct with confidence',
     heading: 'No platform fees. Clear next steps. A real host replies.',
-    text: 'Send your dates, guest count, and room preference. Mahdi replies within 24 hours with availability, meal options, and any deposit details before anything is confirmed.',
+    text: 'Send your dates and guest count. Mahdi replies within 24 hours with availability, meal options, and any deposit details before anything is confirmed.',
     cta: 'Request availability',
-    points: ['Breakfast included every morning', 'Payment settled on arrival', 'Lunch, dinner, and farm experiences on request', 'One hour from Tunis, 15 minutes from Testour']
+    points: ['Farm breakfast on request (20 DT)', 'Payment settled on arrival', 'Lunch, dinner, and farm experiences on request', 'One hour from Tunis, 15 minutes from Testour']
   },
   fr: {
     eyebrow: 'Réserver en direct, simplement',
     heading: 'Pas de commission. Des étapes claires. Un vrai hôte vous répond.',
-    text: "Envoyez vos dates, le nombre de voyageurs et votre préférence de chambre. Mahdi répond sous 24 heures avec les disponibilités, les repas possibles et les détails de l'acompte avant confirmation.",
+    text: "Envoyez vos dates et le nombre de voyageurs. Mahdi répond sous 24 heures avec les disponibilités, les repas possibles et les détails de l'acompte avant confirmation.",
     cta: 'Demander les disponibilités',
-    points: ['Petit-déjeuner inclus chaque matin', "Paiement à l'arrivée", 'Déjeuner, dîner et expériences sur demande', 'À 1 heure de Tunis, 15 minutes de Testour']
+    points: ['Petit-déjeuner de la ferme sur demande (20 DT)', "Paiement à l'arrivée", 'Déjeuner, dîner et expériences sur demande', 'À 1 heure de Tunis, 15 minutes de Testour']
   }
 };
 

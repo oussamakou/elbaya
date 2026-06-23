@@ -1,10 +1,10 @@
 {
-  "meta": {"title": "Farm El Baya - Séjour à la ferme à Testour, Tunisie", "description": "Chambres privées dans une ferme permaculturelle à une heure de Tunis. Petit-déjeuner inclus, animaux, oliviers, mouvement et réservation directe dès 180 DT/nuit."},
-  "hero": {"headline": "Dormir sous\nles oliviers.", "subhead": "Trois chambres privées dans une ferme permaculturelle de 40 acres à Testour, à une heure de Tunis. Petit-déjeuner inclus chaque matin.", "cta": "Vérifier les disponibilités"},
+  "meta": {"title": "Farm El Baya - Séjour à la ferme à Testour, Tunisie", "description": "Une chambre privée dans une ferme permaculturelle à une heure de Tunis. Oliviers, animaux, mouvement et réservation directe dès 180 DT/nuit."},
+  "hero": {"headline": "Dormir sous\nles oliviers.", "subhead": "Une chambre privée dans une ferme permaculturelle de 40 acres à Testour, à une heure de Tunis. Oliviers, animaux et de l'espace pour bouger.", "cta": "Vérifier les disponibilités"},
   "quote": "Se perdre volontairement. Les meilleurs lieux ne sont pas toujours sur la carte.",
   "pillars": [
-    {"title": "Les chambres", "text": "Trois chambres privées avec salle de bain privée, des matins calmes et un tarif direct à partir de 180 DT la nuit."},
-    {"title": "La table", "text": "Petit-déjeuner avec œufs de la ferme, huile d'olive, yaourt et fruits de saison. Déjeuner et dîner sur demande - cuisine tunisienne maison."},
+    {"title": "La chambre", "text": "Une chambre privée - la Chambre Baya - avec salle de bain privée, des matins calmes et un tarif direct à partir de 180 DT la nuit."},
+    {"title": "La table", "text": "Petit-déjeuner de la ferme sur demande (20 DT) - œufs, huile d'olive, yaourt et fruits de saison. Déjeuner et dîner sur demande : cuisine tunisienne maison."},
     {"title": "La terre", "text": "40 acres d'oliviers, grenadiers, figuiers, amandiers, ruches, animaux, sentiers, toit pour les étoiles, Mouvement Research et aire de jeux enfants."}
   ],
   "reviews": {"heading": "Les invités repartent ancrés.", "subhead": "Les avis parlent de la nourriture, du calme, de l'hospitalité et du sentiment d'entrer dans une vraie vie de ferme.", "items": [

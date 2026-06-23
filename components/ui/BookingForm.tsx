@@ -6,18 +6,6 @@ import {track} from '@vercel/analytics';
 import WhatsAppLink, {WHATSAPP_PHONE} from './WhatsAppLink';
 
 const hearOptions = ['Google', 'Airbnb', 'Booking.com', 'Instagram', 'AI / LLM (ChatGPT, Claude, Perplexity)', 'Friend', 'Other'];
-const roomOptions = [
-  'No preference - choose the best available room',
-  'Olive Room - warm interior and olive-grove window',
-  'Garden Room - closest to the garden paths',
-  'Rooftop Room - easiest access for stargazing'
-];
-const roomOptionsFr = [
-  'Sans préférence - choisissez la meilleure chambre disponible',
-  'Chambre Olivier - intérieur chaleureux et vue oliviers',
-  'Chambre Jardin - proche des sentiers du jardin',
-  'Chambre Toit - accès facile au rooftop'
-];
 
 function buildWhatsAppMessage(form: FormData, fr: boolean) {
   const get = (key: string) => String(form.get(key) || '').trim();
@@ -31,7 +19,6 @@ function buildWhatsAppMessage(form: FormData, fr: boolean) {
       `Arrivée : ${get('checkIn')}`,
       `Départ : ${get('checkOut')}`,
       `Voyageurs : ${get('guests')}`,
-      `Chambre : ${get('room') || dash}`,
       `Repas : ${meals || dash}`,
       `Remarques : ${get('notes') || dash}`,
       '',
@@ -48,7 +35,6 @@ function buildWhatsAppMessage(form: FormData, fr: boolean) {
     `Check-in: ${get('checkIn')}`,
     `Check-out: ${get('checkOut')}`,
     `Guests: ${get('guests')}`,
-    `Room: ${get('room') || dash}`,
     `Meals: ${meals || dash}`,
     `Notes: ${get('notes') || dash}`,
     '',
@@ -72,7 +58,6 @@ export default function BookingForm({locale, copy}: {locale: string; copy: {subm
     in: fr ? "Date d'arrivée *" : 'Check-in date *',
     out: fr ? 'Date de départ *' : 'Check-out date *',
     guests: fr ? "Nombre d'hôtes *" : 'Number of guests *',
-    room: fr ? 'Préférence de chambre' : 'Room preference',
     meals: fr ? 'Repas souhaités' : 'Meal requests',
     notes: fr ? 'Demandes particulières' : 'Special requests or notes',
     heard: fr ? 'Comment nous avez-vous connus ?' : 'How did you hear about us?'
@@ -118,7 +103,7 @@ export default function BookingForm({locale, copy}: {locale: string; copy: {subm
               : 'Your message confirms rooms, meals, and arrival details. You get a clear reply before anything is confirmed.'}
           </p>
           <div className="mt-7 space-y-3 text-sm text-cream/82">
-            <p>{fr ? 'Seulement 3 chambres privées sur la ferme' : 'Only 3 private rooms on the farm'}</p>
+            <p>{fr ? "La Chambre Baya - l'unique chambre de la ferme" : 'The Baya Room - the only room on the farm'}</p>
             <p>{fr ? "Week-ends et saisons de récolte partent en premier" : 'Weekends and harvest seasons fill first'}</p>
             <p>{fr ? 'Réponse sous 24 heures' : 'Reply within 24 hours'}</p>
             <p>{fr ? 'Aucun paiement avant confirmation' : 'No payment before confirmation'}</p>
@@ -138,14 +123,9 @@ export default function BookingForm({locale, copy}: {locale: string; copy: {subm
             <label className="space-y-2 text-sm font-medium">{labels.guests}<input className="field" name="guests" type="number" min="1" max="9" required /></label>
             <label className="space-y-2 text-sm font-medium">{labels.in}<input className="field" name="checkIn" type="date" min={today} required /></label>
             <label className="space-y-2 text-sm font-medium">{labels.out}<input className="field" name="checkOut" type="date" min={today} required /></label>
-            <label className="space-y-2 text-sm font-medium md:col-span-2">{labels.room}
-              <select className="field" name="room">
-                {(fr ? roomOptionsFr : roomOptions).map((room) => <option key={room}>{room}</option>)}
-              </select>
-            </label>
             <fieldset className="space-y-3 rounded-[8px] border border-mist p-4 md:col-span-2">
               <legend className="px-2 text-sm font-medium">{labels.meals}</legend>
-              {(fr ? ['Petit-déjeuner seulement (inclus)', 'Déjeuner certains jours (sur demande)', 'Dîner certains jours (sur demande)'] : ['Breakfast only (included)', 'Lunch on some days (on request)', 'Dinner on some days (on request)']).map((meal) => (
+              {(fr ? ['Petit-déjeuner (20 DT / pers.)', 'Déjeuner (40 DT / pers.)', 'Dîner (40 DT / pers.)'] : ['Breakfast (20 DT / person)', 'Lunch (40 DT / person)', 'Dinner (40 DT / person)']).map((meal) => (
                 <label key={meal} className="flex min-h-8 items-center gap-3 text-sm"><input name="meals" value={meal} type="checkbox" /> {meal}</label>
               ))}
             </fieldset>

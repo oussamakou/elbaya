@@ -3,8 +3,9 @@ import type {Metadata} from 'next';
 import {setRequestLocale} from 'next-intl/server';
 import {getContent, img} from '@/content';
 import Button from '@/components/ui/Button';
+import WhatsAppLink from '@/components/ui/WhatsAppLink';
 import Reveal from '@/components/ui/Reveal';
-import RoomCard from '@/components/ui/RoomCard';
+import RoomShowcase from '@/components/ui/RoomShowcase';
 import QuickFacts from '@/components/sections/QuickFacts';
 import BookingConfidence from '@/components/sections/BookingConfidence';
 import FaqBlock from '@/components/sections/FaqBlock';
@@ -24,17 +25,17 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
   const fr = locale === 'fr';
   const facts = fr
     ? [
-        {label: 'Chambres', value: '3 chambres privées'},
-        {label: 'Salle de bain', value: 'Privée pour chaque chambre'},
-        {label: 'Tarif', value: '180 DT / nuit'},
-        {label: 'Repas', value: 'Petit-déjeuner inclus'},
+        {label: 'Chambre', value: 'Chambre Baya'},
+        {label: 'Salle de bain', value: 'Privée'},
+        {label: 'Tarif', value: 'Dès 180 DT / nuit'},
+        {label: 'Petit-déjeuner', value: '20 DT (en option)'},
         {label: 'Réponse', value: 'Sous 24 heures'}
       ]
     : [
-        {label: 'Rooms', value: '3 private rooms'},
-        {label: 'Bathroom', value: 'Private for each room'},
-        {label: 'Rate', value: '180 DT / night'},
-        {label: 'Meals', value: 'Breakfast included'},
+        {label: 'Room', value: 'Baya Room'},
+        {label: 'Bathroom', value: 'Private'},
+        {label: 'Rate', value: 'From 180 DT / night'},
+        {label: 'Breakfast', value: '20 DT add-on'},
         {label: 'Reply time', value: 'Within 24 hours'}
       ];
 
@@ -50,11 +51,7 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
         <p className="mx-auto max-w-3xl font-serif text-3xl leading-snug md:text-4xl">{content.intro}</p>
         <Button href="/book" className="mt-8">{fr ? 'Vérifier les disponibilités' : 'Check availability'}</Button>
       </section>
-      <section className="px-5 pb-24">
-        <div className="mx-auto grid max-w-7xl gap-5 md:grid-cols-3">
-          {content.rooms.map((room, index) => <RoomCard key={room} name={room} locale={locale} index={index} />)}
-        </div>
-      </section>
+      <RoomShowcase locale={locale} />
       <BookingConfidence locale={locale} />
       <section className="px-5 py-20">
         <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-[1.1fr_.9fr]">
@@ -67,7 +64,16 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
           <p className="text-xs font-medium uppercase tracking-[0.22em] text-bark">{content.cabin.label}</p>
           <h2 className="mt-4 font-serif text-6xl italic">{content.cabin.heading}</h2>
           <p className="mx-auto mt-5 max-w-2xl leading-8 text-earth/75">{content.cabin.text}</p>
-          <Button href="/book" className="mt-8">{content.cabin.button}</Button>
+          <WhatsAppLink
+            locale={locale}
+            event="cabin_notify_click"
+            message={fr
+              ? 'Bonjour Mahdi, prévenez-moi quand la Cabane aux Oliviers sera prête.'
+              : 'Hi Mahdi, please let me know when the Olive Cabin is ready.'}
+            className="mt-8 inline-flex items-center justify-center rounded-full bg-terracotta px-6 py-3 text-sm font-medium text-cream transition-[scale,background-color] duration-300 hover:bg-[#A8501C] active:scale-[0.96]"
+          >
+            {content.cabin.button}
+          </WhatsAppLink>
         </div>
       </section>
       <section className="px-5 py-20">

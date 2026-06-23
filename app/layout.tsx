@@ -21,10 +21,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://farmelbaya.com'),
-  icons: {
-    icon: '/favicon.ico'
-  }
+  metadataBase: new URL('https://farmelbaya.com')
 };
 
 export default function RootLayout({children}: {children: ReactNode}) {

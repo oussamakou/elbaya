@@ -40,6 +40,24 @@ export default async function Experiences({params}: {params: Promise<{locale: st
           </div>
         </div>
       </section>
+      <section className="bg-cream px-5 py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-10 max-w-2xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bark">{content.eventsHeading}</p>
+            <h2 className="mt-3 font-serif text-5xl italic">{locale === 'fr' ? 'Quand venir.' : 'When to come.'}</h2>
+            <p className="mt-4 leading-7 text-earth/72">{content.eventsSubhead}</p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {content.events.map((event) => (
+              <article key={event[0]} className="flex flex-col border border-mist bg-sand/55 p-6">
+                <span className="w-fit rounded-full bg-cream px-3 py-1 text-xs font-medium text-bark">{event[2]}</span>
+                <h3 className="mt-4 font-serif text-2xl italic">{event[0]}</h3>
+                <p className="mt-3 text-sm leading-6 text-earth/72">{event[1]}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
       <BookingConfidence locale={locale} />
     </>
   );
