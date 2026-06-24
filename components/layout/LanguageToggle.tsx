@@ -9,7 +9,6 @@ export default function LanguageToggle() {
   const router = useRouter();
 
   function switchTo(nextLocale: 'en' | 'fr') {
-    localStorage.setItem('farm-el-baya-locale', nextLocale);
     router.replace(pathname, {locale: nextLocale});
   }
 
@@ -19,7 +18,7 @@ export default function LanguageToggle() {
         <button
           key={item}
           onClick={() => switchTo(item)}
-          className={`min-h-8 rounded-full px-2.5 py-1 transition ${locale === item ? 'bg-terracotta text-cream' : 'opacity-65 hover:opacity-100'}`}
+          className={`inline-flex min-h-10 min-w-10 items-center justify-center rounded-full px-3 transition-[opacity,background-color] ${locale === item ? 'bg-terracotta text-cream' : 'opacity-65 hover:opacity-100'}`}
           aria-label={`Switch to ${item.toUpperCase()}`}
         >
           {item.toUpperCase()}

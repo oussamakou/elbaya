@@ -36,21 +36,21 @@ export default function MovementFamilySection({locale}: {locale: string}) {
     <section className="bg-cream px-5 py-20 md:py-28">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bark">{t.eyebrow}</p>
+          <p className="text-xs font-semibold uppercase tracking-label text-bark">{t.eyebrow}</p>
           <h2 className="mt-3 max-w-xl font-serif text-5xl italic leading-tight md:text-6xl">{t.heading}</h2>
           <p className="mt-6 max-w-xl leading-8 text-earth/75">{t.text}</p>
           <p className="mt-4 max-w-xl leading-8 text-earth/75">{t.family}</p>
           <Button href="/experiences" className="mt-8">{t.cta}</Button>
         </div>
         <div className="grid gap-4">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-[8px] bg-mist">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-card bg-mist">
             <Image src={img('mouvement_research.png')} alt="Farm El Baya Mouvement Research facility" fill sizes="(min-width: 1024px) 55vw, 100vw" className="object-cover" />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[8px] bg-mist">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-card bg-mist">
               <Image src={img('handstand_practice.png')} alt="Handstand practice at Farm El Baya" fill sizes="(min-width: 640px) 28vw, 100vw" className="object-cover" />
             </div>
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[8px] bg-mist">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-card bg-mist">
               <Image src={img('kids_training.png')} alt="Kids training and play area at Farm El Baya" fill sizes="(min-width: 640px) 28vw, 100vw" className="object-cover" />
             </div>
           </div>
@@ -60,7 +60,7 @@ export default function MovementFamilySection({locale}: {locale: string}) {
         {t.cards.map(([title, text]) => (
           <article key={title} className="border border-mist bg-sand/55 p-6">
             <h3 className="font-serif text-3xl italic">{title}</h3>
-            <p className="mt-3 leading-7 text-earth/72">{text}</p>
+            <p className="mt-3 leading-7 text-earth/75">{text}</p>
           </article>
         ))}
       </div>

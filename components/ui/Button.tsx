@@ -9,7 +9,7 @@ type Props = {
 } & ComponentProps<'button'>;
 
 const styles = {
-  primary: 'bg-terracotta text-cream hover:bg-[#A8501C]',
+  primary: 'bg-terracotta text-cream hover:bg-terracotta-dark',
   ghost: 'border border-earth/40 text-earth hover:bg-earth hover:text-cream',
   dark: 'border border-cream/55 text-cream hover:bg-cream/20'
 };

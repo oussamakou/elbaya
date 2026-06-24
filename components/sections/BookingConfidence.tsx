@@ -25,9 +25,9 @@ export default function BookingConfidence({locale}: {locale: string}) {
     <section className="bg-earth px-5 py-16 text-cream md:py-20">
       <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[0.9fr_1.1fr] md:items-center">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-terracotta">{copy.eyebrow}</p>
+          <p className="text-xs font-semibold uppercase tracking-label text-terracotta">{copy.eyebrow}</p>
           <h2 className="mt-4 max-w-xl font-serif text-4xl italic leading-tight md:text-5xl">{copy.heading}</h2>
-          <p className="mt-5 max-w-xl leading-8 text-cream/72">{copy.text}</p>
+          <p className="mt-5 max-w-xl leading-8 text-cream/70">{copy.text}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button href="/book">{copy.cta}</Button>
             <WhatsAppLink locale={locale} className="inline-flex items-center justify-center rounded-full border border-cream/45 px-6 py-3 text-sm font-semibold text-cream transition hover:bg-cream/20">
@@ -38,7 +38,7 @@ export default function BookingConfidence({locale}: {locale: string}) {
         <div className="grid gap-3 sm:grid-cols-2">
           {copy.points.map((point) => (
             <div key={point} className="border border-cream/12 bg-cream/5 p-5">
-              <p className="leading-7 text-cream/82">{point}</p>
+              <p className="leading-7 text-cream/80">{point}</p>
             </div>
           ))}
         </div>

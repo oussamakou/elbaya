@@ -27,7 +27,7 @@ export default function FaqBlock({locale}: {locale: string}) {
                 {question}
                 <span className="text-2xl leading-none text-terracotta group-open:rotate-45">+</span>
               </summary>
-              <p className="mt-4 max-w-2xl leading-7 text-earth/72">{answer}</p>
+              <p className="mt-4 max-w-2xl leading-7 text-earth/75">{answer}</p>
             </details>
           ))}
         </div>

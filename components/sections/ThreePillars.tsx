@@ -44,13 +44,13 @@ export default function ThreePillars({items}: {items: {title: string; text: stri
                 </div>
                 
                 <h2 className="font-serif text-4xl md:text-5xl italic text-dusk mb-6">{item.title}</h2>
-                <p className="text-base leading-relaxed text-earth/80 font-light">{item.text}</p>
+                <p className="text-base leading-relaxed text-earth/75 font-light">{item.text}</p>
                 
                 <Link href={hrefs[index]} className="group mt-8 flex w-max items-center gap-4">
                   <span className="text-xs uppercase tracking-widest text-terracotta font-medium group-hover:text-olive transition-colors">
                     Discover More
                   </span>
-                  <div className="w-8 h-px bg-terracotta group-hover:w-12 group-hover:bg-olive transition-all duration-300" />
+                  <div className="w-8 h-px bg-terracotta group-hover:w-12 group-hover:bg-olive transition-[width,background-color] duration-300" />
                 </Link>
               </motion.article>
             );

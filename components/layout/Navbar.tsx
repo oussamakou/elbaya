@@ -69,7 +69,7 @@ export default function Navbar() {
         </div>
         <div className="hidden items-center gap-3 md:flex">
           <LanguageToggle />
-          <Link href={isForge ? '/forge#apply' : '/book'} className={`rounded-full px-5 py-2.5 text-sm font-medium transition active:scale-[0.97] ${isForge ? 'border border-cream/60 hover:bg-cream/20' : 'bg-terracotta text-cream hover:bg-[#A8501C]'}`}>
+          <Link href={isForge ? '/forge#apply' : '/book'} className={`rounded-full px-5 py-2.5 text-sm font-medium transition active:scale-[0.96] ${isForge ? 'border border-cream/60 hover:bg-cream/20' : 'bg-terracotta text-cream hover:bg-terracotta-dark'}`}>
             {isForge ? `${t('apply')} →` : t('bookNow')}
           </Link>
         </div>
@@ -83,7 +83,7 @@ export default function Navbar() {
           </div>
           <div className="mt-auto flex items-center justify-between">
             <LanguageToggle />
-            <Link href="/book" onClick={() => setOpen(false)} className="rounded-full bg-terracotta px-5 py-3 text-sm font-medium text-cream transition hover:bg-[#A8501C] active:scale-[0.97]">{t('bookNow')}</Link>
+            <Link href="/book" onClick={() => setOpen(false)} className="rounded-full bg-terracotta px-5 py-3 text-sm font-medium text-cream transition hover:bg-terracotta-dark active:scale-[0.96]">{t('bookNow')}</Link>
           </div>
         </div>
       )}

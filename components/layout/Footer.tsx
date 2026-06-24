@@ -28,7 +28,7 @@ export default function Footer() {
             {' · '}
             <a href="https://www.instagram.com/holistic.athlete/" target="_blank" rel="noreferrer" className="transition hover:text-earth">@holistic.athlete</a>
           </p>
-          <p className="max-w-full break-words text-xs uppercase tracking-[0.12em] text-bark sm:tracking-[0.22em]">
+          <p className="max-w-full break-words text-xs uppercase tracking-label text-bark sm:tracking-label">
             © Farm El Baya · <a href="https://farmelbaya.com" target="_blank" rel="noreferrer" className="transition hover:text-earth">farmelbaya.com</a>
           </p>
         </div>

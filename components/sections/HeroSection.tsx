@@ -88,7 +88,7 @@ export default function HeroSection({headline, subhead, cta, image}: {headline: 
         transition={{delay: 1.5, duration: 1}}
         className="absolute bottom-5 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-3 sm:flex md:bottom-7"
       >
-        <span className="text-[10px] uppercase tracking-[0.3em] text-cream/50">Scroll</span>
+        <span className="text-[10px] uppercase tracking-wide text-cream/70">Scroll</span>
         <div className="h-14 w-[1px] overflow-hidden bg-cream/20">
           <motion.div
             animate={{y: ['-100%', '100%']}}

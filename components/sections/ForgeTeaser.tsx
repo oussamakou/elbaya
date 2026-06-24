@@ -36,7 +36,7 @@ export default function ForgeTeaser({content}: {content: {label: string; heading
               hidden: {opacity: 0, y: 10},
               visible: {opacity: 1, y: 0, transition: {duration: 0.6}}
             }}
-            className="text-[11px] font-medium uppercase tracking-[0.3em] text-olive mb-6"
+            className="text-[11px] font-medium uppercase tracking-wide text-olive mb-6"
           >
             {content.label}
           </motion.p>
@@ -70,14 +70,14 @@ export default function ForgeTeaser({content}: {content: {label: string; heading
             className="flex w-full max-w-lg flex-col sm:flex-row gap-3 relative"
           >
             <input 
-              className="w-full bg-cream/5 border border-cream/10 rounded-full px-6 py-4 text-cream placeholder:text-cream/40 focus:outline-none focus:border-terracotta/50 focus:bg-cream/10 transition-all duration-300 font-light" 
+              className="w-full bg-cream/5 border border-cream/10 rounded-full px-6 py-4 text-cream placeholder:text-cream/70 focus:outline-none focus:border-terracotta/50 focus:bg-cream/10 transition-[border-color,background-color] duration-300 font-light"
               name="email" 
               type="email" 
               required 
               placeholder={t('email')} 
             />
             <button 
-              className="shrink-0 rounded-full bg-terracotta px-8 py-4 text-sm font-medium tracking-wide text-cream transition-all duration-300 hover:bg-cream hover:text-dusk active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
+              className="shrink-0 rounded-full bg-terracotta px-8 py-4 text-sm font-medium tracking-wide text-cream transition-[scale,background-color] duration-300 hover:bg-terracotta-dark active:scale-[0.96] disabled:opacity-70 disabled:cursor-not-allowed"
               disabled={sent}
             >
               {sent ? t('notify') : content.button}

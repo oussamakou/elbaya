@@ -5,12 +5,17 @@
   --color-sand: #F5F0E8;
   --color-cream: #FAF7F2;
   --color-terracotta: #C4622D;
+  --color-terracotta-dark: #A8501C;
   --color-earth: #2C1810;
   --color-bark: #8B6914;
   --color-dusk: #1A1A14;
   --color-mist: #EDE8DF;
   --font-serif: var(--font-cormorant), Georgia, serif;
   --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+  /* Shape + spacing tokens */
+  --radius-card: 0.5rem;
+  --tracking-label: 0.2em;
+  --tracking-wide: 0.3em;
 }
 
 * {
@@ -67,6 +72,13 @@ a {
   text-decoration: none;
 }
 
+/* Consistent keyboard focus across all interactive elements */
+:where(a, button, [role="button"], summary, input, select, textarea):focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 button,
 input,
 textarea,
@@ -105,7 +117,7 @@ select {
   padding: 0.9rem 1rem;
   color: #2C1810;
   outline: none;
-  transition: all 300ms ease;
+  transition: border-color 300ms ease, background-color 300ms ease, box-shadow 300ms ease;
   border-bottom-color: rgba(44, 24, 16, 0.42);
 }
 

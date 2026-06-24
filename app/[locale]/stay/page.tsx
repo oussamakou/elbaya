@@ -42,7 +42,7 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
   return (
     <>
       <section className="relative flex min-h-[76vh] items-end overflow-hidden bg-dusk px-5 pb-20 text-cream">
-        <Image src={img('room-interior.webp')} alt="" fill priority className="object-cover animate-breathe opacity-85" />
+        <Image src={img('room-interior.webp')} alt="Inside the Baya Room at Farm El Baya" fill priority sizes="100vw" className="object-cover animate-breathe opacity-85" />
         <div className="absolute inset-0 bg-gradient-to-t from-dusk via-dusk/25 to-transparent" />
         <h1 className="relative mx-auto max-w-7xl font-serif text-6xl italic md:text-7xl">{content.hero}</h1>
       </section>
@@ -55,13 +55,13 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
       <BookingConfidence locale={locale} />
       <section className="px-5 py-20">
         <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-[1.1fr_.9fr]">
-          <Image src={img('breakfast.webp')} alt="" width={900} height={720} className="rounded-[8px] object-cover" />
+          <Image src={img('breakfast.webp')} alt="A farm breakfast laid out at Farm El Baya" width={900} height={720} sizes="(min-width: 768px) 55vw, 100vw" className="rounded-card object-cover" />
           <Reveal><h2 className="font-serif text-5xl italic">{content.breakfast.heading}</h2><p className="mt-6 leading-8 text-earth/75">{content.breakfast.text}</p></Reveal>
         </div>
       </section>
       <section className="bg-cream px-5 py-20">
         <div className="mx-auto max-w-4xl text-center">
-          <p className="text-xs font-medium uppercase tracking-[0.22em] text-bark">{content.cabin.label}</p>
+          <p className="text-xs font-medium uppercase tracking-label text-bark">{content.cabin.label}</p>
           <h2 className="mt-4 font-serif text-6xl italic">{content.cabin.heading}</h2>
           <p className="mx-auto mt-5 max-w-2xl leading-8 text-earth/75">{content.cabin.text}</p>
           <WhatsAppLink
@@ -70,7 +70,7 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
             message={fr
               ? 'Bonjour Mahdi, prévenez-moi quand la Cabane aux Oliviers sera prête.'
               : 'Hi Mahdi, please let me know when the Olive Cabin is ready.'}
-            className="mt-8 inline-flex items-center justify-center rounded-full bg-terracotta px-6 py-3 text-sm font-medium text-cream transition-[scale,background-color] duration-300 hover:bg-[#A8501C] active:scale-[0.96]"
+            className="mt-8 inline-flex items-center justify-center rounded-full bg-terracotta px-6 py-3 text-sm font-medium text-cream transition-[scale,background-color] duration-300 hover:bg-terracotta-dark active:scale-[0.96]"
           >
             {content.cabin.button}
           </WhatsAppLink>
