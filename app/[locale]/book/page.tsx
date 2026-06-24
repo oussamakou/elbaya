@@ -53,7 +53,7 @@ export default async function Book({params}: {params: Promise<{locale: string}>}
               ? 'Choisissez vos dates pour voir les disponibilités en direct et réserver la Chambre Baya.'
               : 'Pick your dates to see live availability and book the Baya Room.'}
           </p>
-          <div className="mt-7">
+          <div className="mx-auto mt-7 max-w-lg text-left">
             <LodgifyWidget locale={locale} />
           </div>
           <p className="mx-auto mt-5 max-w-xl text-xs leading-6 text-earth/55">
