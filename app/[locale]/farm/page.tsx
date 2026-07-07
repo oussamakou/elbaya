@@ -3,6 +3,7 @@ import type {Metadata} from 'next';
 import {setRequestLocale} from 'next-intl/server';
 import {getContent, img} from '@/content';
 import Reveal from '@/components/ui/Reveal';
+import FarmMapViewer from '@/components/ui/FarmMapViewer';
 
 export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
   const {locale} = await params;
@@ -14,6 +15,7 @@ export default async function Farm({params}: {params: Promise<{locale: string}>}
   const {locale} = await params;
   setRequestLocale(locale);
   const content = getContent(locale, 'farm');
+  const fr = locale === 'fr';
   return (
     <>
       <section className="relative flex min-h-[82vh] items-end overflow-hidden bg-dusk px-5 pb-20 text-cream">
@@ -44,7 +46,12 @@ export default async function Farm({params}: {params: Promise<{locale: string}>}
       <section className="px-5 py-24">
         <div className="mx-auto max-w-6xl">
           <h2 className="font-serif text-5xl italic">{content.map.heading}</h2>
-          <Image src={img('farm_map.webp')} alt="Illustrated map of the Farm El Baya grounds" width={1600} height={1100} sizes="(min-width: 1024px) 1024px, 100vw" className="mt-10 rounded-card shadow-sm" />
+          <FarmMapViewer
+            src={img('farm_map.webp')}
+            labels={fr
+              ? {expand: 'Voir en plein écran', close: 'Fermer la carte', download: 'Télécharger', alt: 'Carte illustrée du domaine de Farm El Baya'}
+              : {expand: 'View full map', close: 'Close map', download: 'Download', alt: 'Illustrated map of the Farm El Baya grounds'}}
+          />
           <p className="mx-auto mt-10 max-w-3xl text-center font-serif text-3xl italic text-olive">“{content.map.quote}”</p>
         </div>
       </section>
