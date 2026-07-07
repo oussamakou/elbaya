@@ -9,19 +9,26 @@ The voice and details below come directly from reading real WhatsApp conversatio
 ## Real details worth knowing (learned from past guest chats)
 
 - The farm is in **Slouguia village**, reached via the **Testour exit off the Béja highway**.
-- **Two kitchens** available for self-catering: one shared indoor, one outdoor right in front of the guesthouse. Small grocery shops are ~10 minutes away in **Testour or Mjez El Beb**.
-- **No air conditioning** — fans are provided, and rooms have several windows. **Heating** is available in winter. **Towels and foutas** are provided.
+- **The live arrival script that actually works** (used almost word-for-word, every time, once a guest is at the gate): *"Blue gate — open it if it's closed — then straight ahead, then left between the olive trees. The house is at the end."* Guests get lost even with the GPS link alone (one drove 80km out of his way) — always pair the link with this landmark script.
+- **Two kitchens** available for self-catering in the Baya suite: one shared indoor, one outdoor right in front of the guesthouse. Small grocery shops are ~10 minutes away in **Testour or Mjez El Beb**.
+- **No air conditioning** — fans are provided, and rooms have several windows. **Heating** is available in winter (oil-filled radiators, extra blankets on request). **Towels and foutas** are provided.
 - A **horse lives on the farm**, but there's no formal guided riding service — experienced riders are welcome to ride or walk with him informally.
-- Nearby dining beyond the farm: **Les Vergers des Montagnes** (15 min away, meals by reservation at least a day ahead, has a pool), a pizzeria near the Testour exit, and **Le Malouf** in Testour for traditional Tunisian food.
-- A **guard** can assist guests checking in late when family isn't on-site.
+- **Three friendly dogs** live on the farm and may come say hello — worth mentioning proactively (as Mahdi already does), and confirming pets aren't allowed inside the house.
+- Nearby dining beyond the farm: **Les Vergers des Montagnes** (15 min away, meals by reservation at least a day ahead, has a pool), **Pizza El Baraka** near the Testour exit (uses the farm's own cheese — the "4 fromage" is recommended), **Le Malouf** in Testour for traditional Tunisian food, and **Achour**, a méchoui (grilled meat) stand at the entrance to Slouguia, close to the farm.
+- **No card payment on site** — meals and extras are cash only; this has been asked and confirmed more than once.
+- A **guard (Mokhtar)** can assist guests checking in late when family isn't on-site.
 - Two nice, human touches worth keeping alive: recommending the **sunset from the trampoline**, and a heads-up to **bring mosquito cream** (there are sometimes mosquitoes).
+- **Farm El Baya has three independent suites** — Baya (the one with the mezzanine, and the one on the direct site/Lodgify), Elyssa, and a third — each rented separately, mostly via Airbnb/Booking.com for the two not on the direct site. If a WhatsApp or Airbnb conversation is about Elyssa or the third suite rather than Baya, double-check details before answering — kitchen setup and amenities may genuinely differ by suite, which likely explains some of the inconsistent descriptions found in past chats.
 
 ## Housekeeping — things this review surfaced
 
-- **Check-out time corrected to 11:00 AM** (was 10:00 AM in the previous draft and on the current site — every real transcript shows 11am as the practiced norm, with flexibility for late flights). **The website's own copy still says 10:00 AM — worth fixing there too, separately from this file.**
-- **Pricing drift found:** breakfast was quoted as "40 dinars par couple" once, "20 dinars par personne" (= 40/couple, consistent) another time, but **"30 dinars par couple" to one guest (Salma)** — that figure doesn't match either. The templates below standardize on the site's official numbers: **20 TND/person breakfast, 40 TND/person lunch or dinner.** Worth making sure everyone quotes these same figures going forward.
-- **Three phone numbers were circulating** (Mahdi's Qatar WhatsApp, Mahdi's Tunisian number, Meriem's Tunisian number). Standardized below: **Mahdi ({{HousePhone}}) for bookings and payments, Meriem (+216 22 604 980) for arrival and on-site questions** — matching how the family actually splits the work.
-- **Two GPS links were in use.** Standardized on `https://maps.app.goo.gl/wRctHd9C7vw9p8XD7`, the one used in nearly every conversation.
+- **Check-out time corrected to 11:00 AM** (was 10:00 AM in the previous draft and on the current site — every real transcript shows 11am as the practiced norm, with flexibility for late flights). **Fixed on the live site too (`PolicyBlock.tsx`, `FaqBlock.tsx`) as of this update.**
+- **Pricing drift found — and it's bigger than first thought.** Breakfast alone has been quoted at four different real prices across guest chats: 20 DT/couple, 30 DT/couple (four separate guests), 40 DT/couple, and 20 DT/person (=40/couple, the official site rate) — plus one guest got it free as a suite-specific perk. The templates and quick replies below standardize on the site's official numbers: **20 TND/person breakfast, 40 TND/person lunch or dinner.** Worth making a habit of reusing the Quick Replies below verbatim rather than quoting from memory.
+- **The day-of-arrival check-in message is already a manual daily ritual** — "hope you're well 🙂 what time will you arrive today?" plus the GPS link is sent, nearly word-for-word, to almost every guest by hand. This is the strongest candidate to become an actual scheduled message rather than a manual one — see the new proposed message below. **Check whether Lodgify offers a "day of arrival" trigger** (distinct from the existing "2 days before arrival" one) before setting it up.
+- **The Airbnb listing's map pin is confirmed wrong** — it points to a place called "Borj Lella," not the farm ("Oui elle est fausse. J'arrive pas à la changer"). At least one guest drove 80km out of the way because of it. This needs escalating directly to Airbnb support — not something a message template can fix.
+- **A third phone number surfaced** — "+216 25 686 567," attributed to "ma mère" once and given out as a general contact twice more. On top of Meriem's, Mahdi's Tunisian number, and the Qatar WhatsApp, that's now four numbers in circulation. Worth deciding on the two (Mahdi/Meriem) used in the templates below and retiring the rest from active use.
+- **Children's pricing may be more generous in practice than policy.** A 10-year-old was given a free breakfast in one chat ("the child will be complementary"), while the pricing agreed earlier this project was under-5 free, 5–12 half-price. Worth Mahdi confirming which is the real policy.
+- **Suites clarified:** all three (Baya, Elyssa, and a third) still exist; only Baya is offered on the direct site/Lodgify for now. The single-room narrative on the website is accurate for the direct-booking path — nothing to change there.
 - **Real guest feedback worth knowing, not a copy fix:** in her review, Narjess (4/5 stars) mentioned cobwebs at the windows, Wi-Fi that was "basically nonexistent" during her stay, and breakfast that felt expensive for what was included. Nothing to change in these templates — just flagging it as real signal for cleaning prep, Wi-Fi expectations, and breakfast presentation.
 
 ## Priority key
@@ -78,6 +85,39 @@ Pour toute question avant votre arrivée, contactez Mahdi au {{HousePhone}} ou M
 {{OwnerName}} - {{HouseName}}
 {{HousePhone}}
 {{OwnerUrl}}
+```
+
+---
+
+## 🟡 Day-of-arrival check-in *(proposed — new)*
+*This isn't one of Lodgify's default triggers, so it may not exist as an option — check for a "day of arrival" or "morning of check-in" trigger before setting it up. If it's not available, this is worth sending manually until it is, since it's already what happens for nearly every guest today by hand.*
+
+**EN**
+```
+Hi {{GuestFirstName}}, hope you're doing well :)
+
+What time do you think you'll arrive today?
+
+Once you're close, here's how to find us: blue gate, open it if it's closed, then straight ahead and left between the olive trees — the house is at the end.
+
+See you soon,
+
+{{OwnerName}} - {{HouseName}}
+{{HousePhone}}
+```
+
+**FR**
+```
+Bonjour {{GuestFirstName}}, j'espère que vous allez bien :)
+
+Vers quelle heure pensez-vous arriver aujourd'hui ?
+
+Une fois proche, voici comment nous trouver : portail bleu, ouvrez-le s'il est fermé, puis tout droit et à gauche entre les oliviers — la maison est au fond.
+
+À bientôt,
+
+{{OwnerName}} - {{HouseName}}
+{{HousePhone}}
 ```
 
 ---
@@ -371,9 +411,9 @@ Si quelque chose ne semble pas correct de votre côté, écrivez-moi ici ou sur 
 
 ## Quick replies
 
-Straight from the recurring questions in real guest chats — these are for Lodgify's Quick Replies feature (or just copy-paste), not scheduled messages, since they fire on-demand rather than on a trigger.
+Straight from the recurring questions in real guest chats — these are for Lodgify's Quick Replies feature (or just copy-paste on WhatsApp/Airbnb/Booking.com), not scheduled messages, since they fire on-demand rather than on a trigger. Written in Lodgify's own "Reply to..." format.
 
-### Directions / GPS
+### Reply to "How do we find the farm?" (before arrival)
 **EN**
 ```
 Here's the GPS link for Farm El Baya: https://maps.app.goo.gl/wRctHd9C7vw9p8XD7
@@ -389,54 +429,162 @@ Vous pouvez nous joindre au {{HousePhone}} (Mahdi) ou au +216 22 604 980 (Meriem
 Merci et à bientôt !
 ```
 
-### Meals & pricing
+### Reply to "We're here / at the gate, how do we get in?" (live, on arrival)
+*Send this in the moment — pairs with the GPS link above, which alone hasn't been enough for several guests.*
+
 **EN**
 ```
-Farm breakfast is 20 TND per person (farm eggs, olive oil, traditional bread, jam, coffee or tea). Lunch and dinner are 40 TND per person each, ideally ordered a day ahead. You're also welcome to use our two kitchens (one indoor, one outdoor) if you'd rather cook — there are small grocery shops about 10 minutes away in Testour or Mjez El Beb.
+Blue gate — open it if it's closed. Then straight ahead, and left between the olive trees. The house is at the end. Welcome!
 ```
 **FR**
 ```
-Le petit-déjeuner fermier est à 20 dinars par personne (œufs de la ferme, huile d'olive, pain traditionnel, confiture, café ou thé). Le déjeuner et le dîner sont à 40 dinars par personne chacun, idéalement à commander la veille. Vous avez aussi accès à deux cuisines (une intérieure, une extérieure) si vous préférez cuisiner vous-même — il y a de petites épiceries à 10 minutes (Testour ou Mjez El Beb).
+Portail bleu — ouvrez-le s'il est fermé. Puis tout droit, et à gauche entre les oliviers. La maison est au fond. Bienvenue !
 ```
 
-### Horseback riding
+### Reply to "What's breakfast/lunch/dinner and how much?"
 **EN**
 ```
-We have a very gentle horse on the farm. If you have riding experience, you're welcome to ride or walk with him — we don't currently offer a formal guided riding service though.
+Farm breakfast is 20 TND per person (farm eggs, olive oil, traditional bread, jam, coffee or tea). Lunch and dinner are 40 TND per person each, ideally ordered a day ahead so we can prepare. Let me know if you have any allergies or preferences.
 ```
 **FR**
 ```
-Nous avons un cheval très gentil sur la ferme. Si vous avez de l'expérience, vous pouvez le monter ou vous promener avec lui — mais nous ne proposons pas pour l'instant de service d'équitation encadré.
+Le petit-déjeuner fermier est à 20 dinars par personne (œufs de la ferme, huile d'olive, pain traditionnel, confiture, café ou thé). Le déjeuner et le dîner sont à 40 dinars par personne chacun, idéalement à commander la veille pour qu'on puisse préparer. Dites-moi si vous avez des allergies ou des préférences.
 ```
 
-### Nearby attractions
+### Reply to "Can we cook our own meals?"
 **EN**
 ```
-Nearby, there's the Roman site of Dougga (beautiful), the towns of Testour and Teboursouk, and Le Kef about 1.5 hours away. For meals out, there's also Les Vergers des Montagnes (15 min away, reserve at least a day ahead, has a pool) and Le Malouf restaurant in Testour for traditional Tunisian food.
+Yes, of course — you're welcome to use our two kitchens (one indoor, one outdoor) if you'd rather cook than order. Small grocery shops are about 10 minutes away in Testour or Mjez El Beb.
 ```
 **FR**
 ```
-Autour de la ferme, il y a le site romain de Dougga (magnifique), les villages de Testour et Teboursouk, et la ville du Kef à environ 1h30. Pour manger, il y a aussi Les Vergers des Montagnes (15 min, réservation au moins un jour à l'avance, avec piscine) et le restaurant Le Malouf à Testour pour de la cuisine tunisienne traditionnelle.
+Oui bien sûr — vous avez accès à deux cuisines (une intérieure, une extérieure) si vous préférez cuisiner plutôt que commander. De petites épiceries se trouvent à environ 10 minutes, à Testour ou Mjez El Beb.
 ```
 
-### Wi-Fi / AC / heating
+### Reply to "Any local recommendations?"
 **EN**
 ```
-Wi-Fi is available, but we're on a rural farm so the connection can vary. There's no air conditioning, but fans are provided and the rooms have several windows. Heating is available in winter.
+Absolutely! A few favorites nearby:
+- The Roman site of Dougga - beautiful, and one of the best-preserved in North Africa
+- Testour and Teboursouk - lovely traditional towns, both close by
+- Le Malouf in Testour - great for traditional Tunisian food
+- Pizza El Baraka, near the Testour exit - they use our farm's own cheese
+- Achour, a méchoui (grilled meat) stand at the entrance to Slouguia, very close to us
+- Les Vergers des Montagnes - 15 minutes away, has a pool, but meals need booking a day ahead
+Let me know what you're in the mood for and I'm happy to point you in the right direction!
 ```
 **FR**
 ```
-Le Wi-Fi est disponible mais nous sommes dans une ferme rurale donc la connexion peut varier. Pas de climatisation, mais des ventilateurs sont fournis et les chambres ont plusieurs fenêtres. Le chauffage est disponible en hiver.
+Avec plaisir ! Quelques favoris dans le coin :
+- Le site romain de Dougga - magnifique, l'un des mieux conservés d'Afrique du Nord
+- Testour et Teboursouk - de jolis villages traditionnels, tout proches
+- Le Malouf à Testour - excellent pour la cuisine tunisienne traditionnelle
+- Pizza El Baraka, à la sortie de Testour - ils utilisent notre propre fromage de ferme
+- Achour, un stand de méchoui à l'entrée de Slouguia, tout près de nous
+- Les Vergers des Montagnes - à 15 minutes, avec piscine, mais réservez les repas la veille
+Dites-moi ce qui vous ferait plaisir et je vous oriente volontiers !
 ```
 
-### Late check-out request
+### Reply to "Is there Wi-Fi?"
 **EN**
 ```
-No problem, a later check-out is often possible depending on availability — just tell us your flight or departure time and we'll work it out.
+Yes, Wi-Fi is available - though we're on a rural farm, so the connection can vary a bit. We'll give you the network name and password when you arrive.
 ```
 **FR**
 ```
-Pas de souci, c'est possible de partir un peu plus tard selon les disponibilités — dites-nous simplement votre heure de vol ou de départ et on s'organise.
+Oui, le Wi-Fi est disponible - même si nous sommes dans une ferme rurale, donc la connexion peut un peu varier. Nous vous donnerons le nom du réseau et le mot de passe à votre arrivée.
+```
+
+### Reply to "Is there air conditioning or heating?"
+**EN**
+```
+There's no air conditioning, but fans are provided and the room has several windows for airflow. In winter, we provide heating (oil-filled radiators) and extra blankets, so don't worry about the cold.
+```
+**FR**
+```
+Il n'y a pas de climatisation, mais des ventilateurs sont fournis et la chambre a plusieurs fenêtres pour l'air. En hiver, nous fournissons du chauffage (radiateurs bain d'huile) et des couvertures supplémentaires, ne vous inquiétez pas pour le froid.
+```
+
+### Reply to "Can we go horseback riding?"
+**EN**
+```
+We have a very gentle horse on the farm. If you have riding experience, you're welcome to ride or walk with him - we don't currently offer a formal guided riding service though.
+```
+**FR**
+```
+Nous avons un cheval très gentil sur la ferme. Si vous avez de l'expérience, vous pouvez le monter ou vous promener avec lui - mais nous ne proposons pas pour l'instant de service d'équitation encadré.
+```
+
+### Reply to "Are there animals / do you have pets on the farm?"
+**EN**
+```
+Yes - we have three very friendly dogs who may come say hello, plus a gentle horse and some free-roaming farm animals. Just let us know if you'd rather they kept their distance. For your own pets: they're welcome on the farm, but please don't bring them inside the house.
+```
+**FR**
+```
+Oui - nous avons trois chiens très gentils qui viendront peut-être vous dire bonjour, ainsi qu'un cheval doux et quelques animaux en liberté sur la ferme. Dites-nous si vous préférez qu'ils gardent leurs distances. Pour vos propres animaux : ils sont bienvenus sur la ferme, mais merci de ne pas les faire entrer dans la maison.
+```
+
+### Reply to "Can we pay by card?"
+**EN**
+```
+Unfortunately not on site - meals and any extras are settled in cash when you're here. If you booked through Airbnb or Booking.com, the room itself is already paid through the platform.
+```
+**FR**
+```
+Malheureusement non sur place - les repas et les extras se règlent en espèces sur place. Si vous avez réservé via Airbnb ou Booking.com, la chambre elle-même est déjà payée via la plateforme.
+```
+
+### Positive reply to "Can we check in early?"
+**EN**
+```
+Thanks for checking! We're often on site, so an early arrival is usually fine - just let us know roughly when you'll be here and we'll make sure everything's ready.
+```
+**FR**
+```
+Merci de demander ! Nous sommes souvent sur place, donc une arrivée plus tôt est généralement possible - dites-nous simplement à peu près quand vous arriverez et on s'assurera que tout est prêt.
+```
+
+### Negative reply to "Can we check in early?"
+**EN**
+```
+Thanks for asking! We need a bit more time to have the room ready today, so check-in is from 2:00 PM. Happy to store your bags earlier if that helps, and you're welcome to enjoy the farm grounds while you wait.
+```
+**FR**
+```
+Merci de demander ! Nous avons besoin d'un peu plus de temps pour préparer la chambre aujourd'hui, donc l'arrivée se fait à partir de 14h. Nous pouvons garder vos bagages avant si besoin, et vous êtes les bienvenus pour profiter de la ferme en attendant.
+```
+
+### Positive reply to "Can we check out a bit later?"
+**EN**
+```
+No problem at all - just let us know your flight or departure time and we'll work something out. Hope it gives you a more relaxed morning.
+```
+**FR**
+```
+Pas de souci du tout - indiquez-nous simplement votre heure de vol ou de départ et on s'arrangera. J'espère que ça vous donnera une matinée plus tranquille.
+```
+
+### Negative reply to "Can we check out a bit later?"
+**EN**
+```
+I'd love to offer more time, but we have guests arriving soon and need to prepare the room. Check-out is by 11:00 AM, but you're welcome to leave your bags with us for a bit afterward if that helps.
+```
+**FR**
+```
+J'aimerais vous donner plus de temps, mais nous avons des invités qui arrivent bientôt et devons préparer la chambre. Le départ se fait avant 11h, mais vous pouvez laisser vos bagages avec nous un moment après si ça vous aide.
+```
+
+### Reply to "The weather/roads look bad, can we push back or cancel?"
+*Matches how this has actually been handled well - no friction, no guilt, door left open.*
+
+**EN**
+```
+No worries at all, please stay safe - that comes first. Let us know how your plans change and we'll sort out the dates (or the cancellation) with you.
+```
+**FR**
+```
+Aucun souci, restez en sécurité avant tout. Tenez-nous au courant de vos plans et on s'arrangera pour les dates (ou l'annulation) avec vous.
 ```
 
 ---
