@@ -32,7 +32,7 @@ export default function PolicyBlock({locale}: {locale: string}) {
     <section className="bg-cream px-5 py-20">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-label text-bark">{locale === 'fr' ? 'Avant de venir' : 'Before you come'}</p>
+          <p className="text-xs font-semibold uppercase tracking-label text-olive">{locale === 'fr' ? 'Avant de venir' : 'Before you come'}</p>
           <h2 className="mt-3 font-serif text-5xl italic">{locale === 'fr' ? 'Politiques simples.' : 'Simple stay policies.'}</h2>
           <p className="mt-4 leading-7 text-earth/75">
             {locale === 'fr'
@@ -42,8 +42,8 @@ export default function PolicyBlock({locale}: {locale: string}) {
         </div>
         <div className="mt-10 grid gap-3 md:grid-cols-2 lg:grid-cols-5">
           {items.map(([title, text]) => (
-            <div key={title} className="border border-mist bg-sand/55 p-5">
-              <h3 className="text-sm font-semibold uppercase tracking-label text-bark">{title}</h3>
+            <div key={title} className="border border-olive/15 bg-sand/55 p-5">
+              <h3 className="text-sm font-semibold uppercase tracking-label text-olive">{title}</h3>
               <p className="mt-3 text-sm leading-6 text-earth/75">{text}</p>
             </div>
           ))}

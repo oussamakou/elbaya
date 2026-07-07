@@ -22,14 +22,14 @@ export default function BookingConfidence({locale}: {locale: string}) {
   const copy = locale === 'fr' ? content.fr : content.en;
 
   return (
-    <section className="bg-earth px-5 py-16 text-cream md:py-20">
+    <section className="bg-olive-dark px-5 py-16 text-cream md:py-20">
       <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[0.9fr_1.1fr] md:items-center">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-label text-terracotta">{copy.eyebrow}</p>
+          <p className="text-xs font-semibold uppercase tracking-label text-cream/80">{copy.eyebrow}</p>
           <h2 className="mt-4 max-w-xl font-serif text-4xl italic leading-tight md:text-5xl">{copy.heading}</h2>
           <p className="mt-5 max-w-xl leading-8 text-cream/70">{copy.text}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button href="/book">{copy.cta}</Button>
+            <Button href="/book" variant="light">{copy.cta}</Button>
             <WhatsAppLink locale={locale} className="inline-flex items-center justify-center rounded-full border border-cream/45 px-6 py-3 text-sm font-semibold text-cream transition hover:bg-cream/20">
               WhatsApp Mahdi
             </WhatsAppLink>

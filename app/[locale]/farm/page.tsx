@@ -37,15 +37,15 @@ export default async function Farm({params}: {params: Promise<{locale: string}>}
       <section className="bg-cream px-5 py-24 text-center">
         <div className="mx-auto max-w-4xl">
           <p className="font-serif text-4xl italic leading-tight md:text-6xl">“{content.mahdi.quote}”</p>
-          <p className="mt-5 text-sm uppercase tracking-label text-bark">Mahdi, Farm El Baya</p>
+          <p className="mt-5 text-sm uppercase tracking-label text-olive">Mahdi, Farm El Baya</p>
           <p className="mx-auto mt-8 max-w-2xl leading-8 text-earth/75">{content.mahdi.text}</p>
         </div>
       </section>
       <section className="px-5 py-24">
         <div className="mx-auto max-w-6xl">
           <h2 className="font-serif text-5xl italic">{content.map.heading}</h2>
-          <Image src={img('farm_map.png')} alt="Illustrated map of the Farm El Baya grounds" width={1600} height={1100} sizes="(min-width: 1024px) 1024px, 100vw" className="mt-10 rounded-card shadow-sm" />
-          <p className="mx-auto mt-10 max-w-3xl text-center font-serif text-3xl italic text-bark">“{content.map.quote}”</p>
+          <Image src={img('farm_map.webp')} alt="Illustrated map of the Farm El Baya grounds" width={1600} height={1100} sizes="(min-width: 1024px) 1024px, 100vw" className="mt-10 rounded-card shadow-sm" />
+          <p className="mx-auto mt-10 max-w-3xl text-center font-serif text-3xl italic text-olive">“{content.map.quote}”</p>
         </div>
       </section>
     </>

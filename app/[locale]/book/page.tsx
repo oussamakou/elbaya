@@ -40,7 +40,7 @@ export default async function Book({params}: {params: Promise<{locale: string}>}
       <section className="bg-sand px-5 pb-16 pt-40 text-center">
         <h1 className="font-serif text-6xl italic md:text-7xl">{content.hero.heading}</h1>
         <p className="mx-auto mt-5 max-w-xl text-lg leading-8 text-earth/75">{content.hero.subhead}</p>
-        <p className="mx-auto mt-5 max-w-2xl text-sm font-medium uppercase tracking-label text-bark">
+        <p className="mx-auto mt-5 max-w-2xl text-sm font-medium uppercase tracking-label text-olive">
           {fr ? 'Week-ends, récoltes et petits groupes se confirment vite.' : 'Weekends, harvest dates, and small groups confirm fastest.'}
         </p>
       </section>
@@ -70,22 +70,22 @@ export default async function Book({params}: {params: Promise<{locale: string}>}
             : ['Pick your dates and book the Baya Room', 'Mahdi confirms and shares the deposit details', 'Pay the 30% deposit - the balance is settled on arrival']
           ).map((step, index) => (
             <div key={step} className="border border-mist bg-cream p-5">
-              <p className="text-xs font-semibold uppercase tracking-label text-bark">{fr ? 'Étape' : 'Step'} {index + 1}</p>
+              <p className="text-xs font-semibold uppercase tracking-label text-olive">{fr ? 'Étape' : 'Step'} {index + 1}</p>
               <p className="mt-2 text-lg font-medium">{step}</p>
             </div>
           ))}
         </div>
       </section>
       <section className="px-5 pb-8">
-        <div className="mx-auto max-w-3xl rounded-card border border-mist bg-earth p-8 text-center text-cream md:p-12">
-          <p className="text-xs font-semibold uppercase tracking-label text-terracotta">{fr ? 'Une question ?' : 'A question?'}</p>
+        <div className="mx-auto max-w-3xl rounded-card border border-mist bg-olive-dark p-8 text-center text-cream md:p-12">
+          <p className="text-xs font-semibold uppercase tracking-label text-cream/80">{fr ? 'Une question ?' : 'A question?'}</p>
           <h2 className="mt-4 font-serif text-4xl italic leading-tight">{fr ? 'Vous préférez demander avant de réserver ?' : 'Prefer to ask before you book?'}</h2>
           <p className="mx-auto mt-5 max-w-xl leading-8 text-cream/70">
             {fr
               ? "Écrivez à Mahdi sur WhatsApp avec vos dates ou toute question - repas, expériences, accès. Il répond sous 24 heures."
               : "Message Mahdi on WhatsApp with your dates or anything you'd like to know - meals, experiences, getting there. He replies within 24 hours."}
           </p>
-          <WhatsAppLink locale={locale} className="mt-8 inline-flex items-center justify-center rounded-full bg-terracotta px-7 py-4 text-sm font-semibold text-cream transition-[scale,background-color] duration-300 hover:bg-terracotta-dark active:scale-[0.96]">
+          <WhatsAppLink locale={locale} className="mt-8 inline-flex items-center justify-center rounded-full bg-cream px-7 py-4 text-sm font-semibold text-earth transition-[scale,background-color] duration-300 hover:bg-mist active:scale-[0.96]">
             {fr ? 'Écrire à Mahdi sur WhatsApp' : 'Message Mahdi on WhatsApp'}
           </WhatsAppLink>
         </div>

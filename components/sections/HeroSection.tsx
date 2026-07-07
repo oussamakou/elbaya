@@ -3,9 +3,11 @@
 import {useRef} from 'react';
 import Image from 'next/image';
 import {motion, useScroll, useTransform} from 'framer-motion';
+import {useLocale} from 'next-intl';
 import Button from '@/components/ui/Button';
 
 export default function HeroSection({headline, subhead, cta, image}: {headline: string; subhead: string; cta?: string; image: string}) {
+  const locale = useLocale();
   const containerRef = useRef<HTMLElement>(null);
   const {scrollYProgress} = useScroll({
     target: containerRef,
@@ -28,6 +30,7 @@ export default function HeroSection({headline, subhead, cta, image}: {headline: 
       {/* Gradients & Texture */}
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-dusk/40 via-transparent to-dusk" />
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-dusk/20 to-dusk/80" />
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_18%_88%,rgba(111,114,67,0.22),transparent_55%)]" />
       <div className="grain absolute inset-0 z-0 mix-blend-overlay" />
 
       {/* Content */}
@@ -88,7 +91,7 @@ export default function HeroSection({headline, subhead, cta, image}: {headline: 
         transition={{delay: 1.5, duration: 1}}
         className="absolute bottom-5 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-3 sm:flex md:bottom-7"
       >
-        <span className="text-[10px] uppercase tracking-wide text-cream/70">Scroll</span>
+        <span className="text-[10px] uppercase tracking-wide text-cream/70">{locale === 'fr' ? 'Défiler' : 'Scroll'}</span>
         <div className="h-14 w-[1px] overflow-hidden bg-cream/20">
           <motion.div
             animate={{y: ['-100%', '100%']}}

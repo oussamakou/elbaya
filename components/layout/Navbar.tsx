@@ -29,11 +29,28 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Mobile menu: close on Escape and lock background scroll while open.
+  // Mobile menu: close on Escape, trap focus inside the dialog, and lock
+  // background scroll while open.
   useEffect(() => {
     if (!open) return;
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Tab') {
+        const menu = document.getElementById('mobile-menu');
+        if (!menu) return;
+        const focusables = menu.querySelectorAll<HTMLElement>('a[href], button:not([disabled])');
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        const active = document.activeElement;
+        if (event.shiftKey && (active === first || !menu.contains(active))) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && (active === last || !menu.contains(active))) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
     };
     document.addEventListener('keydown', onKey);
     document.body.style.overflow = 'hidden';
@@ -54,26 +71,35 @@ export default function Navbar() {
           <Image
             fill
             sizes="(max-width: 768px) 112px, 128px"
-            src="/assets/images/logo.png"
+            src="/assets/images/logo.webp"
             alt="Farm El Baya logo"
             className="object-contain object-left"
             priority
           />
         </Link>
         <div className="hidden items-center gap-8 text-sm font-medium md:flex">
-          {links.map(([href, label]) => (
-            <Link key={href} href={`/${href}`} className={`${href === 'forge' ? 'opacity-70' : ''} transition hover:text-terracotta hover:opacity-100`}>
-              {label}
-            </Link>
-          ))}
+          {links.map(([href, label]) => {
+            const active = pathname === `/${href}`;
+            return (
+              <Link key={href} href={`/${href}`} className={`group relative flex items-center gap-2 ${href === 'forge' ? 'opacity-70' : ''} transition hover:text-olive hover:opacity-100`}>
+                <span className={`h-1 w-1 rounded-full bg-olive transition-opacity ${active ? 'opacity-100' : 'opacity-0 group-hover:opacity-60'}`} />
+                {label}
+              </Link>
+            );
+          })}
         </div>
         <div className="hidden items-center gap-3 md:flex">
           <LanguageToggle />
-          <Link href={isForge ? '/forge#apply' : '/book'} className={`rounded-full px-5 py-2.5 text-sm font-medium transition active:scale-[0.96] ${isForge ? 'border border-cream/60 hover:bg-cream/20' : 'bg-terracotta text-cream hover:bg-terracotta-dark'}`}>
+          <Link href={isForge ? '/forge#apply' : '/book'} className={`rounded-full px-5 py-2.5 text-sm font-medium transition active:scale-[0.96] ${isForge ? 'border border-cream/60 hover:bg-cream/20' : 'bg-olive text-cream hover:bg-olive-dark'}`}>
             {isForge ? `${t('apply')} →` : t('bookNow')}
           </Link>
         </div>
-        <button onClick={() => setOpen(true)} className="-m-2 p-2 md:hidden" aria-label="Open menu" aria-expanded={open} aria-controls="mobile-menu"><Menu /></button>
+        <div className="flex items-center gap-3 md:hidden">
+          <Link href={isForge ? '/forge#apply' : '/book'} className={`inline-flex min-h-10 items-center rounded-full px-4 text-sm font-medium transition active:scale-[0.96] ${isForge ? 'border border-cream/60 hover:bg-cream/20' : 'bg-olive text-cream hover:bg-olive-dark'}`}>
+            {isForge ? t('apply') : t('bookNow')}
+          </Link>
+          <button onClick={() => setOpen(true)} className="-m-2 p-2" aria-label="Open menu" aria-expanded={open} aria-controls="mobile-menu"><Menu /></button>
+        </div>
       </nav>
       {open && (
         <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" className={`fixed inset-0 z-50 flex min-h-screen flex-col bg-sand px-6 py-6 text-earth md:hidden`}>
@@ -83,7 +109,7 @@ export default function Navbar() {
           </div>
           <div className="mt-auto flex items-center justify-between">
             <LanguageToggle />
-            <Link href="/book" onClick={() => setOpen(false)} className="rounded-full bg-terracotta px-5 py-3 text-sm font-medium text-cream transition hover:bg-terracotta-dark active:scale-[0.96]">{t('bookNow')}</Link>
+            <Link href="/book" onClick={() => setOpen(false)} className="rounded-full bg-olive px-5 py-3 text-sm font-medium text-cream transition hover:bg-olive-dark active:scale-[0.96]">{t('bookNow')}</Link>
           </div>
         </div>
       )}

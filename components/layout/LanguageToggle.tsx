@@ -18,7 +18,7 @@ export default function LanguageToggle() {
         <button
           key={item}
           onClick={() => switchTo(item)}
-          className={`inline-flex min-h-10 min-w-10 items-center justify-center rounded-full px-3 transition-[opacity,background-color] ${locale === item ? 'bg-terracotta text-cream' : 'opacity-65 hover:opacity-100'}`}
+          className={`inline-flex min-h-10 min-w-10 items-center justify-center rounded-full px-3 transition-[opacity,background-color] ${locale === item ? 'bg-olive text-cream' : 'opacity-65 hover:opacity-100'}`}
           aria-label={`Switch to ${item.toUpperCase()}`}
         >
           {item.toUpperCase()}

@@ -20,12 +20,12 @@ export default function FaqBlock({locale}: {locale: string}) {
     <section className="px-5 py-20">
       <div className="mx-auto max-w-4xl">
         <h2 className="font-serif text-5xl italic">{locale === 'fr' ? 'Questions pratiques' : 'Practical questions'}</h2>
-        <div className="mt-8 divide-y divide-mist border-y border-mist">
+        <div className="mt-8 divide-y divide-olive/15 border-y border-olive/15">
           {items.map(([question, answer]) => (
             <details key={question} className="group py-5">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-5 text-lg font-medium">
                 {question}
-                <span className="text-2xl leading-none text-terracotta group-open:rotate-45">+</span>
+                <span className="text-2xl leading-none text-olive transition-transform duration-300 group-open:rotate-45">+</span>
               </summary>
               <p className="mt-4 max-w-2xl leading-7 text-earth/75">{answer}</p>
             </details>

@@ -62,7 +62,7 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
       <MovementFamilySection locale={locale} />
       <BookingConfidence locale={locale} />
       <PhotoGrid photos={photos} />
-      <TrustReviews heading={content.reviews.heading} subhead={content.reviews.subhead} reviews={content.reviews.items} />
+      <TrustReviews heading={content.reviews.heading} subhead={content.reviews.subhead} locale={locale} />
       <ForgeTeaser content={content.forge} />
     </>
   );

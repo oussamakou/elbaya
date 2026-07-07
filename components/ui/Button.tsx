@@ -4,14 +4,15 @@ import type {ComponentProps, ReactNode} from 'react';
 type Props = {
   children: ReactNode;
   href?: string;
-  variant?: 'primary' | 'ghost' | 'dark';
+  variant?: 'primary' | 'ghost' | 'dark' | 'light';
   className?: string;
 } & ComponentProps<'button'>;
 
 const styles = {
-  primary: 'bg-terracotta text-cream hover:bg-terracotta-dark',
+  primary: 'bg-olive text-cream hover:bg-olive-dark',
   ghost: 'border border-earth/40 text-earth hover:bg-earth hover:text-cream',
-  dark: 'border border-cream/55 text-cream hover:bg-cream/20'
+  dark: 'border border-cream/55 text-cream hover:bg-cream/20',
+  light: 'bg-cream text-earth hover:bg-mist'
 };
 
 export default function Button({children, href, variant = 'primary', className = '', ...props}: Props) {

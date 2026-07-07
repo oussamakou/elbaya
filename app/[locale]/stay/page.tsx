@@ -61,7 +61,7 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
       </section>
       <section className="bg-cream px-5 py-20">
         <div className="mx-auto max-w-4xl text-center">
-          <p className="text-xs font-medium uppercase tracking-label text-bark">{content.cabin.label}</p>
+          <p className="text-xs font-medium uppercase tracking-label text-olive">{content.cabin.label}</p>
           <h2 className="mt-4 font-serif text-6xl italic">{content.cabin.heading}</h2>
           <p className="mx-auto mt-5 max-w-2xl leading-8 text-earth/75">{content.cabin.text}</p>
           <WhatsAppLink
@@ -70,7 +70,7 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
             message={fr
               ? 'Bonjour Mahdi, prévenez-moi quand la Cabane aux Oliviers sera prête.'
               : 'Hi Mahdi, please let me know when the Olive Cabin is ready.'}
-            className="mt-8 inline-flex items-center justify-center rounded-full bg-terracotta px-6 py-3 text-sm font-medium text-cream transition-[scale,background-color] duration-300 hover:bg-terracotta-dark active:scale-[0.96]"
+            className="mt-8 inline-flex items-center justify-center rounded-full bg-olive px-6 py-3 text-sm font-medium text-cream transition-[scale,background-color] duration-300 hover:bg-olive-dark active:scale-[0.96]"
           >
             {content.cabin.button}
           </WhatsAppLink>

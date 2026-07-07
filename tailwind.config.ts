@@ -5,12 +5,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        olive: '#5C5E2F',
+        olive: '#6F7243',
+        'olive-dark': '#565932',
+        'olive-light': '#A4A887',
         sand: '#F5F0E8',
         cream: '#FAF7F2',
-        terracotta: '#C4622D',
         earth: '#2C1810',
-        bark: '#8B6914',
         dusk: '#1A1A14',
         mist: '#EDE8DF'
       },

@@ -9,7 +9,7 @@ export default function GettingHere({locale}: {locale: string}) {
     <section className="px-5 py-20">
       <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-center">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-label text-bark">{fr ? 'Arriver à la ferme' : 'Getting here'}</p>
+          <p className="text-xs font-semibold uppercase tracking-label text-olive">{fr ? 'Arriver à la ferme' : 'Getting here'}</p>
           <h2 className="mt-3 font-serif text-5xl italic leading-tight">{fr ? 'Près de Testour, à une heure de Tunis.' : 'Near Testour, one hour from Tunis.'}</h2>
           <p className="mt-5 max-w-xl leading-8 text-earth/75">
             {fr
@@ -23,14 +23,14 @@ export default function GettingHere({locale}: {locale: string}) {
             ? [['Tunis', 'Environ 1 heure en voiture'], ['Testour', 'Environ 15 minutes'], ['Parking', 'Gratuit sur place'], ['Arrivée', 'Détails envoyés après confirmation']]
             : [['Tunis', 'About 1 hour by car'], ['Testour', 'About 15 minutes away'], ['Parking', 'Free on site'], ['Arrival', 'Exact details sent after confirmation']]
           ).map(([label, value]) => (
-            <div key={label} className="border border-mist bg-cream p-6">
-              <p className="text-xs font-semibold uppercase tracking-label text-bark">{label}</p>
+            <div key={label} className="border border-olive/15 bg-cream p-6">
+              <p className="text-xs font-semibold uppercase tracking-label text-olive">{label}</p>
               <p className="mt-2 text-lg font-medium">{value}</p>
             </div>
           ))}
         </div>
       </div>
-      <div className="mx-auto mt-10 max-w-7xl overflow-hidden rounded-card border border-mist bg-cream">
+      <div className="mx-auto mt-10 max-w-7xl overflow-hidden rounded-card border border-olive/15 bg-cream">
         <MapEmbed src={mapSrc} title="Farm El Baya on Google Maps" label={fr ? 'Afficher la carte' : 'Show map'} />
       </div>
     </section>

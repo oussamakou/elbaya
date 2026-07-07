@@ -14,20 +14,21 @@ const SCRIPT_SRC = 'https://app.lodgify.com/book-now-box/stable/renderBookNowBox
 const theme: CSSProperties = {
   display: 'block',
   width: '100%',
-  // Farm El Baya palette — terracotta primary, cream surface, your fonts.
+  minHeight: '246px',
+  // Farm El Baya palette — olive primary (from the logo), cream surface, your fonts.
   ['--ldg-bnb-background' as string]: '#FAF7F2',
   ['--ldg-bnb-border-radius' as string]: '8px',
   ['--ldg-bnb-box-shadow' as string]: '0px 16px 40px -12px rgba(44, 24, 16, 0.18)',
   ['--ldg-bnb-padding' as string]: '14px',
   ['--ldg-bnb-input-background' as string]: '#ffffff',
   ['--ldg-bnb-button-border-radius' as string]: '9999px',
-  ['--ldg-bnb-color-primary' as string]: '#C4622D',
-  ['--ldg-bnb-color-primary-lighter' as string]: '#E0A483',
-  ['--ldg-bnb-color-primary-darker' as string]: '#A8501C',
+  ['--ldg-bnb-color-primary' as string]: '#6F7243',
+  ['--ldg-bnb-color-primary-lighter' as string]: '#A4A887',
+  ['--ldg-bnb-color-primary-darker' as string]: '#565932',
   ['--ldg-bnb-color-primary-contrast' as string]: '#FAF7F2',
-  ['--ldg-component-calendar-cell-selection-bg-color' as string]: '#C4622D',
+  ['--ldg-component-calendar-cell-selection-bg-color' as string]: '#6F7243',
   ['--ldg-component-calendar-cell-selection-color' as string]: '#FAF7F2',
-  ['--ldg-component-calendar-cell-selected-bg-color' as string]: '#F0DDD0',
+  ['--ldg-component-calendar-cell-selected-bg-color' as string]: '#E4E5D3',
   ['--ldg-component-calendar-cell-selected-color' as string]: '#2C1810',
   ['--ldg-bnb-font-family' as string]: 'inherit'
 };
@@ -87,19 +88,35 @@ export default function LodgifyWidget({locale}: {locale: string}) {
   const lang = locale === 'fr' ? 'fr' : 'en';
   const t = labels[lang];
   const containerRef = useRef<HTMLDivElement>(null);
+  const scriptRef = useRef<HTMLScriptElement | null>(null);
 
   // The Lodgify script renders by scanning the DOM for #lodgify-book-now-box when it
-  // executes. With Next.js client-side navigation the script only runs once on full
-  // load, so we (re)append it on every mount so the widget renders on each visit.
+  // executes (it exposes no global API). With Next.js client-side navigation the
+  // script only runs once on full load, so we (re)append it on every mount to render
+  // on each visit. The injection itself is deferred one tick: React Strict Mode
+  // replays mount -> cleanup -> mount synchronously in dev, and injecting the script
+  // immediately would run Lodgify's (non-reentrant) bundle twice back to back against
+  // the same container, which throws inside its internals. Deferring lets the
+  // synchronous replay's cleanup cancel the first injection before it ever fires, so
+  // the script only actually loads once.
   useEffect(() => {
     const container = containerRef.current;
-    const script = document.createElement('script');
-    script.src = SCRIPT_SRC;
-    script.async = true;
-    document.body.appendChild(script);
+    if (!container) return;
+    let cancelled = false;
+    const timer = window.setTimeout(() => {
+      if (cancelled) return;
+      container.innerHTML = '';
+      const script = document.createElement('script');
+      script.src = SCRIPT_SRC;
+      script.async = true;
+      document.body.appendChild(script);
+      scriptRef.current = script;
+    }, 0);
     return () => {
-      script.remove();
-      if (container) container.innerHTML = '';
+      cancelled = true;
+      window.clearTimeout(timer);
+      scriptRef.current?.remove();
+      scriptRef.current = null;
     };
   }, [lang]);
 

@@ -11,9 +11,9 @@ const ALT_TEXT: Record<string, string> = {
   'startgazing_nightsky.webp': 'Stargazing under the night sky',
   'room_exterior_vibe.webp': "The room's outdoor setting among the olive trees",
   'pullups_dips_bars_in_thefarm.webp': 'Calisthenics bars set among the trees',
-  'mouvement_research.png': 'The Mouvement Research practice space',
-  'handstand_practice.png': 'Handstand practice on the farm',
-  'kids_training.png': 'Children playing in the family area',
+  'mouvement_research.webp': 'The Mouvement Research practice space',
+  'handstand_practice.webp': 'Handstand practice on the farm',
+  'kids_training.webp': 'Children playing in the family area',
   'outside_kitchen_fireplace.webp': 'The outdoor kitchen fireplace',
   'open_air_kitchen.webp': 'The open-air farm kitchen',
   'livestock.webp': 'Farm animals grazing the land',
@@ -45,10 +45,10 @@ export default function PhotoGrid({photos}: {photos: string[]}) {
               className="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-105 will-change-transform"
             />
             {/* Elegant overlay on hover */}
-            <div className="absolute inset-0 bg-gradient-to-t from-dusk/60 via-dusk/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 mix-blend-multiply" />
-            
+            <div className="absolute inset-0 bg-gradient-to-t from-olive/50 via-dusk/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 mix-blend-multiply" />
+
             {/* Subtle border to frame the image */}
-            <div className="absolute inset-0 border border-sand/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
+            <div className="absolute inset-0 border border-olive/30 opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
           </motion.div>
         ))}
       </div>

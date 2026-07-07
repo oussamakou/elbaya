@@ -6,13 +6,12 @@ The single source of truth for tokens, patterns, and conventions. All tokens liv
 
 | Token | Hex | Use |
 |---|---|---|
-| `olive` | `#5C5E2F` | Secondary accent (movement, nature), WhatsApp float |
+| `olive` | `#6F7243` | **Primary** — buttons, links, focus ring, accents (logo olive, darkened for AA contrast on cream/sand) |
+| `olive-dark` | `#565932` | **Primary hover only** (`hover:bg-olive-dark`) |
+| `olive-light` | `#A4A887` | Olive accents on dark sections (eyebrows, focus borders) — the logo's lighter strokes |
 | `sand` | `#F5F0E8` | Page background, light surfaces |
 | `cream` | `#FAF7F2` | Cards, text on dark |
-| `terracotta` | `#C4622D` | **Primary** — buttons, links, focus ring, accents |
-| `terracotta-dark` | `#A8501C` | **Primary hover only** (`hover:bg-terracotta-dark`) |
-| `earth` | `#2C1810` | Body text, dark sections |
-| `bark` | `#8B6914` | Eyebrow/label text, fine print |
+| `earth` | `#2C1810` | Body text; `ghost` button hover |
 | `dusk` | `#1A1A14` | Darkest surfaces (Forge, hero overlays) |
 | `mist` | `#EDE8DF` | Borders, image placeholders |
 
@@ -41,17 +40,17 @@ Spacing rhythm (Tailwind scale): full sections `py-20`/`py-24`; cards `p-6`; gri
 ## Components & patterns
 
 ### Buttons
-Prefer the [`Button`](components/ui/Button.tsx) component (`primary` | `ghost` | `dark`). Conventions every button follows:
+Prefer the [`Button`](components/ui/Button.tsx) component (`primary` | `ghost` | `dark` | `light`). Conventions every button follows:
 - Press feedback: **`active:scale-[0.96]`** (never another value).
-- Primary hover: **`hover:bg-terracotta-dark`**. Dark hover: `hover:bg-cream/20`. Ghost hover: `hover:bg-earth hover:text-cream`.
+- Primary hover: **`hover:bg-olive-dark`**. Dark hover: `hover:bg-cream/20`. Ghost hover: `hover:bg-earth hover:text-cream`.
 - Transitions are **explicit** — never `transition-all`. Use `transition-[scale,background-color]`.
-- WhatsApp CTAs use [`WhatsAppLink`](components/ui/WhatsAppLink.tsx) with classes matching the Button variant for their context (terracotta on light, cream-outline on dark).
+- WhatsApp CTAs use [`WhatsAppLink`](components/ui/WhatsAppLink.tsx) with classes matching the Button variant for their context (olive on light, cream-outline on dark).
 
 ### Eyebrow (label) — canonical class
 ```
-text-xs font-semibold uppercase tracking-label text-bark
+text-xs font-semibold uppercase tracking-label text-olive
 ```
-Use `text-terracotta` on dark sections, `text-olive` on Forge.
+Use `text-olive-light` or `text-cream/80` on dark sections.
 
 ### Card — canonical class
 ```
@@ -65,7 +64,7 @@ border border-mist bg-sand/55 p-6                  (subtle, on cream sections)
 - Booking-card width: `max-w-lg`.
 
 ## Accessibility conventions
-- **Keyboard focus:** global `:focus-visible` terracotta ring (in `globals.css`) — do not remove outlines without providing a custom indicator.
+- **Keyboard focus:** global `:focus-visible` olive ring (in `globals.css`) — do not remove outlines without providing a custom indicator.
 - **Touch targets:** interactive controls ≥ 40px (`min-h-10`).
 - **Motion:** all respect `prefers-reduced-motion` (global).
 - **Images:** every content image needs a descriptive `alt`; only true backgrounds use `alt=""`.
