@@ -13,8 +13,8 @@ export default function GettingHere({locale}: {locale: string}) {
           <h2 className="mt-3 font-serif text-5xl italic leading-tight">{fr ? 'Près de Testour, à une heure de Tunis.' : 'Near Testour, one hour from Tunis.'}</h2>
           <p className="mt-5 max-w-xl leading-8 text-earth/75">
             {fr
-              ? 'La ferme est facile à rejoindre en voiture et les détails exacts sont envoyés après votre demande. Parking gratuit sur place.'
-              : 'The farm is easiest to reach by car, and exact arrival details are shared after your booking request. Free parking is available on site.'}
+              ? 'La ferme se trouve au village de Slouguia, près de Testour - prenez la sortie de Testour sur l\'autoroute de Béja. Les détails exacts sont envoyés après votre demande, et le parking est gratuit sur place.'
+              : 'The farm is in Slouguia village, near Testour - take the Testour exit off the Béja highway. Exact directions are shared after your booking request, and free parking is available on site.'}
           </p>
           <Button href="/book" className="mt-8">{fr ? 'Demander les disponibilités' : 'Request availability'}</Button>
         </div>

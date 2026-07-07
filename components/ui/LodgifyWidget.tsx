@@ -129,7 +129,7 @@ export default function LodgifyWidget({locale}: {locale: string}) {
       data-website-id={WEBSITE_ID}
       data-slug={SLUG}
       data-language-code={lang}
-      data-new-tab="true"
+      data-new-tab="false"
       data-version="stable"
       data-has-guests-breakdown
       data-check-in-label={t.checkIn}

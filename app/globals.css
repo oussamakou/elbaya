@@ -159,3 +159,14 @@ h1, h2, h3 {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* Lodgify "book now box" widget (components/ui/LodgifyWidget.tsx) ships with no
+   horizontal padding on its date-picker trigger, unlike its own Guests and Book
+   buttons (which use 8-16px). Its class names are CSS-in-JS hashes that change on
+   every Lodgify release, so this targets the widget's own stable data-testid
+   instead of a class name. Purely additive: if Lodgify ever removes this testid,
+   the rule just stops matching rather than breaking anything. */
+#lodgify-book-now-box [data-testid="book-now-box.date-picker.trigger"] {
+  padding-left: 16px;
+  padding-right: 16px;
+}
