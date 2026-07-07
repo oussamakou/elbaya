@@ -9,17 +9,11 @@ const ALT_TEXT: Record<string, string> = {
   'room-interior.webp': 'Inside a private room at Farm El Baya',
   'trail_in_thefarm.webp': 'A walking trail through the farm',
   'startgazing_nightsky.webp': 'Stargazing under the night sky',
-  'room_exterior_vibe.webp': "The room's outdoor setting among the olive trees",
   'pullups_dips_bars_in_thefarm.webp': 'Calisthenics bars set among the trees',
-  'mouvement_research.webp': 'The Mouvement Research practice space',
   'handstand_practice.webp': 'Handstand practice on the farm',
-  'kids_training.webp': 'Children playing in the family area',
-  'outside_kitchen_fireplace.webp': 'The outdoor kitchen fireplace',
   'open_air_kitchen.webp': 'The open-air farm kitchen',
-  'livestock.webp': 'Farm animals grazing the land',
   'beekeeping_activity.webp': 'Beekeeping among the olive groves',
-  'baby_goat_looking_at_camera.webp': 'A baby goat on the farm',
-  'rooftop_nightsky.webp': 'The farm rooftop under a starry sky'
+  'baby_goat_looking_at_camera.webp': 'A baby goat on the farm'
 };
 
 export default function PhotoGrid({photos}: {photos: string[]}) {

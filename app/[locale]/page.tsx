@@ -5,7 +5,7 @@ import HeroSection from '@/components/sections/HeroSection';
 import QuoteBanner from '@/components/sections/QuoteBanner';
 import ThreePillars from '@/components/sections/ThreePillars';
 import PhotoGrid from '@/components/ui/PhotoGrid';
-import ForgeTeaser from '@/components/sections/ForgeTeaser';
+import ForgeBanner from '@/components/sections/ForgeBanner';
 import QuickFacts from '@/components/sections/QuickFacts';
 import TrustReviews from '@/components/sections/TrustReviews';
 import BookingConfidence from '@/components/sections/BookingConfidence';
@@ -59,11 +59,11 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
       <QuickFacts facts={facts} />
       <QuoteBanner quote={content.quote} />
       <ThreePillars items={content.pillars} />
-      <MovementFamilySection locale={locale} />
-      <BookingConfidence locale={locale} />
+      <MovementFamilySection locale={locale} compact />
       <PhotoGrid photos={photos} />
       <TrustReviews heading={content.reviews.heading} subhead={content.reviews.subhead} locale={locale} />
-      <ForgeTeaser content={content.forge} />
+      <BookingConfidence locale={locale} />
+      <ForgeBanner content={content.forge} />
     </>
   );
 }

@@ -24,22 +24,20 @@ export function getContent<T extends PageKey>(locale: string, page: T) {
   return content[safeLocale][page];
 }
 
+// Nine distinct stories, not fifteen near-duplicates: each photo earns its
+// slot by showing something the others don't. room_exterior_vibe and
+// rooftop_nightsky are dropped here because they're already the hero image
+// and the RoomShowcase/farm-page hero elsewhere on the site.
 export const photos = [
   'breakfast.webp',
   'room-interior.webp',
   'trail_in_thefarm.webp',
   'startgazing_nightsky.webp',
-  'room_exterior_vibe.webp',
   'pullups_dips_bars_in_thefarm.webp',
-  'mouvement_research.webp',
   'handstand_practice.webp',
-  'kids_training.webp',
-  'outside_kitchen_fireplace.webp',
-  'open_air_kitchen.webp',
-  'livestock.webp',
   'beekeeping_activity.webp',
-  'baby_goat_looking_at_camera.webp',
-  'rooftop_nightsky.webp'
+  'open_air_kitchen.webp',
+  'baby_goat_looking_at_camera.webp'
 ];
 
 export function img(name: string) {
