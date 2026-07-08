@@ -1,8 +1,6 @@
-'use client';
-
 import Image from 'next/image';
-import {motion} from 'framer-motion';
 import {img} from '@/content';
+import Reveal from '@/components/ui/Reveal';
 
 const ALT_TEXT: Record<string, string> = {
   'breakfast.webp': 'Farm breakfast spread at Farm El Baya',
@@ -21,12 +19,9 @@ export default function PhotoGrid({photos}: {photos: string[]}) {
     <section className="px-4 pb-32 md:px-8">
       <div className="mx-auto columns-1 gap-6 space-y-6 sm:columns-2 lg:columns-3 max-w-7xl">
         {photos.map((photo, index) => (
-          <motion.div 
-            key={photo} 
-            initial={{opacity: 0, y: 30}}
-            whileInView={{opacity: 1, y: 0}}
-            viewport={{once: true, margin: '-50px'}}
-            transition={{duration: 0.7, delay: (index % 3) * 0.15, ease: 'easeOut'}}
+          <Reveal
+            key={photo}
+            delay={(index % 3) * 0.15}
             className="group relative mb-6 break-inside-avoid overflow-hidden bg-mist rounded-card"
           >
             {/* The image itself */}
@@ -43,7 +38,7 @@ export default function PhotoGrid({photos}: {photos: string[]}) {
 
             {/* Subtle border to frame the image */}
             <div className="absolute inset-0 border border-olive/30 opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
-          </motion.div>
+          </Reveal>
         ))}
       </div>
     </section>

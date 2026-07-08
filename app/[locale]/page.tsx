@@ -28,14 +28,14 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
         {label: 'Tarif direct', value: 'Dès 180 DT / nuit'},
         {label: 'Sur la ferme', value: 'Mouvement, animaux, oliviers'},
         {label: 'Distance', value: '1 heure de Tunis'},
-        {label: 'Famille', value: 'Aire de jeux et Mouvement Research'}
+        {label: 'Famille', value: 'Espace ouvert et mouvement'}
       ]
     : [
         {label: 'Room', value: 'Baya Room · sleeps 3'},
         {label: 'Direct rate', value: 'From 180 DT / night'},
         {label: 'On the farm', value: 'Movement, animals, olive groves'},
         {label: 'Distance', value: '1 hour from Tunis'},
-        {label: 'Families', value: 'Playground & Mouvement Research'}
+        {label: 'Families', value: 'Open farm space & movement area'}
       ];
 
   const jsonLd = {

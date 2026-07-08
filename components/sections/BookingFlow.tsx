@@ -1,13 +1,31 @@
 'use client';
 
 import {useEffect, useState} from 'react';
-import {AnimatePresence, motion, useReducedMotion} from 'framer-motion';
+import {useSearchParams} from 'next/navigation';
+import dynamic from 'next/dynamic';
 import {Globe2, MapPin} from 'lucide-react';
-import LodgifyWidget from '@/components/ui/LodgifyWidget';
 import WhatsAppLink from '@/components/ui/WhatsAppLink';
-import TunisiaAvailabilityCalendar from '@/components/sections/TunisiaAvailabilityCalendar';
 
 type BookingMode = 'international' | 'tunisia';
+
+function BookingPanelSkeleton() {
+  return (
+    <div className="min-h-[246px] animate-pulse rounded-card border border-olive/15 bg-cream p-5" aria-busy="true">
+      <div className="h-11 rounded-md bg-mist" />
+      <div className="mt-4 h-11 rounded-md bg-mist" />
+      <div className="mt-5 h-12 rounded-full bg-olive/20" />
+    </div>
+  );
+}
+
+// Each booking path is downloaded only after the visitor chooses it. In
+// particular, this keeps Lodgify's third-party bundle off the initial page.
+const LodgifyWidget = dynamic(() => import('@/components/ui/LodgifyWidget'), {
+  loading: BookingPanelSkeleton
+});
+const TunisiaAvailabilityCalendar = dynamic(() => import('@/components/sections/TunisiaAvailabilityCalendar'), {
+  loading: BookingPanelSkeleton
+});
 
 const copy = {
   en: {
@@ -48,42 +66,43 @@ const copy = {
   }
 };
 
+function readModeParam(value: string | null): BookingMode | null {
+  return value === 'international' || value === 'tunisia' ? value : null;
+}
+
 export default function BookingFlow({locale}: {locale: string}) {
   const lang = locale === 'fr' ? 'fr' : 'en';
   const t = copy[lang];
-  const [mode, setMode] = useState<BookingMode>('international');
-  const reduceMotion = useReducedMotion();
+  const searchParams = useSearchParams();
+  const [mode, setMode] = useState<BookingMode | null>(() => readModeParam(searchParams.get('mode')));
 
+  // Re-reads the URL when it changes on an already-mounted page (e.g. the
+  // hero button linking to /book?mode=international triggers a client-side
+  // transition rather than a full reload, so the initial useState lazy
+  // initializer above won't re-run on its own).
   useEffect(() => {
-    try {
-      const savedMode = window.sessionStorage.getItem('farm-el-baya-booking-mode');
-      if (savedMode === 'international' || savedMode === 'tunisia') setMode(savedMode);
-    } catch {
-      // Storage can be unavailable in privacy-restricted browsing contexts.
-    }
-  }, []);
+    const paramMode = readModeParam(searchParams.get('mode'));
+    if (paramMode) setMode(paramMode);
+  }, [searchParams]);
 
   function selectMode(nextMode: BookingMode) {
     setMode(nextMode);
-    try {
-      window.sessionStorage.setItem('farm-el-baya-booking-mode', nextMode);
-    } catch {
-      // The booking choice still works for this render when storage is unavailable.
-    }
   }
-
-  const transition = reduceMotion ? {duration: 0} : {duration: 0.32, ease: [0.22, 1, 0.36, 1] as const};
-  const panelMotion = {
-    initial: reduceMotion ? {opacity: 0} : {opacity: 0, y: 8},
-    animate: {opacity: 1, y: 0},
-    exit: reduceMotion ? {opacity: 0} : {opacity: 0, y: -5}
-  };
 
   return (
     <div className="mx-auto max-w-2xl text-left">
       <div className="mx-auto max-w-lg">
         <p className="text-center text-xs font-semibold uppercase tracking-label text-olive">{t.chooser}</p>
-        <div className="mt-4 grid grid-cols-2 rounded-card border border-olive/20 bg-cream p-1.5" role="group" aria-label={t.chooser}>
+        <div className="relative mt-4 grid grid-cols-2 rounded-card border border-olive/20 bg-cream p-1.5" role="group" aria-label={t.chooser}>
+          {/* Sliding selection pill: sized to one grid cell, slides by its own
+              width when the Tunisia option is active. Reduced motion is handled
+              by the global prefers-reduced-motion rule in globals.css. */}
+          {mode && (
+            <span
+              aria-hidden="true"
+              className={`absolute inset-y-1.5 left-1.5 w-[calc(50%-0.375rem)] rounded-sm bg-olive transition-transform duration-300 ease-out ${mode === 'tunisia' ? 'translate-x-full' : 'translate-x-0'}`}
+            />
+          )}
           {([
             {value: 'international' as const, label: t.international, detail: t.internationalDetail, Icon: Globe2},
             {value: 'tunisia' as const, label: t.tunisia, detail: t.tunisiaDetail, Icon: MapPin}
@@ -95,15 +114,8 @@ export default function BookingFlow({locale}: {locale: string}) {
                 type="button"
                 aria-pressed={selected}
                 onClick={() => selectMode(value)}
-                className={`relative isolate min-h-14 rounded-md px-3 py-2 text-left transition-colors duration-200 ${selected ? 'text-cream' : 'text-earth hover:bg-mist'}`}
+                className={`relative min-h-14 rounded-sm px-3 py-2 text-left transition-colors duration-200 ${selected ? 'text-cream' : 'text-earth hover:bg-mist'}`}
               >
-                {selected && (
-                  <motion.span
-                    layoutId="booking-mode-selection"
-                    className="absolute inset-0 -z-10 rounded-md bg-olive"
-                    transition={transition}
-                  />
-                )}
                 <span className="flex items-center justify-center gap-2">
                   <Icon aria-hidden="true" className="h-4 w-4 shrink-0" strokeWidth={1.8} />
                   <span>
@@ -117,14 +129,8 @@ export default function BookingFlow({locale}: {locale: string}) {
         </div>
       </div>
 
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={`${mode}-intro`}
-          {...panelMotion}
-          transition={transition}
-          className="mx-auto mt-8 max-w-xl text-center"
-          aria-live="polite"
-        >
+      {/* Nothing expensive is mounted until the visitor explicitly chooses a path. */}
+      {mode && <div key={`${mode}-intro`} className="panel-enter mx-auto mt-8 max-w-xl text-center" aria-live="polite">
           <p className="text-xs font-semibold uppercase tracking-label text-olive">
             {mode === 'international' ? t.internationalEyebrow : t.tunisiaEyebrow}
           </p>
@@ -134,19 +140,12 @@ export default function BookingFlow({locale}: {locale: string}) {
           <p className="mt-3 text-sm leading-7 text-earth/75">
             {mode === 'international' ? t.internationalIntro : t.tunisiaIntro}
           </p>
-        </motion.div>
-      </AnimatePresence>
+      </div>}
 
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={`${mode}-booking`}
-          {...panelMotion}
-          transition={transition}
-          className="mx-auto mt-7 max-w-lg"
-        >
+      {mode && <div key={`${mode}-booking`} className="panel-enter mx-auto mt-7 max-w-lg" style={{animationDelay: '90ms'}}>
           {mode === 'international' ? (
             <>
-              <p className="mb-3 text-xs font-semibold uppercase tracking-label text-olive">{t.calendar}</p>
+              <p className="mb-3 text-center text-xs font-semibold uppercase tracking-label text-olive">{t.calendar}</p>
               <LodgifyWidget locale={locale} />
               <div className="mt-6 overflow-hidden rounded-card border border-olive/15 bg-cream p-6">
                 <p className="text-xs font-semibold uppercase tracking-label text-olive">{t.internationalNoteTitle}</p>
@@ -162,8 +161,7 @@ export default function BookingFlow({locale}: {locale: string}) {
           ) : (
             <TunisiaAvailabilityCalendar locale={locale} />
           )}
-        </motion.div>
-      </AnimatePresence>
+      </div>}
     </div>
   );
 }

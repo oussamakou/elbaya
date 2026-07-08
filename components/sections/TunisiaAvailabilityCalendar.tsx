@@ -272,7 +272,7 @@ export default function TunisiaAvailabilityCalendar({locale}: {locale: string}) 
               aria-label={`${dayLabel}, ${statusLabel}`}
               aria-pressed={endpoint || withinRange}
               aria-current={key === availability.today ? 'date' : undefined}
-              className={`relative flex h-11 items-center justify-center rounded-md text-sm font-medium transition-[scale,background-color,color] duration-200 active:scale-[0.94] disabled:cursor-not-allowed ${
+              className={`relative flex h-11 items-center justify-center rounded-md text-sm font-medium transition-[scale,background-color,color] duration-200 active:scale-[0.96] disabled:cursor-not-allowed ${
                 endpoint
                   ? 'bg-olive text-cream'
                   : withinRange

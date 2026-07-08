@@ -42,13 +42,13 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
   return (
     <>
       <section className="relative flex min-h-[76vh] items-end overflow-hidden bg-dusk px-5 pb-20 text-cream">
-        <Image src={img('room-interior.webp')} alt="Inside the Baya Room at Farm El Baya" fill priority sizes="100vw" className="object-cover animate-breathe opacity-85" />
+        <Image src={img('room-interior.webp')} alt="Inside the Baya Room at Farm El Baya" fill preload fetchPriority="high" sizes="100vw" className="object-cover animate-breathe opacity-85" />
         <div className="absolute inset-0 bg-gradient-to-t from-dusk via-dusk/25 to-transparent" />
         <h1 className="relative mx-auto max-w-7xl font-serif text-6xl italic md:text-7xl">{content.hero}</h1>
       </section>
       <QuickFacts facts={facts} />
       <section className="px-5 py-20 text-center">
-        <p className="mx-auto max-w-3xl font-serif text-3xl leading-snug md:text-4xl">{content.intro}</p>
+        <p className="mx-auto max-w-3xl font-serif text-3xl italic leading-snug md:text-4xl">{content.intro}</p>
         <Button href="/book" className="mt-8">{fr ? 'Vérifier les disponibilités' : 'Check availability'}</Button>
       </section>
       <RoomShowcase locale={locale} />
@@ -56,7 +56,20 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
       <section className="px-5 py-20">
         <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-[1.1fr_.9fr]">
           <Image src={img('breakfast.webp')} alt="A farm breakfast laid out at Farm El Baya" width={900} height={720} sizes="(min-width: 768px) 55vw, 100vw" className="rounded-card object-cover" />
-          <Reveal><h2 className="font-serif text-5xl italic">{content.breakfast.heading}</h2><p className="mt-6 leading-8 text-earth/75">{content.breakfast.text}</p></Reveal>
+          <Reveal>
+            <h2 className="font-serif text-5xl italic">{content.breakfast.heading}</h2>
+            <p className="mt-6 leading-8 text-earth/75">{content.breakfast.text}</p>
+            <WhatsAppLink
+              locale={locale}
+              event="breakfast_question_click"
+              message={fr
+                ? 'Bonjour Mahdi, j’ai une question sur le petit-déjeuner à Farm El Baya.'
+                : 'Hi Mahdi, I have a question about breakfast at Farm El Baya.'}
+              className="mt-8 inline-flex items-center justify-center rounded-full bg-olive px-6 py-3 text-sm font-medium text-cream transition-[scale,background-color] duration-300 hover:bg-olive-dark active:scale-[0.96]"
+            >
+              {fr ? 'Discutons' : "Let's Connect"}
+            </WhatsAppLink>
+          </Reveal>
         </div>
       </section>
       <section className="bg-cream px-5 py-20">

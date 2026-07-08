@@ -6,7 +6,7 @@ const policies = {
     ['Cancellation', 'Free cancellation up to 7 days before arrival when no special event or group booking applies.'],
     ['Payment', 'International guests pay the deposit online with PayPal. Guests in Tunisia arrange a local bank transfer with Mahdi. The balance is settled on arrival.'],
     ['Meals', 'Farm breakfast on request (20 DT). Lunch and dinner on request (40 DT each), confirmed before arrival.'],
-    ['Families', 'Families and children are welcome. The farm includes open outdoor space and a kids playground area. Please mention children ages in the booking notes.'],
+    ['Families', "Families and children are welcome. The farm includes open outdoor space for kids to explore. Please mention children's ages in the booking notes."],
     ['Parking', 'Free on-site parking is available. A car is recommended for the easiest arrival.'],
     ['Wi-Fi', 'Wi-Fi is available for basic use. This is a rural farm, so connection quality can vary.'],
     ['Animals', 'The farm has free-roaming animals and working dogs. Please ask before bringing pets.']
@@ -18,7 +18,7 @@ const policies = {
     ['Annulation', "Annulation gratuite jusqu'à 7 jours avant l'arrivée, hors événement spécial ou groupe."],
     ['Paiement', "Les hôtes internationaux règlent l'acompte en ligne avec PayPal. En Tunisie, l'acompte se fait par virement local avec Mahdi. Le solde est réglé à l'arrivée."],
     ['Repas', "Petit-déjeuner de la ferme sur demande (20 DT). Déjeuner et dîner sur demande (40 DT chacun), confirmés avant l'arrivée."],
-    ['Familles', 'Les familles et enfants sont bienvenus. La ferme inclut des espaces extérieurs et une aire de jeux enfants. Indiquez les âges dans votre demande.'],
+    ['Familles', 'Les familles et enfants sont bienvenus. La ferme offre de grands espaces extérieurs à explorer. Indiquez les âges des enfants dans votre demande.'],
     ['Parking', 'Parking gratuit sur place. Une voiture est recommandée pour arriver facilement.'],
     ['Wi-Fi', 'Wi-Fi disponible pour un usage simple. La connexion peut varier en zone rurale.'],
     ['Animaux', 'La ferme a des animaux en liberté et des chiens de travail. Demandez avant de venir avec un animal.']

@@ -6,13 +6,12 @@ const copy = {
   en: {
     eyebrow: 'Movement and family space',
     heading: 'A farm where bodies can move.',
-    text: 'Farm El Baya now includes Mahdi’s Mouvement Research space: an indoor and outdoor practice environment for handstands, calisthenics, mobility, rings, climbing, and playful physical exploration.',
-    family: 'Families are welcome too. Children have open farm space and a dedicated playground area with trampoline-style play, so slow days are easier for parents and more alive for kids.',
+    text: 'Farm El Baya now includes Mahdi’s movement area: an indoor and outdoor space for yoga, calisthenics, mobility, rings, climbing, and playful physical exploration - part farm gym, part open ground for a run or parkour.',
+    family: 'Families are welcome too. Children have open farm space to roam and animals to meet, so slow days are easier for parents and more alive for kids.',
     cta: 'See experiences',
     cards: [
-      ['Mouvement Research', 'A training and research facility for strength, balance, mobility, rings, bodyweight practice.'],
-      ['Open-air practice', 'Move under the trees, practice handstands, or join simple morning movement when Mahdi is available.'],
-      ['Kids playground', 'A family-friendly play area with trampoline-style play and space for children to move outside.']
+      ['The Movement Area', 'Yoga, calisthenics, and a farm gym for strength, balance, mobility, rings, and bodyweight practice.'],
+      ['Open-air practice', 'Move under the trees, practice handstands, or join simple morning movement when Mahdi is available.']
     ],
     alts: {
       trampoline: 'Mahdi jumping on the trampoline with two children at Farm El Baya',
@@ -23,13 +22,12 @@ const copy = {
   fr: {
     eyebrow: 'Mouvement et espace famille',
     heading: 'Une ferme où le corps peut bouger.',
-    text: "Farm El Baya inclut maintenant l'espace Mouvement Research de Mahdi : un lieu intérieur et extérieur pour équilibres, callisthénie, mobilité, anneaux, grimpe et exploration physique.",
-    family: "Les familles sont bienvenues. Les enfants ont de l'espace sur la ferme et une aire de jeux dédiée avec trampoline, pour des journées plus simples pour les parents et plus vivantes pour les enfants.",
+    text: "Farm El Baya inclut maintenant l'espace mouvement de Mahdi : un lieu intérieur et extérieur pour le yoga, la callisthénie, la mobilité, les anneaux, la grimpe et l'exploration physique - une salle de sport à la ferme, avec de l'espace pour courir ou faire du parkour.",
+    family: "Les familles sont bienvenues. Les enfants ont de l'espace sur la ferme pour explorer et des animaux à rencontrer, pour des journées plus simples pour les parents et plus vivantes pour les enfants.",
     cta: 'Voir les expériences',
     cards: [
-      ['Mouvement Research', 'Un espace de pratique pour force, équilibre, mobilité, anneaux, poids du corps et grimpe.'],
-      ['Pratique en plein air', 'Bouger sous les arbres, travailler les équilibres ou rejoindre un mouvement matinal quand Mahdi est disponible.'],
-      ['Aire de jeux enfants', 'Un espace famille avec trampoline et de la place dehors pour que les enfants bougent.']
+      ["L'espace mouvement", "Yoga, callisthénie et salle de sport à la ferme pour la force, l'équilibre, la mobilité, les anneaux et le poids du corps."],
+      ['Pratique en plein air', 'Bouger sous les arbres, travailler les équilibres ou rejoindre un mouvement matinal quand Mahdi est disponible.']
     ],
     alts: {
       trampoline: 'Mahdi saute sur le trampoline avec deux enfants à Farm El Baya',
@@ -72,7 +70,7 @@ export default function MovementFamilySection({locale, compact = false}: {locale
         </div>
       </div>
       {!compact && (
-        <div className="mx-auto mt-10 grid max-w-7xl gap-4 md:grid-cols-3">
+        <div className="mx-auto mt-10 grid max-w-7xl gap-4 md:grid-cols-2">
           {t.cards.map(([title, text]) => (
             <article key={title} className="border border-olive/15 bg-sand/55 p-6">
               <h3 className="font-serif text-3xl italic">{title}</h3>

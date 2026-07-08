@@ -3,7 +3,7 @@
   "hero": "Une chambre privée sous les oliviers.",
   "intro": "Une seule chambre privée - la Chambre Baya - avec sa salle de bain, sa lumière et son calme. Le petit-déjeuner de la ferme est disponible chaque matin (20 DT). Ce n'est pas un hôtel. C'est une ferme vivante qui accueille un séjour à la fois.",
   "rooms": ["Chambre Baya"],
-  "breakfast": {"heading": "À quoi ressemble le petit-déjeuner", "text": "Ajoutez un petit-déjeuner de la ferme à chaque matin (20 DT). Œufs frais de la ferme. Huile d'olive pressée à partir des arbres que vous voyez depuis votre fenêtre. Yaourt maison. Grenade. Galettes tunisiennes. Fruits de saison. Jus. Ici, la journée commence comme ça."},
+  "breakfast": {"heading": "À quoi ressemble le petit-déjeuner", "text": "Aucun matin ne se ressemble tout à fait. Le petit-déjeuner est préparé chaque jour selon ce que la ferme et les producteurs locaux ont de meilleur - œufs de la ferme, huile d'olive pressée sous vos fenêtres, yaourt maison, galettes tunisiennes, fruits de saison et jus, entre autres. La table change avec les saisons. C'est fait exprès."},
   "cabin": {"label": "BIENTÔT", "heading": "La Cabane aux Oliviers", "text": "Une cabane indépendante en cours de construction au milieu des oliviers. Privée. Silencieuse. Sa cuisine dehors. Son ciel à elle. Rejoignez la liste pour être prévenu en premier.", "button": "Me prévenir quand c'est prêt"},
   "nearby": {"heading": "Autour - au-delà de la ferme", "items": ["Testour - 15 min · Grenades, héritage andalou, marché local", "Dougga - 20-40 min · Cité romaine classée UNESCO, parmi les mieux conservées", "Rivière - tout près · Baignade et marche", "Tunis - 1 h · Excursions possibles"]}
 }

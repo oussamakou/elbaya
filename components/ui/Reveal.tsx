@@ -1,18 +1,48 @@
 'use client';
 
-import {motion} from 'framer-motion';
-import type {ReactNode} from 'react';
+import {useEffect, useRef, useState} from 'react';
+import type {CSSProperties, ReactNode} from 'react';
 
-export default function Reveal({children, delay = 0, className = ''}: {children: ReactNode; delay?: number; className?: string}) {
+// IntersectionObserver + CSS transition (see .reveal in globals.css) — same
+// scroll-into-view rise as the old framer-motion version without shipping the
+// motion runtime. `variant="zoom"` reproduces the scale-in used by QuoteBanner.
+export default function Reveal({
+  children,
+  delay = 0,
+  className = '',
+  variant = 'rise'
+}: {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+  variant?: 'rise' | 'zoom';
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      {rootMargin: '0px 0px -80px 0px'}
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <motion.div
-      className={className}
-      initial={{opacity: 0, y: 28}}
-      whileInView={{opacity: 1, y: 0}}
-      viewport={{once: true, margin: '-80px'}}
-      transition={{duration: 0.7, delay, ease: [0.22, 1, 0.36, 1]}}
+    <div
+      ref={ref}
+      className={`reveal ${variant === 'zoom' ? 'reveal-zoom' : ''} ${visible ? 'reveal-visible' : ''} ${className}`}
+      style={{'--reveal-delay': `${delay}s`} as CSSProperties}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

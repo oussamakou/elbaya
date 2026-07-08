@@ -34,7 +34,7 @@ body {
     #F5F0E8;
   color: #2C1810;
   font-family: var(--font-dm-sans), system-ui, sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -147,6 +147,88 @@ h1, h2, h3 {
   border-color: rgba(250, 247, 242, 0.74);
   background: rgba(250, 247, 242, 0.08);
   box-shadow: 0 0 0 3px rgba(250, 247, 242, 0.1);
+}
+
+/* --- CSS-driven motion (replaces framer-motion so first paint never waits on JS) --- */
+
+/* Page transition fade (app/[locale]/template.tsx) */
+@keyframes page-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.page-fade {
+  animation: page-fade 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Scroll-into-view reveal (components/ui/Reveal.tsx) */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s);
+}
+.reveal-zoom {
+  transform: scale(0.92);
+}
+.reveal-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero entrance choreography (components/sections/HeroSection.tsx).
+   The headline starts at opacity 0.01 (not 0) and unclipped so the browser
+   registers it as the LCP candidate at first paint — a clip-mask or true
+   opacity-0 start excludes it from LCP and the metric falls back to the
+   tiny navbar logo with a multi-second simulated render delay. */
+@keyframes hero-line {
+  from { opacity: 0.01; transform: translateY(40%) rotate(2deg); }
+  to { opacity: 1; transform: translateY(0) rotate(0deg); }
+}
+.hero-line {
+  animation: hero-line 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--hero-delay, 0.2s);
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-subhead {
+  animation: fade-up 1s ease-out 0.6s both;
+}
+@keyframes fade-in-scale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.hero-cta {
+  animation: fade-in-scale 0.8s ease-out 0.9s both;
+}
+.hero-scroll-hint {
+  animation: page-fade 1s ease-out 1.5s both;
+}
+@keyframes scroll-line {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(100%); }
+}
+.hero-scroll-line {
+  animation: scroll-line 1.5s linear infinite;
+}
+
+/* Hero parallax — CSS scroll-driven where supported; static image elsewhere. */
+@supports (animation-timeline: scroll()) {
+  @keyframes hero-parallax {
+    to { transform: translateY(30%); opacity: 0; }
+  }
+  .hero-parallax {
+    animation: hero-parallax linear both;
+    animation-timeline: scroll();
+    animation-range: 0 100vh;
+  }
+}
+
+/* Booking-mode panel swap (components/sections/BookingFlow.tsx) */
+.panel-enter {
+  animation: fade-up 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {

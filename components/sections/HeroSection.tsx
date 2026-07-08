@@ -1,32 +1,23 @@
-'use client';
-
-import {useRef} from 'react';
 import Image from 'next/image';
-import {motion, useScroll, useTransform} from 'framer-motion';
 import {useLocale} from 'next-intl';
 import Button from '@/components/ui/Button';
 
+// Server component: the headline, subhead, and LCP image are all in the first
+// HTML chunk and animate with pure CSS (globals.css: .hero-line, .hero-subhead,
+// .hero-cta, .hero-parallax) — nothing here waits for hydration. The parallax
+// uses CSS scroll-driven animations where supported and degrades to a static
+// image elsewhere.
 export default function HeroSection({headline, subhead, cta, image}: {headline: string; subhead: string; cta?: string; image: string}) {
   const locale = useLocale();
-  const containerRef = useRef<HTMLElement>(null);
-  const {scrollYProgress} = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end start']
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-
-  // Split headline into lines or words for staggered reveal
   const lines = headline.split('\n');
 
   return (
-    <section ref={containerRef} className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-dusk px-5 pb-28 pt-24 text-center text-cream md:pb-32">
+    <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-dusk px-5 pb-28 pt-24 text-center text-cream md:pb-32">
       {/* Parallax Background */}
-      <motion.div style={{y, opacity}} className="absolute inset-0 z-0">
-        <Image src={image} alt="" fill priority sizes="100vw" className="object-cover opacity-80" />
-      </motion.div>
-      
+      <div className="hero-parallax absolute inset-0 z-0">
+        <Image src={image} alt="" fill preload fetchPriority="high" sizes="100vw" className="object-cover opacity-80" />
+      </div>
+
       {/* Gradients & Texture */}
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-dusk/40 via-transparent to-dusk" />
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-dusk/20 to-dusk/80" />
@@ -35,71 +26,38 @@ export default function HeroSection({headline, subhead, cta, image}: {headline: 
 
       {/* Content */}
       <div className="relative z-10 mx-auto max-w-5xl -translate-y-3 md:-translate-y-6">
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: {},
-            visible: {transition: {staggerChildren: 0.15, delayChildren: 0.2}}
-          }}
-          className="flex flex-col items-center"
-        >
+        <div className="flex flex-col items-center">
           <h1 className="font-serif text-[clamp(3rem,9vw,6rem)] font-normal italic leading-[0.95] tracking-tight text-balance">
             {lines.map((line, i) => (
-              <span key={i} className="block overflow-hidden pb-2">
-                <motion.span
-                  className="block"
-                  variants={{
-                    hidden: {y: '100%', rotate: 2},
-                    visible: {y: '0%', rotate: 0, transition: {duration: 1.2, ease: [0.16, 1, 0.3, 1]}}
-                  }}
-                >
+              // No overflow-hidden clip: a clipped-at-first-paint headline is
+              // dropped as an LCP candidate (see .hero-line in globals.css).
+              <span key={i} className="block pb-2">
+                <span className="hero-line block" style={{'--hero-delay': `${0.2 + i * 0.15}s`} as React.CSSProperties}>
                   {line}
-                </motion.span>
+                </span>
               </span>
             ))}
           </h1>
-          
-          <motion.p
-            variants={{
-              hidden: {opacity: 0, y: 20},
-              visible: {opacity: 1, y: 0, transition: {duration: 1, ease: 'easeOut', delay: 0.6}}
-            }}
-            className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-cream/80 md:text-xl text-balance"
-          >
+
+          <p className="hero-subhead mx-auto mt-8 max-w-xl text-base leading-relaxed text-cream/80 md:text-xl text-balance">
             {subhead}
-          </motion.p>
-          
+          </p>
+
           {cta && (
-            <motion.div
-              variants={{
-                hidden: {opacity: 0, scale: 0.95},
-                visible: {opacity: 1, scale: 1, transition: {duration: 0.8, ease: 'easeOut', delay: 0.9}}
-              }}
-              className="mt-8 md:mt-10"
-            >
+            <div className="hero-cta mt-8 md:mt-10">
               <Button href="/book">{cta}</Button>
-            </motion.div>
+            </div>
           )}
-        </motion.div>
+        </div>
       </div>
 
       {/* Custom Scroll Indicator */}
-      <motion.div
-        initial={{opacity: 0}}
-        animate={{opacity: 1}}
-        transition={{delay: 1.5, duration: 1}}
-        className="absolute bottom-5 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-3 sm:flex md:bottom-7"
-      >
+      <div className="hero-scroll-hint absolute bottom-5 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-3 sm:flex md:bottom-7">
         <span className="text-[10px] uppercase tracking-wide text-cream/70">{locale === 'fr' ? 'Défiler' : 'Scroll'}</span>
         <div className="h-14 w-[1px] overflow-hidden bg-cream/20">
-          <motion.div
-            animate={{y: ['-100%', '100%']}}
-            transition={{repeat: Infinity, duration: 1.5, ease: 'linear'}}
-            className="h-full w-full bg-cream"
-          />
+          <div className="hero-scroll-line h-full w-full bg-cream" />
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

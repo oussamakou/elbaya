@@ -74,7 +74,10 @@ export default function Navbar() {
             src="/assets/images/logo.webp"
             alt="Farm El Baya logo"
             className="object-contain object-left"
-            priority
+            fetchPriority="high"
+            // Above the fold, so load eagerly — but no `preload`: the hero image
+            // is the LCP element and should be the only preloaded image.
+            loading="eager"
           />
         </Link>
         <div className="hidden items-center gap-8 text-sm font-medium md:flex">

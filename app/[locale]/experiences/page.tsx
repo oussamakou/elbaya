@@ -19,7 +19,7 @@ export default async function Experiences({params}: {params: Promise<{locale: st
   return (
     <>
       <section className="relative flex min-h-[82vh] items-end overflow-hidden bg-dusk px-5 pb-20 text-cream">
-        <Image src={img('movement_research_lab.webp')} alt="The Mouvement Research space at Farm El Baya" fill priority sizes="100vw" className="object-cover animate-breathe opacity-80" />
+        <Image src={img('movement_research_lab.webp')} alt="The Movement Area at Farm El Baya" fill preload fetchPriority="high" sizes="100vw" className="object-cover animate-breathe opacity-80" />
         <div className="absolute inset-0 bg-gradient-to-t from-dusk via-dusk/30 to-transparent" />
         <h1 className="relative mx-auto max-w-6xl font-serif text-5xl italic leading-tight md:text-7xl">{content.hero}</h1>
       </section>

@@ -13,15 +13,15 @@ import '../globals.css';
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  style: ['normal', 'italic'],
+  weight: ['400'],
+  style: ['italic'],
   variable: '--font-cormorant',
   display: 'swap'
 });
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
-  weight: ['300', '400', '500'],
+  weight: ['400'],
   variable: '--font-dm-sans',
   display: 'swap'
 });
@@ -49,13 +49,11 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} suppressHydrationWarning className={`${cormorant.variable} ${dmSans.variable}`}>
       <head>
-        {/* Warm up connections to Lodgify's booking-widget origins so its API calls
-            don't pay DNS/TLS setup on the critical path. */}
-        <link rel="preconnect" href="https://app.lodgify.com" />
-        <link rel="preconnect" href="https://checkout.lodgify.com" />
-        <link rel="preconnect" href="https://api.lodgify.com" />
-        <link rel="preconnect" href="https://websiteserver.lodgify.com" />
-        <link rel="dns-prefetch" href="https://app.lodgify.com" />
+        {/* Scroll-reveal elements (.reveal) start hidden and are shown by an
+            IntersectionObserver; without JS, keep everything visible. */}
+        <noscript>
+          <style>{`.reveal{opacity:1;transform:none}`}</style>
+        </noscript>
       </head>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
