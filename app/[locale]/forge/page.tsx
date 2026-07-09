@@ -1,13 +1,12 @@
 import type {Metadata} from 'next';
 import {setRequestLocale} from 'next-intl/server';
-import {getContent, img} from '@/content';
+import {getContent, pageMetadata} from '@/content';
 import Button from '@/components/ui/Button';
 import ForgeWaitlist from '@/components/ui/ForgeWaitlist';
 
 export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
   const {locale} = await params;
-  const content = getContent(locale, 'forge');
-  return {title: content.meta.title, description: content.meta.description, alternates: {canonical: `/${locale}/forge`}, openGraph: {images: [img('breakfast.webp')]}};
+  return pageMetadata(locale, 'forge', '/forge', 'pullups_dips_bars_in_thefarm.webp');
 }
 
 export default async function Forge({params}: {params: Promise<{locale: string}>}) {

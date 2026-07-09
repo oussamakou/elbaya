@@ -23,11 +23,24 @@ const faqs = {
   ]
 };
 
-export default function FaqBlock({locale}: {locale: string}) {
+// `schema` emits FAQPage JSON-LD. The same FAQ renders on /stay and /book;
+// Google asks that duplicated FAQ content be marked up on one page only, so
+// only the stay page passes `schema`.
+export default function FaqBlock({locale, schema = false}: {locale: string; schema?: boolean}) {
   const items = locale === 'fr' ? faqs.fr : faqs.en;
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map(([question, answer]) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: {'@type': 'Answer', text: answer}
+    }))
+  };
 
   return (
     <section className="px-5 py-20">
+      {schema && <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}} />}
       <div className="mx-auto max-w-4xl">
         <h2 className="font-serif text-5xl italic">{locale === 'fr' ? 'Questions pratiques' : 'Practical questions'}</h2>
         <div className="mt-8 divide-y divide-olive/15 border-y border-olive/15">

@@ -1,6 +1,6 @@
 import type {Metadata} from 'next';
 import {setRequestLocale} from 'next-intl/server';
-import {getContent, img, photos} from '@/content';
+import {getContent, img, pageMetadata, photos, SITE_URL} from '@/content';
 import HeroSection from '@/components/sections/HeroSection';
 import QuoteBanner from '@/components/sections/QuoteBanner';
 import ThreePillars from '@/components/sections/ThreePillars';
@@ -13,8 +13,7 @@ import MovementFamilySection from '@/components/sections/MovementFamilySection';
 
 export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
   const {locale} = await params;
-  const content = getContent(locale, 'home');
-  return {title: content.meta.title, description: content.meta.description, alternates: {canonical: `/${locale}`}, openGraph: {images: [img('rooftop_nightsky.webp')]}};
+  return pageMetadata(locale, 'home', '', 'rooftop_nightsky.webp');
 }
 
 export default async function Home({params}: {params: Promise<{locale: string}>}) {
@@ -41,14 +40,31 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'LodgingBusiness',
+    '@id': `${SITE_URL}/#lodging`,
     name: 'Farm El Baya',
     description: content.meta.description,
-    url: `https://farmelbaya.com/${locale}`,
-    image: `https://farmelbaya.com${img('rooftop_nightsky.webp')}`,
+    url: `${SITE_URL}/${locale}`,
+    image: [
+      `${SITE_URL}${img('rooftop_nightsky.webp')}`,
+      `${SITE_URL}${img('room-interior.webp')}`,
+      `${SITE_URL}${img('breakfast.webp')}`
+    ],
     telephone: '+97466290007',
     priceRange: 'From 180 TND / night',
+    numberOfRooms: 1,
+    checkinTime: '14:00',
+    checkoutTime: '11:00',
+    currenciesAccepted: 'TND',
+    paymentAccepted: fr ? 'PayPal, virement bancaire, espèces' : 'PayPal, bank transfer, cash',
     address: {'@type': 'PostalAddress', addressLocality: 'Testour', addressRegion: 'Béja', addressCountry: 'TN'},
     geo: {'@type': 'GeoCoordinates', latitude: 36.7103385, longitude: 8.803951},
+    amenityFeature: [
+      {'@type': 'LocationFeatureSpecification', name: fr ? 'Salle de bain privée' : 'Private bathroom', value: true},
+      {'@type': 'LocationFeatureSpecification', name: fr ? 'Parking gratuit' : 'Free parking', value: true},
+      {'@type': 'LocationFeatureSpecification', name: 'Wi-Fi', value: true},
+      {'@type': 'LocationFeatureSpecification', name: fr ? 'Petit-déjeuner sur demande' : 'Breakfast on request', value: true},
+      {'@type': 'LocationFeatureSpecification', name: fr ? 'Espace mouvement et yoga' : 'Movement and yoga area', value: true}
+    ],
     sameAs: ['https://www.instagram.com/farm_elbaya/', 'https://www.booking.com/hotel/tn/farm-el-baya.fr.html']
   };
 

@@ -1,7 +1,7 @@
 import {Suspense} from 'react';
 import type {Metadata} from 'next';
 import {setRequestLocale} from 'next-intl/server';
-import {getContent, img} from '@/content';
+import {getContent, pageMetadata} from '@/content';
 import BookingFlow from '@/components/sections/BookingFlow';
 import QuickFacts from '@/components/sections/QuickFacts';
 import FaqBlock from '@/components/sections/FaqBlock';
@@ -11,8 +11,7 @@ import Button from '@/components/ui/Button';
 
 export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
   const {locale} = await params;
-  const content = getContent(locale, 'book');
-  return {title: content.meta.title, description: content.meta.description, alternates: {canonical: `/${locale}/book`}, openGraph: {images: [img('breakfast.webp')]}};
+  return pageMetadata(locale, 'book', '/book', 'room-interior.webp');
 }
 
 export default async function Book({params}: {params: Promise<{locale: string}>}) {

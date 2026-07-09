@@ -26,8 +26,13 @@ const dmSans = DM_Sans({
   display: 'swap'
 });
 
+// Fallback for routes that don't build their own metadata (e.g. the 404
+// page). Real pages override everything via pageMetadata in content/index.ts.
 export const metadata: Metadata = {
-  metadataBase: new URL('https://farmelbaya.com')
+  metadataBase: new URL('https://farmelbaya.com'),
+  title: 'Farm El Baya - Farm Stay in Testour, Tunisia',
+  description:
+    'A private-room permaculture farm stay one hour from Tunis. Olive groves, animals, movement sessions, and direct booking from 180 DT/night.'
 };
 
 export function generateStaticParams() {

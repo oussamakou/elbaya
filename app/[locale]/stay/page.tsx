@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import type {Metadata} from 'next';
 import {setRequestLocale} from 'next-intl/server';
-import {getContent, img} from '@/content';
+import {getContent, img, pageMetadata} from '@/content';
 import Button from '@/components/ui/Button';
 import WhatsAppLink from '@/components/ui/WhatsAppLink';
 import Reveal from '@/components/ui/Reveal';
@@ -14,8 +14,7 @@ import GettingHere from '@/components/sections/GettingHere';
 
 export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
   const {locale} = await params;
-  const content = getContent(locale, 'stay');
-  return {title: content.meta.title, description: content.meta.description, alternates: {canonical: `/${locale}/stay`}, openGraph: {images: [img('breakfast.webp')]}};
+  return pageMetadata(locale, 'stay', '/stay', 'room-interior.webp');
 }
 
 export default async function Stay({params}: {params: Promise<{locale: string}>}) {
@@ -97,7 +96,7 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
       </section>
       <GettingHere locale={locale} />
       <PolicyBlock locale={locale} />
-      <FaqBlock locale={locale} />
+      <FaqBlock locale={locale} schema />
     </>
   );
 }

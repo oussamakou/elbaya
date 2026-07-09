@@ -1,14 +1,13 @@
 import Image from 'next/image';
 import type {Metadata} from 'next';
 import {setRequestLocale} from 'next-intl/server';
-import {getContent, img} from '@/content';
+import {getContent, img, pageMetadata} from '@/content';
 import Reveal from '@/components/ui/Reveal';
 import FarmMapViewer from '@/components/ui/FarmMapViewer';
 
 export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
   const {locale} = await params;
-  const content = getContent(locale, 'farm');
-  return {title: content.meta.title, description: content.meta.description, alternates: {canonical: `/${locale}/farm`}, openGraph: {images: [img('breakfast.webp')]}};
+  return pageMetadata(locale, 'farm', '/farm', 'room_exterior_vibe.webp');
 }
 
 export default async function Farm({params}: {params: Promise<{locale: string}>}) {

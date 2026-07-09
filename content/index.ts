@@ -1,3 +1,4 @@
+import type {Metadata} from 'next';
 import enHome from './en/home.json';
 import frHome from './fr/home.json';
 import enStay from './en/stay.json';
@@ -42,4 +43,44 @@ export const photos = [
 
 export function img(name: string) {
   return `/assets/images/${name}`;
+}
+
+export const SITE_URL = 'https://farmelbaya.com';
+export const SITE_NAME = 'Farm El Baya';
+
+// One place to build the full metadata block every page needs: title,
+// description, canonical, hreflang alternates, Open Graph, and Twitter card.
+// `path` is the locale-less route ('' for home, '/stay', …).
+export function pageMetadata(locale: string, page: PageKey, path: string, image: string): Metadata {
+  const safeLocale: Locale = locale === 'fr' ? 'fr' : 'en';
+  const {meta} = getContent(safeLocale, page);
+  const ogImage = img(image);
+  return {
+    title: meta.title,
+    description: meta.description,
+    alternates: {
+      canonical: `/${safeLocale}${path}`,
+      languages: {
+        en: `/en${path}`,
+        fr: `/fr${path}`,
+        'x-default': `/en${path}`
+      }
+    },
+    openGraph: {
+      title: meta.title,
+      description: meta.description,
+      url: `/${safeLocale}${path}`,
+      siteName: SITE_NAME,
+      type: 'website',
+      locale: safeLocale === 'fr' ? 'fr_FR' : 'en_US',
+      alternateLocale: safeLocale === 'fr' ? 'en_US' : 'fr_FR',
+      images: [ogImage]
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: meta.title,
+      description: meta.description,
+      images: [ogImage]
+    }
+  };
 }

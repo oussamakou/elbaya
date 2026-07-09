@@ -1,15 +1,14 @@
 import Image from 'next/image';
 import type {Metadata} from 'next';
 import {setRequestLocale} from 'next-intl/server';
-import {getContent, img} from '@/content';
+import {getContent, img, pageMetadata} from '@/content';
 import ExperienceCard from '@/components/ui/ExperienceCard';
 import BookingConfidence from '@/components/sections/BookingConfidence';
 import MovementFamilySection from '@/components/sections/MovementFamilySection';
 
 export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
   const {locale} = await params;
-  const content = getContent(locale, 'experiences');
-  return {title: content.meta.title, description: content.meta.description, alternates: {canonical: `/${locale}/experiences`}, openGraph: {images: [img('breakfast.webp')]}};
+  return pageMetadata(locale, 'experiences', '/experiences', 'movement_research_lab.webp');
 }
 
 export default async function Experiences({params}: {params: Promise<{locale: string}>}) {
