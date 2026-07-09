@@ -18,6 +18,7 @@ export default function Navbar() {
     ['stay', t('stay')],
     ['experiences', t('experiences')],
     ['farm', t('farm')],
+    ['guides', t('guides')],
     ['book', t('book')],
     ['forge', t('forge')]
   ], [t]);

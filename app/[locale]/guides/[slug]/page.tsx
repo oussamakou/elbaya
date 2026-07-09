@@ -80,6 +80,7 @@ export default async function GuidePage({params}: {params: Promise<{locale: stri
               ))}
             </Reveal>
           ))}
+          {guide.credit && <p className="mt-14 text-xs text-earth/50">{guide.credit}</p>}
         </div>
       </article>
       <section className="bg-cream px-5 py-20 text-center">

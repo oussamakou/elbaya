@@ -14,8 +14,9 @@
       "meta": {"title": "Visiting Dougga from Farm El Baya - A Practical Guide", "description": "How to visit Dougga, North Africa's best-preserved Roman city and a UNESCO site - what to see, when to go, and where to stay half an hour away."},
       "hero": "Dougga: a Roman city, almost to yourself.",
       "teaser": "North Africa's best-preserved Roman town sits on a quiet hillside half an hour from the farm. Here is how to visit it well.",
-      "image": "trail_in_thefarm.webp",
-      "imageAlt": "Countryside trails at Farm El Baya, in the hills of the Medjerda valley near Dougga",
+      "image": "dougga_capitol.webp",
+      "imageAlt": "The Roman capitol of Dougga in golden light, its columned portico against the sky",
+      "credit": "Photo: Mohamed Amine Abassi, CC BY 2.0, via Wikimedia Commons",
       "lead": "Dougga is widely described as the best-preserved Roman small town in North Africa - a UNESCO World Heritage site draped across a hillside of wheat fields and olive groves in Tunisia's Medjerda valley. It is 20 to 40 minutes by car from Farm El Baya, which makes the farm one of the closest places to spend the night near the site. This guide covers what to see, when to go, and how to turn the visit into a slow weekend rather than a rushed day trip from Tunis.",
       "facts": [
         {"label": "Distance", "value": "20-40 min from the farm"},
@@ -67,8 +68,9 @@
       "meta": {"title": "Testour Travel Guide - The Andalusian Town Near the Farm", "description": "What to see in Testour, Tunisia: the Great Mosque's backwards clock, Andalusian streets, the pomegranate festival, malouf music, and where to stay nearby."},
       "hero": "Testour: Andalusia, fifteen minutes away.",
       "teaser": "A town built by exiles from Spain four centuries ago, with a mosque clock that runs backwards and a festival for its pomegranates.",
-      "image": "open_air_kitchen.webp",
-      "imageAlt": "The open-air kitchen at Farm El Baya, fifteen minutes from Testour",
+      "image": "testour_minaret.webp",
+      "imageAlt": "Andalusian tilework on the minaret of the Great Mosque of Testour, with Stars of David set among the tiles",
+      "credit": "Photo: Bellyglad, CC BY 2.0, via Wikimedia Commons",
       "lead": "Fifteen minutes from Farm El Baya, in the Medjerda river valley, Testour is one of the most unusual towns in Tunisia. It was built in the early 1600s by Andalusian Muslims expelled from Spain, and four centuries later that heritage still lives in its architecture, its music, and its festivals. This guide covers what to see, when the festivals happen, and how to fold Testour into a farm stay.",
       "facts": [
         {"label": "Distance", "value": "15 min from the farm"},
@@ -87,13 +89,13 @@
         {
           "heading": "The Great Mosque and its backwards clock",
           "paragraphs": [
-            "Testour's landmark is its Great Mosque, built in the seventeenth century by the Andalusian settlers. Look closely at the clock on the minaret: its face runs counter-clockwise - one of the very few clocks in the world that run backwards. Nobody is entirely sure why. The theories range from nostalgia for a lost homeland to a craftsman's signature, and the mystery has become part of the town's identity."
+            "Testour's landmark is its Great Mosque, built in the seventeenth century by the Andalusian settlers - look for the Stars of David worked into the minaret's tiles, a nod to the Jewish community that helped build the town. Then look closely at the clock: its face runs counter-clockwise, one of the very few clocks in the world that run backwards. Nobody is entirely sure why - the theories range from nostalgia for a lost homeland to a craftsman's signature - and after decades stopped, it was restored to working order in 2014 by a descendant of the town's Andalusian families."
           ]
         },
         {
           "heading": "Pomegranates, markets, and malouf",
           "paragraphs": [
-            "Testour's pomegranates are famous across Tunisia, and the town celebrates them with a festival in late October when the harvest comes in. Earlier in the year, Testour hosts an international festival of malouf - the Andalusian classical music the exiles carried with them - filling summer evenings with music.",
+            "Testour's pomegranates are famous across Tunisia, and the town celebrates them with a festival in late October when the harvest comes in. Each July, Testour hosts its International Festival of Malouf - the Andalusian classical music the exiles carried with them, and Tunisia's oldest festival devoted to it - filling summer evenings with music.",
             "The weekly market is the best way to see the town at work. For a meal out, Le Malouf in Testour is a good address, and Les Vergers des Montagnes, fifteen minutes away, is worth reserving a day ahead."
           ]
         },
@@ -118,8 +120,9 @@
       "meta": {"title": "Olive Harvest in Tunisia - Join the Season at Farm El Baya", "description": "Join the olive harvest on a permaculture farm in Tunisia from October to December - pick with the family, press your own oil, and take a bottle home."},
       "hero": "Join the olive harvest.",
       "teaser": "From October to December the farm's groves come alive. Pick with the family, press your own oil, and taste it at breakfast.",
-      "image": "room_exterior_vibe.webp",
-      "imageAlt": "Olive trees surrounding the guest room at Farm El Baya",
+      "image": "picking_tree_fruits.webp",
+      "imageAlt": "Guests picking fruit from a tree at Farm El Baya",
+      "credit": "",
       "lead": "Tunisia is one of the largest olive-oil producers on earth, and from October to December the whole north of the country turns to the harvest. At Farm El Baya, a 40-acre permaculture farm near Testour, guests can join it - picking alongside the family, following the fruit to an organic mill, and tasting oil pressed from trees you can see from the room's windows. The harvest experience costs 50 DT per person.",
       "facts": [
         {"label": "Season", "value": "October to December"},
@@ -131,7 +134,7 @@
         {
           "heading": "Why Tunisia is an olive country",
           "paragraphs": [
-            "Olive trees have been cultivated in this valley since Carthaginian and Roman times - the ruins at nearby Dougga were built on wheat and olive wealth. Today Tunisia consistently ranks among the world's top olive-oil producers, and the north, around the Medjerda valley, is some of its most fertile ground.",
+            "Olive trees have been cultivated in this valley since Carthaginian and Roman times - the ruins at nearby Dougga were built on wheat and olive wealth. In the 2025/26 season, Tunisia became the world's second-largest olive-oil producer behind Spain, according to the International Olive Council - and the north, around the Medjerda valley, is some of its most fertile ground.",
             "Farm El Baya's groves are part of that story, with a twist: four years ago the family began converting 40 acres of conventional monoculture olives to permaculture - working with the land instead of against it. The harvest is the moment the whole year points toward."
           ]
         },
