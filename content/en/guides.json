@@ -1,0 +1,168 @@
+{
+  "meta": {"title": "Guides - Dougga, Testour & the Olive Harvest - Farm El Baya", "description": "Practical guides from Farm El Baya: visiting Roman Dougga, exploring Andalusian Testour, and joining the olive harvest in northern Tunisia."},
+  "hero": {"heading": "Guides to the valley.", "subhead": "Where we send our guests: the Roman city up the road, the Andalusian town down the hill, and the season that shapes the farm's whole year."},
+  "breadcrumbHome": "Home",
+  "indexLabel": "Guides",
+  "readGuide": "Read the guide",
+  "backToGuides": "All guides",
+  "relatedHeading": "Keep exploring",
+  "cta": {"heading": "Stay in the middle of it all.", "text": "One private room on a working farm, an hour from Tunis - and fifteen minutes from everything in these guides.", "button": "Check availability"},
+  "guides": [
+    {
+      "slug": "dougga",
+      "tag": "UNESCO World Heritage · 20-40 min from the farm",
+      "meta": {"title": "Visiting Dougga from Farm El Baya - A Practical Guide", "description": "How to visit Dougga, North Africa's best-preserved Roman city and a UNESCO site - what to see, when to go, and where to stay half an hour away."},
+      "hero": "Dougga: a Roman city, almost to yourself.",
+      "teaser": "North Africa's best-preserved Roman town sits on a quiet hillside half an hour from the farm. Here is how to visit it well.",
+      "image": "trail_in_thefarm.webp",
+      "imageAlt": "Countryside trails at Farm El Baya, in the hills of the Medjerda valley near Dougga",
+      "lead": "Dougga is widely described as the best-preserved Roman small town in North Africa - a UNESCO World Heritage site draped across a hillside of wheat fields and olive groves in Tunisia's Medjerda valley. It is 20 to 40 minutes by car from Farm El Baya, which makes the farm one of the closest places to spend the night near the site. This guide covers what to see, when to go, and how to turn the visit into a slow weekend rather than a rushed day trip from Tunis.",
+      "facts": [
+        {"label": "Distance", "value": "20-40 min from the farm"},
+        {"label": "Status", "value": "UNESCO World Heritage site"},
+        {"label": "Time needed", "value": "2-3 hours on site"},
+        {"label": "Best seasons", "value": "Spring and autumn"}
+      ],
+      "sections": [
+        {
+          "heading": "Why Dougga is worth the trip",
+          "paragraphs": [
+            "Most visitors meet Roman Tunisia at Carthage, where the ruins share space with a modern suburb. Dougga is the opposite: an entire ancient town - streets, temples, houses, baths - left largely intact on its original hillside, with wheat fields below and almost no crowds. UNESCO listed it in 1997 as the best-preserved example of a small Roman town in North Africa.",
+            "The city is older than Rome's arrival. It began as Thugga, a Numidian settlement, and that layered history is still legible in the stones - most visibly in the Libyco-Punic mausoleum, one of the very few pre-Roman monuments of its kind still standing anywhere."
+          ]
+        },
+        {
+          "heading": "What to see on site",
+          "paragraphs": [
+            "The capitol is the postcard: a temple dedicated to Jupiter, Juno, and Minerva, raised in the second century AD, its portico still standing proud against the valley. A short walk away, the theatre - built around 168 AD with seating for some 3,500 spectators - remains complete enough that it still hosts performances during the Dougga Festival each July.",
+            "Give yourself time beyond the two landmarks. The paved Roman streets lead past the market square, the baths, private houses, and the temple of Juno Caelestis with its crescent-shaped precinct. Many of Dougga's famous mosaics now hang in the Bardo Museum in Tunis, but here the town itself is the exhibit."
+          ]
+        },
+        {
+          "heading": "When to go and what to bring",
+          "paragraphs": [
+            "Spring and autumn are the sweet spots: green hills and wildflowers from March to May, soft light and harvest colours in October and November. In summer, aim for early morning or the last hours of the day - the site is exposed and shade is scarce.",
+            "The grounds are large and the ancient paving is uneven, so wear proper shoes and bring water and a hat. Facilities on site are minimal - part of the charm, but plan for it. Two to three hours covers the main circuit at an unhurried pace."
+          ]
+        },
+        {
+          "heading": "Getting there from Farm El Baya",
+          "paragraphs": [
+            "The drive from the farm takes 20 to 40 minutes on countryside roads, passing near Teboursouk. If you would rather not navigate, Mahdi arranges a guided tour from the farm (from 50 DT per person) with a professional guide - including an olive-oil tasting and a visit to an organic olive mill along the way.",
+            "Dougga pairs naturally with Testour, the Andalusian town fifteen minutes from the farm, for a full day of history in the Medjerda valley."
+          ]
+        },
+        {
+          "heading": "Where to stay near Dougga",
+          "paragraphs": [
+            "There are no hotels at the site itself, and most visitors see it in a hurry from Tunis. Staying nearby changes the visit completely. Farm El Baya is a working permaculture farm about half an hour away, with one private room - the Baya Room, from 180 DT per night - farm breakfast in the morning, and rooftop stargazing under the same dark countryside sky the Romans knew."
+          ]
+        }
+      ],
+      "cta": {"heading": "Make it a slow weekend, not a day trip.", "text": "Stay the night half an hour from the ruins - farm breakfast before, stargazing after."}
+    },
+    {
+      "slug": "testour",
+      "tag": "Andalusian heritage · 15 min from the farm",
+      "meta": {"title": "Testour Travel Guide - The Andalusian Town Near the Farm", "description": "What to see in Testour, Tunisia: the Great Mosque's backwards clock, Andalusian streets, the pomegranate festival, malouf music, and where to stay nearby."},
+      "hero": "Testour: Andalusia, fifteen minutes away.",
+      "teaser": "A town built by exiles from Spain four centuries ago, with a mosque clock that runs backwards and a festival for its pomegranates.",
+      "image": "open_air_kitchen.webp",
+      "imageAlt": "The open-air kitchen at Farm El Baya, fifteen minutes from Testour",
+      "lead": "Fifteen minutes from Farm El Baya, in the Medjerda river valley, Testour is one of the most unusual towns in Tunisia. It was built in the early 1600s by Andalusian Muslims expelled from Spain, and four centuries later that heritage still lives in its architecture, its music, and its festivals. This guide covers what to see, when the festivals happen, and how to fold Testour into a farm stay.",
+      "facts": [
+        {"label": "Distance", "value": "15 min from the farm"},
+        {"label": "Founded", "value": "Early 1600s, by Andalusian exiles"},
+        {"label": "Famous for", "value": "Backwards clock · pomegranates · malouf"},
+        {"label": "Best time", "value": "Autumn festivals, or any market day"}
+      ],
+      "sections": [
+        {
+          "heading": "A piece of Andalusia in the Medjerda valley",
+          "paragraphs": [
+            "When Spain expelled its last Muslim communities after 1609, thousands of families crossed the Mediterranean and rebuilt their lives in northern Tunisia. Testour is their most complete creation: a town laid out on Andalusian lines, with tiled roofs, arched doorways, and brick minarets that would not look out of place in southern Spain.",
+            "It is still a living country town rather than a museum - which is exactly why it rewards a slow visit. Wander the main street, look up at the rooflines, and glance into the courtyards when a door stands open."
+          ]
+        },
+        {
+          "heading": "The Great Mosque and its backwards clock",
+          "paragraphs": [
+            "Testour's landmark is its Great Mosque, built in the seventeenth century by the Andalusian settlers. Look closely at the clock on the minaret: its face runs counter-clockwise - one of the very few clocks in the world that run backwards. Nobody is entirely sure why. The theories range from nostalgia for a lost homeland to a craftsman's signature, and the mystery has become part of the town's identity."
+          ]
+        },
+        {
+          "heading": "Pomegranates, markets, and malouf",
+          "paragraphs": [
+            "Testour's pomegranates are famous across Tunisia, and the town celebrates them with a festival in late October when the harvest comes in. Earlier in the year, Testour hosts an international festival of malouf - the Andalusian classical music the exiles carried with them - filling summer evenings with music.",
+            "The weekly market is the best way to see the town at work. For a meal out, Le Malouf in Testour is a good address, and Les Vergers des Montagnes, fifteen minutes away, is worth reserving a day ahead."
+          ]
+        },
+        {
+          "heading": "Make it a half-day from the farm",
+          "paragraphs": [
+            "Testour is the easiest outing from Farm El Baya - fifteen minutes by car, or the first stop on a guided day that continues to the Roman city of Dougga. Mahdi arranges tours with a professional guide from 50 DT per person, including an olive-oil tasting and a visit to an organic olive mill. The small grocery shops in town also make Testour the practical stop if you plan to cook in the farm's two kitchens."
+          ]
+        },
+        {
+          "heading": "Where to stay near Testour",
+          "paragraphs": [
+            "Farm El Baya sits in the countryside at Slouguia, fifteen minutes from town - a working permaculture farm with a single private room, the Baya Room, from 180 DT per night, with farm breakfast available each morning. Time your stay to the pomegranate festival and you can pick fruit on the farm the same weekend."
+          ]
+        }
+      ],
+      "cta": {"heading": "Festivals in town, quiet on the farm.", "text": "Stay fifteen minutes from Testour - close for the market mornings, far from the noise at night."}
+    },
+    {
+      "slug": "olive-harvest",
+      "tag": "October - December · 50 DT / person",
+      "meta": {"title": "Olive Harvest in Tunisia - Join the Season at Farm El Baya", "description": "Join the olive harvest on a permaculture farm in Tunisia from October to December - pick with the family, press your own oil, and take a bottle home."},
+      "hero": "Join the olive harvest.",
+      "teaser": "From October to December the farm's groves come alive. Pick with the family, press your own oil, and taste it at breakfast.",
+      "image": "room_exterior_vibe.webp",
+      "imageAlt": "Olive trees surrounding the guest room at Farm El Baya",
+      "lead": "Tunisia is one of the largest olive-oil producers on earth, and from October to December the whole north of the country turns to the harvest. At Farm El Baya, a 40-acre permaculture farm near Testour, guests can join it - picking alongside the family, following the fruit to an organic mill, and tasting oil pressed from trees you can see from the room's windows. The harvest experience costs 50 DT per person.",
+      "facts": [
+        {"label": "Season", "value": "October to December"},
+        {"label": "Price", "value": "50 DT / person"},
+        {"label": "The groves", "value": "40 acres in permaculture transition"},
+        {"label": "Take home", "value": "Your own bottled oil"}
+      ],
+      "sections": [
+        {
+          "heading": "Why Tunisia is an olive country",
+          "paragraphs": [
+            "Olive trees have been cultivated in this valley since Carthaginian and Roman times - the ruins at nearby Dougga were built on wheat and olive wealth. Today Tunisia consistently ranks among the world's top olive-oil producers, and the north, around the Medjerda valley, is some of its most fertile ground.",
+            "Farm El Baya's groves are part of that story, with a twist: four years ago the family began converting 40 acres of conventional monoculture olives to permaculture - working with the land instead of against it. The harvest is the moment the whole year points toward."
+          ]
+        },
+        {
+          "heading": "What a harvest day looks like",
+          "paragraphs": [
+            "The work is done by hand and by comb: nets spread beneath the trees, olives raked from the branches, sorted and sacked. It is genuinely physical, genuinely satisfying work - the kind you fall into a rhythm with after twenty minutes. Guests join for as much or as little as they like.",
+            "The olives then travel to an organic mill nearby to be pressed. Fresh oil, days old, tastes nothing like supermarket oil - green, peppery, alive. Guests take their own bottles home; the oil is priced separately by size and quality."
+          ]
+        },
+        {
+          "heading": "Taste it at the source",
+          "paragraphs": [
+            "During harvest season, breakfast on the farm (20 DT) comes with the year's new oil - over farm eggs, flatbread, and whatever the garden gives that morning. To go deeper, the guided tour toward Testour and Dougga includes an olive-oil tasting."
+          ]
+        },
+        {
+          "heading": "When to come and what to bring",
+          "paragraphs": [
+            "The harvest runs October to December, and late October overlaps with Testour's pomegranate festival, fifteen minutes away - the farm's own pomegranates, figs, and almonds ripen in the same window. Bring clothes that can get dusty and closed shoes; the farm provides the rest.",
+            "Autumn is also simply the farm's best light: warm days, cool nights, and clear skies for stargazing from the rooftop."
+          ]
+        },
+        {
+          "heading": "Plan a harvest stay",
+          "paragraphs": [
+            "There is one room on the farm - the Baya Room, from 180 DT per night - so harvest weekends confirm fast. Book direct, mention that you want to join the harvest, and the family will plan your dates around the picking."
+          ]
+        }
+      ],
+      "cta": {"heading": "One room, one harvest, your oil.", "text": "Come in autumn, pick with the family, and take the year's oil home in a bottle."}
+    }
+  ]
+}

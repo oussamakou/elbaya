@@ -6,8 +6,8 @@ export default function Footer() {
   const t = useTranslations('footer');
   const locale = useLocale();
   const links = locale === 'fr'
-    ? [['/stay', 'Séjour'], ['/farm', 'La ferme'], ['/experiences', 'Expériences'], ['/forge', 'Forge'], ['/book', 'Réserver']]
-    : [['/stay', 'Stay'], ['/farm', 'The Farm'], ['/experiences', 'Experiences'], ['/forge', 'Forge'], ['/book', 'Book']];
+    ? [['/stay', 'Séjour'], ['/farm', 'La ferme'], ['/experiences', 'Expériences'], ['/guides', 'Guides'], ['/forge', 'Forge'], ['/book', 'Réserver']]
+    : [['/stay', 'Stay'], ['/farm', 'The Farm'], ['/experiences', 'Experiences'], ['/guides', 'Guides'], ['/forge', 'Forge'], ['/book', 'Book']];
 
   return (
     <footer className="border-t border-olive/15 bg-olive-wash px-6 py-12 text-earth md:px-5">

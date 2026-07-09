@@ -1,0 +1,168 @@
+{
+  "meta": {"title": "Guides - Dougga, Testour, récolte des olives - Farm El Baya", "description": "Les guides de Farm El Baya : visiter la Dougga romaine, explorer Testour l'andalouse et participer à la récolte des olives dans le nord de la Tunisie."},
+  "hero": {"heading": "Guides de la vallée.", "subhead": "Là où nous envoyons nos hôtes : la cité romaine au bout de la route, la ville andalouse en bas de la colline, et la saison qui rythme toute l'année de la ferme."},
+  "breadcrumbHome": "Accueil",
+  "indexLabel": "Guides",
+  "readGuide": "Lire le guide",
+  "backToGuides": "Tous les guides",
+  "relatedHeading": "À lire ensuite",
+  "cta": {"heading": "Séjournez au milieu de tout.", "text": "Une seule chambre privée dans une ferme en activité, à une heure de Tunis - et à quinze minutes de tout ce que décrivent ces guides.", "button": "Vérifier les disponibilités"},
+  "guides": [
+    {
+      "slug": "dougga",
+      "tag": "Patrimoine mondial UNESCO · 20-40 min de la ferme",
+      "meta": {"title": "Visiter Dougga depuis Farm El Baya - Guide pratique", "description": "Comment visiter Dougga, cité romaine la mieux conservée d'Afrique du Nord et site UNESCO - que voir, quand partir et où dormir à une demi-heure du site."},
+      "hero": "Dougga : une cité romaine, presque pour vous seul.",
+      "teaser": "La ville romaine la mieux conservée d'Afrique du Nord se dresse sur une colline tranquille à une demi-heure de la ferme. Voici comment bien la visiter.",
+      "image": "trail_in_thefarm.webp",
+      "imageAlt": "Sentiers de campagne à Farm El Baya, dans les collines de la vallée de la Medjerda près de Dougga",
+      "lead": "Dougga est souvent décrite comme la petite ville romaine la mieux conservée d'Afrique du Nord - un site classé au patrimoine mondial de l'UNESCO, étagé sur une colline de blé et d'oliviers dans la vallée de la Medjerda. Elle se trouve à 20-40 minutes en voiture de Farm El Baya, ce qui fait de la ferme l'un des hébergements les plus proches du site. Ce guide couvre ce qu'il faut voir, quand partir, et comment transformer la visite en week-end tranquille plutôt qu'en excursion pressée depuis Tunis.",
+      "facts": [
+        {"label": "Distance", "value": "20-40 min de la ferme"},
+        {"label": "Statut", "value": "Patrimoine mondial de l'UNESCO"},
+        {"label": "Durée", "value": "2-3 heures sur place"},
+        {"label": "Meilleures saisons", "value": "Printemps et automne"}
+      ],
+      "sections": [
+        {
+          "heading": "Pourquoi Dougga vaut le détour",
+          "paragraphs": [
+            "La plupart des visiteurs découvrent la Tunisie romaine à Carthage, où les ruines cohabitent avec la banlieue moderne. Dougga, c'est l'inverse : une ville antique entière - rues, temples, maisons, thermes - restée sur sa colline d'origine, avec les champs de blé en contrebas et presque personne. L'UNESCO l'a classée en 1997 comme le meilleur exemple de petite ville romaine conservée en Afrique du Nord.",
+            "La cité est plus ancienne que l'arrivée de Rome. Elle est née Thugga, cité numide, et cette histoire en couches se lit encore dans les pierres - notamment dans le mausolée libyco-punique, l'un des très rares monuments préromains de ce type encore debout."
+          ]
+        },
+        {
+          "heading": "Que voir sur le site",
+          "paragraphs": [
+            "Le capitole est la carte postale : un temple dédié à Jupiter, Junon et Minerve, élevé au IIe siècle, dont le portique se dresse toujours face à la vallée. Tout près, le théâtre - construit vers 168 et pouvant accueillir quelque 3 500 spectateurs - est resté assez complet pour accueillir encore des représentations pendant le Festival de Dougga, chaque mois de juillet.",
+            "Prenez le temps d'aller au-delà de ces deux monuments. Les rues dallées mènent à la place du marché, aux thermes, aux maisons privées et au temple de Junon Caelestis avec son enceinte en croissant. Beaucoup des célèbres mosaïques de Dougga sont aujourd'hui au musée du Bardo à Tunis, mais ici, c'est la ville elle-même qui est l'exposition."
+          ]
+        },
+        {
+          "heading": "Quand partir et quoi emporter",
+          "paragraphs": [
+            "Le printemps et l'automne sont les meilleures périodes : collines vertes et fleurs sauvages de mars à mai, lumière douce et couleurs de récolte en octobre-novembre. L'été, visez le début de matinée ou la fin de journée - le site est exposé et l'ombre est rare.",
+            "Le site est vaste et le dallage antique irrégulier : prévoyez de bonnes chaussures, de l'eau et un chapeau. Les infrastructures sur place sont minimales - cela fait partie du charme, mais anticipez. Deux à trois heures suffisent pour le circuit principal, sans se presser."
+          ]
+        },
+        {
+          "heading": "Y aller depuis Farm El Baya",
+          "paragraphs": [
+            "Le trajet depuis la ferme prend 20 à 40 minutes par des routes de campagne, en passant près de Teboursouk. Si vous préférez ne pas conduire, Mahdi organise une visite guidée depuis la ferme (à partir de 50 DT par personne) avec un guide professionnel - dégustation d'huile d'olive et visite d'un moulin biologique comprises en chemin.",
+            "Dougga se combine naturellement avec Testour, la ville andalouse à quinze minutes de la ferme, pour une journée complète d'histoire dans la vallée de la Medjerda."
+          ]
+        },
+        {
+          "heading": "Où dormir près de Dougga",
+          "paragraphs": [
+            "Il n'y a pas d'hôtel sur le site même, et la plupart des visiteurs le voient à la hâte depuis Tunis. Dormir à proximité change complètement la visite. Farm El Baya est une ferme permaculturelle en activité à une demi-heure environ, avec une seule chambre privée - la Chambre Baya, dès 180 DT la nuit - petit-déjeuner de la ferme le matin, et les étoiles depuis le toit, sous le même ciel noir de campagne que connaissaient les Romains."
+          ]
+        }
+      ],
+      "cta": {"heading": "Un week-end lent, pas une excursion pressée.", "text": "Dormez à une demi-heure des ruines - petit-déjeuner de la ferme avant, étoiles après."}
+    },
+    {
+      "slug": "testour",
+      "tag": "Héritage andalou · 15 min de la ferme",
+      "meta": {"title": "Guide de Testour - La ville andalouse près de la ferme", "description": "Que voir à Testour : la Grande Mosquée et son horloge à l'envers, les rues andalouses, le festival de la grenade, le malouf, et où dormir à quinze minutes."},
+      "hero": "Testour : l'Andalousie, à quinze minutes.",
+      "teaser": "Une ville bâtie il y a quatre siècles par des exilés d'Espagne, avec une horloge de mosquée qui tourne à l'envers et un festival pour ses grenades.",
+      "image": "open_air_kitchen.webp",
+      "imageAlt": "La cuisine en plein air de Farm El Baya, à quinze minutes de Testour",
+      "lead": "À quinze minutes de Farm El Baya, dans la vallée de la Medjerda, Testour est l'une des villes les plus singulières de Tunisie. Elle a été bâtie au début des années 1600 par des musulmans andalous expulsés d'Espagne, et quatre siècles plus tard, cet héritage vit encore dans son architecture, sa musique et ses fêtes. Ce guide couvre ce qu'il faut voir, le calendrier des festivals, et comment intégrer Testour à un séjour à la ferme.",
+      "facts": [
+        {"label": "Distance", "value": "15 min de la ferme"},
+        {"label": "Fondation", "value": "Début des années 1600, par des exilés andalous"},
+        {"label": "Connue pour", "value": "Horloge inversée · grenades · malouf"},
+        {"label": "Meilleure période", "value": "Festivals d'automne, ou jour de marché"}
+      ],
+      "sections": [
+        {
+          "heading": "Un morceau d'Andalousie dans la vallée de la Medjerda",
+          "paragraphs": [
+            "Quand l'Espagne expulse ses dernières communautés musulmanes après 1609, des milliers de familles traversent la Méditerranée et refont leur vie dans le nord de la Tunisie. Testour est leur création la plus aboutie : une ville tracée à l'andalouse, avec des toits de tuiles, des portes en arc et des minarets de brique qui ne dépareraient pas dans le sud de l'Espagne.",
+            "C'est toujours une ville de campagne vivante, pas un musée - et c'est justement ce qui récompense une visite lente. Flânez dans la rue principale, levez les yeux vers les toits, et jetez un œil dans les cours quand une porte est ouverte."
+          ]
+        },
+        {
+          "heading": "La Grande Mosquée et son horloge à l'envers",
+          "paragraphs": [
+            "Le monument de Testour est sa Grande Mosquée, élevée au XVIIe siècle par les colons andalous. Regardez bien l'horloge du minaret : son cadran tourne dans le sens inverse des aiguilles d'une montre - l'une des très rares horloges au monde à tourner à l'envers. Personne ne sait vraiment pourquoi. Les théories vont de la nostalgie du pays perdu à la signature d'un artisan, et ce mystère fait désormais partie de l'identité de la ville."
+          ]
+        },
+        {
+          "heading": "Grenades, marchés et malouf",
+          "paragraphs": [
+            "Les grenades de Testour sont célèbres dans toute la Tunisie, et la ville les fête fin octobre, quand arrive la récolte. Plus tôt dans l'année, Testour accueille un festival international de malouf - la musique classique andalouse que les exilés ont emportée avec eux - qui remplit les soirées d'été.",
+            "Le marché hebdomadaire est la meilleure façon de voir la ville au travail. Pour un repas, Le Malouf à Testour est une bonne adresse, et Les Vergers des Montagnes, à quinze minutes, mérite une réservation la veille."
+          ]
+        },
+        {
+          "heading": "Une demi-journée depuis la ferme",
+          "paragraphs": [
+            "Testour est la sortie la plus simple depuis Farm El Baya - quinze minutes en voiture, ou la première étape d'une journée guidée qui continue vers la cité romaine de Dougga. Mahdi organise des visites avec un guide professionnel à partir de 50 DT par personne, dégustation d'huile d'olive et moulin biologique compris. Les petites épiceries de la ville en font aussi l'étape pratique si vous comptez cuisiner dans les deux cuisines de la ferme."
+          ]
+        },
+        {
+          "heading": "Où dormir près de Testour",
+          "paragraphs": [
+            "Farm El Baya se trouve dans la campagne de Slouguia, à quinze minutes de la ville - une ferme permaculturelle en activité avec une seule chambre privée, la Chambre Baya, dès 180 DT la nuit, petit-déjeuner de la ferme chaque matin. Calez votre séjour sur le festival de la grenade et vous pourrez cueillir des fruits à la ferme le même week-end."
+          ]
+        }
+      ],
+      "cta": {"heading": "Les fêtes en ville, le calme à la ferme.", "text": "Dormez à quinze minutes de Testour - assez près pour les matins de marché, assez loin pour des nuits silencieuses."}
+    },
+    {
+      "slug": "olive-harvest",
+      "tag": "Octobre - décembre · 50 DT / personne",
+      "meta": {"title": "Récolte des olives en Tunisie - La saison à Farm El Baya", "description": "Participez à la récolte des olives d'octobre à décembre dans une ferme permaculturelle tunisienne - cueillez, pressez votre huile et repartez avec votre bouteille."},
+      "hero": "Participez à la récolte des olives.",
+      "teaser": "D'octobre à décembre, les oliveraies de la ferme s'animent. Cueillez avec la famille, pressez votre huile, goûtez-la au petit-déjeuner.",
+      "image": "room_exterior_vibe.webp",
+      "imageAlt": "Les oliviers autour de la chambre d'hôtes de Farm El Baya",
+      "lead": "La Tunisie est l'un des plus grands producteurs d'huile d'olive au monde, et d'octobre à décembre, tout le nord du pays vit au rythme de la récolte. À Farm El Baya, ferme permaculturelle de 16 hectares près de Testour, les hôtes peuvent y participer : cueillir aux côtés de la famille, suivre les olives jusqu'à un moulin biologique, et goûter une huile pressée d'arbres visibles depuis les fenêtres de la chambre. L'expérience coûte 50 DT par personne.",
+      "facts": [
+        {"label": "Saison", "value": "Octobre à décembre"},
+        {"label": "Prix", "value": "50 DT / personne"},
+        {"label": "Les oliveraies", "value": "16 hectares en transition permaculturelle"},
+        {"label": "À emporter", "value": "Votre huile en bouteille"}
+      ],
+      "sections": [
+        {
+          "heading": "Pourquoi la Tunisie est un pays d'oliviers",
+          "paragraphs": [
+            "L'olivier est cultivé dans cette vallée depuis l'époque carthaginoise et romaine - les ruines de Dougga, toutes proches, ont été bâties sur la richesse du blé et de l'huile. Aujourd'hui, la Tunisie figure régulièrement parmi les tout premiers producteurs d'huile d'olive au monde, et le nord, autour de la vallée de la Medjerda, compte parmi ses terres les plus fertiles.",
+            "Les oliveraies de Farm El Baya s'inscrivent dans cette histoire, avec un tournant : il y a quatre ans, la famille a commencé à convertir 16 hectares d'oliviers conventionnels en permaculture - travailler avec la terre plutôt que contre elle. La récolte est le moment vers lequel toute l'année converge."
+          ]
+        },
+        {
+          "heading": "À quoi ressemble une journée de récolte",
+          "paragraphs": [
+            "Le travail se fait à la main et au peigne : filets étendus sous les arbres, olives peignées des branches, triées et ensachées. C'est un travail réellement physique, réellement satisfaisant - de ceux dont on attrape le rythme au bout de vingt minutes. Les hôtes participent autant ou aussi peu qu'ils le souhaitent.",
+            "Les olives partent ensuite dans un moulin biologique voisin pour être pressées. Une huile fraîche, vieille de quelques jours, n'a rien à voir avec l'huile de supermarché : verte, poivrée, vivante. Les hôtes repartent avec leurs bouteilles ; l'huile est facturée à part, selon la taille et la qualité."
+          ]
+        },
+        {
+          "heading": "Goûtez-la à la source",
+          "paragraphs": [
+            "Pendant la saison, le petit-déjeuner de la ferme (20 DT) se prend avec l'huile nouvelle de l'année - sur les œufs de la ferme, les galettes, et ce que le jardin donne ce matin-là. Pour aller plus loin, la visite guidée vers Testour et Dougga comprend une dégustation d'huile d'olive."
+          ]
+        },
+        {
+          "heading": "Quand venir et quoi prévoir",
+          "paragraphs": [
+            "La récolte court d'octobre à décembre, et la fin octobre coïncide avec le festival de la grenade de Testour, à quinze minutes - les grenades, figues et amandes de la ferme mûrissent dans la même fenêtre. Prévoyez des vêtements qui peuvent se salir et des chaussures fermées ; la ferme fournit le reste.",
+            "L'automne offre aussi la plus belle lumière de la ferme : journées douces, nuits fraîches, et ciel dégagé pour observer les étoiles depuis le toit."
+          ]
+        },
+        {
+          "heading": "Organiser un séjour de récolte",
+          "paragraphs": [
+            "Il n'y a qu'une chambre à la ferme - la Chambre Baya, dès 180 DT la nuit - et les week-ends de récolte se confirment vite. Réservez en direct, précisez que vous voulez participer à la récolte, et la famille calera vos dates sur la cueillette."
+          ]
+        }
+      ],
+      "cta": {"heading": "Une chambre, une récolte, votre huile.", "text": "Venez à l'automne, cueillez avec la famille, et repartez avec l'huile de l'année en bouteille."}
+    }
+  ]
+}

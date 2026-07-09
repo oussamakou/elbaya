@@ -11,14 +11,25 @@ import enForge from './en/forge.json';
 import frForge from './fr/forge.json';
 import enBook from './en/book.json';
 import frBook from './fr/book.json';
+import enGuides from './en/guides.json';
+import frGuides from './fr/guides.json';
 
 export type Locale = 'en' | 'fr';
-export type PageKey = 'home' | 'stay' | 'farm' | 'experiences' | 'forge' | 'book';
+export type PageKey = 'home' | 'stay' | 'farm' | 'experiences' | 'forge' | 'book' | 'guides';
 
 const content = {
-  en: {home: enHome, stay: enStay, farm: enFarm, experiences: enExperiences, forge: enForge, book: enBook},
-  fr: {home: frHome, stay: frStay, farm: frFarm, experiences: frExperiences, forge: frForge, book: frBook}
+  en: {home: enHome, stay: enStay, farm: enFarm, experiences: enExperiences, forge: enForge, book: enBook, guides: enGuides},
+  fr: {home: frHome, stay: frStay, farm: frFarm, experiences: frExperiences, forge: frForge, book: frBook, guides: frGuides}
 };
+
+export type Guide = (typeof enGuides)['guides'][number];
+
+// Slugs are shared across locales so hreflang pairs line up.
+export const guideSlugs = enGuides.guides.map((guide) => guide.slug);
+
+export function getGuide(locale: string, slug: string): Guide | undefined {
+  return getContent(locale, 'guides').guides.find((guide) => guide.slug === slug);
+}
 
 export function getContent<T extends PageKey>(locale: string, page: T) {
   const safeLocale = locale === 'fr' ? 'fr' : 'en';
@@ -51,9 +62,14 @@ export const SITE_NAME = 'Farm El Baya';
 // One place to build the full metadata block every page needs: title,
 // description, canonical, hreflang alternates, Open Graph, and Twitter card.
 // `path` is the locale-less route ('' for home, '/stay', …).
-export function pageMetadata(locale: string, page: PageKey, path: string, image: string): Metadata {
+export function buildMetadata(
+  locale: string,
+  path: string,
+  meta: {title: string; description: string},
+  image: string,
+  ogType: 'website' | 'article' = 'website'
+): Metadata {
   const safeLocale: Locale = locale === 'fr' ? 'fr' : 'en';
-  const {meta} = getContent(safeLocale, page);
   const ogImage = img(image);
   return {
     title: meta.title,
@@ -71,7 +87,7 @@ export function pageMetadata(locale: string, page: PageKey, path: string, image:
       description: meta.description,
       url: `/${safeLocale}${path}`,
       siteName: SITE_NAME,
-      type: 'website',
+      type: ogType,
       locale: safeLocale === 'fr' ? 'fr_FR' : 'en_US',
       alternateLocale: safeLocale === 'fr' ? 'en_US' : 'fr_FR',
       images: [ogImage]
@@ -83,4 +99,9 @@ export function pageMetadata(locale: string, page: PageKey, path: string, image:
       images: [ogImage]
     }
   };
+}
+
+export function pageMetadata(locale: string, page: PageKey, path: string, image: string): Metadata {
+  const safeLocale: Locale = locale === 'fr' ? 'fr' : 'en';
+  return buildMetadata(safeLocale, path, getContent(safeLocale, page).meta, image);
 }

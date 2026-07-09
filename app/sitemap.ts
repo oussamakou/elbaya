@@ -1,5 +1,5 @@
 import type {MetadataRoute} from 'next';
-import {SITE_URL} from '@/content';
+import {guideSlugs, SITE_URL} from '@/content';
 import {routing} from '@/i18n/routing';
 
 // Every indexable route, locale-less. Each locale variant is listed as its
@@ -10,7 +10,9 @@ const pages: Array<{path: string; priority: number; changeFrequency: 'weekly' | 
   {path: '/book', priority: 0.9, changeFrequency: 'weekly'},
   {path: '/experiences', priority: 0.7, changeFrequency: 'monthly'},
   {path: '/farm', priority: 0.7, changeFrequency: 'monthly'},
-  {path: '/forge', priority: 0.5, changeFrequency: 'monthly'}
+  {path: '/forge', priority: 0.5, changeFrequency: 'monthly'},
+  {path: '/guides', priority: 0.6, changeFrequency: 'monthly'},
+  ...guideSlugs.map((slug) => ({path: `/guides/${slug}`, priority: 0.6, changeFrequency: 'monthly' as const}))
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
