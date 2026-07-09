@@ -22,7 +22,7 @@
 | META-STAY-DESC | Stay page — description | A private room on a permaculture farm in Testour. Private bathroom, direct rate from 180 DT/night, farm breakfast and meals on request. | |
 | META-FARM-TITLE | Farm page — title | The Farm - Farm El Baya in Testour | |
 | META-FARM-DESC | Farm page — description | The story of Mahdi's family olive farm becoming a permaculture farm stay with animals, gardens, bees, and open land. | |
-| META-EXP-TITLE | Experiences page — title | Experiences - Movement, Harvests, Bees, and Slow Days | |
+| META-EXP-TITLE | Experiences page — title | Experiences at Farm El Baya - Movement, Harvests, Slow Days | |
 | META-EXP-DESC | Experiences page — description | Farm meals, yoga and calisthenics, beekeeping, olive harvest, guided tours to Andalusian Testour and Roman Dougga, stargazing, and slow, authentic days on the farm. | |
 | META-FORGE-TITLE | Forge page — title | Forge - Men's Retreat at Farm El Baya | |
 | META-FORGE-DESC | Forge page — description | A seven-day men's retreat in Testour: physical work, cold mornings, honest conversation, real food, and the land as teacher. | |
@@ -46,6 +46,7 @@
 | HOME-HERO-HEAD | Hero headline (renders on two lines) | Farm stays under\nthe olive trees. | |
 | HOME-HERO-SUB | Hero subheadline | A private room on a 40-acre permaculture farm in Testour, one hour from Tunis. Olive groves, animals, and room to move. | |
 | HOME-HERO-CTA | Hero button | Check availability | |
+| HOME-HERO-SCROLL | Small "scroll" hint below the hero, only on the homepage (other pages' heroes don't have this) | Scroll | |
 | HOME-FACTS-01 | Quick-facts strip, item 1 | Baya Room · sleeps 3 | |
 | HOME-FACTS-02 | Quick-facts strip, item 2 | From 180 DT / night | |
 | HOME-FACTS-03 | Quick-facts strip, item 3 | Movement, animals, olive groves | |
@@ -151,6 +152,7 @@ These 9 reviews are real quotes pulled from Google/Booking.com and displayed as 
 | STAY-BREAKFAST-HEAD | Breakfast block heading | What breakfast looks like | |
 | STAY-BREAKFAST-BODY | Breakfast block body — rewritten to address a guest question about why breakfast seemed repetitive; now makes clear it varies day to day | No two mornings taste quite the same. Breakfast is set fresh each day from what the farm and local producers have on hand - farm eggs, olive oil pressed from trees you can see from your window, homemade yogurt, Tunisian flatbreads, seasonal fruit and juice among them. The table changes with the season. That's the point. | |
 | STAY-BREAKFAST-WA | New WhatsApp button under the breakfast text, for guests who have meal questions | Let's Connect | |
+| STAY-BREAKFAST-WAMSG | Pre-filled WhatsApp message when clicking the "Let's Connect" button above | Hi Mahdi, I have a question about breakfast at Farm El Baya. | |
 | STAY-CABIN-LABEL | Olive Cabin block, small label | COMING SOON | |
 | STAY-CABIN-HEAD | Olive Cabin block heading | The Olive Cabin | |
 | STAY-CABIN-BODY | Olive Cabin block body | A standalone cabin being built among the olive trees. Private. Quiet. Its own outdoor kitchen. Its own sky. Join the list to be first to know. | |
@@ -310,6 +312,7 @@ Note: Experiences page also shows the **full version** of the Movement & Family 
 | BOOK-HERO-HEAD | Hero headline | Book your farm stay. | |
 | BOOK-HERO-SUB | Hero subheadline | There is one private room on the farm - the Baya Room. Choose how you'd like to book, then check availability and confirm your dates. | |
 | BOOK-HERO-URGENCY | Hero urgency line | Weekends, harvest dates, and small groups confirm fastest. | |
+| BOOK-HERO-CTA | Hero button, jumps down to the booking-method chooser with International pre-selected | See live availability | |
 | BOOK-FACTS-01 | Quick-facts strip, item 1 | From 180 DT / night | |
 | BOOK-FACTS-02 | Quick-facts strip, item 2 | 20 DT add-on | |
 | BOOK-FACTS-03 | Quick-facts strip, item 3 | 30% deposit | |
@@ -336,17 +339,32 @@ Note: Experiences page also shows the **full version** of the Movement & Family 
 
 **Lodgify booking widget (embedded third-party widget UI labels):**
 
-| ID | Current Copy | New Copy |
-|---|---|---|
-| BOOK-LODGIFY-CHECKIN | Check-in | |
-| BOOK-LODGIFY-CHECKOUT | Check-out | |
-| BOOK-LODGIFY-GUESTS | Guests | |
-| BOOK-LODGIFY-TOTAL | Total price: | |
-| BOOK-LODGIFY-SELECTDATES | Select dates to see total price | |
-| BOOK-LODGIFY-FROM | From | |
-| BOOK-LODGIFY-PERNIGHT | per night | |
-| BOOK-LODGIFY-BOOKNOW | Book now | |
-| BOOK-LODGIFY-DONE | Done | |
+| ID | Notes | Current Copy | New Copy |
+|---|---|---|---|
+| BOOK-LODGIFY-CHECKIN | | Check-in | |
+| BOOK-LODGIFY-CHECKOUT | | Check-out | |
+| BOOK-LODGIFY-GUESTS | Top-level guests field label | Guests | |
+| BOOK-LODGIFY-TOTAL | | Total price: | |
+| BOOK-LODGIFY-SELECTDATES | | Select dates to see total price | |
+| BOOK-LODGIFY-FROM | | From | |
+| BOOK-LODGIFY-PERNIGHT | | per night | |
+| BOOK-LODGIFY-BOOKNOW | | Book now | |
+| BOOK-LODGIFY-DONE | Closes the guest-breakdown panel below | Done | |
+| BOOK-LODGIFY-GUESTSINGULAR | Guest count display when exactly 1 guest is selected ({{NumberOfGuests}} is filled in by the widget, don't remove) | {{NumberOfGuests}} guest | |
+| BOOK-LODGIFY-GUESTPLURAL | Guest count display for 2+ guests | {{NumberOfGuests}} guests | |
+| BOOK-LODGIFY-GUESTBREAKDOWN | Heading inside the guest-breakdown panel (adults/children/infants/pets counters) | Guests | |
+| BOOK-LODGIFY-ADULTS | Adult counter row label, singular/plural pair | {"one":"adult","other":"adults"} | |
+| BOOK-LODGIFY-ADULTSDESC | Adult counter row helper text ({minAge} filled in by the widget) | Ages {minAge} or above | |
+| BOOK-LODGIFY-CHILDREN | Child counter row label, singular/plural pair | {"one":"child","other":"children"} | |
+| BOOK-LODGIFY-CHILDRENDESC | Child counter row helper text ({minAge}/{maxAge} filled in by the widget) | Ages {minAge}-{maxAge} | |
+| BOOK-LODGIFY-CHILDRENNO | Shown instead of the child counter if the listing doesn't accept children | Not suitable for children | |
+| BOOK-LODGIFY-INFANTS | Infant counter row label, singular/plural pair | {"one":"infant","other":"infants"} | |
+| BOOK-LODGIFY-INFANTSDESC | Infant counter row helper text ({maxAge} filled in by the widget) | Under {maxAge} | |
+| BOOK-LODGIFY-INFANTSNO | Shown instead of the infant counter if the listing doesn't accept infants | Not suitable for infants | |
+| BOOK-LODGIFY-PETS | Pet counter row label, singular/plural pair | {"one":"pet","other":"pets"} | |
+| BOOK-LODGIFY-PETSNO | Shown instead of the pet counter — pets aren't currently allowed | Not allowed | |
+
+Note: the widget's `adults`/`children`/`infants`/`pets` rows use Lodgify's own `{"one":"...","other":"..."}` pluralization format — edit the words inside the quotes, but keep that JSON-like structure intact or the widget will render it literally.
 
 *(Book page also includes the shared Policy Block, Getting Here, and FAQ Block sections — see below.)*
 
@@ -546,6 +564,8 @@ Three long-form travel guides (Dougga, Testour, olive harvest) built to attract 
 | ID | Notes | Current Copy | New Copy |
 |---|---|---|---|
 | SHARED-CAL-TITLE | Calendar title | Availability calendar | |
+| SHARED-CAL-PREV | Aria-label on the "previous month" arrow button (not visibly printed, read by screen readers) | Previous month | |
+| SHARED-CAL-NEXT | Aria-label on the "next month" arrow button (not visibly printed, read by screen readers) | Next month | |
 | SHARED-CAL-LOADING | Loading state | Checking available dates… | |
 | SHARED-CAL-ERROR1 | Error state, line 1 | The calendar is temporarily unavailable. | |
 | SHARED-CAL-ERROR2 | Error state, line 2 | Try again, or ask Mahdi to check your dates directly. | |
@@ -563,6 +583,9 @@ Three long-form travel guides (Dougga, Testour, olive harvest) built to attract 
 | SHARED-CAL-FIRSTNAME | Field label | First name | |
 | SHARED-CAL-FIRSTNAMEPH | Field placeholder | Your first name | |
 | SHARED-CAL-GUESTS | Field label | Guests | |
+| SHARED-CAL-GUEST1 | Guest dropdown, option 1 | 1 guest | |
+| SHARED-CAL-GUEST2 | Guest dropdown, option 2 | 2 guests | |
+| SHARED-CAL-GUEST3 | Guest dropdown, option 3 | 3 guests | |
 | SHARED-CAL-SUBMIT | Submit button | Send selected dates on WhatsApp | |
 | SHARED-CAL-VALID1 | Validation message | Select your check-in and check-out dates | |
 | SHARED-CAL-VALID2 | Validation message | Enter your first name to continue | |
