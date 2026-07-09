@@ -151,9 +151,12 @@ h1, h2, h3 {
 
 /* --- CSS-driven motion (replaces framer-motion so first paint never waits on JS) --- */
 
-/* Page transition fade (app/[locale]/template.tsx) */
+/* Page transition fade (app/[locale]/template.tsx).
+   Starts at 0.01, not 0: content painted at opacity 0 is permanently
+   excluded as an LCP candidate, which would make the navbar logo (outside
+   the template) the page's LCP element and tank the Lighthouse LCP. */
 @keyframes page-fade {
-  from { opacity: 0; }
+  from { opacity: 0.01; }
   to { opacity: 1; }
 }
 .page-fade {
