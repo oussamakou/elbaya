@@ -2,40 +2,14 @@
 
 ## How to use this document
 
+- This document lists only the copy that renders **visibly on the page** — headlines, buttons, body text, labels, form fields, review quotes. It does not include meta titles/descriptions (search-result snippets), image alt text, or aria-only labels read by screen readers but never printed on screen.
 - Every row has an **ID** (e.g. `HOME-HERO-01`). Please **don't change the ID** — it's how the edit gets mapped back to the right file in the site when we implement it.
 - Edit only the **New Copy** column. Leave it blank if a line is fine as-is.
-- The **Notes / where it appears** column gives context: what kind of element it is (headline, button, alt text...), any length constraint, and which page/section it's on.
+- The **Notes / where it appears** column gives context: what kind of element it is (headline, button, quick fact...), any length constraint, and which page/section it's on.
 - Some strings are **shared** across multiple pages (marked "shared" in Notes) — one edit updates it everywhere it appears.
 - A few items are flagged **⚠️ NEEDS DECISION** — pre-existing issues spotted during extraction (e.g. French text left on the English page). Please leave a note in New Copy on what to do, even if it's "leave as-is."
 - This is the **English** copy only. French lives in matching files and will be handled as a separate pass once English is locked — flag in Notes if a line shouldn't just be a literal translation (e.g. idioms, guest quotes).
 - Source: most copy comes from `content/en/*.json` content files; some is hardcoded directly in component files (noted per row where relevant — not needed for editing, just context for us).
-
----
-
-## Meta / SEO (search engine listings)
-
-| ID | Notes / where it appears | Current Copy | New Copy |
-|---|---|---|---|
-| META-HOME-TITLE | Home — browser tab / search title | Farm El Baya - Direct Farm Stay in Testour, Tunisia | |
-| META-HOME-DESC | Home — search result description | A private-room permaculture farm stay one hour from Tunis. Olive groves, animals, movement sessions, and direct booking from 180 DT/night. | |
-| META-STAY-TITLE | Stay page — title | Stay at Farm El Baya - The Baya Room Under Olive Trees | |
-| META-STAY-DESC | Stay page — description | A private room on a permaculture farm in Testour. Private bathroom, direct rate from 180 DT/night, farm breakfast and meals on request. | |
-| META-FARM-TITLE | Farm page — title | The Farm - Farm El Baya in Testour | |
-| META-FARM-DESC | Farm page — description | The story of Mahdi's family olive farm becoming a permaculture farm stay with animals, gardens, bees, and open land. | |
-| META-EXP-TITLE | Experiences page — title | Experiences at Farm El Baya - Movement, Harvests, Slow Days | |
-| META-EXP-DESC | Experiences page — description | Farm meals, yoga and calisthenics, beekeeping, olive harvest, guided tours to Andalusian Testour and Roman Dougga, stargazing, and slow, authentic days on the farm. | |
-| META-FORGE-TITLE | Forge page — title | Forge - Men's Retreat at Farm El Baya | |
-| META-FORGE-DESC | Forge page — description | A seven-day men's retreat in Testour: physical work, cold mornings, honest conversation, real food, and the land as teacher. | |
-| META-BOOK-TITLE | Book page — title | Book the Baya Room - Farm El Baya | |
-| META-BOOK-DESC | Book page — description | Check availability and book the Baya Room at Farm El Baya in Testour. International PayPal checkout and a local booking path for guests in Tunisia. | |
-| META-GUIDES-TITLE | Guides index — title | Guides - Dougga, Testour & the Olive Harvest - Farm El Baya | |
-| META-GUIDES-DESC | Guides index — description | Practical guides from Farm El Baya: visiting Roman Dougga, exploring Andalusian Testour, and joining the olive harvest in northern Tunisia. | |
-| META-GUIDES-DOUGGA-TITLE | Guides — Dougga article — title | Visiting Dougga from Farm El Baya - A Practical Guide | |
-| META-GUIDES-DOUGGA-DESC | Guides — Dougga article — description | How to visit Dougga, North Africa's best-preserved Roman city and a UNESCO site - what to see, when to go, and where to stay half an hour away. | |
-| META-GUIDES-TESTOUR-TITLE | Guides — Testour article — title | Testour Travel Guide - The Andalusian Town Near the Farm | |
-| META-GUIDES-TESTOUR-DESC | Guides — Testour article — description | What to see in Testour, Tunisia: the Great Mosque's backwards clock, Andalusian streets, the pomegranate festival, malouf music, and where to stay nearby. | |
-| META-GUIDES-HARVEST-TITLE | Guides — Olive Harvest article — title | Olive Harvest in Tunisia - Join the Season at Farm El Baya | |
-| META-GUIDES-HARVEST-DESC | Guides — Olive Harvest article — description | Join the olive harvest on a permaculture farm in Tunisia from October to December - pick with the family, press your own oil, and take a bottle home. | |
 
 ---
 
@@ -90,23 +64,6 @@
 | HOME-FORGE-BODY | Forge teaser banner, body | A separate seven-day men's retreat on this land. Physical work. Cold mornings. Honest conversation. | |
 | HOME-FORGE-CTA | Forge teaser banner, button | Explore Forge → | |
 
-**Image alt text (Homepage)** — not usually read by copywriters, but flag if you want any of these rewritten for SEO/accessibility:
-
-| ID | Current Alt Text | New Copy |
-|---|---|---|
-| HOME-ALT-01 | Mahdi jumping on the trampoline with two children at Farm El Baya | |
-| HOME-ALT-02 | A girl doing push-ups during a training session at Farm El Baya | |
-| HOME-ALT-03 | Mahdi doing pull-ups on a bar between trees at Farm El Baya | |
-| HOME-ALT-04 | Farm breakfast spread at Farm El Baya | |
-| HOME-ALT-05 | Inside a private room at Farm El Baya | |
-| HOME-ALT-06 | A walking trail through the farm | |
-| HOME-ALT-07 | Stargazing under the night sky | |
-| HOME-ALT-08 | Calisthenics bars set among the trees | |
-| HOME-ALT-09 | Handstand practice on the farm | |
-| HOME-ALT-10 | The open-air farm kitchen | |
-| HOME-ALT-11 | Beekeeping among the olive groves | |
-| HOME-ALT-12 | A baby goat on the farm | |
-
 ---
 
 ## Homepage — third-party reviews (not editable as marketing copy)
@@ -151,27 +108,16 @@ These 9 reviews are real quotes pulled from Google/Booking.com and displayed as 
 | STAY-ROOM-CTA | Room Showcase, button | Request the Baya Room | |
 | STAY-BREAKFAST-HEAD | Breakfast block heading | What breakfast looks like | |
 | STAY-BREAKFAST-BODY | Breakfast block body — rewritten to address a guest question about why breakfast seemed repetitive; now makes clear it varies day to day | No two mornings taste quite the same. Breakfast is set fresh each day from what the farm and local producers have on hand - farm eggs, olive oil pressed from trees you can see from your window, homemade yogurt, Tunisian flatbreads, seasonal fruit and juice among them. The table changes with the season. That's the point. | |
-| STAY-BREAKFAST-WA | New WhatsApp button under the breakfast text, for guests who have meal questions | Let's Connect | |
-| STAY-BREAKFAST-WAMSG | Pre-filled WhatsApp message when clicking the "Let's Connect" button above | Hi Mahdi, I have a question about breakfast at Farm El Baya. | |
+| STAY-BREAKFAST-WA | WhatsApp button under the breakfast text, for guests who have meal questions | Let's Connect | |
 | STAY-CABIN-LABEL | Olive Cabin block, small label | COMING SOON | |
 | STAY-CABIN-HEAD | Olive Cabin block heading | The Olive Cabin | |
 | STAY-CABIN-BODY | Olive Cabin block body | A standalone cabin being built among the olive trees. Private. Quiet. Its own outdoor kitchen. Its own sky. Join the list to be first to know. | |
 | STAY-CABIN-CTA | Olive Cabin block button | Notify me when it's ready | |
-| STAY-CABIN-WAMSG | Pre-filled WhatsApp message when clicking Olive Cabin notify | Hi Mahdi, please let me know when the Olive Cabin is ready. | |
 | STAY-NEARBY-HEAD | Nearby block heading | Nearby - beyond the farm | |
 | STAY-NEARBY-01 | Nearby item | Testour town - 15 min · Pomegranates, Andalusian heritage, local market | |
 | STAY-NEARBY-02 | Nearby item | Dougga - 20-40 min · UNESCO Roman city, one of North Africa's best preserved | |
 | STAY-NEARBY-03 | Nearby item | River - nearby · Swimming and walking | |
 | STAY-NEARBY-04 | Nearby item | Tunis - 1 hour · Day trips possible | |
-
-**Image alt text (Stay page):**
-
-| ID | Current Alt Text | New Copy |
-|---|---|---|
-| STAY-ALT-01 | Inside the Baya Room at Farm El Baya | |
-| STAY-ALT-02 | The Baya Room interior | |
-| STAY-ALT-03 | The Baya Room surroundings | |
-| STAY-ALT-04 | A farm breakfast laid out at Farm El Baya | |
 
 *(Stay page also includes the shared Booking Confidence, Getting Here, Policy Block, and FAQ Block sections — see "Shared sections" below.)*
 
@@ -196,13 +142,6 @@ These 9 reviews are real quotes pulled from Google/Booking.com and displayed as 
 | FARM-MAP-EXPAND | Map viewer control label | View full map | |
 | FARM-MAP-CLOSE | Map viewer control label | Close map | |
 | FARM-MAP-DOWNLOAD | Map viewer control label | Download | |
-
-**Image alt text (Farm page):**
-
-| ID | Current Alt Text | New Copy |
-|---|---|---|
-| FARM-ALT-01 | Farm El Baya among the olive trees | |
-| FARM-ALT-04 | Illustrated map of the Farm El Baya grounds | |
 
 ---
 
@@ -259,12 +198,6 @@ Note: Experiences page also shows the **full version** of the Movement & Family 
 | EXP-MOVE-CARD1-BODY | Movement & Family card 1 body | Yoga, calisthenics, and a farm gym for strength, balance, mobility, rings, and bodyweight practice. | |
 | EXP-MOVE-CARD2-TITLE | Movement & Family card 2 title | Open-air practice | |
 | EXP-MOVE-CARD2-BODY | Movement & Family card 2 body | Move under the trees, practice handstands, or join simple morning movement when Mahdi is available. | |
-
-**Image alt text (Experiences page):**
-
-| ID | Current Alt Text | New Copy |
-|---|---|---|
-| EXP-ALT-01 | The Movement Area at Farm El Baya | |
 
 ---
 
@@ -370,7 +303,7 @@ Note: the widget's `adults`/`children`/`infants`/`pets` rows use Lodgify's own `
 
 ---
 
-## Guides section (new — /guides)
+## Guides section (/guides)
 
 Three long-form travel guides (Dougga, Testour, olive harvest) built to attract search traffic for informational queries ("where to stay near Dougga", "Testour travel guide", "olive harvest Tunisia"). Each guide has its own hero image, quick facts, a lead paragraph, several sections, and a booking CTA, plus links to the other two guides at the bottom. Same structure exists in French — French rows aren't listed here per this doc's English-only scope (see note at top).
 
@@ -474,15 +407,7 @@ Three long-form travel guides (Dougga, Testour, olive harvest) built to attract 
 | GUIDES-HARVEST-CTA-HEAD | Bottom CTA heading | One room, one harvest, your oil. | |
 | GUIDES-HARVEST-CTA-BODY | Bottom CTA body | Come in autumn, pick with the family, and take the year's oil home in a bottle. | |
 
-**Image alt text (Guides):**
-
-| ID | Current Alt Text | New Copy |
-|---|---|---|
-| GUIDES-DOUGGA-ALT | The Roman capitol of Dougga in golden light, its columned portico against the sky | |
-| GUIDES-TESTOUR-ALT | Andalusian tilework on the minaret of the Great Mosque of Testour, with Stars of David set among the tiles | |
-| GUIDES-HARVEST-ALT | Guests picking fruit from a tree at Farm El Baya | |
-
-**Photo credits (not editable — required attribution for licensed third-party images).** The Dougga and Testour hero photos are sourced from Wikimedia Commons under Creative Commons licenses that require attribution; the credit line renders at the bottom of the article. The olive-harvest photo is the farm's own and carries no credit line. Flag in New Copy only if you'd rather commission original photography to replace the two licensed images.
+**Photo credits (visible caption at the bottom of the article, not editable — required attribution for licensed third-party images).** The Dougga and Testour hero photos are sourced from Wikimedia Commons under Creative Commons licenses that require attribution. The olive-harvest photo is the farm's own and carries no credit line. Flag in New Copy only if you'd rather commission original photography to replace the two licensed images.
 
 | ID | Guide | Current Copy |
 |---|---|---|
@@ -564,8 +489,6 @@ Three long-form travel guides (Dougga, Testour, olive harvest) built to attract 
 | ID | Notes | Current Copy | New Copy |
 |---|---|---|---|
 | SHARED-CAL-TITLE | Calendar title | Availability calendar | |
-| SHARED-CAL-PREV | Aria-label on the "previous month" arrow button (not visibly printed, read by screen readers) | Previous month | |
-| SHARED-CAL-NEXT | Aria-label on the "next month" arrow button (not visibly printed, read by screen readers) | Next month | |
 | SHARED-CAL-LOADING | Loading state | Checking available dates… | |
 | SHARED-CAL-ERROR1 | Error state, line 1 | The calendar is temporarily unavailable. | |
 | SHARED-CAL-ERROR2 | Error state, line 2 | Try again, or ask Mahdi to check your dates directly. | |
@@ -593,13 +516,6 @@ Three long-form travel guides (Dougga, Testour, olive harvest) built to attract 
 | SHARED-CAL-STEP1 | "What happens next" step 1 | Mahdi checks the dates and confirms the exact 30% deposit. | |
 | SHARED-CAL-STEP2 | "What happens next" step 2 | You receive the policy and Tunisian bank details. | |
 | SHARED-CAL-STEP3 | "What happens next" step 3 | The booking is added to Lodgify after the deposit is received. | |
-| SHARED-CAL-WAMSG | Pre-filled WhatsApp message template ({firstName}/{date}/{n} are auto-filled, don't remove) | Hello Mahdi, my name is {firstName} and I would like to book the Baya Room as a guest in Tunisia.\n\nCheck-in: {date}\nCheck-out: {date}\nGuests: {n}\n\nI understand that the dates are confirmed after the 30% deposit is received. | |
-
-### Default WhatsApp contact message (used site-wide when no other message is pre-filled)
-
-| ID | Current Copy | New Copy |
-|---|---|---|
-| SHARED-WA-DEFAULT | Hi Mahdi, I would like to check availability at Farm El Baya. | |
 
 ---
 
@@ -643,18 +559,3 @@ Three long-form travel guides (Dougga, Testour, olive harvest) built to attract 
 | COMMON-EMAIL-PH | Email field placeholder | Your email address | |
 | COMMON-NOTIFY | Post-submit button label | Notify me | |
 | COMMON-BACK | Back link | ← Back to Farm El Baya | |
-
----
-
-## Recently implemented (already live — for your reference, not for editing)
-
-Client feedback from WhatsApp was actioned directly on the site ahead of this handoff:
-
-- **"Mouvement Research" branding removed everywhere.** Renamed to "The Movement Area" throughout (experience listing, homepage pillar, Movement & Family section, image alt text, page meta). Copy now explicitly covers yoga, calisthenics, farm gym, running, and parkour rather than the old "practice space" framing.
-- **"Kids Playground Area" removed** from the experience list, the Movement & Family section (card and family paragraph), and the Policy Block's Families entry — the farm doesn't have a playground.
-- **`HOME-PILLAR3-BODY`** ("The land") rewritten from a comma-spliced list into a proper sentence, now referencing Andalusian Testour and Roman Dougga.
-- **`STAY-BREAKFAST-BODY`** rewritten to address a real guest question ("why is it always the same breakfast?") — now makes clear breakfast is set fresh daily from seasonal, local ingredients rather than a fixed menu.
-- **`EXP-ITEM05-BODY`** (Training Session) tightened to make clear assessment, training, and the take-home plan all happen within the single 90-minute session.
-- **Olive-oil tour wording** — checked against source; it already read "olive-oil tasting and a visit to an organic olive mill," so no "factory" wording was found to fix. Flagging in case this was seen somewhere else we should look at.
-- **New "Let's Connect" WhatsApp button added under the breakfast section** on the Stay page (`STAY-BREAKFAST-WA`, new row below), matching the client's annotated mockup. It opens WhatsApp with a pre-filled breakfast question. This is a new element — it didn't exist on the site before this pass.
-- **New `/guides` section added** (see "Guides section" above) — three SEO-driven long-form articles (Dougga, Testour, olive harvest) in English and French, each with real destination photography, a fact-checked lead and body, and its own meta title/description. Added to the main nav (desktop header + mobile menu) and the footer. A full site SEO pass also shipped alongside this: sitemap.xml, robots.txt, hreflang alternates between the English/French versions of every page, Open Graph/Twitter cards, and structured data (FAQPage on the Stay page, Article + BreadcrumbList on each guide, an enriched LodgingBusiness listing on the homepage) — none of this is copy for editing, flagged here for context only.
