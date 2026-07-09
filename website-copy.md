@@ -28,6 +28,14 @@
 | META-FORGE-DESC | Forge page — description | A seven-day men's retreat in Testour: physical work, cold mornings, honest conversation, real food, and the land as teacher. | |
 | META-BOOK-TITLE | Book page — title | Book the Baya Room - Farm El Baya | |
 | META-BOOK-DESC | Book page — description | Check availability and book the Baya Room at Farm El Baya in Testour. International PayPal checkout and a local booking path for guests in Tunisia. | |
+| META-GUIDES-TITLE | Guides index — title | Guides - Dougga, Testour & the Olive Harvest - Farm El Baya | |
+| META-GUIDES-DESC | Guides index — description | Practical guides from Farm El Baya: visiting Roman Dougga, exploring Andalusian Testour, and joining the olive harvest in northern Tunisia. | |
+| META-GUIDES-DOUGGA-TITLE | Guides — Dougga article — title | Visiting Dougga from Farm El Baya - A Practical Guide | |
+| META-GUIDES-DOUGGA-DESC | Guides — Dougga article — description | How to visit Dougga, North Africa's best-preserved Roman city and a UNESCO site - what to see, when to go, and where to stay half an hour away. | |
+| META-GUIDES-TESTOUR-TITLE | Guides — Testour article — title | Testour Travel Guide - The Andalusian Town Near the Farm | |
+| META-GUIDES-TESTOUR-DESC | Guides — Testour article — description | What to see in Testour, Tunisia: the Great Mosque's backwards clock, Andalusian streets, the pomegranate festival, malouf music, and where to stay nearby. | |
+| META-GUIDES-HARVEST-TITLE | Guides — Olive Harvest article — title | Olive Harvest in Tunisia - Join the Season at Farm El Baya | |
+| META-GUIDES-HARVEST-DESC | Guides — Olive Harvest article — description | Join the olive harvest on a permaculture farm in Tunisia from October to December - pick with the family, press your own oil, and take a bottle home. | |
 
 ---
 
@@ -344,6 +352,127 @@ Note: Experiences page also shows the **full version** of the Movement & Family 
 
 ---
 
+## Guides section (new — /guides)
+
+Three long-form travel guides (Dougga, Testour, olive harvest) built to attract search traffic for informational queries ("where to stay near Dougga", "Testour travel guide", "olive harvest Tunisia"). Each guide has its own hero image, quick facts, a lead paragraph, several sections, and a booking CTA, plus links to the other two guides at the bottom. Same structure exists in French — French rows aren't listed here per this doc's English-only scope (see note at top).
+
+### Guides index page
+
+| ID | Notes / where it appears | Current Copy | New Copy |
+|---|---|---|---|
+| GUIDES-INDEX-HEAD | Hero headline | Guides to the valley. | |
+| GUIDES-INDEX-SUB | Hero subheadline | Where we send our guests: the Roman city up the road, the Andalusian town down the hill, and the season that shapes the farm's whole year. | |
+| GUIDES-INDEX-LABEL | Small eyebrow label above the hero headline (shared: also used as the breadcrumb link text on every guide article) | Guides | |
+| GUIDES-READMORE | "Read the guide" link on each card (shared across index cards and related-guide links) | Read the guide | |
+| GUIDES-INDEX-CTA-HEAD | Bottom CTA heading | Stay in the middle of it all. | |
+| GUIDES-INDEX-CTA-BODY | Bottom CTA body | One private room on a working farm, an hour from Tunis - and fifteen minutes from everything in these guides. | |
+| GUIDES-INDEX-CTA-BTN | Bottom CTA button (shared: same button reused at the end of every guide article) | Check availability | |
+| GUIDES-BREADCRUMB-HOME | Breadcrumb link text, appears on every guide article ("Home / Guides") | Home | |
+| GUIDES-RELATED-HEAD | "Keep exploring" heading above the related-guides links at the bottom of every article | Keep exploring | |
+
+**Guide preview cards (index page)** — each card shows the guide's tag, hero line, and teaser. These are the same strings as `GUIDES-DOUGGA-TAG` / `-HERO` / `-TEASER` etc. below (and reused again as the "Keep exploring" related-guide cards on the other two articles) — edit once here, or in the guide's own table below; don't duplicate.
+
+### Dougga guide (/guides/dougga)
+
+| ID | Notes / where it appears | Current Copy | New Copy |
+|---|---|---|---|
+| GUIDES-DOUGGA-TAG | Small tag/pill shown on preview cards and the article | UNESCO World Heritage · 20-40 min from the farm | |
+| GUIDES-DOUGGA-HERO | Article H1 / preview card title | Dougga: a Roman city, almost to yourself. | |
+| GUIDES-DOUGGA-TEASER | Preview-card teaser text (index page + related-guide cards) | North Africa's best-preserved Roman town sits on a quiet hillside half an hour from the farm. Here is how to visit it well. | |
+| GUIDES-DOUGGA-FACT1 | Quick-facts strip, item 1 (label: Distance) | 20-40 min from the farm | |
+| GUIDES-DOUGGA-FACT2 | Quick-facts strip, item 2 (label: Status) | UNESCO World Heritage site | |
+| GUIDES-DOUGGA-FACT3 | Quick-facts strip, item 3 (label: Time needed) | 2-3 hours on site | |
+| GUIDES-DOUGGA-FACT4 | Quick-facts strip, item 4 (label: Best seasons) | Spring and autumn | |
+| GUIDES-DOUGGA-LEAD | Opening/lead paragraph, styled larger than body text | Dougga is widely described as the best-preserved Roman small town in North Africa - a UNESCO World Heritage site draped across a hillside of wheat fields and olive groves in Tunisia's Medjerda valley. It is 20 to 40 minutes by car from Farm El Baya, which makes the farm one of the closest places to spend the night near the site. This guide covers what to see, when to go, and how to turn the visit into a slow weekend rather than a rushed day trip from Tunis. | |
+| GUIDES-DOUGGA-SEC1-HEAD | Section 1 heading | Why Dougga is worth the trip | |
+| GUIDES-DOUGGA-SEC1-P1 | Section 1, paragraph 1 | Most visitors meet Roman Tunisia at Carthage, where the ruins share space with a modern suburb. Dougga is the opposite: an entire ancient town - streets, temples, houses, baths - left largely intact on its original hillside, with wheat fields below and almost no crowds. UNESCO listed it in 1997 as the best-preserved example of a small Roman town in North Africa. | |
+| GUIDES-DOUGGA-SEC1-P2 | Section 1, paragraph 2 | The city is older than Rome's arrival. It began as Thugga, a Numidian settlement, and that layered history is still legible in the stones - most visibly in the Libyco-Punic mausoleum, one of the very few pre-Roman monuments of its kind still standing anywhere. | |
+| GUIDES-DOUGGA-SEC2-HEAD | Section 2 heading | What to see on site | |
+| GUIDES-DOUGGA-SEC2-P1 | Section 2, paragraph 1 | The capitol is the postcard: a temple dedicated to Jupiter, Juno, and Minerva, raised in the second century AD, its portico still standing proud against the valley. A short walk away, the theatre - built around 168 AD with seating for some 3,500 spectators - remains complete enough that it still hosts performances during the Dougga Festival each July. | |
+| GUIDES-DOUGGA-SEC2-P2 | Section 2, paragraph 2 | Give yourself time beyond the two landmarks. The paved Roman streets lead past the market square, the baths, private houses, and the temple of Juno Caelestis with its crescent-shaped precinct. Many of Dougga's famous mosaics now hang in the Bardo Museum in Tunis, but here the town itself is the exhibit. | |
+| GUIDES-DOUGGA-SEC3-HEAD | Section 3 heading | When to go and what to bring | |
+| GUIDES-DOUGGA-SEC3-P1 | Section 3, paragraph 1 | Spring and autumn are the sweet spots: green hills and wildflowers from March to May, soft light and harvest colours in October and November. In summer, aim for early morning or the last hours of the day - the site is exposed and shade is scarce. | |
+| GUIDES-DOUGGA-SEC3-P2 | Section 3, paragraph 2 | The grounds are large and the ancient paving is uneven, so wear proper shoes and bring water and a hat. Facilities on site are minimal - part of the charm, but plan for it. Two to three hours covers the main circuit at an unhurried pace. | |
+| GUIDES-DOUGGA-SEC4-HEAD | Section 4 heading | Getting there from Farm El Baya | |
+| GUIDES-DOUGGA-SEC4-P1 | Section 4, paragraph 1 | The drive from the farm takes 20 to 40 minutes on countryside roads, passing near Teboursouk. If you would rather not navigate, Mahdi arranges a guided tour from the farm (from 50 DT per person) with a professional guide - including an olive-oil tasting and a visit to an organic olive mill along the way. | |
+| GUIDES-DOUGGA-SEC4-P2 | Section 4, paragraph 2 | Dougga pairs naturally with Testour, the Andalusian town fifteen minutes from the farm, for a full day of history in the Medjerda valley. | |
+| GUIDES-DOUGGA-SEC5-HEAD | Section 5 heading | Where to stay near Dougga | |
+| GUIDES-DOUGGA-SEC5-P1 | Section 5, paragraph 1 | There are no hotels at the site itself, and most visitors see it in a hurry from Tunis. Staying nearby changes the visit completely. Farm El Baya is a working permaculture farm about half an hour away, with one private room - the Baya Room, from 180 DT per night - farm breakfast in the morning, and rooftop stargazing under the same dark countryside sky the Romans knew. | |
+| GUIDES-DOUGGA-CTA-HEAD | Bottom CTA heading | Make it a slow weekend, not a day trip. | |
+| GUIDES-DOUGGA-CTA-BODY | Bottom CTA body | Stay the night half an hour from the ruins - farm breakfast before, stargazing after. | |
+
+### Testour guide (/guides/testour)
+
+| ID | Notes / where it appears | Current Copy | New Copy |
+|---|---|---|---|
+| GUIDES-TESTOUR-TAG | Small tag/pill shown on preview cards and the article | Andalusian heritage · 15 min from the farm | |
+| GUIDES-TESTOUR-HERO | Article H1 / preview card title | Testour: Andalusia, fifteen minutes away. | |
+| GUIDES-TESTOUR-TEASER | Preview-card teaser text | A town built by exiles from Spain four centuries ago, with a mosque clock that runs backwards and a festival for its pomegranates. | |
+| GUIDES-TESTOUR-FACT1 | Quick-facts strip, item 1 (label: Distance) | 15 min from the farm | |
+| GUIDES-TESTOUR-FACT2 | Quick-facts strip, item 2 (label: Founded) | Early 1600s, by Andalusian exiles | |
+| GUIDES-TESTOUR-FACT3 | Quick-facts strip, item 3 (label: Famous for) | Backwards clock · pomegranates · malouf | |
+| GUIDES-TESTOUR-FACT4 | Quick-facts strip, item 4 (label: Best time) | Autumn festivals, or any market day | |
+| GUIDES-TESTOUR-LEAD | Opening/lead paragraph | Fifteen minutes from Farm El Baya, in the Medjerda river valley, Testour is one of the most unusual towns in Tunisia. It was built in the early 1600s by Andalusian Muslims expelled from Spain, and four centuries later that heritage still lives in its architecture, its music, and its festivals. This guide covers what to see, when the festivals happen, and how to fold Testour into a farm stay. | |
+| GUIDES-TESTOUR-SEC1-HEAD | Section 1 heading | A piece of Andalusia in the Medjerda valley | |
+| GUIDES-TESTOUR-SEC1-P1 | Section 1, paragraph 1 | When Spain expelled its last Muslim communities after 1609, thousands of families crossed the Mediterranean and rebuilt their lives in northern Tunisia. Testour is their most complete creation: a town laid out on Andalusian lines, with tiled roofs, arched doorways, and brick minarets that would not look out of place in southern Spain. | |
+| GUIDES-TESTOUR-SEC1-P2 | Section 1, paragraph 2 | It is still a living country town rather than a museum - which is exactly why it rewards a slow visit. Wander the main street, look up at the rooflines, and glance into the courtyards when a door stands open. | |
+| GUIDES-TESTOUR-SEC2-HEAD | Section 2 heading | The Great Mosque and its backwards clock | |
+| GUIDES-TESTOUR-SEC2-P1 | Section 2, paragraph 1 | Testour's landmark is its Great Mosque, built in the seventeenth century by the Andalusian settlers - look for the Stars of David worked into the minaret's tiles, a nod to the Jewish community that helped build the town. Then look closely at the clock: its face runs counter-clockwise, one of the very few clocks in the world that run backwards. Nobody is entirely sure why - the theories range from nostalgia for a lost homeland to a craftsman's signature - and after decades stopped, it was restored to working order in 2014 by a descendant of the town's Andalusian families. | |
+| GUIDES-TESTOUR-SEC3-HEAD | Section 3 heading | Pomegranates, markets, and malouf | |
+| GUIDES-TESTOUR-SEC3-P1 | Section 3, paragraph 1 | Testour's pomegranates are famous across Tunisia, and the town celebrates them with a festival in late October when the harvest comes in. Each July, Testour hosts its International Festival of Malouf - the Andalusian classical music the exiles carried with them, and Tunisia's oldest festival devoted to it - filling summer evenings with music. | |
+| GUIDES-TESTOUR-SEC3-P2 | Section 3, paragraph 2 | The weekly market is the best way to see the town at work. For a meal out, Le Malouf in Testour is a good address, and Les Vergers des Montagnes, fifteen minutes away, is worth reserving a day ahead. | |
+| GUIDES-TESTOUR-SEC4-HEAD | Section 4 heading | Make it a half-day from the farm | |
+| GUIDES-TESTOUR-SEC4-P1 | Section 4, paragraph 1 | Testour is the easiest outing from Farm El Baya - fifteen minutes by car, or the first stop on a guided day that continues to the Roman city of Dougga. Mahdi arranges tours with a professional guide from 50 DT per person, including an olive-oil tasting and a visit to an organic olive mill. The small grocery shops in town also make Testour the practical stop if you plan to cook in the farm's two kitchens. | |
+| GUIDES-TESTOUR-SEC5-HEAD | Section 5 heading | Where to stay near Testour | |
+| GUIDES-TESTOUR-SEC5-P1 | Section 5, paragraph 1 | Farm El Baya sits in the countryside at Slouguia, fifteen minutes from town - a working permaculture farm with a single private room, the Baya Room, from 180 DT per night, with farm breakfast available each morning. Time your stay to the pomegranate festival and you can pick fruit on the farm the same weekend. | |
+| GUIDES-TESTOUR-CTA-HEAD | Bottom CTA heading | Festivals in town, quiet on the farm. | |
+| GUIDES-TESTOUR-CTA-BODY | Bottom CTA body | Stay fifteen minutes from Testour - close for the market mornings, far from the noise at night. | |
+
+### Olive harvest guide (/guides/olive-harvest)
+
+| ID | Notes / where it appears | Current Copy | New Copy |
+|---|---|---|---|
+| GUIDES-HARVEST-TAG | Small tag/pill shown on preview cards and the article | October - December · 50 DT / person | |
+| GUIDES-HARVEST-HERO | Article H1 / preview card title | Join the olive harvest. | |
+| GUIDES-HARVEST-TEASER | Preview-card teaser text | From October to December the farm's groves come alive. Pick with the family, press your own oil, and taste it at breakfast. | |
+| GUIDES-HARVEST-FACT1 | Quick-facts strip, item 1 (label: Season) | October to December | |
+| GUIDES-HARVEST-FACT2 | Quick-facts strip, item 2 (label: Price) | 50 DT / person | |
+| GUIDES-HARVEST-FACT3 | Quick-facts strip, item 3 (label: The groves) | 40 acres in permaculture transition | |
+| GUIDES-HARVEST-FACT4 | Quick-facts strip, item 4 (label: Take home) | Your own bottled oil | |
+| GUIDES-HARVEST-LEAD | Opening/lead paragraph | Tunisia is one of the largest olive-oil producers on earth, and from October to December the whole north of the country turns to the harvest. At Farm El Baya, a 40-acre permaculture farm near Testour, guests can join it - picking alongside the family, following the fruit to an organic mill, and tasting oil pressed from trees you can see from the room's windows. The harvest experience costs 50 DT per person. | |
+| GUIDES-HARVEST-SEC1-HEAD | Section 1 heading | Why Tunisia is an olive country | |
+| GUIDES-HARVEST-SEC1-P1 | Section 1, paragraph 1 — fact checked against the International Olive Council's 2025/26 season figures | Olive trees have been cultivated in this valley since Carthaginian and Roman times - the ruins at nearby Dougga were built on wheat and olive wealth. In the 2025/26 season, Tunisia became the world's second-largest olive-oil producer behind Spain, according to the International Olive Council - and the north, around the Medjerda valley, is some of its most fertile ground. | |
+| GUIDES-HARVEST-SEC1-P2 | Section 1, paragraph 2 | Farm El Baya's groves are part of that story, with a twist: four years ago the family began converting 40 acres of conventional monoculture olives to permaculture - working with the land instead of against it. The harvest is the moment the whole year points toward. | |
+| GUIDES-HARVEST-SEC2-HEAD | Section 2 heading | What a harvest day looks like | |
+| GUIDES-HARVEST-SEC2-P1 | Section 2, paragraph 1 | The work is done by hand and by comb: nets spread beneath the trees, olives raked from the branches, sorted and sacked. It is genuinely physical, genuinely satisfying work - the kind you fall into a rhythm with after twenty minutes. Guests join for as much or as little as they like. | |
+| GUIDES-HARVEST-SEC2-P2 | Section 2, paragraph 2 | The olives then travel to an organic mill nearby to be pressed. Fresh oil, days old, tastes nothing like supermarket oil - green, peppery, alive. Guests take their own bottles home; the oil is priced separately by size and quality. | |
+| GUIDES-HARVEST-SEC3-HEAD | Section 3 heading | Taste it at the source | |
+| GUIDES-HARVEST-SEC3-P1 | Section 3, paragraph 1 | During harvest season, breakfast on the farm (20 DT) comes with the year's new oil - over farm eggs, flatbread, and whatever the garden gives that morning. To go deeper, the guided tour toward Testour and Dougga includes an olive-oil tasting. | |
+| GUIDES-HARVEST-SEC4-HEAD | Section 4 heading | When to come and what to bring | |
+| GUIDES-HARVEST-SEC4-P1 | Section 4, paragraph 1 | The harvest runs October to December, and late October overlaps with Testour's pomegranate festival, fifteen minutes away - the farm's own pomegranates, figs, and almonds ripen in the same window. Bring clothes that can get dusty and closed shoes; the farm provides the rest. | |
+| GUIDES-HARVEST-SEC4-P2 | Section 4, paragraph 2 | Autumn is also simply the farm's best light: warm days, cool nights, and clear skies for stargazing from the rooftop. | |
+| GUIDES-HARVEST-SEC5-HEAD | Section 5 heading | Plan a harvest stay | |
+| GUIDES-HARVEST-SEC5-P1 | Section 5, paragraph 1 | There is one room on the farm - the Baya Room, from 180 DT per night - so harvest weekends confirm fast. Book direct, mention that you want to join the harvest, and the family will plan your dates around the picking. | |
+| GUIDES-HARVEST-CTA-HEAD | Bottom CTA heading | One room, one harvest, your oil. | |
+| GUIDES-HARVEST-CTA-BODY | Bottom CTA body | Come in autumn, pick with the family, and take the year's oil home in a bottle. | |
+
+**Image alt text (Guides):**
+
+| ID | Current Alt Text | New Copy |
+|---|---|---|
+| GUIDES-DOUGGA-ALT | The Roman capitol of Dougga in golden light, its columned portico against the sky | |
+| GUIDES-TESTOUR-ALT | Andalusian tilework on the minaret of the Great Mosque of Testour, with Stars of David set among the tiles | |
+| GUIDES-HARVEST-ALT | Guests picking fruit from a tree at Farm El Baya | |
+
+**Photo credits (not editable — required attribution for licensed third-party images).** The Dougga and Testour hero photos are sourced from Wikimedia Commons under Creative Commons licenses that require attribution; the credit line renders at the bottom of the article. The olive-harvest photo is the farm's own and carries no credit line. Flag in New Copy only if you'd rather commission original photography to replace the two licensed images.
+
+| ID | Guide | Current Copy |
+|---|---|---|
+| GUIDES-DOUGGA-CREDIT | Dougga | Photo: Mohamed Amine Abassi, CC BY 2.0, via Wikimedia Commons |
+| GUIDES-TESTOUR-CREDIT | Testour | Photo: Bellyglad, CC BY 2.0, via Wikimedia Commons |
+
+---
+
 ## Shared sections (appear on multiple pages)
 
 ### Getting Here — Stay, Book pages
@@ -458,6 +587,7 @@ Note: Experiences page also shows the **full version** of the Movement & Family 
 | NAV-LINK-STAY | Nav link | Stay | |
 | NAV-LINK-FARM | Nav link | The Farm | |
 | NAV-LINK-EXP | Nav link | Experiences | |
+| NAV-LINK-GUIDES | Nav link (desktop header + mobile menu; also appears as a footer link, hardcoded to match) | Guides | |
 | NAV-LINK-BOOK | Nav link | Book | |
 | NAV-LINK-FORGE | Nav link | Forge | |
 | NAV-CTA-BOOK | Primary button (default) | Book now | |
@@ -504,3 +634,4 @@ Client feedback from WhatsApp was actioned directly on the site ahead of this ha
 - **`EXP-ITEM05-BODY`** (Training Session) tightened to make clear assessment, training, and the take-home plan all happen within the single 90-minute session.
 - **Olive-oil tour wording** — checked against source; it already read "olive-oil tasting and a visit to an organic olive mill," so no "factory" wording was found to fix. Flagging in case this was seen somewhere else we should look at.
 - **New "Let's Connect" WhatsApp button added under the breakfast section** on the Stay page (`STAY-BREAKFAST-WA`, new row below), matching the client's annotated mockup. It opens WhatsApp with a pre-filled breakfast question. This is a new element — it didn't exist on the site before this pass.
+- **New `/guides` section added** (see "Guides section" above) — three SEO-driven long-form articles (Dougga, Testour, olive harvest) in English and French, each with real destination photography, a fact-checked lead and body, and its own meta title/description. Added to the main nav (desktop header + mobile menu) and the footer. A full site SEO pass also shipped alongside this: sitemap.xml, robots.txt, hreflang alternates between the English/French versions of every page, Open Graph/Twitter cards, and structured data (FAQPage on the Stay page, Article + BreadcrumbList on each guide, an enriched LodgingBusiness listing on the homepage) — none of this is copy for editing, flagged here for context only.
