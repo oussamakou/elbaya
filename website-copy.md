@@ -47,7 +47,7 @@
 | HOME-PILLAR1-TITLE | Three Pillars, pillar 1 title | The room | |
 | HOME-PILLAR1-BODY | Three Pillars, pillar 1 body | One private room - the Baya Room - with a private bathroom, quiet mornings, and a direct rate from 180 DT per night. | |
 | HOME-PILLAR2-TITLE | Three Pillars, pillar 2 title | The table | |
-| HOME-PILLAR2-BODY | Three Pillars, pillar 2 body | Farm breakfast on request (20 DT) - eggs, olive oil, yogurt, and seasonal fruit. Lunch and dinner on request: Tunisian home cooking by Mahdi's mother. | |
+| HOME-PILLAR2-BODY | Three Pillars, pillar 2 body — reworded so it doesn't read as a fixed daily menu (same fix as the Stay-page breakfast section) | Farm breakfast on request (20 DT) - fresh and seasonal, different every morning. Lunch and dinner on request: Tunisian home cooking by Mahdi's mother. | |
 | HOME-PILLAR3-TITLE | Three Pillars, pillar 3 title | The land | |
 | HOME-PILLAR3-BODY | Three Pillars, pillar 3 body | Forty acres of olive groves, pomegranates, and fig trees, with beehives, animals, and trails between them. Stargaze from the rooftop, or step out to Andalusian Testour and Roman Dougga, both a short drive from this authentic, working farm. | |
 | HOME-PILLAR-LINK | Link label under each pillar | Discover more | |
@@ -504,12 +504,3 @@ Client feedback from WhatsApp was actioned directly on the site ahead of this ha
 - **`EXP-ITEM05-BODY`** (Training Session) tightened to make clear assessment, training, and the take-home plan all happen within the single 90-minute session.
 - **Olive-oil tour wording** — checked against source; it already read "olive-oil tasting and a visit to an organic olive mill," so no "factory" wording was found to fix. Flagging in case this was seen somewhere else we should look at.
 - **New "Let's Connect" WhatsApp button added under the breakfast section** on the Stay page (`STAY-BREAKFAST-WA`, new row below), matching the client's annotated mockup. It opens WhatsApp with a pre-filled breakfast question. This is a new element — it didn't exist on the site before this pass.
-
-## Open questions for you (copywriter/site owner)
-
-1. **`HOME-TEST-04`** — Souhir's testimonial is in French on the English homepage. Translate, or keep as an authentic-voice touch?
-2. **`HOME-REV-05`** — Mehdi Slim's review is in French with no translation. Same question.
-3. **`404-SUBHEAD`** — French line "Cette page s'est égarée." appears on the English 404 page. Intentional bilingual touch, or should it be removed/translated?
-4. **`HOME-PILLAR-DECOR`** — "El Baya Retreat" is large decorative background text behind the Three Pillars section, not really "read" as copy — flag only if you want it changed or removed.
-
-Once this comes back, note in your reply which IDs changed (or just leave New Copy filled in) and I'll implement the edits directly in the source files.
