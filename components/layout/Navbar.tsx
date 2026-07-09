@@ -61,7 +61,10 @@ export default function Navbar() {
     };
   }, [open]);
 
-  const startsOnLight = pathname.includes('/book');
+  // Both of these start with a light (bg-sand) hero rather than a dark image,
+  // so the nav needs dark text before the user scrolls. Guide articles
+  // (/guides/[slug]) keep a dark hero image like every other page.
+  const startsOnLight = pathname.includes('/book') || pathname === '/guides';
   const tone = isForge ? 'text-cream' : scrolled || startsOnLight ? 'text-earth' : 'text-cream';
   const shell = scrolled ? (isForge ? 'bg-dusk/92 border-cream/10' : 'bg-sand/92 border-mist') : 'bg-transparent border-transparent';
 
