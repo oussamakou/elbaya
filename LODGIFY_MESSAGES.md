@@ -12,13 +12,13 @@ Use the same accommodation name across the direct site, Lodgify, Airbnb, and Boo
 
 **Public name:** The Baya Room at Farm El Baya
 
-**Platform headline:** Olive-Grove Farm Stay with Indoor-Outdoor Gym
+**Platform headline:** Olive-Grove Farm Stay with Indoor & Outdoor Gym
 
 **EN description**
 
-Slow down in the Baya Room, an air-conditioned private room with its own bathroom on our family-run, 40-acre permaculture farm near Testour. Wake among olive, pomegranate, and fig trees, meet the animals that roam the farm, train in the indoor-outdoor movement gym, and end the day stargazing from the rooftop.
+Slow down in the Baya Room, an air-conditioned private room with its own bathroom on our family-run, 40-acre permaculture farm near Testour. Wake among olive, pomegranate, and fig trees, meet the animals that roam the farm, train in the indoor and outdoor gym, and end the day stargazing from the rooftop.
 
-The room sleeps up to three guests. Your stay includes access to the farm's trails and shared outdoor spaces, plus the movement gym for yoga, calisthenics, mobility, rings, climbing, running, and parkour. You can also use two shared kitchens — one indoors and one open-air. A seasonal farm breakfast is available on request for 20 TND per person; home-cooked Tunisian lunch or dinner can be prepared with advance notice for 40 TND per person.
+The room sleeps up to three guests. Your stay includes access to the farm's trails and shared outdoor spaces, plus the gym for yoga, calisthenics, mobility, rings, climbing, running, and parkour. You can also use two shared kitchens — one indoors and one open-air. A seasonal farm breakfast is available on request for 20 TND per person; home-cooked Tunisian lunch or dinner can be prepared with advance notice for 40 TND per person.
 
 Farm El Baya is approximately one hour from Tunis, 15 minutes from Testour, and 20–40 minutes from the Roman ruins of Dougga.
 
@@ -26,9 +26,9 @@ This is a living, working farm rather than a resort. Animals roam freely, rural 
 
 **FR description**
 
-Ralentissez dans la Chambre Baya, une chambre privée climatisée avec sa propre salle de bain, au cœur de notre ferme permaculturelle familiale de 40 acres près de Testour. Réveillez-vous entre oliviers, grenadiers et figuiers, rencontrez les animaux qui vivent en liberté, entraînez-vous dans l'espace de mouvement intérieur et extérieur, puis terminez la journée sous les étoiles sur le toit.
+Ralentissez dans la Chambre Baya, une chambre privée climatisée avec sa propre salle de bain, au cœur de notre ferme permaculturelle familiale de 40 acres près de Testour. Réveillez-vous entre oliviers, grenadiers et figuiers, rencontrez les animaux qui vivent en liberté, entraînez-vous dans la salle de sport intérieure et extérieure, puis terminez la journée sous les étoiles sur le toit.
 
-La chambre accueille jusqu'à trois personnes. Votre séjour inclut l'accès aux sentiers et aux espaces extérieurs partagés, ainsi qu'à l'espace de mouvement pour le yoga, la callisthénie, la mobilité, les anneaux, la grimpe, la course et le parkour. Vous pouvez également utiliser deux cuisines partagées — une intérieure et une en plein air. Un petit-déjeuner fermier de saison est disponible sur demande à 20 TND par personne ; un déjeuner ou dîner tunisien maison peut être préparé sur réservation à 40 TND par personne.
+La chambre accueille jusqu'à trois personnes. Votre séjour inclut l'accès aux sentiers et aux espaces extérieurs partagés, ainsi qu'à la salle de sport pour le yoga, la callisthénie, la mobilité, les anneaux, la grimpe, la course et le parkour. Vous pouvez également utiliser deux cuisines partagées — une intérieure et une en plein air. Un petit-déjeuner fermier de saison est disponible sur demande à 20 TND par personne ; un déjeuner ou dîner tunisien maison peut être préparé sur réservation à 40 TND par personne.
 
 Farm El Baya se trouve à environ une heure de Tunis, 15 minutes de Testour et 20 à 40 minutes du site romain de Dougga.
 

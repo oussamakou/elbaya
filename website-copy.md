@@ -18,7 +18,7 @@
 | ID | Notes / where it appears | Current Copy | New Copy |
 |---|---|---|---|
 | HOME-HERO-HEAD | Hero headline (renders on two lines) | Farm stays under\nthe olive trees. | |
-| HOME-HERO-SUB | Hero subheadline | A private room on a 40-acre permaculture farm in Testour, one hour from Tunis. Olive groves, animals, and an indoor-outdoor movement gym. | |
+| HOME-HERO-SUB | Hero subheadline | A private room on a 40-acre permaculture farm in Testour, one hour from Tunis. Olive groves, animals, and room to move. | |
 | HOME-HERO-CTA | Hero button | Check availability | |
 | HOME-HERO-SCROLL | Small "scroll" hint below the hero, only on the homepage (other pages' heroes don't have this) | Scroll | |
 | HOME-FACTS-01 | Quick-facts strip, item 1 | Baya Room · sleeps 3 | |
@@ -94,15 +94,14 @@ These 9 reviews are real quotes pulled from Google/Booking.com and displayed as 
 | STAY-FACTS-03 | Quick-facts strip, item 3 | From 180 DT / night | |
 | STAY-FACTS-04 | Quick-facts strip, item 4 | 20 DT add-on | |
 | STAY-FACTS-05 | Quick-facts strip, item 5 | Within 24 hours | |
-| STAY-INTRO-BODY | Intro paragraph | The Baya Room has its own bathroom, air conditioning, olive-grove light, and the quiet of a working farm. Your stay includes access to 40 acres, the rooftop, the animals, and the indoor-outdoor movement gym. Farm breakfast is available each morning (20 DT). | |
+| STAY-INTRO-BODY | Intro paragraph | One private room - the Baya Room - with its own bathroom, air conditioning, its own light, and its own quiet. Farm breakfast is available each morning (20 DT). This is not a hotel. It is a living farm that welcomes one stay at a time. | |
 | STAY-INTRO-CTA | Intro button | Check availability | |
 | STAY-ROOM-NAME | Room Showcase, room name | The Baya Room | |
 | STAY-ROOM-BADGE | Room Showcase, rate badge | From 180 DT / night | |
-| STAY-ROOM-INTRO | Room Showcase, intro text | A private, air-conditioned room with the olive groves, rooftop, and indoor-outdoor movement gym just outside. | |
+| STAY-ROOM-INTRO | Room Showcase, intro text | The Baya Room is private and air-conditioned. The olive groves, rooftop, and quiet of a working farm are just outside. | |
 | STAY-ROOM-SPEC1 | Room Showcase, spec line | Private room with a private bathroom | |
 | STAY-ROOM-SPEC2 | Room Showcase, spec line | Sleeps up to 3 guests | |
 | STAY-ROOM-SPEC3 | Room Showcase, spec line | Air conditioning | |
-| STAY-ROOM-SPEC4 | Room Showcase, spec line | Indoor-outdoor movement gym included | |
 | STAY-ROOM-ADDONLABEL | Room Showcase, add-ons section label | Add-ons | |
 | STAY-ROOM-ADDON1 | Room Showcase, add-on | Farm breakfast on request - 20 DT | |
 | STAY-ROOM-ADDON2 | Room Showcase, add-on | Lunch & dinner on request - 40 DT each | |
@@ -467,7 +466,7 @@ Three long-form travel guides (Dougga, Testour, olive harvest) built to attract 
 |---|---|---|---|
 | SHARED-FAQ-HEAD | Section heading | Practical questions | |
 | SHARED-FAQ01-Q | Question 1 | What is included? | |
-| SHARED-FAQ01-A | Answer 1 | A private room and bathroom with air conditioning, plus access to the farm's rooftop, trails, animals, indoor-outdoor movement gym, and shared outdoor spaces. Farm breakfast (20 DT) and meals are available as add-ons. | |
+| SHARED-FAQ01-A | Answer 1 | A private room and bathroom with air conditioning, plus access to the farm's rooftop, trails, animals, and shared outdoor spaces. Farm breakfast (20 DT) and meals are available as add-ons. | |
 | SHARED-FAQ02-Q | Question 2 | Can I request breakfast, lunch or dinner? | |
 | SHARED-FAQ02-A | Answer 2 | Yes. Farm breakfast is 20 DT, and lunch and dinner are 40 DT each, per person - all on request and confirmed with your booking details. | |
 | SHARED-FAQ03-Q | Question 3 | How do I get there? | |

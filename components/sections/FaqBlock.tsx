@@ -1,6 +1,6 @@
 const faqs = {
   en: [
-    ['What is included?', "A private room and bathroom with air conditioning, plus access to the farm's rooftop, trails, animals, indoor-outdoor movement gym, and shared outdoor spaces. Farm breakfast (20 DT) and meals are available as add-ons."],
+    ['What is included?', "A private room and bathroom with air conditioning, plus access to the farm's rooftop, trails, animals, and shared outdoor spaces. Farm breakfast (20 DT) and meals are available as add-ons."],
     ['Can I request breakfast, lunch or dinner?', 'Yes. Farm breakfast is 20 DT, and lunch and dinner are 40 DT each, per person - all on request and confirmed with your booking details.'],
     ['How do I get there?', 'The farm is in Slouguia village, about one hour from Tunis - take the Testour exit off the Béja highway. Exact directions and a GPS link are shared after your booking request.'],
     ['How do I pay the deposit?', 'International guests pay the 30% deposit through PayPal during Lodgify checkout. Guests in Tunisia confirm their dates with Mahdi on WhatsApp and receive local bank-transfer details. The balance is settled on arrival.'],
@@ -11,7 +11,7 @@ const faqs = {
     ['Can we check out later than 11:00 AM?', "Often, yes - especially for a late flight. Just let us know your travel plans and we'll do our best to work something out."]
   ],
   fr: [
-    ["Qu'est-ce qui est inclus ?", "Une chambre et une salle de bain privées avec climatisation, ainsi que l'accès au toit, aux sentiers, aux animaux, à l'espace de mouvement intérieur et extérieur et aux espaces partagés de la ferme. Le petit-déjeuner de la ferme (20 DT) et les repas sont disponibles en option."],
+    ["Qu'est-ce qui est inclus ?", "Une chambre et une salle de bain privées avec climatisation, ainsi que l'accès au toit, aux sentiers, aux animaux et aux espaces partagés de la ferme. Le petit-déjeuner de la ferme (20 DT) et les repas sont disponibles en option."],
     ['Puis-je demander le petit-déjeuner, le déjeuner ou le dîner ?', "Oui. Le petit-déjeuner de la ferme est à 20 DT, le déjeuner et le dîner à 40 DT chacun, par personne - tout sur demande et confirmé avec votre réservation."],
     ['Comment arriver ?', "La ferme se trouve au village de Slouguia, à environ une heure de Tunis - prenez la sortie de Testour sur l'autoroute de Béja. L'itinéraire exact et un lien GPS sont envoyés après votre demande."],
     ["Comment régler l'acompte ?", "Les hôtes internationaux règlent l'acompte de 30 % via PayPal pendant la réservation Lodgify. En Tunisie, les dates sont confirmées avec Mahdi sur WhatsApp avant l'envoi des coordonnées bancaires locales. Le solde se règle à l'arrivée."],
