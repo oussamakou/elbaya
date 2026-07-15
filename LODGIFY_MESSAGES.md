@@ -6,12 +6,40 @@ The voice and details below come directly from reading real WhatsApp conversatio
 
 **How to use this file:** copy each block into the matching message in Lodgify's Scheduled Messages editor. Edit freely — this is a starting point, not a fixed script. Before pasting, double-check that any date-related tags you add actually exist in Lodgify's merge-tag picker — the tags used below (`GuestFirstName`, `HouseName`, `OwnerName`, `HousePhone`, `OwnerUrl`, `CurrencyCode`, `PaymentAmount`, `BookingId`) are confirmed from Lodgify's own default templates.
 
+## Public listing copy
+
+Use the same accommodation name across the direct site, Lodgify, Airbnb, and Booking.com:
+
+**Public name:** The Baya Room at Farm El Baya
+
+**Platform headline:** Olive-Grove Farm Stay with Indoor-Outdoor Gym
+
+**EN description**
+
+Slow down in the Baya Room, an air-conditioned private room with its own bathroom on our family-run, 40-acre permaculture farm near Testour. Wake among olive, pomegranate, and fig trees, meet the animals that roam the farm, train in the indoor-outdoor movement gym, and end the day stargazing from the rooftop.
+
+The room sleeps up to three guests. Your stay includes access to the farm's trails and shared outdoor spaces, plus the movement gym for yoga, calisthenics, mobility, rings, climbing, running, and parkour. You can also use two shared kitchens — one indoors and one open-air. A seasonal farm breakfast is available on request for 20 TND per person; home-cooked Tunisian lunch or dinner can be prepared with advance notice for 40 TND per person.
+
+Farm El Baya is approximately one hour from Tunis, 15 minutes from Testour, and 20–40 minutes from the Roman ruins of Dougga.
+
+This is a living, working farm rather than a resort. Animals roam freely, rural sounds are part of the experience, and Wi-Fi is suitable for basic use but can vary. Come for simple comfort, generous food, open land, and an authentic glimpse of farm life in northern Tunisia.
+
+**FR description**
+
+Ralentissez dans la Chambre Baya, une chambre privée climatisée avec sa propre salle de bain, au cœur de notre ferme permaculturelle familiale de 40 acres près de Testour. Réveillez-vous entre oliviers, grenadiers et figuiers, rencontrez les animaux qui vivent en liberté, entraînez-vous dans l'espace de mouvement intérieur et extérieur, puis terminez la journée sous les étoiles sur le toit.
+
+La chambre accueille jusqu'à trois personnes. Votre séjour inclut l'accès aux sentiers et aux espaces extérieurs partagés, ainsi qu'à l'espace de mouvement pour le yoga, la callisthénie, la mobilité, les anneaux, la grimpe, la course et le parkour. Vous pouvez également utiliser deux cuisines partagées — une intérieure et une en plein air. Un petit-déjeuner fermier de saison est disponible sur demande à 20 TND par personne ; un déjeuner ou dîner tunisien maison peut être préparé sur réservation à 40 TND par personne.
+
+Farm El Baya se trouve à environ une heure de Tunis, 15 minutes de Testour et 20 à 40 minutes du site romain de Dougga.
+
+C'est une ferme vivante en activité, pas un hôtel-club. Les animaux circulent librement, les sons de la campagne font partie de l'expérience et le Wi-Fi convient à un usage simple mais peut varier. Venez pour le confort sans artifice, une cuisine généreuse, l'espace et une immersion authentique dans la vie d'une ferme du nord de la Tunisie.
+
 ## Real details worth knowing (learned from past guest chats)
 
 - The farm is in **Slouguia village**, reached via the **Testour exit off the Béja highway**.
 - **The live arrival script that actually works** (used almost word-for-word, every time, once a guest is at the gate): *"Blue gate — open it if it's closed — then straight ahead, then left between the olive trees. The house is at the end."* Guests get lost even with the GPS link alone (one drove 80km out of his way) — always pair the link with this landmark script.
 - **Two kitchens** available for self-catering in the Baya suite: one shared indoor, one outdoor right in front of the guesthouse. Small grocery shops are ~10 minutes away in **Testour or Mjez El Beb**.
-- **No air conditioning** — fans are provided, and rooms have several windows. **Heating** is available in winter (oil-filled radiators, extra blankets on request). **Towels and foutas** are provided.
+- **The Baya Room has air conditioning.** **Heating** is available in winter (oil-filled radiators, extra blankets on request). **Towels and foutas** are provided.
 - A **horse lives on the farm**, but there's no formal guided riding service — experienced riders are welcome to ride or walk with him informally.
 - **Three friendly dogs** live on the farm and may come say hello — worth mentioning proactively (as Mahdi already does), and confirming pets aren't allowed inside the house.
 - Nearby dining beyond the farm: **Les Vergers des Montagnes** (15 min away, meals by reservation at least a day ahead, has a pool), **Pizza El Baraka** near the Testour exit (uses the farm's own cheese — the "4 fromage" is recommended), **Le Malouf** in Testour for traditional Tunisian food, and **Achour**, a méchoui (grilled meat) stand at the entrance to Slouguia, close to the farm.
@@ -52,7 +80,7 @@ Looking forward to having you at Farm El Baya soon. Check-in is from 2:00 PM.
 Here's the GPS link: https://maps.app.goo.gl/wRctHd9C7vw9p8XD7
 The village is called Slouguia — take the Testour exit off the Béja highway. Free parking is available on site.
 
-A few practical notes: there's no AC, but fans are provided and the room has several windows. Wi-Fi works for basic use, but we're on a rural farm so connection can vary. If you'd like breakfast (20 TND/person), lunch, or dinner (40 TND/person each), just let me know a day ahead if you can. You're also welcome to use our two kitchens if you'd rather cook — there are small shops in Testour or Mjez El Beb, about 10 minutes away.
+A few practical notes: the Baya Room has air conditioning. Wi-Fi works for basic use, but we're on a rural farm so connection can vary. If you'd like breakfast (20 TND/person), lunch, or dinner (40 TND/person each), just let me know a day ahead if you can. You're also welcome to use our two kitchens if you'd rather cook — there are small shops in Testour or Mjez El Beb, about 10 minutes away.
 
 One small tip: bring some mosquito cream, just in case.
 
@@ -74,7 +102,7 @@ Nous avons hâte de vous accueillir bientôt à Farm El Baya. L'arrivée se fait
 Voici le lien GPS : https://maps.app.goo.gl/wRctHd9C7vw9p8XD7
 Le village s'appelle Slouguia, vous prenez la sortie de Testour sur l'autoroute de Béja. Parking gratuit sur place.
 
-Quelques précisions utiles : pas de climatisation, mais des ventilateurs sont fournis et la chambre a plusieurs fenêtres. Le Wi-Fi fonctionne pour un usage simple, mais nous sommes dans une ferme rurale donc la connexion peut varier. Pour le petit-déjeuner (20 dinars/personne), le déjeuner ou le dîner (40 dinars/personne chacun), dites-le-moi si possible la veille. Vous avez aussi accès à deux cuisines si vous préférez cuisiner vous-même — il y a de petites épiceries à Testour ou Mjez El Beb, à environ 10 minutes.
+Quelques précisions utiles : la Chambre Baya est climatisée. Le Wi-Fi fonctionne pour un usage simple, mais nous sommes dans une ferme rurale donc la connexion peut varier. Pour le petit-déjeuner (20 dinars/personne), le déjeuner ou le dîner (40 dinars/personne chacun), dites-le-moi si possible la veille. Vous avez aussi accès à deux cuisines si vous préférez cuisiner vous-même — il y a de petites épiceries à Testour ou Mjez El Beb, à environ 10 minutes.
 
 Petit conseil : pensez à ramener de la crème anti-moustique, on ne sait jamais.
 
@@ -498,11 +526,11 @@ Oui, le Wi-Fi est disponible - même si nous sommes dans une ferme rurale, donc 
 ### Reply to "Is there air conditioning or heating?"
 **EN**
 ```
-There's no air conditioning, but fans are provided and the room has several windows for airflow. In winter, we provide heating (oil-filled radiators) and extra blankets, so don't worry about the cold.
+Yes. The Baya Room has air conditioning. In winter, we also provide heating (oil-filled radiators) and extra blankets, so don't worry about the cold.
 ```
 **FR**
 ```
-Il n'y a pas de climatisation, mais des ventilateurs sont fournis et la chambre a plusieurs fenêtres pour l'air. En hiver, nous fournissons du chauffage (radiateurs bain d'huile) et des couvertures supplémentaires, ne vous inquiétez pas pour le froid.
+Oui. La Chambre Baya est climatisée. En hiver, nous fournissons aussi du chauffage (radiateurs bain d'huile) et des couvertures supplémentaires, ne vous inquiétez pas pour le froid.
 ```
 
 ### Reply to "Can we go horseback riding?"

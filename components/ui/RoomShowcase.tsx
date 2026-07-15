@@ -6,16 +6,16 @@ const copy = {
   en: {
     name: 'The Baya Room',
     rate: 'From 180 DT / night',
-    intro: 'The only room on the farm. When it is yours, the whole place is - the olive groves, the rooftop, the quiet of a working farm.',
-    specs: ['Private room with a private bathroom', 'Sleeps up to 3 guests', 'Warm interior, olive-grove light'],
+    intro: 'A private, air-conditioned room with the olive groves, rooftop, and indoor-outdoor movement gym just outside.',
+    specs: ['Private room with a private bathroom', 'Sleeps up to 3 guests', 'Air conditioning', 'Indoor-outdoor movement gym included'],
     addons: ['Farm breakfast on request - 20 DT', 'Lunch & dinner on request - 40 DT each'],
     cta: 'Request the Baya Room'
   },
   fr: {
     name: 'La Chambre Baya',
     rate: 'Dès 180 DT / nuit',
-    intro: "L'unique chambre de la ferme. Quand elle est à vous, tout le lieu l'est aussi - les oliviers, le toit, le calme d'une ferme vivante.",
-    specs: ['Chambre privée avec salle de bain privée', "Jusqu'à 3 hôtes", 'Intérieur chaleureux, lumière des oliviers'],
+    intro: "Une chambre privée et climatisée, avec les oliviers, le toit et l'espace de mouvement intérieur et extérieur juste dehors.",
+    specs: ['Chambre privée avec salle de bain privée', "Jusqu'à 3 hôtes", 'Climatisation', 'Espace de mouvement intérieur et extérieur inclus'],
     addons: ['Petit-déjeuner de la ferme sur demande - 20 DT', 'Déjeuner et dîner sur demande - 40 DT chacun'],
     cta: 'Demander la Chambre Baya'
   }

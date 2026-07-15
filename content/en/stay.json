@@ -1,7 +1,7 @@
 {
-  "meta": {"title": "Stay at Farm El Baya - The Baya Room Under Olive Trees", "description": "A private room on a permaculture farm in Testour. Private bathroom, direct rate from 180 DT/night, farm breakfast and meals on request."},
+  "meta": {"title": "Stay at Farm El Baya - The Baya Room Under Olive Trees", "description": "An air-conditioned private room on a permaculture farm in Testour, with a private bathroom and access to an indoor-outdoor movement gym."},
   "hero": "A private room under the olive trees.",
-  "intro": "One private room - the Baya Room - with its own bathroom, its own light, and its own quiet. Farm breakfast is available each morning (20 DT). This is not a hotel. It is a living farm that welcomes one stay at a time.",
+  "intro": "The Baya Room has its own bathroom, air conditioning, olive-grove light, and the quiet of a working farm. Your stay includes access to 40 acres, the rooftop, the animals, and the indoor-outdoor movement gym. Farm breakfast is available each morning (20 DT).",
   "rooms": ["Baya Room"],
   "breakfast": {"heading": "What breakfast looks like", "text": "No two mornings taste quite the same. Breakfast is set fresh each day from what the farm and local producers have on hand - farm eggs, olive oil pressed from trees you can see from your window, homemade yogurt, Tunisian flatbreads, seasonal fruit and juice among them. The table changes with the season. That's the point."},
   "cabin": {"label": "COMING SOON", "heading": "The Olive Cabin", "text": "A standalone cabin being built among the olive trees. Private. Quiet. Its own outdoor kitchen. Its own sky. Join the list to be first to know.", "button": "Notify me when it's ready"},

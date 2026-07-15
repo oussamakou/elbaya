@@ -1,7 +1,7 @@
 {
-  "meta": {"title": "Séjourner à Farm El Baya - La Chambre Baya sous les oliviers", "description": "Une chambre privée dans une ferme permaculturelle à Testour. Salle de bain privée, tarif direct dès 180 DT/nuit, petit-déjeuner et repas de la ferme sur demande."},
+  "meta": {"title": "Séjourner à Farm El Baya - La Chambre Baya sous les oliviers", "description": "Une chambre privée climatisée dans une ferme permaculturelle à Testour, avec salle de bain privée et accès à un espace de mouvement intérieur et extérieur."},
   "hero": "Une chambre privée sous les oliviers.",
-  "intro": "Une seule chambre privée - la Chambre Baya - avec sa salle de bain, sa lumière et son calme. Le petit-déjeuner de la ferme est disponible chaque matin (20 DT). Ce n'est pas un hôtel. C'est une ferme vivante qui accueille un séjour à la fois.",
+  "intro": "La Chambre Baya dispose de sa propre salle de bain, de la climatisation, de la lumière des oliviers et du calme d'une ferme vivante. Votre séjour inclut l'accès aux 40 acres, au toit, aux animaux et à l'espace de mouvement intérieur et extérieur. Le petit-déjeuner de la ferme est disponible chaque matin (20 DT).",
   "rooms": ["Chambre Baya"],
   "breakfast": {"heading": "À quoi ressemble le petit-déjeuner", "text": "Aucun matin ne se ressemble tout à fait. Le petit-déjeuner est préparé chaque jour selon ce que la ferme et les producteurs locaux ont de meilleur - œufs de la ferme, huile d'olive pressée sous vos fenêtres, yaourt maison, galettes tunisiennes, fruits de saison et jus, entre autres. La table change avec les saisons. C'est fait exprès."},
   "cabin": {"label": "BIENTÔT", "heading": "La Cabane aux Oliviers", "text": "Une cabane indépendante en cours de construction au milieu des oliviers. Privée. Silencieuse. Sa cuisine dehors. Son ciel à elle. Rejoignez la liste pour être prévenu en premier.", "button": "Me prévenir quand c'est prêt"},
