@@ -101,7 +101,7 @@ These 9 reviews are real quotes pulled from Google/Booking.com and displayed as 
 | STAY-FACTS-04 | Quick-facts strip, item 4 | 20 DT add-on | |
 | STAY-FACTS-05 | Quick-facts strip, item 5 | Within 24 hours | |
 | STAY-INTRO-BODY | Intro paragraph | One private room - the Baya Room - with its own bathroom, air conditioning, its own light, and its own quiet. Farm breakfast is available each morning (20 DT). This is not a hotel. It is a living farm that welcomes one stay at a time. | |
-| STAY-INTRO-CTA | Intro button | Check availability | |
+| STAY-HERO-CTA | Hero button | Check availability | |
 | STAY-ROOM-NAME | Room Showcase, room name | The Baya Room | |
 | STAY-ROOM-BADGE | Room Showcase, rate badge | From 180 DT / night | |
 | STAY-ROOM-INTRO | Room Showcase, intro text | The Baya Room is private and air-conditioned. The olive groves, rooftop, and quiet of a working farm are just outside. | |
@@ -172,6 +172,7 @@ Stay presents the room and direct-booking reassurance before optional extras. Th
 | ID | Notes / where it appears | Current Copy | New Copy |
 |---|---|---|---|
 | EXP-HERO-HEAD | Hero headline | There is always something to do. And always permission to do nothing. | |
+| EXP-HERO-CTA | Hero button | Check availability | |
 | EXP-INCLUDED-EYEBROW | Included experiences block, eyebrow | Part of the stay | |
 | EXP-INCLUDED-HEAD | Included experiences block, heading | Begin with what is already here. | |
 | EXP-INCLUDED-BODY | Included experiences block, body | No schedule is required. The land, movement area, rooftop, and daily farm life are open to every guest. | |
@@ -193,7 +194,8 @@ Stay presents the room and direct-booking reassurance before optional extras. Th
 | EXP-OUTING-EYEBROW | Regional outing block, eyebrow | Beyond the farm | |
 | EXP-OUTING-HEAD | Regional outing block, heading | Testour and Dougga, one private day. | |
 | EXP-OUTING-BODY | Regional outing block, body | Leave the farm with a local guide for the Andalusian streets of Testour and the Roman city of Dougga, then return to the quiet of the olive groves. | |
-| EXP-OUTING-CTA | Link to the canonical outing price on Stay | See the outing price | |
+| EXP-OUTING-CTA | Primary booking button | Plan this stay | |
+| EXP-OUTING-PRICE | Secondary link to the canonical outing price on Stay | See the outing price | |
 | EXP-EVENTS-EYEBROW | Events block, eyebrow | Culture & events nearby | |
 | EXP-EVENTS-HEAD | Events block, heading | When to come. | |
 | EXP-EVENTS-SUB | Events block, subhead | Time your stay around the region's festivals and Roman heritage - all within a short drive. | |

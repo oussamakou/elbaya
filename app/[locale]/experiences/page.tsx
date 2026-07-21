@@ -28,7 +28,9 @@ const sectionCopy = {
     outingEyebrow: 'Beyond the farm',
     outingHeading: 'Testour and Dougga, one private day.',
     outingBody: 'Leave the farm with a local guide for the Andalusian streets of Testour and the Roman city of Dougga, then return to the quiet of the olive groves.',
-    outingCta: 'See the outing price',
+    heroCta: 'Check availability',
+    outingCta: 'Plan this stay',
+    outingPrice: 'See the outing price',
     imageAlts: {
       training: 'Movement practice with Mahdi at Farm El Baya',
       beekeeping: 'A guided beekeeping visit at Farm El Baya',
@@ -50,7 +52,9 @@ const sectionCopy = {
     outingEyebrow: 'Au-delà de la ferme',
     outingHeading: 'Testour et Dougga, une journée privée.',
     outingBody: 'Partez avec un guide local vers les rues andalouses de Testour et la cité romaine de Dougga, puis retrouvez le calme des oliviers.',
-    outingCta: 'Voir le prix de la sortie',
+    heroCta: 'Vérifier les disponibilités',
+    outingCta: 'Planifier ce séjour',
+    outingPrice: 'Voir le prix de la sortie',
     imageAlts: {
       training: 'Pratique du mouvement avec Mahdi à Farm El Baya',
       beekeeping: 'Visite guidée des ruches à Farm El Baya',
@@ -80,7 +84,10 @@ export default async function Experiences({params}: {params: Promise<{locale: st
       <section className="relative flex min-h-[82vh] items-end overflow-hidden bg-dusk px-5 pb-20 text-cream">
         <Image src={img('movement_research_lab.webp')} alt="The Movement Area at Farm El Baya" fill preload fetchPriority="high" sizes="100vw" className="object-cover animate-breathe opacity-80" />
         <div className="absolute inset-0 bg-gradient-to-t from-dusk via-dusk/30 to-transparent" />
-        <h1 className="relative mx-auto max-w-6xl font-serif text-5xl italic leading-tight md:text-7xl">{content.hero}</h1>
+        <div className="relative mx-auto w-full max-w-6xl">
+          <h1 className="max-w-5xl font-serif text-5xl italic leading-tight md:text-7xl">{content.hero}</h1>
+          <Button href="/book" variant="light" className="mt-8">{t.heroCta}</Button>
+        </div>
       </section>
 
       <MovementFamilySection locale={locale} />
@@ -165,7 +172,10 @@ export default async function Experiences({params}: {params: Promise<{locale: st
               <p className="text-xs font-semibold uppercase tracking-label text-olive">{t.outingEyebrow}</p>
               <h2 className="mt-3 font-serif text-5xl leading-tight md:text-6xl">{t.outingHeading}</h2>
               <p className="mt-6 leading-8 text-earth/75">{t.outingBody}</p>
-              <Button href="/stay#optional-extras" className="mt-8">{t.outingCta}</Button>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Button href="/book">{t.outingCta}</Button>
+                <Button href="/stay#optional-extras" variant="ghost">{t.outingPrice}</Button>
+              </div>
             </div>
           </div>
         </section>
