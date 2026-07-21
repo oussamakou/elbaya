@@ -71,7 +71,7 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}} />
-      <HeroSection image={img('rooftop_nightsky.webp')} headline={content.hero.headline} subhead={content.hero.subhead} cta={content.hero.cta} />
+      <HeroSection image={img('mezzanine-stairs-with-window.webp')} headline={content.hero.headline} subhead={content.hero.subhead} cta={content.hero.cta} />
       <QuickFacts facts={facts} />
       <QuoteBanner quote={content.quote} />
       <ThreePillars items={content.pillars} />

@@ -17,27 +17,24 @@ const ALT_TEXT: Record<string, string> = {
 export default function PhotoGrid({photos}: {photos: string[]}) {
   return (
     <section className="px-4 pb-32 md:px-8">
-      <div className="mx-auto columns-1 gap-6 space-y-6 sm:columns-2 lg:columns-3 max-w-7xl">
+      <div className="mx-auto grid max-w-7xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {photos.map((photo, index) => (
           <Reveal
             key={photo}
             delay={(index % 3) * 0.15}
-            className="group relative mb-6 break-inside-avoid overflow-hidden bg-mist rounded-card"
+            className="group overflow-hidden rounded-card bg-mist"
           >
-            {/* The image itself */}
-            <Image
-              src={img(photo)}
-              alt={ALT_TEXT[photo] || 'Farm El Baya'}
-              width={900}
-              height={index % 3 === 0 ? 1100 : index % 2 === 0 ? 800 : 950}
-              sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-              className="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-105 will-change-transform"
-            />
-            {/* Elegant overlay on hover */}
-            <div className="absolute inset-0 bg-gradient-to-t from-olive/50 via-dusk/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 mix-blend-multiply" />
-
-            {/* Subtle border to frame the image */}
-            <div className="absolute inset-0 border border-olive/30 opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
+            <div className="relative aspect-[4/3] overflow-hidden bg-mist">
+              <Image
+                src={img(photo)}
+                alt={ALT_TEXT[photo] || 'Farm El Baya'}
+                fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-105 will-change-transform"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-olive/50 via-dusk/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 mix-blend-multiply" />
+              <div className="absolute inset-0 border border-olive/30 opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
+            </div>
           </Reveal>
         ))}
       </div>

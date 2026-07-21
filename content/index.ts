@@ -42,14 +42,14 @@ export function getContent<T extends PageKey>(locale: string, page: T) {
 // and the RoomShowcase/farm-page hero elsewhere on the site.
 export const photos = [
   'breakfast.webp',
-  'room-interior.webp',
-  'trail_in_thefarm.webp',
-  'startgazing_nightsky.webp',
-  'pullups_dips_bars_in_thefarm.webp',
-  'handstand_practice.webp',
+  'mezzanine-stairs-with-window.webp',
+  'picking_tree_fruits.webp',
+  'interior-baya-room.webp',
+  'pullup_bar_between_trees.webp',
+  'figs_and_olive_oil.webp',
   'beekeeping_activity.webp',
-  'open_air_kitchen.webp',
-  'baby_goat_looking_at_camera.webp'
+  'outside_kitchen_fireplace.webp',
+  'livestock.webp'
 ];
 
 export function img(name: string) {
