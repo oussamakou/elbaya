@@ -6,6 +6,7 @@ import Button from '@/components/ui/Button';
 import WhatsAppLink from '@/components/ui/WhatsAppLink';
 import Reveal from '@/components/ui/Reveal';
 import RoomShowcase from '@/components/ui/RoomShowcase';
+import StayAddons from '@/components/sections/StayAddons';
 import QuickFacts from '@/components/sections/QuickFacts';
 import BookingConfidence from '@/components/sections/BookingConfidence';
 import FaqBlock from '@/components/sections/FaqBlock';
@@ -14,7 +15,7 @@ import GettingHere from '@/components/sections/GettingHere';
 
 export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
   const {locale} = await params;
-  return pageMetadata(locale, 'stay', '/stay', 'room-interior.webp');
+  return pageMetadata(locale, 'stay', '/stay', 'woman-looking-at-view-from-window.webp');
 }
 
 export default async function Stay({params}: {params: Promise<{locale: string}>}) {
@@ -41,7 +42,7 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
   return (
     <>
       <section className="relative flex min-h-[76vh] items-end overflow-hidden bg-dusk px-5 pb-20 text-cream">
-        <Image src={img('room-interior.webp')} alt="Inside the Baya Room at Farm El Baya" fill preload fetchPriority="high" sizes="100vw" className="object-cover animate-breathe opacity-85" />
+        <Image src={img('woman-looking-at-view-from-window.webp')} alt="Inside the Baya Room at Farm El Baya" fill preload fetchPriority="high" sizes="100vw" className="object-cover animate-breathe opacity-85" />
         <div className="absolute inset-0 bg-gradient-to-t from-dusk via-dusk/25 to-transparent" />
         <h1 className="relative mx-auto max-w-7xl font-serif text-6xl italic md:text-7xl">{content.hero}</h1>
       </section>
@@ -51,6 +52,7 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
         <Button href="/book" className="mt-8">{fr ? 'Vérifier les disponibilités' : 'Check availability'}</Button>
       </section>
       <RoomShowcase locale={locale} />
+      <StayAddons locale={locale} />
       <BookingConfidence locale={locale} />
       <section className="px-5 py-20">
         <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-[1.1fr_.9fr]">

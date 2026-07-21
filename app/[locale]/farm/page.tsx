@@ -7,7 +7,7 @@ import FarmMapViewer from '@/components/ui/FarmMapViewer';
 
 export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
   const {locale} = await params;
-  return pageMetadata(locale, 'farm', '/farm', 'room_exterior_vibe.webp');
+  return pageMetadata(locale, 'farm', '/farm', 'outside_kitchen_fireplace.webp');
 }
 
 export default async function Farm({params}: {params: Promise<{locale: string}>}) {
@@ -18,7 +18,7 @@ export default async function Farm({params}: {params: Promise<{locale: string}>}
   return (
     <>
       <section className="relative flex min-h-[82vh] items-end overflow-hidden bg-dusk px-5 pb-20 text-cream">
-        <Image src={img('room_exterior_vibe.webp')} alt="Farm El Baya among the olive trees" fill preload fetchPriority="high" sizes="100vw" className="object-cover animate-breathe opacity-85" />
+        <Image src={img('outside_kitchen_fireplace.webp')} alt="Farm El Baya among the olive trees" fill preload fetchPriority="high" sizes="100vw" className="object-cover animate-breathe opacity-85" />
         <div className="absolute inset-0 bg-gradient-to-t from-dusk via-dusk/20 to-transparent" />
         <h1 className="relative mx-auto max-w-7xl font-serif text-6xl italic md:text-7xl">{content.hero}</h1>
       </section>

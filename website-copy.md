@@ -102,10 +102,35 @@ These 9 reviews are real quotes pulled from Google/Booking.com and displayed as 
 | STAY-ROOM-SPEC1 | Room Showcase, spec line | Private room with a private bathroom | |
 | STAY-ROOM-SPEC2 | Room Showcase, spec line | Sleeps up to 3 guests | |
 | STAY-ROOM-SPEC3 | Room Showcase, spec line | Air conditioning | |
-| STAY-ROOM-ADDONLABEL | Room Showcase, add-ons section label | Add-ons | |
-| STAY-ROOM-ADDON1 | Room Showcase, add-on | Farm breakfast on request - 20 DT | |
-| STAY-ROOM-ADDON2 | Room Showcase, add-on | Lunch & dinner on request - 40 DT each | |
 | STAY-ROOM-CTA | Room Showcase, button | Request the Baya Room | |
+| STAY-ADDONS-HEAD | Optional extras section, heading | Make the stay your own. | |
+| STAY-ADDONS-INTRO | Optional extras section, intro | Add farm meals, hands-on sessions, or a local outing when you book. Every extra is arranged in advance, and seasonal activities depend on availability. | |
+| STAY-ADDONS-CURRENCY | Optional extras section, price note | DT prices follow the farm rates; euro amounts match the Lodgify add-ons. | |
+| STAY-ADDONS-REVEAL | Full add-on list disclosure | Compare all 9 add-ons | |
+| STAY-ADDONS-FEATURE1-LABEL | Featured add-on 1, small label | From the kitchen | |
+| STAY-ADDONS-FEATURE1-TITLE | Featured add-on 1, title | Farm breakfast | |
+| STAY-ADDONS-FEATURE1-BODY | Featured add-on 1, description | A seasonal breakfast prepared fresh each morning from the farm and nearby producers. | |
+| STAY-ADDONS-FEATURE1-PRICE | Featured add-on 1, price | 20 DT / €6 per guest, per day | |
+| STAY-ADDONS-FEATURE2-LABEL | Featured add-on 2, small label | Move with Mahdi | |
+| STAY-ADDONS-FEATURE2-TITLE | Featured add-on 2, title | Training session | |
+| STAY-ADDONS-FEATURE2-BODY | Featured add-on 2, description | A 90-minute assessment, training session, and practical plan to take home. | |
+| STAY-ADDONS-FEATURE2-PRICE | Featured add-on 2, price | 70 DT / €21 per guest | |
+| STAY-ADDONS-FEATURE3-LABEL | Featured add-on 3, small label | October to December | |
+| STAY-ADDONS-FEATURE3-TITLE | Featured add-on 3, title | Olive harvest | |
+| STAY-ADDONS-FEATURE3-BODY | Featured add-on 3, description | Pick with the family and follow the harvest. Olive oil is available separately. | |
+| STAY-ADDONS-FEATURE3-PRICE | Featured add-on 3, price | 50 DT / €15 per guest | |
+| STAY-ADDONS-GROUP1 | Full add-on list, group heading | Meals | |
+| STAY-ADDONS-MEAL1 | Full add-on list, meal | Farm breakfast - Prepared fresh each morning. - 20 DT / €6 per guest, per day | |
+| STAY-ADDONS-MEAL2 | Full add-on list, meal | Home-cooked lunch - Local ingredients; request in advance. - 40 DT / €12 per guest | |
+| STAY-ADDONS-MEAL3 | Full add-on list, meal | Dinner with the family - Traditional dinner; request in advance. - 40 DT / €12 per guest | |
+| STAY-ADDONS-MEAL4 | Full add-on list, meal | Kids meal - A half portion for children aged 5 to 12. - 20 DT / €6 per child | |
+| STAY-ADDONS-GROUP2 | Full add-on list, group heading | Farm experiences | |
+| STAY-ADDONS-EXP1 | Full add-on list, farm experience | Training session with Mahdi - A 90-minute assessment, session, and take-home plan. - 70 DT / €21 per guest | |
+| STAY-ADDONS-EXP2 | Full add-on list, farm experience | Beekeeping visit - A guided hive visit with the protective suit provided. - 40 DT / €12 per guest | |
+| STAY-ADDONS-EXP3 | Full add-on list, farm experience | Olive harvest - Seasonal from October to December; olive oil sold separately. - 50 DT / €15 per guest | |
+| STAY-ADDONS-EXP4 | Full add-on list, farm experience | Cooking with the family - Prepare bread and local dishes; the shared meal is included. - 70 DT / €21 per guest | |
+| STAY-ADDONS-GROUP3 | Full add-on list, group heading | Local outing | |
+| STAY-ADDONS-OUTING1 | Full add-on list, local outing | Private Testour and Dougga tour - Explore the Andalusian town and Roman city with a local guide. - €74 per booking on Lodgify | |
 | STAY-BREAKFAST-HEAD | Breakfast block heading | What breakfast looks like | |
 | STAY-BREAKFAST-BODY | Breakfast block body — rewritten to address a guest question about why breakfast seemed repetitive; now makes clear it varies day to day | No two mornings taste quite the same. Breakfast is set fresh each day from what the farm and local producers have on hand - farm eggs, olive oil pressed from trees you can see from your window, homemade yogurt, Tunisian flatbreads, seasonal fruit and juice among them. The table changes with the season. That's the point. | |
 | STAY-BREAKFAST-WA | WhatsApp button under the breakfast text, for guests who have meal questions | Let's Connect | |
