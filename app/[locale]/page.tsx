@@ -76,9 +76,9 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
       <QuoteBanner quote={content.quote} />
       <ThreePillars items={content.pillars} />
       <MovementFamilySection locale={locale} compact />
-      <PhotoGrid photos={photos} />
+      <PhotoGrid photos={photos} locale={locale} />
       <TrustReviews heading={content.reviews.heading} subhead={content.reviews.subhead} locale={locale} />
-      <BookingConfidence locale={locale} />
+      <BookingConfidence locale={locale} homepage />
       <ForgeBanner content={content.forge} />
     </>
   );

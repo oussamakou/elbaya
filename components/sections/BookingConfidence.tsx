@@ -18,15 +18,15 @@ const content = {
   }
 };
 
-export default function BookingConfidence({locale}: {locale: string}) {
+export default function BookingConfidence({locale, homepage = false}: {locale: string; homepage?: boolean}) {
   const copy = locale === 'fr' ? content.fr : content.en;
 
   return (
     <section className="bg-olive-dark px-5 py-16 text-cream md:py-20">
       <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[0.9fr_1.1fr] md:items-center">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-label text-cream/80">{copy.eyebrow}</p>
-          <h2 className="mt-4 max-w-xl font-serif text-4xl italic leading-tight md:text-5xl">{copy.heading}</h2>
+          {!homepage && <p className="text-xs font-semibold uppercase tracking-label text-cream/80">{copy.eyebrow}</p>}
+          <h2 className={`${homepage ? '' : 'mt-4 italic'} max-w-xl font-serif text-4xl leading-tight md:text-5xl`}>{copy.heading}</h2>
           <p className="mt-5 max-w-xl leading-8 text-cream/70">{copy.text}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button href="/book" variant="light">{copy.cta}</Button>

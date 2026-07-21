@@ -34,14 +34,20 @@
 | HOME-PILLAR3-TITLE | Three Pillars, pillar 3 title | The land | |
 | HOME-PILLAR3-BODY | Three Pillars, pillar 3 body | Forty acres of olive groves, pomegranates, and fig trees, with beehives, animals, and trails between them. Stargaze from the rooftop, or step out to Andalusian Testour and Roman Dougga, both a short drive from this authentic, working farm. | |
 | HOME-PILLAR-LINK | Link label under each pillar | Discover more | |
-| HOME-PILLAR-DECOR | Large decorative background text behind pillars (not read as content, purely visual — flag if it should change) | El Baya Retreat | |
-| HOME-MOVE-EYEBROW | Movement & Family section, eyebrow (shared with Experiences page) | Movement and family space | |
+| HOME-MOVE-EYEBROW | Movement & Family section, eyebrow (Experiences page only; hidden in the compact homepage version) | Movement and family space | |
 | HOME-MOVE-HEAD | Movement & Family section, heading (shared) | A farm where bodies can move. | |
 | HOME-MOVE-BODY | Movement & Family section, body text (shared) | Farm El Baya now includes Mahdi's movement area: an indoor and outdoor space for yoga, calisthenics, mobility, rings, climbing, and playful physical exploration - part farm gym, part open ground for a run or parkour. | |
 | HOME-MOVE-CTA | Movement & Family section, button (shared) | See experiences | |
+| HOME-GALLERY-HEAD | Homepage photo essay, heading | A day at El Baya. | |
+| HOME-GALLERY-BODY | Homepage photo essay, intro | From first light in the Baya Room to breakfast, harvest work, and unhurried hours among the olive trees. | |
+| HOME-GALLERY-CAPTION1 | Homepage photo essay, Baya Room caption | The Baya Room · Private, quiet, and open to the groves | |
+| HOME-GALLERY-CAPTION2 | Homepage photo essay, breakfast caption | Breakfast each morning · Seasonal and prepared on the farm | |
+| HOME-GALLERY-CAPTION3 | Homepage photo essay, picking caption | Picking season · Fruit trees across the farm | |
+| HOME-GALLERY-CAPTION4 | Homepage photo essay, beekeeping caption | At the hives · A guided visit with the suit provided | |
+| HOME-GALLERY-CAPTION5 | Homepage photo essay, farm produce caption | Figs and olive oil · Picked and pressed at El Baya | |
+| HOME-GALLERY-CAPTION6 | Homepage photo essay, livestock caption | Forty acres of farm life · Animals, open land, and room to wander | |
 | HOME-REVIEWS-HEAD | Reviews section heading | Guests leave grounded. | |
 | HOME-REVIEWS-SUB | Reviews section subhead | Public reviews mention the food, calm, hospitality, and the feeling of being welcomed into real farm life. | |
-| HOME-REVIEWS-EYEBROW | Reviews section eyebrow | Verified guest proof | |
 | HOME-REVIEWS-STAT1 | Stat label ("5.0" is the number, this is the caption) | Google review examples from recent guests | |
 | HOME-REVIEWS-STAT2 | Stat label ("8-10" is the number, this is the caption) | Booking.com guest scores shared by travelers | |
 | HOME-REVIEWS-STAT3 | Stat label ("24h" is the number, this is the caption) | Typical direct booking response window | |
@@ -50,7 +56,7 @@
 | HOME-TEST-03 | Guest testimonial 3 — Lorenzo, Italy, Google Review | I wanted to stay only one night but stayed for two. To be honest, I wanted to stay a whole week. | |
 | HOME-TEST-04 | ⚠️ NEEDS DECISION — Guest testimonial 4, Souhir/Tunisia. This quote is in French but displays on the English page as-is. Decide: translate to English, or keep French as an authentic guest-voice touch? | Un coup de cœur et un coup de foudre. Quand simplicité rime avec authenticité, hospitalité et générosité. | |
 | HOME-TEST-05 | Guest testimonial 5 — Romeo, France, Nov 2025 | Combining organic farming, sports, and personal development is simply fantastic. You can feel that it is his passion that drives him. | |
-| HOME-CONF-EYEBROW | Booking Confidence section, eyebrow (shared across Home/Stay/Experiences) | Book direct with confidence | |
+| HOME-CONF-EYEBROW | Booking Confidence eyebrow (shown on Stay/Experiences; hidden on homepage) | Book direct with confidence | |
 | HOME-CONF-HEAD | Booking Confidence section, heading (shared) | No platform fees. Clear next steps. A real host replies. | |
 | HOME-CONF-BODY | Booking Confidence section, body (shared) | Send your dates and guest count. Mahdi replies within 24 hours with availability, meal options, and any deposit details before anything is confirmed. | |
 | HOME-CONF-CTA | Booking Confidence section, button (shared) | Request availability | |
@@ -103,37 +109,26 @@ These 9 reviews are real quotes pulled from Google/Booking.com and displayed as 
 | STAY-ROOM-SPEC2 | Room Showcase, spec line | Sleeps up to 3 guests | |
 | STAY-ROOM-SPEC3 | Room Showcase, spec line | Air conditioning | |
 | STAY-ROOM-CTA | Room Showcase, button | Request the Baya Room | |
-| STAY-ADDONS-HEAD | Optional extras section, heading | Make the stay your own. | |
-| STAY-ADDONS-INTRO | Optional extras section, intro | Add farm meals, hands-on sessions, or a local outing when you book. Every extra is arranged in advance, and seasonal activities depend on availability. | |
-| STAY-ADDONS-CURRENCY | Optional extras section, price note | DT prices follow the farm rates; euro amounts match the Lodgify add-ons. | |
-| STAY-ADDONS-REVEAL | Full add-on list disclosure | Compare all 9 add-ons | |
-| STAY-ADDONS-FEATURE1-LABEL | Featured add-on 1, small label | From the kitchen | |
-| STAY-ADDONS-FEATURE1-TITLE | Featured add-on 1, title | Farm breakfast | |
-| STAY-ADDONS-FEATURE1-BODY | Featured add-on 1, description | A seasonal breakfast prepared fresh each morning from the farm and nearby producers. | |
-| STAY-ADDONS-FEATURE1-PRICE | Featured add-on 1, price | 20 DT / €6 per guest, per day | |
-| STAY-ADDONS-FEATURE2-LABEL | Featured add-on 2, small label | Move with Mahdi | |
-| STAY-ADDONS-FEATURE2-TITLE | Featured add-on 2, title | Training session | |
-| STAY-ADDONS-FEATURE2-BODY | Featured add-on 2, description | A 90-minute assessment, training session, and practical plan to take home. | |
-| STAY-ADDONS-FEATURE2-PRICE | Featured add-on 2, price | 70 DT / €21 per guest | |
-| STAY-ADDONS-FEATURE3-LABEL | Featured add-on 3, small label | October to December | |
-| STAY-ADDONS-FEATURE3-TITLE | Featured add-on 3, title | Olive harvest | |
-| STAY-ADDONS-FEATURE3-BODY | Featured add-on 3, description | Pick with the family and follow the harvest. Olive oil is available separately. | |
-| STAY-ADDONS-FEATURE3-PRICE | Featured add-on 3, price | 50 DT / €15 per guest | |
-| STAY-ADDONS-GROUP1 | Full add-on list, group heading | Meals | |
-| STAY-ADDONS-MEAL1 | Full add-on list, meal | Farm breakfast - Prepared fresh each morning. - 20 DT / €6 per guest, per day | |
+| STAY-ADDONS-HEAD | Optional extras section, heading | Add to your stay. | |
+| STAY-ADDONS-INTRO | Optional extras section, intro | Breakfast, time with Mahdi, or a day beyond the farm can be arranged after you choose your dates. | |
+| STAY-ADDONS-CURRENCY | Optional extras section, price note | DT prices are the farm rates. Euro prices match the current Lodgify add-ons. | |
+| STAY-ADDONS-SUMMARY1 | Collapsed overview | Meals - Breakfast and home-cooked meals from the farm kitchen. - From 20 DT / €6 per guest, per day | |
+| STAY-ADDONS-SUMMARY2 | Collapsed overview | Time with Mahdi - Training, beekeeping, harvest, or cooking together. - From 40 DT / €12 per guest | |
+| STAY-ADDONS-SUMMARY3 | Collapsed overview | A day beyond the farm - A private guided day through Testour and Dougga. - €74 per booking through Lodgify | |
+| STAY-ADDONS-REVEAL | Full price-list disclosure | See all 9 options and current prices | |
+| STAY-ADDONS-GROUP1 | Expanded add-on group heading | Meals | |
+| STAY-ADDONS-MEAL1 | Add-on list, meal | Farm breakfast - Prepared fresh each morning from the farm and nearby producers. - 20 DT / €6 per guest, per day | |
 | STAY-ADDONS-MEAL2 | Full add-on list, meal | Home-cooked lunch - Local ingredients; request in advance. - 40 DT / €12 per guest | |
-| STAY-ADDONS-MEAL3 | Full add-on list, meal | Dinner with the family - Traditional dinner; request in advance. - 40 DT / €12 per guest | |
+| STAY-ADDONS-MEAL3 | Full add-on list, meal | Dinner with the family - A traditional dinner prepared at the farm; request in advance. - 40 DT / €12 per guest | |
 | STAY-ADDONS-MEAL4 | Full add-on list, meal | Kids meal - A half portion for children aged 5 to 12. - 20 DT / €6 per child | |
-| STAY-ADDONS-GROUP2 | Full add-on list, group heading | Farm experiences | |
-| STAY-ADDONS-EXP1 | Full add-on list, farm experience | Training session with Mahdi - A 90-minute assessment, session, and take-home plan. - 70 DT / €21 per guest | |
-| STAY-ADDONS-EXP2 | Full add-on list, farm experience | Beekeeping visit - A guided hive visit with the protective suit provided. - 40 DT / €12 per guest | |
-| STAY-ADDONS-EXP3 | Full add-on list, farm experience | Olive harvest - Seasonal from October to December; olive oil sold separately. - 50 DT / €15 per guest | |
-| STAY-ADDONS-EXP4 | Full add-on list, farm experience | Cooking with the family - Prepare bread and local dishes; the shared meal is included. - 70 DT / €21 per guest | |
-| STAY-ADDONS-GROUP3 | Full add-on list, group heading | Local outing | |
-| STAY-ADDONS-OUTING1 | Full add-on list, local outing | Private Testour and Dougga tour - Explore the Andalusian town and Roman city with a local guide. - €74 per booking on Lodgify | |
-| STAY-BREAKFAST-HEAD | Breakfast block heading | What breakfast looks like | |
-| STAY-BREAKFAST-BODY | Breakfast block body — rewritten to address a guest question about why breakfast seemed repetitive; now makes clear it varies day to day | No two mornings taste quite the same. Breakfast is set fresh each day from what the farm and local producers have on hand - farm eggs, olive oil pressed from trees you can see from your window, homemade yogurt, Tunisian flatbreads, seasonal fruit and juice among them. The table changes with the season. That's the point. | |
-| STAY-BREAKFAST-WA | WhatsApp button under the breakfast text, for guests who have meal questions | Let's Connect | |
+| STAY-ADDONS-GROUP2 | Expanded add-on group heading | Time with Mahdi | |
+| STAY-ADDONS-EXP1 | Add-on list, farm experience | Training session with Mahdi - A 90-minute assessment, training session, and practical plan to take home. - 70 DT / €21 per guest | |
+| STAY-ADDONS-EXP2 | Add-on list, farm experience | Beekeeping visit - Suit up for a guided hive visit and learn how the bees live and how the honey is made. - 40 DT / €12 per guest | |
+| STAY-ADDONS-EXP3 | Add-on list, farm experience | Olive harvest - Join the family harvest from October to December. Olive oil is available separately. - 50 DT / €15 per guest | |
+| STAY-ADDONS-EXP4 | Add-on list, farm experience | Cooking with the family - Prepare bread and local dishes around the open-air kitchen; the shared meal is included. - 70 DT / €21 per guest | |
+| STAY-ADDONS-GROUP3 | Expanded add-on group heading | A day beyond the farm | |
+| STAY-ADDONS-OUTING1 | Add-on list, local outing | Private Testour and Dougga tour - Explore the Andalusian town and Roman city with a local guide. - €74 per booking through Lodgify | |
+| STAY-ADDONS-LINK | Link to Experiences page | Explore the experiences | |
 | STAY-CABIN-LABEL | Olive Cabin block, small label | COMING SOON | |
 | STAY-CABIN-HEAD | Olive Cabin block heading | The Olive Cabin | |
 | STAY-CABIN-BODY | Olive Cabin block body | A standalone cabin being built among the olive trees. Private. Quiet. Its own outdoor kitchen. Its own sky. Join the list to be first to know. | |
@@ -143,6 +138,8 @@ These 9 reviews are real quotes pulled from Google/Booking.com and displayed as 
 | STAY-NEARBY-02 | Nearby item | Dougga - 20-40 min · UNESCO Roman city, one of North Africa's best preserved | |
 | STAY-NEARBY-03 | Nearby item | River - nearby · Swimming and walking | |
 | STAY-NEARBY-04 | Nearby item | Tunis - 1 hour · Day trips possible | |
+
+Stay presents the room and direct-booking reassurance before optional extras. The nine add-ons and their localized prices are maintained in `content/addons.ts`; the complete list is collapsed by default. Experiences reuses the activity descriptions but links guests back here for current prices.
 
 *(Stay page also includes the shared Booking Confidence, Getting Here, Policy Block, and FAQ Block sections — see "Shared sections" below.)*
 
@@ -175,31 +172,28 @@ These 9 reviews are real quotes pulled from Google/Booking.com and displayed as 
 | ID | Notes / where it appears | Current Copy | New Copy |
 |---|---|---|---|
 | EXP-HERO-HEAD | Hero headline | There is always something to do. And always permission to do nothing. | |
-| EXP-CHOOSE-EYEBROW | "Choose your pace" block, eyebrow | Included and available | |
-| EXP-CHOOSE-HEAD | "Choose your pace" block, heading | Choose your pace. | |
-| EXP-CHOOSE-BODY | "Choose your pace" block, body | Some experiences are included with every stay. Others are seasonal or arranged on request with Mahdi. | |
-| EXP-ITEM01-TITLE | Experience item 1 title | Access to 40 Acres | |
-| EXP-ITEM01-BODY | Experience item 1 description (tag: Included) | Walk the trails. Sit under the olive trees. Watch the animals. The land is yours to explore. | |
-| EXP-ITEM02-TITLE | Experience item 2 title — renamed from "Mouvement Research" | The Movement Area | |
-| EXP-ITEM02-BODY | Experience item 2 description (tag: Included) | An indoor and outdoor space for yoga, calisthenics, and movement - bars, rings, and open ground for a farm gym session, a run, or parkour. | |
-| EXP-ITEM04-TITLE | Experience item — Kids Playground Area removed (farm has no playground); items renumbered | Rooftop Stargazing | |
-| EXP-ITEM04-BODY | Experience item description (tag: Included) | One of the farm's best-kept secrets. The rooftop at night, far from city light. | |
-| EXP-ITEM05-TITLE | Experience item title | Training Session with Mahdi | |
-| EXP-ITEM05-BODY | Experience item description (tag: 70 DT / person) — clarified that assessment + training + plan all happen inside the single 90-minute session | A single 90-minute session with Mahdi - assessment, training, and a plan to take home, all in one sitting. | |
-| EXP-ITEM06-TITLE | Experience item 6 title | Beekeeping Session | |
-| EXP-ITEM06-BODY | Experience item 6 description (tag: 40 DT / person) | Suit up and visit the hives with Mahdi. Learn how the bees live and how the honey is made. | |
-| EXP-ITEM07-TITLE | Experience item 7 title | Olive Harvest | |
-| EXP-ITEM07-BODY | Experience item 7 description (tag: 50 DT / person · Autumn) | October to December - join the harvest and press your own oil. Olive oil priced separately by size and quality. | |
-| EXP-ITEM08-TITLE | Experience item 8 title | Outdoor Kitchen Session | |
-| EXP-ITEM08-BODY | Experience item 8 description (tag: 70 DT / person) | Cook and bake with the family around the open-air kitchen. Fire, food, conversation - the shared meal is included. | |
-| EXP-ITEM09-TITLE | Experience item 9 title | Guided Tour - Testour or Dougga | |
-| EXP-ITEM09-BODY | Experience item 9 description (tag: From 50 DT / person) | A professional guide takes you through Testour's Andalusian medina or the Roman city of Dougga, with an olive-oil tasting and a visit to an organic olive mill. | |
-| EXP-ITEM10-TITLE | Experience item 10 title | Farm Breakfast | |
-| EXP-ITEM10-BODY | Experience item 10 description (tag: 20 DT / person) | A farm breakfast set fresh each morning. Eggs, oil, yogurt, fruit, bread, juice. | |
-| EXP-ITEM11-TITLE | Experience item 11 title | Animal Care | |
-| EXP-ITEM11-BODY | Experience item 11 description (tag: Included) | Feed the chickens. Walk with the donkey. Spend time with the horse. The animals are daily life here. | |
-| EXP-ITEM12-TITLE | Experience item 12 title | Pomegranate & Fruit Harvest | |
-| EXP-ITEM12-BODY | Experience item 12 description (tag: Seasonal) | Pomegranates, figs, almonds - depending on the season, there is always something to pick. | |
+| EXP-INCLUDED-EYEBROW | Included experiences block, eyebrow | Part of the stay | |
+| EXP-INCLUDED-HEAD | Included experiences block, heading | Begin with what is already here. | |
+| EXP-INCLUDED-BODY | Included experiences block, body | No schedule is required. The land, movement area, rooftop, and daily farm life are open to every guest. | |
+| EXP-INCLUDED-01 | Included strip item | Access to 40 Acres - Walk the trails. Sit under the olive trees. Watch the animals. The land is yours to explore. | |
+| EXP-INCLUDED-02 | Included strip item | The Movement Area - An indoor and outdoor space for yoga, calisthenics, and movement - bars, rings, and open ground for a farm gym session, a run, or parkour. | |
+| EXP-INCLUDED-03 | Included strip item | Rooftop Stargazing - One of the farm's best-kept secrets. The rooftop at night, far from city light. | |
+| EXP-INCLUDED-04 | Included strip item | Animal Care - Feed the chickens. Walk with the donkey. Spend time with the horse. The animals are daily life here. | |
+| EXP-BOOKABLE-EYEBROW | Bookable experiences block, eyebrow | Arranged with the farm | |
+| EXP-BOOKABLE-HEAD | Bookable experiences block, heading | Choose one moment to go deeper. | |
+| EXP-BOOKABLE-BODY | Bookable experiences block, body | These optional experiences follow the farm's real rhythm. Choose what fits; there is no need to fill every day. | |
+| EXP-BOOKABLE-CTA | Link to the canonical add-on list on Stay | See current add-on prices | |
+| EXP-BOOKABLE-01 | Photographic story (label: Arrange ahead) | Training session with Mahdi - A 90-minute assessment, training session, and practical plan to take home. | |
+| EXP-BOOKABLE-02 | Photographic story (label: Arrange ahead) | Beekeeping visit - Suit up for a guided hive visit and learn how the bees live and how the honey is made. | |
+| EXP-BOOKABLE-03 | Photographic story (label: October to December) | Olive harvest - Join the family harvest from October to December. Olive oil is available separately. | |
+| EXP-BOOKABLE-04 | Photographic story (label: Arrange ahead) | Cooking with the family - Prepare bread and local dishes around the open-air kitchen; the shared meal is included. | |
+| EXP-SEASONAL-EYEBROW | Seasonal block, eyebrow | The farm calendar | |
+| EXP-SEASONAL-HEAD | Seasonal block, heading | Some days only happen in season. | |
+| EXP-SEASONAL-ITEM | Seasonal item (label: Seasonal) | Pomegranate & Fruit Harvest - Pomegranates, figs, almonds - depending on the season, there is always something to pick. | |
+| EXP-OUTING-EYEBROW | Regional outing block, eyebrow | Beyond the farm | |
+| EXP-OUTING-HEAD | Regional outing block, heading | Testour and Dougga, one private day. | |
+| EXP-OUTING-BODY | Regional outing block, body | Leave the farm with a local guide for the Andalusian streets of Testour and the Roman city of Dougga, then return to the quiet of the olive groves. | |
+| EXP-OUTING-CTA | Link to the canonical outing price on Stay | See the outing price | |
 | EXP-EVENTS-EYEBROW | Events block, eyebrow | Culture & events nearby | |
 | EXP-EVENTS-HEAD | Events block, heading | When to come. | |
 | EXP-EVENTS-SUB | Events block, subhead | Time your stay around the region's festivals and Roman heritage - all within a short drive. | |
@@ -214,15 +208,11 @@ These 9 reviews are real quotes pulled from Google/Booking.com and displayed as 
 | EXP-EVENT05-TITLE | Event 5 title | Testour Medina | |
 | EXP-EVENT05-BODY | Event 5 description (timing: Year-round) | Andalusian heritage, a historic mosque, and a weekly market, 15 minutes away. | |
 
-Note: Experiences page also shows the **full version** of the Movement & Family section (`HOME-MOVE-*` rows above, plus the family paragraph and cards below) and the shared Booking Confidence section.
+Note: Experiences page also shows the **full version** of the Movement & Family section (`HOME-MOVE-*` rows above, plus the family paragraph and secondary photography) and the shared Booking Confidence section.
 
 | ID | Notes / where it appears | Current Copy | New Copy |
 |---|---|---|---|
 | EXP-MOVE-FAMILY | Movement & Family section, family paragraph (full version only — hidden on homepage) — playground reference removed, farm has no playground | Families are welcome too. Children have open farm space to roam and animals to meet, so slow days are easier for parents and more alive for kids. | |
-| EXP-MOVE-CARD1-TITLE | Movement & Family card 1 title — renamed from "Mouvement Research" | The Movement Area | |
-| EXP-MOVE-CARD1-BODY | Movement & Family card 1 body | Yoga, calisthenics, and a farm gym for strength, balance, mobility, rings, and bodyweight practice. | |
-| EXP-MOVE-CARD2-TITLE | Movement & Family card 2 title | Open-air practice | |
-| EXP-MOVE-CARD2-BODY | Movement & Family card 2 body | Move under the trees, practice handstands, or join simple morning movement when Mahdi is available. | |
 
 ---
 
@@ -370,7 +360,7 @@ Three long-form travel guides (Dougga, Testour, olive harvest) built to attract 
 | GUIDES-DOUGGA-SEC3-P1 | Section 3, paragraph 1 | Spring and autumn are the sweet spots: green hills and wildflowers from March to May, soft light and harvest colours in October and November. In summer, aim for early morning or the last hours of the day - the site is exposed and shade is scarce. | |
 | GUIDES-DOUGGA-SEC3-P2 | Section 3, paragraph 2 | The grounds are large and the ancient paving is uneven, so wear proper shoes and bring water and a hat. Facilities on site are minimal - part of the charm, but plan for it. Two to three hours covers the main circuit at an unhurried pace. | |
 | GUIDES-DOUGGA-SEC4-HEAD | Section 4 heading | Getting there from Farm El Baya | |
-| GUIDES-DOUGGA-SEC4-P1 | Section 4, paragraph 1 | The drive from the farm takes 20 to 40 minutes on countryside roads, passing near Teboursouk. If you would rather not navigate, Mahdi arranges a guided tour from the farm (from 50 DT per person) with a professional guide - including an olive-oil tasting and a visit to an organic olive mill along the way. | |
+| GUIDES-DOUGGA-SEC4-P1 | Section 4, paragraph 1 | The drive from the farm takes 20 to 40 minutes on countryside roads, passing near Teboursouk. If you would rather not navigate, Mahdi can arrange the private Testour and Dougga tour listed with the stay (€74 per booking through Lodgify), with a local guide for both places. | |
 | GUIDES-DOUGGA-SEC4-P2 | Section 4, paragraph 2 | Dougga pairs naturally with Testour, the Andalusian town fifteen minutes from the farm, for a full day of history in the Medjerda valley. | |
 | GUIDES-DOUGGA-SEC5-HEAD | Section 5 heading | Where to stay near Dougga | |
 | GUIDES-DOUGGA-SEC5-P1 | Section 5, paragraph 1 | There are no hotels at the site itself, and most visitors see it in a hurry from Tunis. Staying nearby changes the visit completely. Farm El Baya is a working permaculture farm about half an hour away, with one private room - the Baya Room, from 180 DT per night - farm breakfast in the morning, and rooftop stargazing under the same dark countryside sky the Romans knew. | |
@@ -398,7 +388,7 @@ Three long-form travel guides (Dougga, Testour, olive harvest) built to attract 
 | GUIDES-TESTOUR-SEC3-P1 | Section 3, paragraph 1 | Testour's pomegranates are famous across Tunisia, and the town celebrates them with a festival in late October when the harvest comes in. Each July, Testour hosts its International Festival of Malouf - the Andalusian classical music the exiles carried with them, and Tunisia's oldest festival devoted to it - filling summer evenings with music. | |
 | GUIDES-TESTOUR-SEC3-P2 | Section 3, paragraph 2 | The weekly market is the best way to see the town at work. For a meal out, Le Malouf in Testour is a good address, and Les Vergers des Montagnes, fifteen minutes away, is worth reserving a day ahead. | |
 | GUIDES-TESTOUR-SEC4-HEAD | Section 4 heading | Make it a half-day from the farm | |
-| GUIDES-TESTOUR-SEC4-P1 | Section 4, paragraph 1 | Testour is the easiest outing from Farm El Baya - fifteen minutes by car, or the first stop on a guided day that continues to the Roman city of Dougga. Mahdi arranges tours with a professional guide from 50 DT per person, including an olive-oil tasting and a visit to an organic olive mill. The small grocery shops in town also make Testour the practical stop if you plan to cook in the farm's two kitchens. | |
+| GUIDES-TESTOUR-SEC4-P1 | Section 4, paragraph 1 | Testour is the easiest outing from Farm El Baya - fifteen minutes by car, or the first stop on the private guided day that continues to the Roman city of Dougga. The combined Testour and Dougga tour is €74 per booking through Lodgify. The small grocery shops in town also make Testour the practical stop if you plan to cook in the farm's two kitchens. | |
 | GUIDES-TESTOUR-SEC5-HEAD | Section 5 heading | Where to stay near Testour | |
 | GUIDES-TESTOUR-SEC5-P1 | Section 5, paragraph 1 | Farm El Baya sits in the countryside at Slouguia, fifteen minutes from town - a working permaculture farm with a single private room, the Baya Room, from 180 DT per night, with farm breakfast available each morning. Time your stay to the pomegranate festival and you can pick fruit on the farm the same weekend. | |
 | GUIDES-TESTOUR-CTA-HEAD | Bottom CTA heading | Festivals in town, quiet on the farm. | |
@@ -408,14 +398,14 @@ Three long-form travel guides (Dougga, Testour, olive harvest) built to attract 
 
 | ID | Notes / where it appears | Current Copy | New Copy |
 |---|---|---|---|
-| GUIDES-HARVEST-TAG | Small tag/pill shown on preview cards and the article | October - December · 50 DT / person | |
+| GUIDES-HARVEST-TAG | Small tag/pill shown on preview cards and the article | October - December · 50 DT / €15 per person | |
 | GUIDES-HARVEST-HERO | Article H1 / preview card title | Join the olive harvest. | |
 | GUIDES-HARVEST-TEASER | Preview-card teaser text | From October to December the farm's groves come alive. Pick with the family, press your own oil, and taste it at breakfast. | |
 | GUIDES-HARVEST-FACT1 | Quick-facts strip, item 1 (label: Season) | October to December | |
-| GUIDES-HARVEST-FACT2 | Quick-facts strip, item 2 (label: Price) | 50 DT / person | |
+| GUIDES-HARVEST-FACT2 | Quick-facts strip, item 2 (label: Price) | 50 DT / €15 per person | |
 | GUIDES-HARVEST-FACT3 | Quick-facts strip, item 3 (label: The groves) | 40 acres in permaculture transition | |
 | GUIDES-HARVEST-FACT4 | Quick-facts strip, item 4 (label: Take home) | Your own bottled oil | |
-| GUIDES-HARVEST-LEAD | Opening/lead paragraph | Tunisia is one of the largest olive-oil producers on earth, and from October to December the whole north of the country turns to the harvest. At Farm El Baya, a 40-acre permaculture farm near Testour, guests can join it - picking alongside the family, following the fruit to an organic mill, and tasting oil pressed from trees you can see from the room's windows. The harvest experience costs 50 DT per person. | |
+| GUIDES-HARVEST-LEAD | Opening/lead paragraph | Tunisia is one of the largest olive-oil producers on earth, and from October to December the whole north of the country turns to the harvest. At Farm El Baya, a 40-acre permaculture farm near Testour, guests can join it - picking alongside the family, following the fruit to an organic mill, and tasting oil pressed from trees you can see from the room's windows. The harvest experience costs 50 DT / €15 per person. | |
 | GUIDES-HARVEST-SEC1-HEAD | Section 1 heading | Why Tunisia is an olive country | |
 | GUIDES-HARVEST-SEC1-P1 | Section 1, paragraph 1 — fact checked against the International Olive Council's 2025/26 season figures | Olive trees have been cultivated in this valley since Carthaginian and Roman times - the ruins at nearby Dougga were built on wheat and olive wealth. In the 2025/26 season, Tunisia became the world's second-largest olive-oil producer behind Spain, according to the International Olive Council - and the north, around the Medjerda valley, is some of its most fertile ground. | |
 | GUIDES-HARVEST-SEC1-P2 | Section 1, paragraph 2 | Farm El Baya's groves are part of that story, with a twist: four years ago the family began converting 40 acres of conventional monoculture olives to permaculture - working with the land instead of against it. The harvest is the moment the whole year points toward. | |
@@ -423,7 +413,7 @@ Three long-form travel guides (Dougga, Testour, olive harvest) built to attract 
 | GUIDES-HARVEST-SEC2-P1 | Section 2, paragraph 1 | The work is done by hand and by comb: nets spread beneath the trees, olives raked from the branches, sorted and sacked. It is genuinely physical, genuinely satisfying work - the kind you fall into a rhythm with after twenty minutes. Guests join for as much or as little as they like. | |
 | GUIDES-HARVEST-SEC2-P2 | Section 2, paragraph 2 | The olives then travel to an organic mill nearby to be pressed. Fresh oil, days old, tastes nothing like supermarket oil - green, peppery, alive. Guests take their own bottles home; the oil is priced separately by size and quality. | |
 | GUIDES-HARVEST-SEC3-HEAD | Section 3 heading | Taste it at the source | |
-| GUIDES-HARVEST-SEC3-P1 | Section 3, paragraph 1 | During harvest season, breakfast on the farm (20 DT) comes with the year's new oil - over farm eggs, flatbread, and whatever the garden gives that morning. To go deeper, the guided tour toward Testour and Dougga includes an olive-oil tasting. | |
+| GUIDES-HARVEST-SEC3-P1 | Section 3, paragraph 1 | During harvest season, breakfast on the farm (20 DT / €6 per person) comes with the year's new oil - over farm eggs, flatbread, and whatever the garden gives that morning. | |
 | GUIDES-HARVEST-SEC4-HEAD | Section 4 heading | When to come and what to bring | |
 | GUIDES-HARVEST-SEC4-P1 | Section 4, paragraph 1 | The harvest runs October to December, and late October overlaps with Testour's pomegranate festival, fifteen minutes away - the farm's own pomegranates, figs, and almonds ripen in the same window. Bring clothes that can get dusty and closed shoes; the farm provides the rest. | |
 | GUIDES-HARVEST-SEC4-P2 | Section 4, paragraph 2 | Autumn is also simply the farm's best light: warm days, cool nights, and clear skies for stargazing from the rooftop. | |

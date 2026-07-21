@@ -11,7 +11,7 @@ export default function ReviewCard({review}: {review: Review}) {
   const content = (
     <>
       <p className="mb-5 text-sm font-semibold tracking-label text-olive">{review.detail}</p>
-      <p className="font-serif text-2xl italic leading-snug text-earth">&ldquo;{review.quote}&rdquo;</p>
+      <p className="font-serif text-2xl leading-snug text-earth">&ldquo;{review.quote}&rdquo;</p>
       <p className="mt-7 text-sm font-medium text-olive">{review.name}</p>
     </>
   );

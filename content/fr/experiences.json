@@ -1,17 +1,13 @@
 {
-  "meta": {"title": "Expériences à Farm El Baya - Mouvement, récoltes, abeilles", "description": "Repas de ferme, yoga et callisthénie, apiculture, récolte des olives, visites guidées de Testour andalouse et de Dougga romaine, ciel étoilé et journées lentes et authentiques à la ferme."},
+  "meta": {"title": "Expériences à Farm El Baya - Mouvement, récoltes, abeilles", "description": "Accès à la ferme, mouvement et ciel étoilé inclus, avec entraînement, apiculture, récoltes, cuisine et visite privée de Testour-Dougga sur réservation."},
   "hero": "Il y a toujours quelque chose à faire. Et toujours la permission de ne rien faire.",
-  "items": [
+  "included": [
     ["Accès aux 40 acres", "Marcher les sentiers. S'asseoir sous les oliviers. Regarder les animaux. La terre est à explorer.", "Inclus"],
     ["L'espace mouvement", "Un espace intérieur et extérieur pour le yoga, la callisthénie et le mouvement - barres, anneaux et terrain ouvert pour une séance de sport, une course ou du parkour.", "Inclus"],
     ["Étoiles sur le toit", "Un secret bien gardé de la ferme. Le toit, la nuit, loin des lumières de la ville.", "Inclus"],
-    ["Séance avec Mahdi", "Une seule séance de 90 minutes avec Mahdi - bilan, entraînement et plan à emporter, le tout en une fois.", "70 DT / personne"],
-    ["Apiculture", "Enfilez la combinaison et visitez les ruches avec Mahdi. Comprendre les abeilles, le miel, la saison.", "40 DT / personne"],
-    ["Récolte des olives", "D'octobre à décembre - participez à la récolte et pressez votre huile. Huile d'olive facturée à part selon la taille et la qualité.", "50 DT / personne · Automne"],
-    ["Cuisine en plein air", "Cuisinez et préparez le pain avec la famille autour de la cuisine extérieure. Feu, nourriture, conversation - le repas partagé est inclus.", "70 DT / personne"],
-    ["Visite guidée - Testour ou Dougga", "Un guide professionnel vous fait découvrir la médina andalouse de Testour ou la cité romaine de Dougga, avec une dégustation d'huile d'olive et la visite d'un moulin à huile biologique.", "Dès 50 DT / personne"],
-    ["Petit-déjeuner de ferme", "Un petit-déjeuner de la ferme préparé chaque matin. Œufs, huile, yaourt, fruits, pain, jus.", "20 DT / personne"],
-    ["Soin des animaux", "Nourrir les poules. Marcher avec l'âne. Passer du temps avec le cheval. Ici, les animaux font partie du jour.", "Inclus"],
+    ["Soin des animaux", "Nourrir les poules. Marcher avec l'âne. Passer du temps avec le cheval. Ici, les animaux font partie du jour.", "Inclus"]
+  ],
+  "seasonal": [
     ["Grenades et fruits", "Grenades, figues, amandes - selon la saison, il y a toujours quelque chose à cueillir.", "Saison"]
   ],
   "eventsHeading": "Culture et événements à proximité",

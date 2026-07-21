@@ -60,13 +60,11 @@ const reviews = [
 
 const labels = {
   en: {
-    eyebrow: 'Verified guest proof',
     google: 'Google review examples from recent guests',
     booking: 'Booking.com guest scores shared by travelers',
     response: 'Typical direct booking response window'
   },
   fr: {
-    eyebrow: 'Avis vérifiés de nos hôtes',
     google: "Exemples d'avis Google de voyageurs récents",
     booking: 'Notes des voyageurs partagées sur Booking.com',
     response: 'Délai de réponse typique en réservation directe'
@@ -88,21 +86,20 @@ export default function TrustReviews({
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 md:grid-cols-[0.75fr_1.25fr] md:items-end">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-label text-olive">{t.eyebrow}</p>
-            <h2 className="mt-3 font-serif text-5xl italic leading-tight">{heading}</h2>
+            <h2 className="font-serif text-5xl leading-tight">{heading}</h2>
             <p className="mt-4 max-w-md leading-7 text-earth/75">{subhead}</p>
           </div>
           <div className="grid gap-3 sm:grid-cols-3">
             <TrackedLink href="https://www.google.com/maps/search/?api=1&query=Farm%20Elbaya%20Testour" event="review_source_click" target="_blank" rel="noreferrer" className="border border-olive/15 bg-cream p-5 transition hover:border-olive/40">
-              <p className="font-serif text-4xl italic text-olive">5.0</p>
+              <p className="font-serif text-4xl text-olive-dark">5.0</p>
               <p className="mt-1 text-sm text-earth/75">{t.google}</p>
             </TrackedLink>
             <TrackedLink href="https://www.booking.com/hotel/tn/farm-el-baya.fr.html#tab-reviews" event="review_source_click" target="_blank" rel="noreferrer" className="border border-olive/15 bg-cream p-5 transition hover:border-olive/40">
-              <p className="font-serif text-4xl italic text-olive">8-10</p>
+              <p className="font-serif text-4xl text-olive-dark">8-10</p>
               <p className="mt-1 text-sm text-earth/75">{t.booking}</p>
             </TrackedLink>
             <div className="border border-olive/15 bg-cream p-5">
-              <p className="font-serif text-4xl italic text-olive">24h</p>
+              <p className="font-serif text-4xl text-olive-dark">24h</p>
               <p className="mt-1 text-sm text-earth/75">{t.response}</p>
             </div>
           </div>

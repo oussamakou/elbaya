@@ -1,17 +1,13 @@
 {
-  "meta": {"title": "Experiences at Farm El Baya - Movement, Harvests, Slow Days", "description": "Farm meals, yoga and calisthenics, beekeeping, olive harvest, guided tours to Andalusian Testour and Roman Dougga, stargazing, and slow, authentic days on the farm."},
+  "meta": {"title": "Experiences at Farm El Baya - Movement, Harvests, Slow Days", "description": "Included farm access, movement and stargazing, plus bookable training, beekeeping, harvests, cooking, and a private Testour-Dougga tour."},
   "hero": "There is always something to do. And always permission to do nothing.",
-  "items": [
+  "included": [
     ["Access to 40 Acres", "Walk the trails. Sit under the olive trees. Watch the animals. The land is yours to explore.", "Included"],
     ["The Movement Area", "An indoor and outdoor space for yoga, calisthenics, and movement - bars, rings, and open ground for a farm gym session, a run, or parkour.", "Included"],
     ["Rooftop Stargazing", "One of the farm's best-kept secrets. The rooftop at night, far from city light.", "Included"],
-    ["Training Session with Mahdi", "A single 90-minute session with Mahdi - assessment, training, and a plan to take home, all in one sitting.", "70 DT / person"],
-    ["Beekeeping Session", "Suit up and visit the hives with Mahdi. Learn how the bees live and how the honey is made.", "40 DT / person"],
-    ["Olive Harvest", "October to December - join the harvest and press your own oil. Olive oil priced separately by size and quality.", "50 DT / person · Autumn"],
-    ["Outdoor Kitchen Session", "Cook and bake with the family around the open-air kitchen. Fire, food, conversation - the shared meal is included.", "70 DT / person"],
-    ["Guided Tour - Testour or Dougga", "A professional guide takes you through Testour's Andalusian medina or the Roman city of Dougga, with an olive-oil tasting and a visit to an organic olive mill.", "From 50 DT / person"],
-    ["Farm Breakfast", "A farm breakfast set fresh each morning. Eggs, oil, yogurt, fruit, bread, juice.", "20 DT / person"],
-    ["Animal Care", "Feed the chickens. Walk with the donkey. Spend time with the horse. The animals are daily life here.", "Included"],
+    ["Animal Care", "Feed the chickens. Walk with the donkey. Spend time with the horse. The animals are daily life here.", "Included"]
+  ],
+  "seasonal": [
     ["Pomegranate & Fruit Harvest", "Pomegranates, figs, almonds - depending on the season, there is always something to pick.", "Seasonal"]
   ],
   "eventsHeading": "Culture & events nearby",

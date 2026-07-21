@@ -4,7 +4,6 @@ import {setRequestLocale} from 'next-intl/server';
 import {getContent, img, pageMetadata} from '@/content';
 import Button from '@/components/ui/Button';
 import WhatsAppLink from '@/components/ui/WhatsAppLink';
-import Reveal from '@/components/ui/Reveal';
 import RoomShowcase from '@/components/ui/RoomShowcase';
 import StayAddons from '@/components/sections/StayAddons';
 import QuickFacts from '@/components/sections/QuickFacts';
@@ -52,27 +51,8 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
         <Button href="/book" className="mt-8">{fr ? 'Vérifier les disponibilités' : 'Check availability'}</Button>
       </section>
       <RoomShowcase locale={locale} />
-      <StayAddons locale={locale} />
       <BookingConfidence locale={locale} />
-      <section className="px-5 py-20">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-[1.1fr_.9fr]">
-          <Image src={img('breakfast.webp')} alt="A farm breakfast laid out at Farm El Baya" width={900} height={720} sizes="(min-width: 768px) 55vw, 100vw" className="rounded-card object-cover" />
-          <Reveal>
-            <h2 className="font-serif text-5xl italic">{content.breakfast.heading}</h2>
-            <p className="mt-6 leading-8 text-earth/75">{content.breakfast.text}</p>
-            <WhatsAppLink
-              locale={locale}
-              event="breakfast_question_click"
-              message={fr
-                ? 'Bonjour Mahdi, j’ai une question sur le petit-déjeuner à Farm El Baya.'
-                : 'Hi Mahdi, I have a question about breakfast at Farm El Baya.'}
-              className="mt-8 inline-flex items-center justify-center rounded-full bg-olive px-6 py-3 text-sm font-medium text-cream transition-[scale,background-color] duration-300 hover:bg-olive-dark active:scale-[0.96]"
-            >
-              {fr ? 'Discutons' : "Let's Connect"}
-            </WhatsAppLink>
-          </Reveal>
-        </div>
-      </section>
+      <StayAddons locale={locale} />
       <section className="bg-cream px-5 py-20">
         <div className="mx-auto max-w-4xl text-center">
           <p className="text-xs font-medium uppercase tracking-label text-olive">{content.cabin.label}</p>

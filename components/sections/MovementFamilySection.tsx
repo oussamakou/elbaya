@@ -9,10 +9,6 @@ const copy = {
     text: 'Farm El Baya now includes Mahdi’s movement area: an indoor and outdoor space for yoga, calisthenics, mobility, rings, climbing, and playful physical exploration - part farm gym, part open ground for a run or parkour.',
     family: 'Families are welcome too. Children have open farm space to roam and animals to meet, so slow days are easier for parents and more alive for kids.',
     cta: 'See experiences',
-    cards: [
-      ['The Movement Area', 'Yoga, calisthenics, and a farm gym for strength, balance, mobility, rings, and bodyweight practice.'],
-      ['Open-air practice', 'Move under the trees, practice handstands, or join simple morning movement when Mahdi is available.']
-    ],
     alts: {
       trampoline: 'Mahdi jumping on the trampoline with two children at Farm El Baya',
       pushups: 'A girl doing push-ups during a training session at Farm El Baya',
@@ -25,10 +21,6 @@ const copy = {
     text: "Farm El Baya inclut maintenant l'espace mouvement de Mahdi : un lieu intérieur et extérieur pour le yoga, la callisthénie, la mobilité, les anneaux, la grimpe et l'exploration physique - une salle de sport à la ferme, avec de l'espace pour courir ou faire du parkour.",
     family: "Les familles sont bienvenues. Les enfants ont de l'espace sur la ferme pour explorer et des animaux à rencontrer, pour des journées plus simples pour les parents et plus vivantes pour les enfants.",
     cta: 'Voir les expériences',
-    cards: [
-      ["L'espace mouvement", "Yoga, callisthénie et salle de sport à la ferme pour la force, l'équilibre, la mobilité, les anneaux et le poids du corps."],
-      ['Pratique en plein air', 'Bouger sous les arbres, travailler les équilibres ou rejoindre un mouvement matinal quand Mahdi est disponible.']
-    ],
     alts: {
       trampoline: 'Mahdi saute sur le trampoline avec deux enfants à Farm El Baya',
       pushups: "Une fille fait des pompes pendant une séance d'entraînement à Farm El Baya",
@@ -37,9 +29,8 @@ const copy = {
   }
 };
 
-// `compact` drops the family paragraph, the two secondary photos, and the
-// three-card grid — used on the home page, which already gets the full
-// version's photos elsewhere on the page. /experiences keeps the full read.
+// The homepage keeps this concise; /experiences adds the family context and
+// secondary photography before continuing into the longer editorial story.
 export default function MovementFamilySection({locale, compact = false}: {locale: string; compact?: boolean}) {
   const t = locale === 'fr' ? copy.fr : copy.en;
 
@@ -47,11 +38,11 @@ export default function MovementFamilySection({locale, compact = false}: {locale
     <section className="bg-cream px-5 py-20 md:py-28">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-label text-olive">{t.eyebrow}</p>
-          <h2 className="mt-3 max-w-xl font-serif text-5xl italic leading-tight md:text-6xl">{t.heading}</h2>
+          {!compact && <p className="text-xs font-semibold uppercase tracking-label text-olive">{t.eyebrow}</p>}
+          <h2 className={`${compact ? '' : 'mt-3 italic'} max-w-xl font-serif text-5xl leading-tight md:text-6xl`}>{t.heading}</h2>
           <p className="mt-6 max-w-xl leading-8 text-earth/75">{t.text}</p>
           {!compact && <p className="mt-4 max-w-xl leading-8 text-earth/75">{t.family}</p>}
-          <Button href="/experiences" className="mt-8">{t.cta}</Button>
+          {compact && <Button href="/experiences" className="mt-8">{t.cta}</Button>}
         </div>
         <div className="grid gap-4">
           <div className="relative aspect-[4/3] overflow-hidden rounded-card bg-mist">
@@ -69,16 +60,6 @@ export default function MovementFamilySection({locale, compact = false}: {locale
           )}
         </div>
       </div>
-      {!compact && (
-        <div className="mx-auto mt-10 grid max-w-7xl gap-4 md:grid-cols-2">
-          {t.cards.map(([title, text]) => (
-            <article key={title} className="border border-olive/15 bg-sand/55 p-6">
-              <h3 className="font-serif text-3xl italic">{title}</h3>
-              <p className="mt-3 leading-7 text-earth/75">{text}</p>
-            </article>
-          ))}
-        </div>
-      )}
     </section>
   );
 }

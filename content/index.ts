@@ -36,19 +36,14 @@ export function getContent<T extends PageKey>(locale: string, page: T) {
   return content[safeLocale][page];
 }
 
-// Nine distinct stories, not fifteen near-duplicates: each photo earns its
-// slot by showing something the others don't. room_exterior_vibe and
-// rooftop_nightsky are dropped here because they're already the hero image
-// and the RoomShowcase/farm-page hero elsewhere on the site.
+// A short editorial sequence for the homepage rather than a complete gallery.
+// Movement already has its own image immediately above this section.
 export const photos = [
-  'breakfast.webp',
-  'mezzanine-stairs-with-window.webp',
-  'picking_tree_fruits.webp',
   'interior-baya-room.webp',
-  'pullup_bar_between_trees.webp',
-  'figs_and_olive_oil.webp',
+  'breakfast.webp',
+  'picking_tree_fruits.webp',
   'beekeeping_activity.webp',
-  'outside_kitchen_fireplace.webp',
+  'figs_and_olive_oil.webp',
   'livestock.webp'
 ];
 
