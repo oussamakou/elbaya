@@ -37,18 +37,20 @@ export default function FarmMapViewer({src, labels}: {src: string; labels: Label
         type="button"
         onClick={() => setOpen(true)}
         aria-haspopup="dialog"
-        className="group relative mt-10 block w-full cursor-zoom-in overflow-hidden rounded-card shadow-sm"
+        className="group relative mt-10 block w-full cursor-zoom-in overflow-hidden rounded-card bg-sand shadow-sm"
       >
         <Image
           src={src}
           alt={labels.alt}
           width={1600}
           height={1100}
-          sizes="(min-width: 1024px) 1024px, 100vw"
+          loading="eager"
+          unoptimized
+          sizes="(min-width: 1280px) 1280px, 100vw"
           className="h-auto w-full transition-transform duration-700 group-hover:scale-[1.02]"
         />
         <div className="absolute inset-0 bg-olive/0 transition-[background-color] duration-500 group-hover:bg-olive/10" />
-        <span className="absolute bottom-4 right-4 inline-flex min-h-10 items-center gap-2 rounded-full bg-cream/90 px-4 text-xs font-semibold uppercase tracking-label text-earth shadow-sm backdrop-blur-sm transition-[background-color,scale] duration-300 group-hover:bg-cream group-active:scale-[0.96]">
+        <span className="absolute bottom-4 right-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-cream/90 px-4 text-xs font-semibold uppercase tracking-label text-earth shadow-sm backdrop-blur-sm transition-[background-color,scale] duration-300 group-hover:bg-cream group-active:scale-[0.96]">
           <Expand className="h-4 w-4 text-olive" strokeWidth={1.8} />
           {labels.expand}
         </span>
@@ -69,7 +71,7 @@ export default function FarmMapViewer({src, labels}: {src: string; labels: Label
               <a
                 href={src}
                 download="farm-elbaya-map"
-                className="inline-flex min-h-10 items-center gap-2 rounded-full bg-cream px-4 text-xs font-semibold uppercase tracking-label text-earth transition-[background-color] hover:bg-mist"
+                className="inline-flex min-h-11 items-center gap-2 rounded-full bg-cream px-4 text-xs font-semibold uppercase tracking-label text-earth transition-[background-color] hover:bg-mist"
               >
                 <Download className="h-4 w-4 text-olive" strokeWidth={1.8} />
                 {labels.download}
@@ -78,7 +80,7 @@ export default function FarmMapViewer({src, labels}: {src: string; labels: Label
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label={labels.close}
-                className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-full border border-cream/40 transition-[background-color] hover:bg-cream/15"
+                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-cream/40 transition-[background-color] hover:bg-cream/15"
               >
                 <X className="h-5 w-5" strokeWidth={1.8} />
               </button>
@@ -89,7 +91,7 @@ export default function FarmMapViewer({src, labels}: {src: string; labels: Label
                 if (event.target === event.currentTarget) setOpen(false);
               }}
             >
-              <Image src={src} alt={labels.alt} fill sizes="100vw" className="pointer-events-none object-contain" />
+              <Image src={src} alt={labels.alt} fill unoptimized sizes="100vw" className="pointer-events-none object-contain" />
             </div>
           </div>
         )}

@@ -8,7 +8,7 @@ import BookingConfidence from '@/components/sections/BookingConfidence';
 import MovementFamilySection from '@/components/sections/MovementFamilySection';
 
 const experienceImages: Record<string, string> = {
-  training: 'pushup_exercise.webp',
+  training: 'handstand_practice.webp',
   beekeeping: 'beekeeping_activity.webp',
   'olive-harvest': 'picking_tree_fruits.webp',
   cooking: 'open_air_kitchen.webp'

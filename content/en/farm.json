@@ -1,11 +1,41 @@
 {
   "meta": {"title": "The Farm - Farm El Baya in Testour", "description": "The story of Mahdi's family olive farm becoming a permaculture farm stay with animals, gardens, bees, and open land."},
   "hero": "This is a farm in progress.",
+  "story": {
+    "eyebrow": "The story of the land",
+    "heading": "Forty acres, changing with the seasons.",
+    "image": "room_exterior_vibe.webp",
+    "imageAlt": "The warm, handcrafted exterior of a guest room at Farm El Baya",
+    "detailImage": "baby_goat_looking_at_camera.webp",
+    "detailImageAlt": "A young goat standing among the trees at Farm El Baya"
+  },
   "blocks": [
-    {"heading": "Four years ago, Mahdi made a decision.", "text": "His family had farmed this land for generations - 40 acres of monoculture olives, managed the conventional way. Four years ago, Mahdi began the transition. To permaculture. To biodiversity. To a farm that works with nature instead of against it. It is not finished. It may never be finished. That is the point.", "image": "beekeeping_activity.webp"},
-    {"heading": "The land and what it grows.", "text": "Olives, pressed into oil guests take home in bottles. Pomegranates picked in autumn and juiced by hand. Almonds, figs, peaches, plums. A greenhouse for year-round growing. Vegetables pulled from the ground hours before your plate. Beehives among the trees, tended through the seasons.", "image": "open_air_kitchen.webp"},
-    {"heading": "The animals roam freely.", "text": "A horse. A donkey. Sheep. Chickens and ducks. A peacock who answers to no one. Two Malinois dogs who make the nights feel safe. During the day, all of them go wherever they please. You will find them in unexpected places. That is normal here.", "image": "livestock.webp"}
+    {"heading": "Four years ago, Mahdi made a decision.", "text": "His family had farmed this land for generations - 40 acres of monoculture olives, managed the conventional way. Four years ago, Mahdi began the transition. To permaculture. To biodiversity. To a farm that works with nature instead of against it. It is not finished. It may never be finished. That is the point."},
+    {"heading": "The land and what it grows.", "text": "Olives, pressed into oil guests take home in bottles. Pomegranates picked in autumn and juiced by hand. Almonds, figs, peaches, plums. A greenhouse for year-round growing. Vegetables pulled from the ground hours before your plate. Beehives among the trees, tended through the seasons."},
+    {"heading": "The animals roam freely.", "text": "A horse. A donkey. Sheep. Chickens and ducks. A peacock who answers to no one. Two Malinois dogs who make the nights feel safe. During the day, all of them go wherever they please. You will find them in unexpected places. That is normal here."}
   ],
-  "mahdi": {"quote": "I enjoy movement, music, building with my hands, meditating, and hosting the world on my land.", "text": "Mahdi is a calisthenics coach, yoga teacher, builder, beekeeper, farmer, and host. He keeps adding to the farm with the patience of someone who knows living things do not respond to deadlines."},
-  "map": {"heading": "Explore the land", "quote": "Get lost on purpose. The best places aren't always on the map."}
+  "mahdi": {
+    "eyebrow": "Meet your host",
+    "quote": "I enjoy movement, music, building with my hands, meditating, and hosting the world on my land.",
+    "text": "Mahdi is a calisthenics coach, yoga teacher, builder, beekeeper, farmer, and host. He keeps adding to the farm with the patience of someone who knows living things do not respond to deadlines.",
+    "imageAlt": "Mahdi smiling with a young chick perched on his head at Farm El Baya"
+  },
+  "map": {
+    "eyebrow": "Your place in the farm",
+    "heading": "Explore the land",
+    "intro": "The Baya Room sits inside a living farm rather than apart from it. See where you will sleep, eat, meet the animals, and set out beneath the olive trees.",
+    "legend": [
+      ["Stay", "The Baya Room and shared guest spaces"],
+      ["Grow", "Olives, fruit trees, vegetables, and beehives"],
+      ["Gather", "Outdoor kitchen, dining, and places to sit"],
+      ["Meet", "The animals and their open farm spaces"],
+      ["Wander", "Farm roads and trails through forty acres"]
+    ]
+  },
+  "cta": {
+    "eyebrow": "Come to El Baya",
+    "heading": "Stay on this land.",
+    "text": "Wake among the olive trees, share the farm's daily rhythm, and make the Baya Room your base near Testour.",
+    "button": "Check availability"
+  }
 }
