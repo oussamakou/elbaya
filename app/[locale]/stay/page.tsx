@@ -14,7 +14,7 @@ import GettingHere from '@/components/sections/GettingHere';
 
 export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
   const {locale} = await params;
-  return pageMetadata(locale, 'stay', '/stay', 'woman-looking-at-view-from-window.webp');
+  return pageMetadata(locale, 'stay', '/stay', 'room_picture_mahdi.webp');
 }
 
 export default async function Stay({params}: {params: Promise<{locale: string}>}) {
@@ -41,7 +41,7 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
   return (
     <>
       <section className="relative flex min-h-[76vh] items-end overflow-hidden bg-dusk px-5 pb-20 text-cream">
-        <Image src={img('woman-looking-at-view-from-window.webp')} alt="Inside the Baya Room at Farm El Baya" fill preload fetchPriority="high" sizes="100vw" className="object-cover animate-breathe opacity-85" />
+        <Image src={img('room_picture_mahdi.webp')} alt="Inside the Baya Room at Farm El Baya" fill preload fetchPriority="high" sizes="100vw" className="object-cover animate-breathe opacity-85" />
         <div className="absolute inset-0 bg-gradient-to-t from-dusk via-dusk/25 to-transparent" />
         <div className="relative mx-auto w-full max-w-7xl">
           <h1 className="max-w-4xl font-serif text-6xl italic md:text-7xl">{content.hero}</h1>
