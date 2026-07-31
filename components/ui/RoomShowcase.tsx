@@ -31,7 +31,7 @@ export default function RoomShowcase({locale}: {locale: string}) {
             <div className="absolute left-4 top-4 rounded-full border border-olive/25 bg-cream px-3 py-1 text-xs font-semibold text-earth shadow-sm">{t.rate}</div>
           </div>
           <div className="relative aspect-[16/9] overflow-hidden rounded-card bg-mist ring-1 ring-inset ring-earth/10">
-            <Image src={img('picking_tree_fruits.webp')} alt={`${t.name} surroundings`} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
+            <Image src={img('room2.webp')} alt={`${t.name} sitting area`} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
           </div>
         </div>
 
