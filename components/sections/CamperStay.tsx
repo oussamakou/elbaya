@@ -13,8 +13,8 @@ const copy = {
     facts: ['One vehicle', 'Up to 2 guests', 'By request'],
     cta: 'Request a camper stay',
     note: 'Standalone camper stays are requests, not instant bookings. Mahdi confirms availability and practical access on WhatsApp.',
-    imageAlt: 'An olive-lined track at Farm El Baya',
-    imageCaption: 'Forty acres. One quiet place to stop.'
+    imageAlt: 'A white camper van parked beneath the trees at Farm El Baya at night',
+    imageCaption: 'Arrive in your own van. Sleep beneath the trees.'
   },
   fr: {
     eyebrow: 'Une autre façon de séjourner',
@@ -25,8 +25,8 @@ const copy = {
     facts: ['Un véhicule', 'Jusqu’à 2 personnes', 'Sur demande'],
     cta: 'Demander un emplacement',
     note: "Les séjours en véhicule seul sont sur demande, sans réservation instantanée. Mahdi confirme les disponibilités et l’accès pratique sur WhatsApp.",
-    imageAlt: 'Un chemin bordé d’oliviers à Farm El Baya',
-    imageCaption: 'Quarante hectares. Un endroit calme où s’arrêter.'
+    imageAlt: 'Un van blanc stationné sous les arbres à Farm El Baya la nuit',
+    imageCaption: 'Venez avec votre van. Dormez sous les arbres.'
   }
 };
 
@@ -58,7 +58,7 @@ export default function CamperStay({locale}: {locale: string}) {
       <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[0.92fr_1.08fr] md:items-center md:gap-16">
         <div className="relative min-h-[28rem] overflow-hidden rounded-card bg-mist md:min-h-[40rem]">
           <Image
-            src={img('trail_in_thefarm.webp')}
+            src={img('car-caming.jpg')}
             alt={t.imageAlt}
             fill
             sizes="(min-width: 768px) 46vw, 100vw"
