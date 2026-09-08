@@ -8,6 +8,7 @@ import RoomShowcase from '@/components/ui/RoomShowcase';
 import StayAddons from '@/components/sections/StayAddons';
 import QuickFacts from '@/components/sections/QuickFacts';
 import BookingConfidence from '@/components/sections/BookingConfidence';
+import CamperStay from '@/components/sections/CamperStay';
 import FaqBlock from '@/components/sections/FaqBlock';
 import PolicyBlock from '@/components/sections/PolicyBlock';
 import GettingHere from '@/components/sections/GettingHere';
@@ -54,6 +55,7 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
       </section>
       <RoomShowcase locale={locale} />
       <BookingConfidence locale={locale} />
+      <CamperStay locale={locale} />
       <StayAddons locale={locale} />
       <section className="bg-cream px-5 py-20">
         <div className="mx-auto max-w-4xl text-center">
