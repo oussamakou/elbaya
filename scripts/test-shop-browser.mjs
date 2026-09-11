@@ -105,9 +105,13 @@ try {
   await page.getByLabel('Visibilité').selectOption('available');
   await page
     .locator('input[type=file]')
-    .setInputFiles('public/assets/images/picking_tree_fruits.webp');
+    .setInputFiles(['public/assets/images/picking_tree_fruits.webp', 'public/assets/images/beekeeping_activity.webp']);
   await expect(page.getByText('Préparation des photos…')).toHaveCount(0);
-  await expect(page.locator('.admin-photo')).toHaveCount(1);
+  await expect(page.locator('.admin-photo')).toHaveCount(2);
+  const mainPhoto = await page.locator('.admin-photo img').nth(1).getAttribute('src');
+  await page.getByRole('button', {name:'Couverture', exact:true}).click();
+  await expect(page.locator('.admin-photo img').first()).toHaveAttribute('src',mainPhoto);
+  await shot('shop-multiple-photos-mobile');
   await page.getByLabel('Format', {exact: true}).fill('3 kg');
   await page.getByLabel('Prix (DT)', {exact: true}).fill('18.5');
   await page.getByLabel('Colis disponibles', {exact: true}).fill('5');
@@ -139,6 +143,12 @@ try {
   await product
     .getByRole('link', {name: 'Découvrir le produit', exact: true})
     .click();
+  await expect(page.locator('.pantry-detail-gallery .pantry-product-photo img')).toHaveAttribute('src',mainPhoto);
+  await expect(page.locator('.pantry-thumbnails button')).toHaveCount(2);
+  const otherPhoto = await page.locator('.pantry-thumbnails img').nth(1).getAttribute('src');
+  await page.getByRole('button',{name:'Photo 2',exact:true}).click();
+  await expect(page.locator('.pantry-detail-gallery .pantry-product-photo img')).toHaveAttribute('src',otherPhoto);
+  await shot('shop-gallery-mobile');
   await page.getByRole('button', {name: 'Ajouter au panier'}).click();
   await page.locator('.pantry-detail-nav a[href="#pantry-basket"]').click();
   await page.getByLabel('Nom complet').fill('Client test navigateur');
