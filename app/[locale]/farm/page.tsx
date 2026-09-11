@@ -1,3 +1,4 @@
+import FarmShopTeaser from '@/components/sections/FarmShopTeaser';
 import Image from 'next/image';
 import type {Metadata} from 'next';
 import {setRequestLocale} from 'next-intl/server';
@@ -99,6 +100,7 @@ export default async function Farm({params}: {params: Promise<{locale: string}>}
         </div>
       </section>
 
+      <FarmShopTeaser locale={locale} />
       <section className="border-y border-olive/20 bg-sand px-5 py-20 md:py-24">
         <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-[1fr_auto] md:items-end">
           <div>

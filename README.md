@@ -73,6 +73,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## 📁 Project Structure
 
+### Farm shop
+
+The French/English product catalogue is at `/fr/products` and `/en/products`. Mehdi's protected dashboard is at `/fr/admin`. Run `npm run shop:setup` for local owner access. See [SHOP_SETUP.md](SHOP_SETUP.md) for product publishing, delivery settings, database configuration and tests.
+
 - `app/`: Next.js App Router (pages and API routes).
 - `components/`: Reusable UI components and page sections.
 - `content/`: Static content and JSON data for different languages.

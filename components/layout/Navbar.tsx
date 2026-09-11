@@ -13,15 +13,12 @@ export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const isForge = pathname.includes('/forge');
   const links = useMemo(() => [
     ['stay', t('stay')],
     ['experiences', t('experiences')],
     ['farm', t('farm')],
-    ['guides', t('guides')],
-    ['book', t('book')],
-    ['forge', t('forge')]
-  ], [t]);
+    ['products', locale === 'fr' ? 'La boutique' : 'Farm shop'],
+  ], [t, locale]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -64,9 +61,9 @@ export default function Navbar() {
   // Both of these start with a light (bg-sand) hero rather than a dark image,
   // so the nav needs dark text before the user scrolls. Guide articles
   // (/guides/[slug]) keep a dark hero image like every other page.
-  const startsOnLight = pathname.includes('/book') || pathname === '/guides';
-  const tone = isForge ? 'text-cream' : scrolled || startsOnLight ? 'text-earth' : 'text-cream';
-  const shell = scrolled ? (isForge ? 'bg-dusk/92 border-cream/10' : 'bg-sand/92 border-mist') : 'bg-transparent border-transparent';
+  const startsOnLight = pathname.includes('/book') || pathname === '/guides' || pathname.startsWith('/products') || pathname.startsWith('/admin');
+  const tone = scrolled || startsOnLight ? 'text-earth' : 'text-cream';
+  const shell = scrolled ? 'bg-sand/92 border-mist' : 'bg-transparent border-transparent';
 
   return (
     <header className={`fixed inset-x-0 top-0 z-50 border-b backdrop-blur-sm transition duration-500 ${shell} ${tone}`}>
@@ -84,34 +81,34 @@ export default function Navbar() {
             loading="eager"
           />
         </Link>
-        <div className="hidden items-center gap-8 text-sm font-medium md:flex">
+        <div className="hidden items-center gap-5 text-sm font-medium xl:flex">
           {links.map(([href, label]) => {
-            const active = pathname === `/${href}`;
+            const active = pathname === `/${href}` || pathname.startsWith(`/${href}/`);
             return (
-              <Link key={href} href={`/${href}`} className={`group relative flex items-center gap-2 ${href === 'forge' ? 'opacity-70' : ''} transition hover:text-olive hover:opacity-100`}>
+              <Link key={href} href={`/${href}`} className={`group relative flex items-center gap-2 transition hover:text-olive hover:opacity-100`}>
                 <span className={`h-1 w-1 rounded-full bg-olive transition-opacity ${active ? 'opacity-100' : 'opacity-0 group-hover:opacity-60'}`} />
                 {label}
               </Link>
             );
           })}
         </div>
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-3 xl:flex">
           <LanguageToggle />
-          <Link href={isForge ? '/forge#apply' : '/book'} className={`rounded-full px-5 py-2.5 text-sm font-medium transition active:scale-[0.96] ${isForge ? 'border border-cream/60 hover:bg-cream/20' : 'bg-olive text-cream hover:bg-olive-dark'}`}>
-            {isForge ? `${t('apply')} →` : t('bookNow')}
+          <Link href="/book" className={`rounded-full px-5 py-2.5 text-sm font-medium transition active:scale-[0.96] bg-olive text-cream hover:bg-olive-dark`}>
+            {t('bookNow')}
           </Link>
         </div>
-        <div className="flex items-center gap-3 md:hidden">
-          <Link href={isForge ? '/forge#apply' : '/book'} className={`inline-flex min-h-10 items-center rounded-full px-4 text-sm font-medium transition active:scale-[0.96] ${isForge ? 'border border-cream/60 hover:bg-cream/20' : 'bg-olive text-cream hover:bg-olive-dark'}`}>
-            {isForge ? t('apply') : t('bookNow')}
+        <div className="flex items-center gap-3 xl:hidden">
+          <Link href="/book" className={`inline-flex min-h-10 items-center rounded-full px-4 text-sm font-medium transition active:scale-[0.96] bg-olive text-cream hover:bg-olive-dark`}>
+            {t('bookNow')}
           </Link>
           <button onClick={() => setOpen(true)} className="-m-2 p-2" aria-label="Open menu" aria-expanded={open} aria-controls="mobile-menu"><Menu /></button>
         </div>
       </nav>
       {open && (
-        <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" className={`fixed inset-0 z-50 flex min-h-screen flex-col bg-sand px-6 py-6 text-earth md:hidden`}>
+        <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" className={`fixed inset-0 z-50 flex h-dvh flex-col overflow-y-auto bg-sand px-6 py-6 text-earth xl:hidden`}>
           <button onClick={() => setOpen(false)} className="-m-2 ml-auto p-2" aria-label="Close menu" autoFocus><X /></button>
-          <div className="mt-16 flex flex-col gap-8 font-serif text-5xl italic">
+          <div className="my-8 flex flex-col gap-4 font-serif text-4xl italic">
             {links.map(([href, label]) => <Link key={href} href={`/${href}`} onClick={() => setOpen(false)}>{label}</Link>)}
           </div>
           <div className="mt-auto flex items-center justify-between">

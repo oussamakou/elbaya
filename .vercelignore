@@ -1,0 +1,5 @@
+.env*
+.shop
+.firecrawl
+.playwright-mcp
+website-copy.md
