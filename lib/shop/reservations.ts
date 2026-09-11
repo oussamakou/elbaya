@@ -13,12 +13,18 @@ export async function createReservation(input: unknown) {
   const email = text(o.email ?? "", 254, false);
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
     throw new ShopError("email");
+  const governorate = text(o.governorate, 80);
+  const city = text(o.city, 100);
+  const streetAddress = text(o.address, 500);
   const data = {
     firstName,
     lastName,
     phone,
     email,
-    address: text(o.address, 500),
+    governorate,
+    city,
+    streetAddress,
+    address: [streetAddress, city, governorate].join(", "),
     notes: text(o.notes ?? "", 1000, false),
     productId: id(o.productId),
     variantId: id(o.variantId),

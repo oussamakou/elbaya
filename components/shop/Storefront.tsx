@@ -248,6 +248,7 @@ export default function Storefront({
               <p className="shop-eyebrow">{t.eyebrow}</p>
               <h1>{t.title}</h1>
               <p className="pantry-lead">{t.intro}</p>
+              <div className="pantry-hero-actions">
               <Link href="/products/reserve" className="shop-button">
                 {locale === "fr"
                   ? "Précommander la récolte"
@@ -258,6 +259,7 @@ export default function Storefront({
                 {t.browse}
                 <ArrowDown size={18} />
               </a>
+              </div>
               <span className="pantry-origin">
                 TESTOUR, TUNISIE · FARM EL BAYA
               </span>

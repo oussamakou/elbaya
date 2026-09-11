@@ -7,10 +7,12 @@ export default function ReservationForm({
   products,
   locale,
   productId,
+  onProductChange,
 }: {
   products: Product[];
   locale: "fr" | "en";
   productId?: string;
+  onProductChange?: (id:string) => void;
 }) {
   const fr = locale === "fr";
   const [selected, setSelected] = useState(productId || products[0]?.id || "");
@@ -87,7 +89,7 @@ export default function ReservationForm({
             className="field"
             name="productId"
             value={product.id}
-            onChange={(e) => setSelected(e.target.value)}
+            onChange={(e) => {setSelected(e.target.value); onProductChange?.(e.target.value);}}
           >
             {products.map((p) => (
               <option key={p.id} value={p.id}>
@@ -154,10 +156,8 @@ export default function ReservationForm({
             required
           />
         </label>
-        <label>
-          {fr
-            ? "Adresse de livraison (ville et gouvernorat inclus)"
-            : "Delivery address (include city and governorate)"}
+        <div className="reservation-row reservation-address-region"><label>{fr ? 'Gouvernorat' : 'Governorate'}<input className="field" name="governorate" autoComplete="address-level1" placeholder={fr ? 'Ex. Béja' : 'e.g. Béja'} maxLength={80} required /></label><label>{fr ? 'Ville / localité' : 'City / locality'}<input className="field" name="city" autoComplete="address-level2" placeholder={fr ? 'Ex. Testour' : 'e.g. Testour'} maxLength={100} required /></label></div>
+        <label>{fr ? 'Adresse (rue, quartier, maison)' : 'Street address (street, area, house)'}
           <textarea
             className="field"
             name="address"

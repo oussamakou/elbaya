@@ -17,7 +17,7 @@ The site keeps room bookings as its main purpose. Farm products have a separate 
 
 1. Open /fr/admin with the password saved privately in .shop/admin-access.txt. The same generated password hash and session secret are configured in Vercel Production.
 2. Review product descriptions and formats. Upload real photos if available; the illustrations can remain until then.
-3. Share /fr/products/reserve or /en/products/reserve. Customers provide first name, last name, Tunisian phone, delivery address, optional email, product, size and quantity. No customer account is required.
+3. Share /fr/products/reserve or /en/products/reserve. Customers provide first name, last name, Tunisian phone, governorate, city/locality, street address, optional email, product, size and quantity. No customer account is required.
 4. Check the **Précommandes** admin tab for requests. Call the customer, agree on price, delivery fee and availability, then mark Contacté or Confirmée. A request is not a guaranteed inventory reservation; status changes here do not change stock. There are no automatic SMS/email notifications.
 5. When prices, inventory and delivery areas are finalized, optionally open direct cash-on-delivery checkout using the steps below.
 
@@ -99,9 +99,9 @@ Run node scripts/test-reservations.mjs against the local server to verify the vi
 
 ## Current review deployment (11 September 2026)
 
-Review: https://elbaya-myhkgd423-oussamakous-projects.vercel.app/en/products/reserve
-Admin: https://elbaya-myhkgd423-oussamakous-projects.vercel.app/fr/admin
+Review: https://elbaya-5cuwuqak4-oussamakous-projects.vercel.app/en/products/reserve
+Admin: https://elbaya-5cuwuqak4-oussamakous-projects.vercel.app/fr/admin
 
 The Vercel build passed. Hosted checks passed for the catalogue, unauthorized-admin rejection, password login, secure HttpOnly/SameSite cookie flags, request persistence in Turso, admin inbox visibility and status updates. Test requests were removed. Main-domain promotion is pending the hosting-plan decision; no Pro upgrade has been purchased.
 
-Once hosting is approved, promote the tested deployment with vercel promote elbaya-myhkgd423-oussamakous-projects.vercel.app, then verify farmelbaya.com/fr/products/reserve and /fr/admin. Push the prepared source commit to origin/master so later Git deployments contain the same shop implementation. Production environment variables are already configured; Preview does not share the production database or admin credentials.
+Once hosting is approved, promote the tested deployment with vercel promote elbaya-5cuwuqak4-oussamakous-projects.vercel.app, then verify farmelbaya.com/fr/products/reserve and /fr/admin. Push the prepared source commit to origin/master so later Git deployments contain the same shop implementation. Production environment variables are already configured; Preview does not share the production database or admin credentials.

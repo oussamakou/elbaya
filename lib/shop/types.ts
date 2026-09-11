@@ -1,5 +1,8 @@
 export type LocaleText = { fr: string; en: string };
 export type ReservationRequest = {
+  governorate?: string;
+  city?: string;
+  streetAddress?: string;
   id: string;
   revision: number;
   createdAt: string;
