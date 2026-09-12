@@ -17,7 +17,7 @@ export default function Navbar() {
     ['stay', t('stay')],
     ['experiences', t('experiences')],
     ['farm', t('farm')],
-    ['products', locale === 'fr' ? 'La boutique' : 'Farm shop'],
+    ['products', locale === 'fr' ? 'Boutique' : 'Shop'],
   ], [t, locale]);
 
   useEffect(() => {

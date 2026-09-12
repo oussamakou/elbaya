@@ -62,7 +62,7 @@ try {
   await expect(
     page
       .locator('#mobile-menu')
-      .getByRole('link', {name: 'La boutique', exact: true}),
+      .getByRole('link', {name: 'Boutique', exact: true}),
   ).toBeVisible();
   await page.keyboard.press('Escape');
   await page.getByRole('button', {name: 'Huile d’olive', exact: true}).click();
