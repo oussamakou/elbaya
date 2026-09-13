@@ -49,7 +49,7 @@
         {
           "heading": "Getting there from Farm El Baya",
           "paragraphs": [
-            "The drive from the farm takes 20 to 40 minutes on countryside roads, passing near Teboursouk. If you would rather not navigate, Mahdi can arrange the private Testour and Dougga tour listed with the stay (€74 per booking through Lodgify), with a local guide for both places.",
+            "The drive from the farm takes 20 to 40 minutes on countryside roads, passing near Teboursouk. If you would rather not navigate, Mahdi can arrange the private Testour and Dougga tour listed with the stay (250 DT / €74 per stay for the whole booking), with a local guide for both places.",
             "Dougga pairs naturally with Testour, the Andalusian town fifteen minutes from the farm, for a full day of history in the Medjerda valley."
           ]
         },
@@ -102,7 +102,7 @@
         {
           "heading": "Make it a half-day from the farm",
           "paragraphs": [
-            "Testour is the easiest outing from Farm El Baya - fifteen minutes by car, or the first stop on the private guided day that continues to the Roman city of Dougga. The combined Testour and Dougga tour is €74 per booking through Lodgify. The small grocery shops in town also make Testour the practical stop if you plan to cook in the farm's two kitchens."
+            "Testour is the easiest outing from Farm El Baya - fifteen minutes by car, or the first stop on the private guided day that continues to the Roman city of Dougga. The combined Testour and Dougga tour is 250 DT / €74 per stay for the whole booking. The small grocery shops in town also make Testour the practical stop if you plan to cook in the farm's two kitchens."
           ]
         },
         {
@@ -116,19 +116,19 @@
     },
     {
       "slug": "olive-harvest",
-      "tag": "October - December · 50 DT / €15 per person",
-      "meta": {"title": "Olive Harvest in Tunisia - Join the Season at Farm El Baya", "description": "Join the olive harvest on a permaculture farm in Tunisia from October to December - pick with the family, press your own oil, and take a bottle home."},
+      "tag": "December - February · 85 DT / €26 per guest, per stay",
+      "meta": {"title": "Olive Harvest in Tunisia - Join the Season at Farm El Baya", "description": "Join the olive harvest at Farm El Baya from December to February. Pick with the family; bottles of olive oil are available for separate purchase."},
       "hero": "Join the olive harvest.",
-      "teaser": "From October to December the farm's groves come alive. Pick with the family, press your own oil, and taste it at breakfast.",
+      "teaser": "From December to February, join the family in the olive groves. Bottles of olive oil are available to buy separately.",
       "image": "picking_tree_fruits.webp",
       "imageAlt": "Guests picking fruit from a tree at Farm El Baya",
       "credit": "",
-      "lead": "Tunisia is one of the largest olive-oil producers on earth, and from October to December the whole north of the country turns to the harvest. At Farm El Baya, a 40-acre permaculture farm near Testour, guests can join it - picking alongside the family, following the fruit to an organic mill, and tasting oil pressed from trees you can see from the room's windows. The harvest experience costs 50 DT / €15 per person.",
+      "lead": "At Farm El Baya, a 40-acre permaculture farm near Testour, guests can join the family’s olive harvest from December to February. Pick alongside the family and learn about the work in the groves. The harvest experience costs 85 DT / €26 per guest, per stay. Bottles of olive oil are not included.",
       "facts": [
-        {"label": "Season", "value": "October to December"},
-        {"label": "Price", "value": "50 DT / €15 per person"},
+        {"label": "Season", "value": "December to February"},
+        {"label": "Price", "value": "85 DT / €26 per guest, per stay"},
         {"label": "The groves", "value": "40 acres in permaculture transition"},
-        {"label": "Take home", "value": "Your own bottled oil"}
+        {"label": "Take home", "value": "Olive oil sold separately"}
       ],
       "sections": [
         {
@@ -154,8 +154,8 @@
         {
           "heading": "When to come and what to bring",
           "paragraphs": [
-            "The harvest runs October to December, and late October overlaps with Testour's pomegranate festival, fifteen minutes away - the farm's own pomegranates, figs, and almonds ripen in the same window. Bring clothes that can get dusty and closed shoes; the farm provides the rest.",
-            "Autumn is also simply the farm's best light: warm days, cool nights, and clear skies for stargazing from the rooftop."
+            "The farm’s olive-harvest experience is available from December to February. Confirm the harvest dates with Mahdi before booking, and bring clothes that can get dirty and closed shoes.",
+            "Plan your activity with Mahdi around the weather and the work in the groves."
           ]
         },
         {
@@ -165,7 +165,7 @@
           ]
         }
       ],
-      "cta": {"heading": "One room, one harvest, your oil.", "text": "Come in autumn, pick with the family, and take the year's oil home in a bottle."}
+      "cta": {"heading": "One room, one harvest, your oil.", "text": "Come from December to February and pick with the family. Bottles of the year’s oil are available for separate purchase."}
     }
   ]
 }

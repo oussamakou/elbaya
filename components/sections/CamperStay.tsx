@@ -12,7 +12,7 @@ const copy = {
     priceNote: 'per vehicle · per night · up to 2 guests',
     facts: ['One vehicle', 'Up to 2 guests', 'By request'],
     cta: 'Request a camper stay',
-    note: 'Standalone camper stays are requests, not instant bookings. Mahdi confirms availability and practical access on WhatsApp.',
+    note: 'Standalone camper stays are requests, not instant bookings. Mahdi confirms availability and practical access on WhatsApp. Meals are not included.',
     imageAlt: 'A white camper van parked beneath the trees at Farm El Baya at night',
     imageCaption: 'Arrive in your own van. Sleep beneath the trees.'
   },
@@ -24,7 +24,7 @@ const copy = {
     priceNote: 'par véhicule · par nuit · jusqu’à 2 personnes',
     facts: ['Un véhicule', 'Jusqu’à 2 personnes', 'Sur demande'],
     cta: 'Demander un emplacement',
-    note: "Les séjours en véhicule seul sont sur demande, sans réservation instantanée. Mahdi confirme les disponibilités et l’accès pratique sur WhatsApp.",
+    note: "Les séjours en véhicule seul sont sur demande, sans réservation instantanée. Mahdi confirme les disponibilités et l’accès pratique sur WhatsApp. Les repas ne sont pas inclus.",
     imageAlt: 'Un van blanc stationné sous les arbres à Farm El Baya la nuit',
     imageCaption: 'Venez avec votre van. Dormez sous les arbres.'
   }

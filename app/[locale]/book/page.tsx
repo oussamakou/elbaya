@@ -22,14 +22,14 @@ export default async function Book({params}: {params: Promise<{locale: string}>}
   const facts = fr
     ? [
         {label: 'Tarif direct', value: 'Dès 180 DT / nuit'},
-        {label: 'Petit-déjeuner', value: '20 DT (en option)'},
+        {label: 'Petit-déjeuner', value: '20 DT / 6 € (en option)'},
         {label: 'Confirmation', value: 'Acompte de 30 %'},
         {label: 'Disponibilité', value: 'Chambre Baya · unique'},
         {label: 'Lieu', value: 'Testour, 1h de Tunis'}
       ]
     : [
         {label: 'Direct rate', value: 'From 180 DT / night'},
-        {label: 'Breakfast', value: '20 DT add-on'},
+        {label: 'Breakfast', value: '20 DT / €6 add-on'},
         {label: 'Confirmation', value: '30% deposit'},
         {label: 'Availability', value: 'Baya Room · the only room'},
         {label: 'Location', value: 'Testour, 1h from Tunis'}

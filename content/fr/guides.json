@@ -49,7 +49,7 @@
         {
           "heading": "Y aller depuis Farm El Baya",
           "paragraphs": [
-            "Le trajet depuis la ferme prend 20 à 40 minutes par des routes de campagne, en passant près de Teboursouk. Si vous préférez ne pas conduire, Mahdi peut organiser la visite privée de Testour et Dougga proposée avec le séjour (74 € par réservation via Lodgify), avec un guide local pour les deux sites.",
+            "Le trajet depuis la ferme prend 20 à 40 minutes par des routes de campagne, en passant près de Teboursouk. Si vous préférez ne pas conduire, Mahdi peut organiser la visite privée de Testour et Dougga proposée avec le séjour (250 DT / 74 € par séjour pour toute la réservation), avec un guide local pour les deux sites.",
             "Dougga se combine naturellement avec Testour, la ville andalouse à quinze minutes de la ferme, pour une journée complète d'histoire dans la vallée de la Medjerda."
           ]
         },
@@ -102,7 +102,7 @@
         {
           "heading": "Une demi-journée depuis la ferme",
           "paragraphs": [
-            "Testour est la sortie la plus simple depuis Farm El Baya - quinze minutes en voiture, ou la première étape d'une journée guidée privée qui continue vers la cité romaine de Dougga. La visite combinée de Testour et Dougga coûte 74 € par réservation via Lodgify. Les petites épiceries de la ville en font aussi l'étape pratique si vous comptez cuisiner dans les deux cuisines de la ferme."
+            "Testour est la sortie la plus simple depuis Farm El Baya - quinze minutes en voiture, ou la première étape d'une journée guidée privée qui continue vers la cité romaine de Dougga. La visite combinée de Testour et Dougga coûte 250 DT / 74 € par séjour pour toute la réservation. Les petites épiceries de la ville en font aussi l'étape pratique si vous comptez cuisiner dans les deux cuisines de la ferme."
           ]
         },
         {
@@ -116,19 +116,19 @@
     },
     {
       "slug": "olive-harvest",
-      "tag": "Octobre - décembre · 50 DT / 15 € par personne",
-      "meta": {"title": "Récolte des olives en Tunisie - La saison à Farm El Baya", "description": "Participez à la récolte des olives d'octobre à décembre dans une ferme permaculturelle tunisienne - cueillez, pressez votre huile et repartez avec votre bouteille."},
+      "tag": "Décembre - février · 85 DT / 26 € par personne et par séjour",
+      "meta": {"title": "Récolte des olives en Tunisie - La saison à Farm El Baya", "description": "Participez à la récolte des olives à Farm El Baya de décembre à février. Cueillez avec la famille ; les bouteilles d’huile d’olive sont vendues séparément."},
       "hero": "Participez à la récolte des olives.",
-      "teaser": "D'octobre à décembre, les oliveraies de la ferme s'animent. Cueillez avec la famille, pressez votre huile, goûtez-la au petit-déjeuner.",
+      "teaser": "De décembre à février, rejoignez la famille dans les oliveraies. Les bouteilles d’huile d’olive sont disponibles à l’achat séparément.",
       "image": "picking_tree_fruits.webp",
       "imageAlt": "Des hôtes cueillent des fruits dans un arbre à Farm El Baya",
       "credit": "",
-      "lead": "La Tunisie est l'un des plus grands producteurs d'huile d'olive au monde, et d'octobre à décembre, tout le nord du pays vit au rythme de la récolte. À Farm El Baya, ferme permaculturelle de 16 hectares près de Testour, les hôtes peuvent y participer : cueillir aux côtés de la famille, suivre les olives jusqu'à un moulin biologique, et goûter une huile pressée d'arbres visibles depuis les fenêtres de la chambre. L'expérience coûte 50 DT / 15 € par personne.",
+      "lead": "À Farm El Baya, ferme permaculturelle de 16 hectares près de Testour, les hôtes peuvent participer à la récolte des olives de décembre à février. Cueillez aux côtés de la famille et découvrez le travail dans les oliveraies. L’expérience coûte 85 DT / 26 € par personne et par séjour. Les bouteilles d’huile d’olive ne sont pas incluses.",
       "facts": [
-        {"label": "Saison", "value": "Octobre à décembre"},
-        {"label": "Prix", "value": "50 DT / 15 € par personne"},
+        {"label": "Saison", "value": "Décembre à février"},
+        {"label": "Prix", "value": "85 DT / 26 € par personne et par séjour"},
         {"label": "Les oliveraies", "value": "16 hectares en transition permaculturelle"},
-        {"label": "À emporter", "value": "Votre huile en bouteille"}
+        {"label": "À emporter", "value": "Huile d’olive vendue séparément"}
       ],
       "sections": [
         {
@@ -154,8 +154,8 @@
         {
           "heading": "Quand venir et quoi prévoir",
           "paragraphs": [
-            "La récolte court d'octobre à décembre, et la fin octobre coïncide avec le festival de la grenade de Testour, à quinze minutes - les grenades, figues et amandes de la ferme mûrissent dans la même fenêtre. Prévoyez des vêtements qui peuvent se salir et des chaussures fermées ; la ferme fournit le reste.",
-            "L'automne offre aussi la plus belle lumière de la ferme : journées douces, nuits fraîches, et ciel dégagé pour observer les étoiles depuis le toit."
+            "L’expérience de récolte des olives à la ferme est proposée de décembre à février. Confirmez les dates avec Mahdi avant de réserver. Prévoyez des vêtements qui peuvent se salir et des chaussures fermées.",
+            "Organisez l’activité avec Mahdi selon la météo et le travail dans les oliveraies."
           ]
         },
         {
@@ -165,7 +165,7 @@
           ]
         }
       ],
-      "cta": {"heading": "Une chambre, une récolte, votre huile.", "text": "Venez à l'automne, cueillez avec la famille, et repartez avec l'huile de l'année en bouteille."}
+      "cta": {"heading": "Une chambre, une récolte, votre huile.", "text": "Venez de décembre à février et cueillez avec la famille. Les bouteilles d’huile de l’année sont vendues séparément."}
     }
   ]
 }

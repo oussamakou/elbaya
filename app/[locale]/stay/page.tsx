@@ -28,14 +28,14 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
         {label: 'Chambre', value: 'Chambre Baya'},
         {label: 'Salle de bain', value: 'Privée'},
         {label: 'Tarif', value: 'Dès 180 DT / nuit'},
-        {label: 'Petit-déjeuner', value: '20 DT (en option)'},
+        {label: 'Petit-déjeuner', value: '20 DT / 6 € (en option)'},
         {label: 'Réponse', value: 'Sous 24 heures'}
       ]
     : [
         {label: 'Room', value: 'Baya Room'},
         {label: 'Bathroom', value: 'Private'},
         {label: 'Rate', value: 'From 180 DT / night'},
-        {label: 'Breakfast', value: '20 DT add-on'},
+        {label: 'Breakfast', value: '20 DT / €6 add-on'},
         {label: 'Reply time', value: 'Within 24 hours'}
       ];
 
