@@ -19,7 +19,6 @@ export const seedProducts: Product[] = [
     images: ['/assets/shop/pomegranate.svg'],
     variants: [
       {id: 'box-3', label: '3 kg', price: 0, stock: 0},
-      {id: 'box-5', label: '5 kg', price: 0, stock: 0},
     ],
   },
   {
@@ -35,7 +34,6 @@ export const seedProducts: Product[] = [
     images: ['/assets/shop/olive.svg'],
     variants: [
       {id: 'bottle-1', label: '1 L', price: 0, stock: 0},
-      {id: 'tin-5', label: '5 L', price: 0, stock: 0},
     ],
   },
   {
@@ -51,7 +49,6 @@ export const seedProducts: Product[] = [
     images: ['/assets/shop/honey.svg'],
     variants: [
       {id: 'jar-250', label: '250 g', price: 0, stock: 0},
-      {id: 'jar-500', label: '500 g', price: 0, stock: 0},
     ],
   },
 ];

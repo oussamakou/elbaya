@@ -240,8 +240,8 @@ const errors: Record<string, [string, string]> = {
     'Mark the order delivered before recording payment.',
   ],
   variant_remove: [
-    'Gardez les formats existants et mettez leur stock à zéro pour les retirer de la vente.',
-    'Keep existing sizes and set their stock to zero to stop selling them.',
+    'Ce format est lié à une commande en cours. Traitez ou annulez cette commande avant de retirer le format ; vous pouvez mettre son stock à zéro entre-temps.',
+    'This size is used by an active order. Complete or cancel that order before removing the size; you can set its stock to zero meanwhile.',
   ],
 };
 export function errorMessage(code: string, locale = 'fr') {

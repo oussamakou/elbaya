@@ -51,14 +51,19 @@ export async function saveProduct(input: unknown) {
       : undefined;
     if ((previous?.revision ?? 0) !== product.revision)
       throw new ShopError('conflict', 409);
-    // Retain variant identifiers so a cancelled order can always return its stock.
-    if (
-      previous &&
-      previous.variants.some(
-        (v) => !product.variants.some((n) => n.id === v.id),
-      )
-    )
-      throw new ShopError('variant_remove');
+    // Only active orders need the format for stock restoration on cancellation.
+    // Completed orders and request records keep their own product/format snapshots.
+    const removed = previous?.variants.filter(v => !product.variants.some(n => n.id === v.id)) || [];
+    for (const variant of removed) {
+      const active = await tx.execute({
+        sql: `SELECT 1 FROM shop_orders o, json_each(o.data, '$.items') i
+          WHERE json_extract(o.data, '$.status') NOT IN ('cancelled', 'delivered')
+          AND json_extract(i.value, '$.productId') = ?
+          AND json_extract(i.value, '$.variantId') = ? LIMIT 1`,
+        args: [product.id, variant.id],
+      });
+      if (active.rows.length) throw new ShopError('variant_remove');
+    }
     product.revision++;
     await tx.execute({
       sql: 'INSERT INTO shop_products (id,data) VALUES (?,?) ON CONFLICT(id) DO UPDATE SET data=excluded.data',

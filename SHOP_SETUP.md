@@ -78,7 +78,7 @@ The browser prepares photos before upload. The server caps uploads at 3 MiB and 
 - Statuses: new, confirmed, delivering, delivered, cancelled. Payment can be marked collected when delivered.
 - Cancelling an unpaid, undelivered order restores its packs once. Cancelled orders cannot be reopened. Delivered/paid orders cannot be cancelled through this interface; returns/refunds are outside this version.
 - Product/settings/order revisions reject stale admin edits rather than overwriting concurrent changes. Refresh and reopen an editor after a conflict.
-- Keep existing format IDs; set stock to zero to stop selling a format. This preserves correct cancellation handling for existing orders.
+- Keep at least one format. Extra formats can be removed unless referenced by an active order; complete or cancel that order first. Historical orders keep their snapshots. New products and initial seed products start with one format; existing product data is preserved.
 - Dashboard shows the latest 500 orders; filter by status and print a delivery list. Historical data remains in the database. There is no scheduled stock release: Mehdi must cancel unconfirmed/abandoned orders himself.
 
 ## Verification

@@ -262,11 +262,21 @@ function ProductEditor({
                 >
                   <option value="draft">Brouillon · masqué</option>
                   <option value="seasonal">
-                    Hors saison · visible, sans commande
+                    Hors saison · demandes uniquement
                   </option>
                   <option value="available">En vente</option>
                   <option value="preorder">Précommandes ouvertes</option>
                 </select>
+                <span className="pantry-small" aria-live="polite">
+                  {draft.status === "draft"
+                    ? "Masqué du catalogue et inaccessible par lien direct."
+                    : draft.status === "seasonal"
+                      ? "Visible, avec demande de précommande à confirmer par téléphone. Aucun achat au panier."
+                      : draft.status === "preorder"
+                        ? "Réservation au prix affiché, selon les places disponibles et l’ouverture de la boutique."
+                        : "Achat au panier selon le stock disponible et l’ouverture de la boutique."}
+                  {" "}Enregistrez pour appliquer ce choix.
+                </span>
               </label>
             </div>
             {draft.status === "preorder" && (
@@ -525,7 +535,7 @@ function ProductEditor({
                       }
                     />
                   </label>
-                  {!product.variants.some((old) => old.id === v.id) && (
+                  {draft.variants.length > 1 && (
                     <button
                       type="button"
                       aria-label={`Retirer le format ${v.label}`}
@@ -564,8 +574,9 @@ function ProductEditor({
             <p className="pantry-small">
               {draft.status === "preorder" &&
                 "Les places de précommande sont séparées du stock disponible. Une réservation retire des places ; son annulation les restitue. "}
-              Pour arrêter la vente d’un format existant, mettez son stock à
-              zéro. Les commandes en cours restent conservées.
+              Un seul format suffit. Ajoutez ou retirez les formats selon vos besoins ;
+              le dernier format doit être conservé. Un format lié à une commande
+              en cours reste protégé jusqu’à son traitement.
             </p>
           </div>
         </section>
