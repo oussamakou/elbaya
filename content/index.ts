@@ -53,6 +53,13 @@ export function img(name: string) {
 
 export const SITE_URL = 'https://farmelbaya.com';
 export const SITE_NAME = 'Farm El Baya';
+export const DEFAULT_OG_IMAGE = {
+  url: `${SITE_URL}/assets/images/el-baya-social.jpg`,
+  width: 1200,
+  height: 630,
+  alt: 'Farm El Baya — séjours, nature et récoltes à Testour, Tunisie',
+  type: 'image/jpeg',
+};
 
 // One place to build the full metadata block every page needs: title,
 // description, canonical, hreflang alternates, Open Graph, and Twitter card.
@@ -65,7 +72,7 @@ export function buildMetadata(
   ogType: 'website' | 'article' = 'website'
 ): Metadata {
   const safeLocale: Locale = locale === 'fr' ? 'fr' : 'en';
-  const ogImage = img(image);
+  const ogImage = ogType === 'article' ? img(image) : DEFAULT_OG_IMAGE;
   return {
     title: meta.title,
     description: meta.description,

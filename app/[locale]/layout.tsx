@@ -7,6 +7,7 @@ import {notFound} from 'next/navigation';
 import {NextIntlClientProvider, hasLocale} from 'next-intl';
 import {setRequestLocale} from 'next-intl/server';
 import {routing} from '@/i18n/routing';
+import {DEFAULT_OG_IMAGE, SITE_NAME} from '@/content';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import '../globals.css';
@@ -31,6 +32,8 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL('https://farmelbaya.com'),
   title: 'Farm El Baya - Farm Stay in Testour, Tunisia',
+  openGraph: {siteName: SITE_NAME, type: 'website', images: [DEFAULT_OG_IMAGE]},
+  twitter: {card: 'summary_large_image', images: [DEFAULT_OG_IMAGE]},
   description:
     'A private-room permaculture farm stay one hour from Tunis. Olive groves, animals, movement sessions, and direct booking from 180 DT/night.'
 };
