@@ -1,5 +1,6 @@
 import { createHash, randomUUID } from "node:crypto";
 import { db } from "./db";
+import { queueNotification, reservationMessage } from './notifications';
 import { id, integer, object, ShopError, text } from "./validation";
 import type { Product, ReservationRequest } from "./types";
 export async function createReservation(input: unknown) {
@@ -65,6 +66,7 @@ export async function createReservation(input: unknown) {
       sql: "INSERT INTO shop_reservations(id,request_key,request_hash,data) VALUES (?,?,?,?)",
       args: [reservation.id, requestKey, hash, JSON.stringify(reservation)],
     });
+    await queueNotification(tx, reservation.id, reservationMessage(reservation));
     await tx.commit();
     return reservation;
   } finally {

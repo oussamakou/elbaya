@@ -1,4 +1,6 @@
 import { checkOrigin, requireAdmin } from "@/lib/shop/auth";
+import {after} from 'next/server';
+import {flushNotifications, notificationStatus} from '@/lib/shop/notifications';
 import {
   catalogue,
   orders,
@@ -13,7 +15,9 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     await requireAdmin();
+    after(flushNotifications);
     return json({
+      notifications: await notificationStatus(),
       ...(await catalogue(true)),
       orders: await orders(),
       reservations: await reservations(),

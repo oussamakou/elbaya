@@ -1,5 +1,6 @@
 import {createHash, randomUUID} from 'node:crypto';
 import {db, seedProducts, storageConfigured} from './db';
+import {queueNotification, orderMessage} from './notifications';
 import {
   ShopError,
   object,
@@ -221,6 +222,7 @@ export async function createOrder(input: unknown) {
       sql: 'INSERT INTO shop_orders (id,request_key,request_hash,data) VALUES (?,?,?,?)',
       args: [order.id, key, hash, JSON.stringify(order)],
     });
+    await queueNotification(tx, order.id, orderMessage(order));
     await tx.commit();
     return order;
   } finally {

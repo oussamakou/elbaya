@@ -18,7 +18,7 @@ The site keeps room bookings as its main purpose. Farm products have a separate 
 1. Open /fr/admin with the password saved privately in .shop/admin-access.txt. The same generated password hash and session secret are configured in Vercel Production.
 2. Review product descriptions and formats. Upload real photos if available; the illustrations can remain until then.
 3. Share /fr/products/reserve or /en/products/reserve. Customers provide first name, last name, Tunisian phone, governorate, city/locality, street address, optional email, product, size and quantity. No customer account is required.
-4. Check the **Précommandes** admin tab for requests. Call the customer, agree on price, delivery fee and availability, then mark Contacté or Confirmée. A request is not a guaranteed inventory reservation; status changes here do not change stock. There are no automatic SMS/email notifications.
+4. Check the **Précommandes** admin tab for requests. Call the customer, agree on price, delivery fee and availability, then mark Contacté or Confirmée. A request is not a guaranteed inventory reservation; status changes here do not change stock. Email alerts require the Resend connection described below; there are no SMS notifications.
 5. When prices, inventory and delivery areas are finalized, optionally open direct cash-on-delivery checkout using the steps below.
 
 ## Before accepting priced orders
@@ -28,7 +28,7 @@ The site keeps room bookings as its main purpose. Farm products have a separate 
 3. Enter prices in DT, including up to three decimals. Storage uses integer millimes, not floating-point currency.
 4. Add only delivery areas the farm's own driver serves, and set the agreed fee for each.
 5. Switch products to **En vente**, then enable **Accepter les commandes** in **Livraison & ouverture**.
-6. Place a test order, confirm by phone, and verify the delivery workflow with Mehdi. There are no automatic phone calls, SMS or WhatsApp messages; check the dashboard for new orders.
+6. Place a test order, confirm by phone, and verify the delivery workflow with Mehdi. Email alerts require the Resend connection below. There are no automatic phone calls, SMS or WhatsApp messages; the dashboard remains the source of truth.
 
 The defaults intentionally contain **no invented prices or stock** and keep ordering paused. Products with status **Brouillon** are private; **Hors saison** is visible with a pre-order request link; a format with zero stock cannot be ordered.
 
@@ -42,7 +42,7 @@ Choose **Précommandes ouvertes** on a product, enter its estimated availability
 - The order snapshots the pre-order label and availability message. Changing a product later does not rewrite existing orders. If the estimate changes before checkout, the customer must review the product and add it again.
 - **Précommandes** filters the owner's order list. The existing phone-confirmation, delivery and cash-collection workflow still applies.
 - Cancelling a pre-order restores reservation places even if the product has since switched to ready-stock sales. It never silently creates physical stock. When opening ready sales after a harvest, enter only the physical packs not already committed to pre-orders.
-- Quantities are reserved on submission; Mehdi must cancel spam, unconfirmed or abandoned reservations manually. There is no paid deposit, automatic expiry or automatic customer messaging.
+- Quantities are reserved on submission; Mehdi must cancel spam, unconfirmed or abandoned reservations manually. There is no paid deposit, automatic expiry or automatic customer messaging. Owner email alerts are separate.
 
 ## Hosted production
 
@@ -105,3 +105,21 @@ Admin: https://elbaya-5cuwuqak4-oussamakous-projects.vercel.app/fr/admin
 The Vercel build passed. Hosted checks passed for the catalogue, unauthorized-admin rejection, password login, secure HttpOnly/SameSite cookie flags, request persistence in Turso, admin inbox visibility and status updates. Test requests were removed. These checks refer to the original review deployment. The owner requested merging and publishing the shop on 19 September 2026; no paid hosting upgrade was purchased.
 
 Production deployment now follows master. Use https://www.farmelbaya.com/fr/products/reserve and /fr/admin. Production environment variables are configured; Preview does not share the production database or admin credentials. The confirmed activity tariffs on master remain 90 DT / €26, 70 DT / €21 and 250 DT / €74.
+
+## Owner email alerts (Resend)
+
+The recipient requested by the owner is configured through `SHOP_NOTIFY_EMAIL` in Vercel, not exposed to visitors. Sending is not active until all three production variables are set:
+
+- `RESEND_API_KEY`: a sending API key for the verified domain.
+- `SHOP_EMAIL_FROM`: e.g. `El Baya <commandes@notifications.farmelbaya.com>` after verifying that subdomain in Resend.
+- `SHOP_NOTIFY_EMAIL`: the owner's receiving mailbox.
+
+Create/sign in to the owner's Resend account, verify the sending domain using the DNS records Resend supplies, set the variables privately in Vercel Production, then redeploy. Do not paste keys into chat or commit them. The existing Gmail recipient does not need to move to Resend.
+
+Every new shop order and unpriced pre-order request queues a French email in the same database transaction. Alerts include contact details, products/quantities, totals where applicable, and an admin link. No customer confirmation emails are sent. Existing records from before this feature are not backfilled.
+
+Sending runs after the response. A failed email does not reject a saved order. Pending alerts retry on subsequent submissions and authenticated dashboard visits (up to three at a time, with a one-minute retry delay). There is no periodic retry scheduler yet; a quiet shop needs a dashboard refresh to retry. The dashboard shows unconfigured sending or pending alerts. Provider acceptance does not guarantee inbox delivery; verify spam and Resend delivery logs during activation.
+
+A database lease prevents concurrent sends, and a stable Resend idempotency key deduplicates provider retries within its retention window. If the process dies after provider acceptance but before recording success and retries after the provider's window, a duplicate is possible. Sent alert bodies are cleared from the queue; orders remain in their original tables.
+
+Run `node scripts/test-shop-notifications.mjs` for isolated tests with a mocked provider. It never sends real mail. Before activation, submit an explicitly labeled test request and have the owner confirm receipt. Remove that test request and its queue entry afterward.

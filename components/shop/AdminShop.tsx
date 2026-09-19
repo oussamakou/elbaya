@@ -27,6 +27,7 @@ import ReservationInbox from "./ReservationInbox";
 import type { ReservationRequest } from "@/lib/shop/types";
 
 type AdminData = {
+  notifications?: {configured: boolean; pending: number};
   products: Product[];
   settings: ShopSettings;
   orders: Order[];
@@ -1044,6 +1045,13 @@ export default function AdminShop({
           </button>
         </div>
       </header>
+      {data.notifications && (!data.notifications.configured || data.notifications.pending > 0) && (
+        <p className="shop-notice" role="status">
+          {!data.notifications.configured
+            ? 'Alertes email non activées. Consultez les commandes et précommandes ici en attendant la connexion du service email.'
+            : `${data.notifications.pending} alerte(s) email en attente. L’envoi sera retenté lors d’une actualisation du tableau de bord ou d’une nouvelle commande. Les demandes restent enregistrées ici.`}
+        </p>
+      )}
       <nav className="admin-tabs" aria-label="Administration">
         {[
           ["products", "Produits", Package],
