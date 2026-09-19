@@ -5,7 +5,7 @@ import HeroSection from '@/components/sections/HeroSection';
 import QuoteBanner from '@/components/sections/QuoteBanner';
 import ThreePillars from '@/components/sections/ThreePillars';
 import PhotoGrid from '@/components/ui/PhotoGrid';
-import ForgeBanner from '@/components/sections/ForgeBanner';
+import FarmShopTeaser from '@/components/sections/FarmShopTeaser';
 import QuickFacts from '@/components/sections/QuickFacts';
 import TrustReviews from '@/components/sections/TrustReviews';
 import BookingConfidence from '@/components/sections/BookingConfidence';
@@ -79,7 +79,7 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
       <PhotoGrid photos={photos} locale={locale} />
       <TrustReviews heading={content.reviews.heading} subhead={content.reviews.subhead} locale={locale} />
       <BookingConfidence locale={locale} homepage />
-      <ForgeBanner content={content.forge} />
+      <FarmShopTeaser locale={locale} />
     </>
   );
 }

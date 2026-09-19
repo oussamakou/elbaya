@@ -7,9 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "shop:setup": "node scripts/setup-shop.mjs",
+    "test:shop": "node scripts/test-shop.mjs",
+    "test:shop:browser": "node scripts/test-shop-browser.mjs",
+    "test:reservations": "node scripts/test-reservations.mjs"
   },
   "dependencies": {
+    "@libsql/client": "^0.18.0",
     "@tailwindcss/postcss": "latest",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
@@ -19,9 +24,11 @@
     "next-intl": "latest",
     "nodemailer": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "sharp": "^0.35.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@types/node": "latest",
     "@types/nodemailer": "latest",
     "@types/react": "latest",
