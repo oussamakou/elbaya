@@ -16,8 +16,8 @@ export default function FarmShopTeaser({ locale }: { locale: string }) {
           </h2>
           <p className="mt-5 max-w-lg leading-7 text-earth/75">
             {fr
-              ? "Grenades, huile d’olive, miel. Retrouvez les produits au fil des saisons et préparez votre prochaine précommande, même sans séjourner à la ferme."
-              : "Pomegranates, olive oil, honey. Discover our seasonal products and request your next harvest delivery, whether or not you stay with us."}
+              ? "Une terre familiale, des arbres et des ruches dont Mahdi prend soin au quotidien. Découvrez les grenades, l’huile d’olive et le miel au fil des récoltes, même sans séjourner à la ferme."
+              : "Family land, trees and beehives that Mahdi tends every day. Discover pomegranates, olive oil and honey as the harvests unfold, whether or not you stay with us."}
           </p>
           <Link
             href="/products"

@@ -17,10 +17,10 @@ export const copy = {
       'Vos quantités sont réservées. Aucun paiement n’est demandé maintenant. Nous vous appellerons pour confirmer la disponibilité et la livraison.',
     seasonalPreorder:
       'Les précommandes ouvriront dès que les quantités et les prix seront confirmés.',
-    eyebrow: 'LA FERME, À VOTRE TABLE',
-    title: 'Les bonnes choses\nprennent leur temps.',
+    eyebrow: 'UNE FERME FAMILIALE, À VOTRE TABLE',
+    title: 'Cultiver avec soin.\nPartager simplement.',
     intro:
-      'Des grenades aujourd’hui, de l’huile d’olive demain. Retrouvez les produits d’El Baya au fil des récoltes, et un peu de la ferme chez vous.',
+      'À Testour, Mahdi prend soin d’une terre familiale, de ses arbres et de ses ruches. Grenades, huile d’olive, miel : une petite sélection au fil des saisons, à partager avec vous.',
     browse: 'Découvrir les produits',
     collection: 'LE GARDE-MANGER',
     harvest: 'Au rythme de la terre.',
@@ -71,7 +71,7 @@ export const copy = {
       'Une question sur un produit ? Vous échangez directement avec nous.',
     story: 'Un lieu, des saisons,\ndes choses à partager.',
     storyText:
-      'El Baya est une ferme vivante près de Testour. Notre boutique suit son rythme : une petite sélection, qui change avec ce que la terre nous offre.',
+      'À El Baya, le potager, les arbres fruitiers et les ruches font partie de la vie quotidienne. La permaculture guide cette démarche, attentive au sol et à la diversité du vivant. On cultive, on cuisine, on accueille. La boutique prolonge ce partage : des récoltes de saison, une ferme que vous pouvez visiter et Mahdi à qui poser vos questions.',
     farm: 'Découvrir la ferme',
     deliveryTitle: 'De chez nous à chez vous',
     stock: 'packs disponibles',
@@ -96,10 +96,10 @@ export const copy = {
       'Your quantities are reserved. Nothing to pay now. We’ll call to confirm availability and delivery.',
     seasonalPreorder:
       'Pre-orders will open once quantities and prices are confirmed.',
-    eyebrow: 'FROM OUR FARM TO YOUR TABLE',
-    title: 'Good things\ntake their time.',
+    eyebrow: 'FROM OUR FAMILY FARM TO YOUR TABLE',
+    title: 'Grown with care.\nShared with you.',
     intro:
-      'Pomegranates today, olive oil tomorrow. Discover El Baya’s produce as the harvests unfold, and bring a little of the farm home.',
+      'In Testour, Mahdi tends his family’s land, trees and beehives. Pomegranates, olive oil and honey: a small seasonal selection, grown out of daily life on the farm and shared with you.',
     browse: 'Explore the collection',
     collection: 'THE FARM PANTRY',
     harvest: 'In the earth’s own time.',
@@ -148,7 +148,7 @@ export const copy = {
     directHelp: 'Questions about a product? You’re speaking directly with us.',
     story: 'A place, its seasons,\nand things to share.',
     storyText:
-      'El Baya is a living farm near Testour. Our shop follows its rhythm: a small selection that changes with what the land gives us.',
+      'At El Baya, the vegetable garden, fruit trees and beehives are part of everyday life. Permaculture guides this work, with attention to the soil and the life it supports. We grow, cook and welcome guests. The shop is another way to share that life: seasonal harvests, a farm you can visit and Mahdi to answer your questions.',
     farm: 'Meet the farm',
     deliveryTitle: 'From our place to yours',
     stock: 'packs available',
