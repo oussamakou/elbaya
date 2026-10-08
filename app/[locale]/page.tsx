@@ -63,6 +63,7 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
       {'@type': 'LocationFeatureSpecification', name: fr ? 'Parking gratuit' : 'Free parking', value: true},
       {'@type': 'LocationFeatureSpecification', name: 'Wi-Fi', value: true},
       {'@type': 'LocationFeatureSpecification', name: fr ? 'Petit-déjeuner sur demande' : 'Breakfast on request', value: true},
+      {'@type': 'LocationFeatureSpecification', name: fr ? 'Repas végétariens sur demande' : 'Vegetarian meals on request', value: true},
       {'@type': 'LocationFeatureSpecification', name: fr ? 'Espace mouvement et yoga' : 'Movement and yoga area', value: true}
     ],
     sameAs: ['https://www.instagram.com/farm_elbaya/', 'https://www.booking.com/hotel/tn/farm-el-baya.fr.html']

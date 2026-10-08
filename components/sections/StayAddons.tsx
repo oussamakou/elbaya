@@ -11,7 +11,7 @@ const copy = {
     reveal: 'See all 9 options and current prices',
     from: 'From',
     groups: {
-      meals: {title: 'Meals', summary: 'Breakfast and home-cooked meals from the farm kitchen.'},
+      meals: {title: 'Meals', summary: 'Breakfast and home-cooked meals from the farm kitchen. Vegetarian meals are available on request.'},
       experiences: {title: 'Time with Mahdi', summary: 'Movement, beekeeping, harvest, or cooking together.'},
       outing: {title: 'A day beyond the farm', summary: 'A private guided day through Testour and Dougga.'}
     }
@@ -24,7 +24,7 @@ const copy = {
     reveal: 'Voir les 9 options et les prix actuels',
     from: 'Dès',
     groups: {
-      meals: {title: 'Repas', summary: 'Petit-déjeuner et repas maison préparés à la ferme.'},
+      meals: {title: 'Repas', summary: 'Petit-déjeuner et repas maison préparés à la ferme. Des repas végétariens sont possibles sur demande.'},
       experiences: {title: 'Un moment avec Mahdi', summary: 'Mouvement, ruches, récolte ou cuisine ensemble.'},
       outing: {title: 'Une journée hors de la ferme', summary: 'Une journée privée et guidée à Testour et Dougga.'}
     }
