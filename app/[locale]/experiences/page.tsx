@@ -11,7 +11,9 @@ const experienceImages: Record<string, string> = {
   training: 'handstand_practice.webp',
   beekeeping: 'beekeeping_activity.webp',
   'olive-harvest': 'picking_tree_fruits.webp',
-  cooking: 'open_air_kitchen.webp'
+  cooking: 'open_air_kitchen.webp',
+  'mountain-bike': 'mountain-bike-rental.jpg',
+  'donkey-tour': 'donkey-farm-tour.jpg'
 };
 
 const sectionCopy = {
@@ -36,6 +38,8 @@ const sectionCopy = {
       beekeeping: 'A guided beekeeping visit at Farm El Baya',
       'olive-harvest': 'Guests gathering fruit during harvest season at Farm El Baya',
       cooking: 'The open-air kitchen at Farm El Baya',
+      'mountain-bike': 'A mountain bike ready on an olive-grove track at Farm El Baya',
+      'donkey-tour': 'A family walking with a donkey at Farm El Baya',
       outing: 'The Roman capitol at Dougga near Farm El Baya'
     }
   },
@@ -60,6 +64,8 @@ const sectionCopy = {
       beekeeping: 'Visite guidée des ruches à Farm El Baya',
       'olive-harvest': 'Des hôtes participent à la récolte saisonnière à Farm El Baya',
       cooking: 'La cuisine en plein air de Farm El Baya',
+      'mountain-bike': 'Un VTT prêt sur un sentier bordé d’oliviers à Farm El Baya',
+      'donkey-tour': 'Une famille en promenade avec un âne à Farm El Baya',
       outing: 'Le capitole romain de Dougga près de Farm El Baya'
     }
   }
