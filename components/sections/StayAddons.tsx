@@ -8,11 +8,11 @@ const copy = {
     intro: 'Breakfast, time with Mahdi, or a day beyond the farm can be arranged after you choose your dates.',
     currencyNote: 'DT prices are the farm rates. Euro prices match the current Lodgify add-ons.',
     link: 'Explore the experiences',
-    reveal: 'See all 9 options and current prices',
+    reveal: 'See all 11 options and current prices',
     from: 'From',
     groups: {
       meals: {title: 'Meals', summary: 'Breakfast and home-cooked meals from the farm kitchen. Vegetarian meals are available on request.'},
-      experiences: {title: 'Time with Mahdi', summary: 'Movement, beekeeping, harvest, or cooking together.'},
+      experiences: {title: 'Farm time & activities', summary: 'Movement, beekeeping, harvest, cooking, cycling, or time with the donkey.'},
       outing: {title: 'A day beyond the farm', summary: 'A private guided day through Testour and Dougga.'}
     }
   },
@@ -21,11 +21,11 @@ const copy = {
     intro: 'Le petit-déjeuner, un moment avec Mahdi ou une journée hors de la ferme peuvent être organisés après le choix de vos dates.',
     currencyNote: 'Les prix en DT sont ceux de la ferme. Les prix en euros correspondent aux options Lodgify actuelles.',
     link: 'Découvrir les expériences',
-    reveal: 'Voir les 9 options et les prix actuels',
+    reveal: 'Voir les 11 options et les prix actuels',
     from: 'Dès',
     groups: {
       meals: {title: 'Repas', summary: 'Petit-déjeuner et repas maison préparés à la ferme. Des repas végétariens sont possibles sur demande.'},
-      experiences: {title: 'Un moment avec Mahdi', summary: 'Mouvement, ruches, récolte ou cuisine ensemble.'},
+      experiences: {title: 'Ferme et activités', summary: 'Mouvement, ruches, récolte, cuisine, VTT ou moment avec l’âne.'},
       outing: {title: 'Une journée hors de la ferme', summary: 'Une journée privée et guidée à Testour et Dougga.'}
     }
   }

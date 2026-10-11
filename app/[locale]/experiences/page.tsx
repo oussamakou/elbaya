@@ -76,7 +76,7 @@ export default async function Experiences({params}: {params: Promise<{locale: st
   const content = getContent(locale, 'experiences');
   const t = locale === 'fr' ? sectionCopy.fr : sectionCopy.en;
   const bookable = getBookableExperiences(locale);
-  const farmExperiences = bookable.filter((addon) => addon.category === 'experiences');
+  const farmExperiences = bookable.filter((addon) => addon.category === 'experiences' && experienceImages[addon.id]);
   const outing = bookable.find((addon) => addon.category === 'outing');
 
   return (

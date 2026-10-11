@@ -21,6 +21,8 @@ const catalogs: Record<SupportedLocale, Addon[]> = {
     {id: 'beekeeping', category: 'experiences', title: 'Beekeeping visit', description: 'A guided hive visit from March to July. Protective suits provided; discover bees and honey production.', price: '70 DT / €21 per guest, per stay', experienceLabel: 'March to July'},
     {id: 'olive-harvest', category: 'experiences', title: 'Olive harvest', description: 'Join the family harvest from December to February. Olive oil is available separately.', price: '90 DT / €26 per guest, per stay', experienceLabel: 'December to February'},
     {id: 'cooking', category: 'experiences', title: 'Cooking with the family', description: 'Prepare bread and local dishes around the open-air kitchen; the shared meal is included.', price: '90 DT / €26 per guest, per stay', experienceLabel: 'Arrange ahead'},
+    {id: 'mountain-bike', category: 'experiences', title: 'Mountain bike rental', description: 'Explore the farm tracks and surrounding countryside at your own pace. Add one unit for each bike you need; rental is charged for each night of your stay.', price: '30 DT / €9 per bike, per night', experienceLabel: 'Bike rental'},
+    {id: 'donkey-tour', category: 'experiences', title: 'Donkey farm tour or ride', description: 'Discover the farm as a family with the donkey, on foot or during a short guided ride.', price: '60 DT / €18 per family', experienceLabel: 'Arrange ahead'},
     {id: 'tour', category: 'outing', title: 'Private Testour and Dougga tour', description: 'Explore the Andalusian town and Roman city with a local guide.', price: '250 DT / €74 per stay (whole booking)', experienceLabel: 'Private outing'}
   ],
   fr: [
@@ -32,6 +34,8 @@ const catalogs: Record<SupportedLocale, Addon[]> = {
     {id: 'beekeeping', category: 'experiences', title: 'Visite des ruches', description: 'Visite guidée des ruches de mars à juillet. Tenues fournies ; découvrez les abeilles et la production du miel.', price: '70 DT / 21 € par personne et par séjour', experienceLabel: 'Mars à juillet'},
     {id: 'olive-harvest', category: 'experiences', title: 'Récolte des olives', description: 'Participez à la récolte familiale de décembre à février. L’huile d’olive est disponible séparément.', price: '90 DT / 26 € par personne et par séjour', experienceLabel: 'Décembre à février'},
     {id: 'cooking', category: 'experiences', title: 'Cuisine en famille', description: 'Préparez le pain et des plats locaux autour de la cuisine extérieure ; le repas partagé est inclus.', price: '90 DT / 26 € par personne et par séjour', experienceLabel: 'À organiser'},
+    {id: 'mountain-bike', category: 'experiences', title: 'Location de VTT', description: 'Explorez les chemins de la ferme et la campagne alentour à votre rythme. Ajoutez une unité par vélo souhaité ; la location est facturée pour chaque nuit du séjour.', price: '30 DT / 9 € par vélo et par nuit', experienceLabel: 'Location de VTT'},
+    {id: 'donkey-tour', category: 'experiences', title: 'Visite de la ferme ou balade avec l’âne', description: 'Découvrez la ferme en famille avec l’âne, à pied ou lors d’une courte balade guidée.', price: '60 DT / 18 € par famille', experienceLabel: 'À organiser'},
     {id: 'tour', category: 'outing', title: 'Visite privée de Testour et Dougga', description: 'Découvrez la ville andalouse et la cité romaine avec un guide local.', price: '250 DT / 74 € par séjour (toute la réservation)', experienceLabel: 'Sortie privée'}
   ]
 };
