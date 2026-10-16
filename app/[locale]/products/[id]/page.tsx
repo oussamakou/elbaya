@@ -5,6 +5,7 @@ import {catalogue} from '@/lib/shop/service';
 import {localized} from '@/lib/shop/types';
 import {buildMetadata, SITE_URL} from '@/content';
 import Storefront from '@/components/shop/Storefront';
+import HarvestPage from '@/components/shop/HarvestPage';
 import '@/components/shop/shop.css';
 
 export const dynamic = 'force-dynamic';
@@ -52,11 +53,11 @@ export default async function ProductPage({params}: Props) {
           __html: JSON.stringify(schema).replace(/</g, '\\u003c'),
         }}
       />
-      <Storefront
+      {id === 'pomegranates' ? <HarvestPage product={product} locale={locale === 'fr' ? 'fr' : 'en'}/> : <Storefront
         initial={data}
         locale={locale === 'fr' ? 'fr' : 'en'}
         productId={id}
-      />
+      />}
     </>
   );
 }

@@ -24,7 +24,7 @@ delete process.env.SHOP_NOTIFY_EMAIL;
 let client;
 const originalFetch = globalThis.fetch;
 try {
-  for (const name of ['db', 'types', 'notifications', 'validation', 'reservations', 'service']) {
+  for (const name of ['harvest', 'db', 'types', 'notifications', 'validation', 'reservations', 'service']) {
     const source = readFileSync(`lib/shop/${name}.ts`, 'utf8').replace(/from (['"])\.\/([^'"]+)\1/g, "from './$2.mjs'");
     writeFileSync(join(dir, `${name}.mjs`), ts.transpileModule(source, {compilerOptions: {target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ES2022}}).outputText);
   }

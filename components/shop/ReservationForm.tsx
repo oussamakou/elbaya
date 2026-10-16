@@ -177,10 +177,6 @@ export default function ReservationForm({
             maxLength={254}
           />
         </label>
-        <label>
-          {fr ? "Une précision ? (facultatif)" : "Anything else? (optional)"}
-          <textarea className="field" name="notes" maxLength={1000} rows={2} />
-        </label>
         <div hidden aria-hidden="true">
           <input name="website" tabIndex={-1} autoComplete="off" />
         </div>

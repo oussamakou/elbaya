@@ -123,3 +123,13 @@ Sending runs after the response. A failed email does not reject a saved order. P
 A database lease prevents concurrent sends, and a stable Resend idempotency key deduplicates provider retries within its retention window. If the process dies after provider acceptance but before recording success and retries after the provider's window, a duplicate is possible. Sent alert bodies are cleared from the queue; orders remain in their original tables.
 
 Run `node scripts/test-shop-notifications.mjs` for isolated tests with a mocked provider. It never sends real mail. Before activation, submit an explicitly labeled test request and have the owner confirm receipt. Remove that test request and its queue entry afterward.
+
+## October 2026 pomegranate harvest
+
+The public shop and pomegranate page lead with real farm footage, a pack selector and an inline pickup request. The offer defaults to 10 kg / 45 DT. A 5 kg pack costs 25 DT; from 10 kg the entire quantity costs 4.5 DT/kg, adjustable in 5 kg steps. Server and browser share the pricing function in `lib/shop/harvest.ts`. This seasonal offer is separate from general stock checkout and does not consume ready stock or depend on the direct-order opening switch. Hiding pomegranates as a draft disables new requests and removes the public offer.
+
+These are priced requests, saved under **Précommandes**, confirmed by Mehdi by phone. No stock quantity was supplied, so no inventory guarantee or numerical scarcity counter is shown. Each request snapshots weight, unit price, total and pickup choice. Owner emails include that snapshot. Pickup is either the farm in Testour (Maps link) or Tunis (address and appointment supplied by phone). No customer delivery address or free-text notes are requested on this flow. Existing general requests remain supported.
+
+The growing-method statement is attributed to Mehdi. No certification logo or certified-organic claim was added. Video originals are preserved locally but excluded from Git/deployment; optimized MP4s use fast start, posters are real extracted footage frames, and videos mount only on opening an accessible story dialog. English and French pages include brief Tunisian Arabic accents; supplied spoken Arabic and embedded captions are preserved.
+
+Verification: `node scripts/test-shop-harvest.mjs` uses an isolated local database and never sends real email. Checks cover quantity steps, pricing, both pickup options, rejected tampering, idempotency, snapshots, owner follow-up and hidden products.

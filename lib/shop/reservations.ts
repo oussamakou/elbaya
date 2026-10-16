@@ -3,6 +3,7 @@ import { db } from "./db";
 import { queueNotification, reservationMessage } from './notifications';
 import { id, integer, object, ShopError, text } from "./validation";
 import type { Product, ReservationRequest } from "./types";
+import {harvestQuote, pickupLabel, type HarvestSelection} from './harvest';
 export async function createReservation(input: unknown) {
   const o = object(input);
   if (o.website) throw new ShopError("invalid");
@@ -14,9 +15,18 @@ export async function createReservation(input: unknown) {
   const email = text(o.email ?? "", 254, false);
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
     throw new ShopError("email");
-  const governorate = text(o.governorate, 80);
-  const city = text(o.city, 100);
-  const streetAddress = text(o.address, 500);
+  let harvest: HarvestSelection | undefined;
+  if (o.harvestKg !== undefined) {
+    if (o.productId !== 'pomegranates' || !['farm', 'tunis'].includes(String(o.pickup))) throw new ShopError('invalid');
+    const kg = integer(o.harvestKg, 5, 500);
+    if (kg % 5) throw new ShopError('invalid');
+    const quote = harvestQuote(kg);
+    if (o.expectedTotal !== quote.total) throw new ShopError('price_changed', 409);
+    harvest = {...quote, pickup: o.pickup as 'farm' | 'tunis'};
+  }
+  const governorate = harvest ? '' : text(o.governorate, 80);
+  const city = harvest ? (harvest.pickup === 'farm' ? 'Testour' : 'Tunis') : text(o.city, 100);
+  const streetAddress = harvest ? pickupLabel(harvest.pickup) : text(o.address, 500);
   const data = {
     firstName,
     lastName,
@@ -25,11 +35,12 @@ export async function createReservation(input: unknown) {
     governorate,
     city,
     streetAddress,
-    address: [streetAddress, city, governorate].join(", "),
+    address: harvest ? streetAddress : [streetAddress, city, governorate].join(", "),
+    ...(harvest ? {harvest} : {}),
     notes: text(o.notes ?? "", 1000, false),
     productId: id(o.productId),
     variantId: id(o.variantId),
-    quantity: integer(o.quantity, 1, 99),
+    quantity: harvest ? 1 : integer(o.quantity, 1, 99),
   };
   const requestKey = id(o.requestKey),
     hash = createHash("sha256").update(JSON.stringify(data)).digest("hex");
@@ -60,7 +71,7 @@ export async function createReservation(input: unknown) {
       createdAt: new Date().toISOString(),
       status: "new",
       productName: product.name.fr,
-      size: variant.label,
+      size: harvest ? `${harvest.kg} kg` : variant.label,
     };
     await tx.execute({
       sql: "INSERT INTO shop_reservations(id,request_key,request_hash,data) VALUES (?,?,?,?)",

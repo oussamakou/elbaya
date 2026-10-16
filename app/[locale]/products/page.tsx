@@ -2,6 +2,7 @@ import {setRequestLocale} from 'next-intl/server';
 import {buildMetadata} from '@/content';
 import {catalogue} from '@/lib/shop/service';
 import Storefront from '@/components/shop/Storefront';
+import HarvestPage from '@/components/shop/HarvestPage';
 import '@/components/shop/shop.css';
 export const dynamic = 'force-dynamic';
 export async function generateMetadata({
@@ -20,8 +21,8 @@ export async function generateMetadata({
           : 'The Farm Pantry | Farm El Baya',
       description:
         locale === 'fr'
-          ? 'Découvrez les grenades, l’huile d’olive et le miel d’El Baya. Commandes et précommandes sans acompte, avec paiement à la livraison.'
-          : 'Explore El Baya’s pomegranates, olive oil and honey. Orders and pre-orders without a deposit, with cash on delivery.',
+          ? 'Grenades de la ferme à Testour : 10 kg à 45 DT, retrait à la ferme ou à Tunis. Découvrez la récolte en vidéo et envoyez votre demande directement.'
+          : 'Pomegranates from our farm in Testour: 10 kg for 45 DT, with farm or Tunis pickup. Watch the harvest and request your pack on the same page.',
     },
     'picking_tree_fruits.webp',
   );
@@ -34,5 +35,7 @@ export default async function Products({
   const {locale} = await params;
   setRequestLocale(locale);
   const data = await catalogue();
+  const harvest = data.products.find(p => p.id === 'pomegranates');
+  if (harvest) return <HarvestPage product={harvest} locale={locale === 'fr' ? 'fr' : 'en'} otherProducts={data.products.filter(p=>p.id!==harvest.id)}/>;
   return <Storefront initial={data} locale={locale === 'fr' ? 'fr' : 'en'} />;
 }

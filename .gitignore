@@ -36,3 +36,6 @@ next-env.d.ts
 # Shop development data and research
 /.shop/
 /.firecrawl/
+
+# Original supplied videos; publish only web-optimized copies.
+/public/assets/videos/WhatsApp*

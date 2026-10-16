@@ -4,10 +4,12 @@ import Image from "next/image";
 import {Link} from "@/i18n/routing";
 import {localized, type Product} from "@/lib/shop/types";
 import ReservationForm from "./ReservationForm";
+import HarvestPage from './HarvestPage';
 export default function ReservationPage({products,locale,productId}:{products:Product[];locale:"fr"|"en";productId?:string}) {
 const fr=locale==="fr";
 const [selected,setSelected]=useState(productId || products[0]?.id);
 const product=products.find(p=>p.id===selected)||products[0];
+  if(product?.id === 'pomegranates') return <HarvestPage product={product} locale={locale} otherProducts={products.filter(p=>p.id!==product.id)}/>;
   return (
     <main className="shop-wrap reservation-page">
       <div className="reservation-intro">

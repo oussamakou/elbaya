@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import type { ReservationRequest } from "@/lib/shop/types";
+import {money} from '@/lib/shop/types';
 const statuses = {
   new: "Nouvelle",
   contacted: "Contacté",
@@ -29,6 +30,7 @@ function RequestCard({
         <p>
           {request.quantity} × {request.productName} · {request.size}
         </p>
+        {request.harvest && <p><strong>{money(request.harvest.total)}</strong> · {money(request.harvest.unitPrice)} / kg · Paiement au retrait</p>}
         <a className="pantry-text-link" href={`tel:${request.phone}`}>
           {request.phone}
         </a>

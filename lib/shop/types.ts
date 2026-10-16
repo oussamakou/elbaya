@@ -1,5 +1,6 @@
 export type LocaleText = { fr: string; en: string };
 export type ReservationRequest = {
+  harvest?: import('./harvest').HarvestSelection;
   governorate?: string;
   city?: string;
   streetAddress?: string;

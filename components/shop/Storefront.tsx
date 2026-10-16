@@ -21,6 +21,7 @@ import {
   type CartItem,
 } from "@/lib/shop/types";
 import { copy, errorMessage } from "./copy";
+import ReservationForm from "./ReservationForm";
 import ProductPanel, { ProductCard } from "./ProductPanel";
 import { capacity, fulfillment, orderable } from "@/lib/shop/types";
 
@@ -222,6 +223,7 @@ export default function Storefront({
             </a>
           </div>
           {selectedProduct ? (
+            <div>
             <ProductPanel
               product={selectedProduct}
               locale={locale}
@@ -229,6 +231,8 @@ export default function Storefront({
               busy={busy}
               add={add}
             />
+            {selectedProduct.status === "seasonal" && <div className="harvest-inline-request"><h2>{locale === "fr" ? "Votre demande, ici." : "Your request, right here."}</h2><ReservationForm products={[selectedProduct]} locale={locale} productId={selectedProduct.id}/></div>}
+            </div>
           ) : (
             <p className="shop-notice">{t.sold}</p>
           )}
