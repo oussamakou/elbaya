@@ -12,10 +12,11 @@ import CamperStay from '@/components/sections/CamperStay';
 import FaqBlock from '@/components/sections/FaqBlock';
 import PolicyBlock from '@/components/sections/PolicyBlock';
 import GettingHere from '@/components/sections/GettingHere';
+import ContactSection from '@/components/sections/ContactSection';
 
 export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
   const {locale} = await params;
-  return pageMetadata(locale, 'stay', '/stay', 'room_picture_mahdi.webp');
+  return pageMetadata(locale, 'stay', '/stay', 'room2.webp');
 }
 
 export default async function Stay({params}: {params: Promise<{locale: string}>}) {
@@ -42,7 +43,7 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
   return (
     <>
       <section className="relative flex min-h-[76vh] items-end overflow-hidden bg-dusk px-5 pb-20 text-cream">
-        <Image src={img('room_picture_mahdi.webp')} alt="Inside the Baya Room at Farm El Baya" fill preload fetchPriority="high" sizes="100vw" className="object-cover animate-breathe opacity-85" />
+        <Image src={img('room2.webp')} alt={fr ? 'La chambre Baya lumineuse, ses coussins rangés et sa porte ouverte sur les arbres' : 'The sunlit Baya Room with neatly arranged cushions and an open doorway to the trees'} fill preload fetchPriority="high" sizes="100vw" className="object-cover object-[center_58%] opacity-95" />
         <div className="absolute inset-0 bg-gradient-to-t from-dusk via-dusk/25 to-transparent" />
         <div className="relative mx-auto w-full max-w-7xl">
           <h1 className="max-w-4xl font-serif text-6xl italic md:text-7xl">{content.hero}</h1>
@@ -81,6 +82,7 @@ export default async function Stay({params}: {params: Promise<{locale: string}>}
         </div>
       </section>
       <GettingHere locale={locale} />
+      <ContactSection locale={locale}/>
       <PolicyBlock locale={locale} />
       <FaqBlock locale={locale} schema />
     </>

@@ -7,6 +7,7 @@ import {
   ImagePlus,
   Leaf,
   LogOut,
+  Mail,
   Package,
   Plus,
   RefreshCw,
@@ -25,8 +26,10 @@ import {
 import { errorMessage } from "./copy";
 import ReservationInbox from "./ReservationInbox";
 import type { ReservationRequest } from "@/lib/shop/types";
+import type {ContactRequest} from '@/lib/shop/contact';
 
 type AdminData = {
+  contacts?: ContactRequest[];
   notifications?: {configured: boolean; pending: number};
   products: Product[];
   settings: ShopSettings;
@@ -1077,6 +1080,7 @@ export default function AdminShop({
             ShoppingBag,
           ],
           ["settings", "Livraison & ouverture", Settings],
+          ["contacts", `Messages (${data.contacts?.length || 0})`, Mail],
         ].map(([value, label, Icon]) => {
           const I = Icon as typeof Package;
           return (
@@ -1119,6 +1123,7 @@ export default function AdminShop({
           {error}
         </p>
       )}
+      {tab === 'contacts' && <section><h2>Messages du site</h2><p className="pantry-small">Ces messages sont également envoyés par email. Répondez à l’adresse du visiteur ci-dessous.</p>{data.contacts?.length ? data.contacts.map(c=><article className="reservation-inbox-card" key={c.id} style={{gridTemplateColumns:"1fr"}}><div><p className="shop-eyebrow">{new Date(c.createdAt).toLocaleString('fr-TN')}</p><h3>{c.name}</h3><a className="pantry-text-link" href={`mailto:${encodeURIComponent(c.email)}`}>{c.email}</a>{c.phone && <p><a href={`tel:${c.phone.replace(/[^+\d]/g,'')}`}>{c.phone}</a></p>}<p style={{whiteSpace:'pre-wrap',marginTop:16}}>{c.message}</p></div></article>):<p className="shop-notice">Aucun message pour le moment.</p>}</section>}
       {tab === "products" &&
         (editor ? (
           <ProductEditor

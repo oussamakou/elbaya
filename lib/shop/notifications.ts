@@ -4,7 +4,7 @@ import {db} from './db';
 import {money, type Order, type ReservationRequest} from './types';
 import {pickupLabel} from './harvest';
 
-type Message = {subject: string; text: string};
+type Message = {subject: string; text: string; reply_to?: string};
 const dashboard = 'https://www.farmelbaya.com/fr/admin';
 
 export function orderMessage(order: Order): Message {

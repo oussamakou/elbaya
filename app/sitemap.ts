@@ -13,6 +13,7 @@ const pages: Array<{
 }> = [
   {path: '', priority: 1, changeFrequency: 'weekly'},
   {path: '/stay', priority: 0.9, changeFrequency: 'monthly'},
+  {path: '/contact', priority: 0.5, changeFrequency: 'monthly'},
   {path: '/book', priority: 0.9, changeFrequency: 'weekly'},
   {path: '/experiences', priority: 0.7, changeFrequency: 'monthly'},
   {path: '/farm', priority: 0.7, changeFrequency: 'monthly'},

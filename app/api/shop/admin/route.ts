@@ -11,6 +11,7 @@ import {
 import { body, failure, json } from "@/lib/shop/http";
 import { object, ShopError } from "@/lib/shop/validation";
 import { reservations, updateReservation } from "@/lib/shop/reservations";
+import {contacts} from '@/lib/shop/contact';
 export const dynamic = "force-dynamic";
 export async function GET() {
   try {
@@ -21,6 +22,7 @@ export async function GET() {
       ...(await catalogue(true)),
       orders: await orders(),
       reservations: await reservations(),
+      contacts: await contacts(),
     });
   } catch (e) {
     return failure(e);

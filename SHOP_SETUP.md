@@ -133,3 +133,11 @@ These are priced requests, saved under **Précommandes**, confirmed by Mehdi by 
 The growing-method statement is attributed to Mehdi. No certification logo or certified-organic claim was added. Video originals are preserved locally but excluded from Git/deployment; optimized MP4s use fast start, posters are real extracted footage frames, and videos mount only on opening an accessible story dialog. English and French pages include brief Tunisian Arabic accents; supplied spoken Arabic and embedded captions are preserved.
 
 Verification: `node scripts/test-shop-harvest.mjs` uses an isolated local database and never sends real email. Checks cover quantity steps, pricing, both pickup options, rejected tampering, idempotency, snapshots, owner follow-up and hidden products.
+
+## General contact form
+
+`/fr/contact` and `/en/contact` are linked in the footer; the Stay page also embeds the same form. It collects name, email, optional phone and a message. Submission validates fields and origin, limits request size, uses a honeypot and a database-backed rate limit, and saves a contact plus its owner email atomically. Duplicate request keys do not create duplicate messages or alerts.
+
+The existing Resend sender/recipient are used. `reply_to` is the validated visitor email, so Mehdi can reply directly. Messages are also available in the authenticated admin **Messages** tab. Delivery retries use the same queue behaviour as shop alerts. Success means the message is saved, not that inbox delivery has been confirmed. No automatic email is sent to the visitor.
+
+Run `node scripts/test-contact.mjs` for isolated validation, deduplication, reply-to, provider and inbox tests with a mocked sender.

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { adminConfigured, isAdmin } from "@/lib/shop/auth";
 import { catalogue, orders } from "@/lib/shop/service";
 import { reservations } from "@/lib/shop/reservations";
+import {contacts} from '@/lib/shop/contact';
 import AdminShop from "@/components/shop/AdminShop";
 import "@/components/shop/shop.css";
 export const dynamic = "force-dynamic";
@@ -21,6 +22,7 @@ export default async function AdminPage() {
               ...(await catalogue(true)),
               orders: await orders(),
               reservations: await reservations(),
+              contacts: await contacts(),
             }
           : null
       }
