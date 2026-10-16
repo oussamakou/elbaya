@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import {useRef, useState, type FormEvent} from 'react';
-import {Check, ChevronLeft, ChevronRight, Leaf, MapPin, Minus, Play, Plus, X} from 'lucide-react';
+import {Check, ChevronLeft, ChevronRight, Leaf, MapPin, Minus, Pause, Play, Plus, Volume2, VolumeX, X} from 'lucide-react';
 import {Link} from '@/i18n/routing';
 import {money, type Product} from '@/lib/shop/types';
 import {FARM_MAP, harvestQuote, harvestOffer, pickupLabel} from '@/lib/shop/harvest';
@@ -20,9 +20,18 @@ function FarmStories({fr}: {fr:boolean}) {
   const trigger = useRef<HTMLButtonElement | null>(null);
   const [active, setActive] = useState(0);
   const [opened, setOpened] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(false);
+  const [progress, setProgress] = useState(0);
+  function togglePlayback() {
+    if (!video.current) return;
+    if (video.current.paused) void video.current.play().catch(()=>setPlaying(false));
+    else video.current.pause();
+  }
   function open(index:number, button:HTMLButtonElement) {
     trigger.current = button;
     setActive(index);
+    setProgress(0);
     setOpened(true);
     dialog.current?.showModal();
   }
@@ -34,15 +43,26 @@ function FarmStories({fr}: {fr:boolean}) {
       <span>{fr ? item.fr : item.en}</span>
     </button>)}</div>
     <dialog ref={dialog} className="harvest-video-dialog" onClose={stop} onClick={e=>{if(e.target===e.currentTarget)dialog.current?.close();}} aria-labelledby="harvest-video-title">
-      <div className="harvest-video-head"><h2 id="harvest-video-title">{fr ? media[active].fr : media[active].en}</h2><button type="button" autoFocus aria-label={fr ? 'Fermer la vidéo' : 'Close video'} onClick={()=>dialog.current?.close()}><X/></button></div>
-      {opened && <video ref={video} autoPlay key={media[active].id} controls playsInline preload="none" poster={`/assets/shop/${media[active].id}-poster.jpg`} src={`/assets/videos/${media[active].id}.mp4`} />}
-      <div className="harvest-video-foot"><span>{fr ? 'Images d’El Baya · voix de Mehdi en tunisien' : 'Filmed at El Baya · Mehdi speaks Tunisian Arabic'}</span><button type="button" onClick={()=>setActive((active+1)%media.length)}>{fr ? 'Vidéo suivante' : 'Next story'} <ChevronRight size={16}/></button></div>
+      {opened && <video ref={video} autoPlay key={media[active].id} playsInline muted={muted} preload="metadata" onClick={togglePlayback} onPlay={()=>setPlaying(true)} onPause={()=>setPlaying(false)} onEnded={()=>setPlaying(false)} onTimeUpdate={e=>{const v=e.currentTarget;setProgress(v.duration ? v.currentTime/v.duration : 0);}} poster={`/assets/shop/${media[active].id}-poster.jpg`} src={`/assets/videos/${media[active].id}.mp4`} />}
+      <div className="harvest-video-head">
+        <div className="harvest-story-progress" aria-hidden="true">{media.map((item,index)=><progress key={item.id} max={1} value={index<active?1:index===active?progress:0}/>)}</div>
+        <span>EL BAYA · {fr?'LA VIE À LA FERME':'LIFE ON THE FARM'}</span>
+        <button type="button" autoFocus aria-label={fr ? 'Fermer la vidéo' : 'Close video'} onClick={()=>dialog.current?.close()}><X size={21}/></button>
+      </div>
+      <div className="harvest-video-foot">
+        <h2 id="harvest-video-title">{fr ? media[active].fr : media[active].en}</h2>
+        <p>{fr ? 'De notre terre, pour vous.' : 'From our land, to you.'}</p>
+        <div className="harvest-video-controls">
+          <button type="button" aria-label={playing?(fr?'Mettre en pause':'Pause video'):(fr?'Lire la vidéo':'Play video')} onClick={togglePlayback}>{playing?<Pause size={19}/>:<Play size={19}/>}</button>
+          <button type="button" aria-label={muted?(fr?'Activer le son':'Unmute video'):(fr?'Couper le son':'Mute video')} onClick={()=>setMuted(!muted)}>{muted?<VolumeX size={19}/>:<Volume2 size={19}/>}</button>
+          <button className="harvest-next-story" type="button" onClick={()=>{setProgress(0);setActive((active+1)%media.length);}}>{fr ? 'Suivante' : 'Next story'} <ChevronRight size={18}/></button>
+        </div>
+      </div>
     </dialog>
   </section>;
 }
 
-function HarvestOrder({product,fr}: {product:Product;fr:boolean}) {
-  const [kg,setKg] = useState(10);
+function HarvestOrder({product,fr,kg,setKg}: {product:Product;fr:boolean;kg:number;setKg:(kg:number)=>void}) {
   const offer=harvestOffer(product);
   const [pickup,setPickup] = useState<'farm'|'tunis'>(offer.pickupFarm?'farm':'tunis');
   const [busy,setBusy] = useState(false);
@@ -71,7 +91,7 @@ function HarvestOrder({product,fr}: {product:Product;fr:boolean}) {
       <div className="harvest-pack-heading"><h2>{fr ? 'Votre part de récolte' : 'Your share of the harvest'}</h2><span>{fr ? 'Dès 5 kg' : 'From 5 kg'}</span></div>
       <div className="harvest-packs" role="group" aria-label={fr ? 'Choisir un panier' : 'Choose a pack'}>
         <button type="button" aria-pressed={kg===5} onClick={()=>{setKg(5);key.current='';}}><span>5 kg</span><strong>{format(offer.baseUnitPrice*5)}</strong><small>{format(offer.baseUnitPrice)} / kg</small></button>
-        <button type="button" aria-pressed={kg>=10} onClick={()=>{setKg(10);key.current='';}}><span className="harvest-best">{fr ? 'Meilleur prix au kilo' : 'Best price per kg'}</span><span>10 kg</span><strong>{format(offer.bulkUnitPrice*10)}</strong><small>{format(offer.bulkUnitPrice)} / kg</small></button>
+        <button type="button" aria-pressed={kg>=10} onClick={()=>{setKg(Math.max(10,kg));key.current='';}}><span className="harvest-best">{fr ? 'Meilleur prix au kilo' : 'Best price per kg'}</span><span>{Math.max(10,kg)} kg</span><strong>{format(offer.bulkUnitPrice*Math.max(10,kg))}</strong><small>{format(offer.bulkUnitPrice)} / kg</small></button>
       </div>
       <div className="harvest-quantity"><div><label htmlFor="harvest-kg">{fr ? 'Quantité totale' : 'Total quantity'}</label><small>{fr ? `Par pas de 5 kg · ${format(offer.bulkUnitPrice)}/kg dès 10 kg` : `In 5 kg steps · ${format(offer.bulkUnitPrice)}/kg from 10 kg`}</small></div><div className="harvest-stepper"><button type="button" disabled={kg<=5} aria-label={fr ? 'Retirer 5 kg' : 'Remove 5 kg'} onClick={()=>{setKg(kg-5);key.current='';}}><Minus size={17}/></button><output id="harvest-kg" aria-live="polite">{kg} kg</output><button type="button" disabled={kg>=500} aria-label={fr ? 'Ajouter 5 kg' : 'Add 5 kg'} onClick={()=>{setKg(kg+5);key.current='';}}><Plus size={17}/></button></div></div>
       <fieldset className="harvest-pickups"><legend>{fr ? 'Où récupérer votre panier ?' : 'Where will you collect?'}</legend>
@@ -100,6 +120,8 @@ export default function HarvestPage({product,locale,otherProducts=[]}: {product:
   const description=product.description[locale]||product.description.fr;
   const customDescription=description&&!description.includes('formats, les prix')&&!description.includes('Pack sizes, prices');
   const [photo,setPhoto]=useState(0);
+  const [kg,setKg]=useState(10);
+  const quote=harvestQuote(kg,offer);
   const currentPhoto=photos[photo]||photos[0];
   return <main className="harvest-page shop-wrap">
     <div className="harvest-topline"><Link href="/farm">{fr?'El Baya · une ferme à Testour':'El Baya · a farm in Testour'}</Link><span lang="ar-TN" dir="rtl">رمان بلادنا، من أرضنا ليكم</span></div>
@@ -110,11 +132,11 @@ export default function HarvestPage({product,locale,otherProducts=[]}: {product:
       </div>
       <div className="harvest-offer">
         <p className="shop-eyebrow">{fr?'LES GRENADES D’EL BAYA · SAISON 2026':'EL BAYA POMEGRANATES · SEASON 2026'}</p>
-        <h1>{fr?'Du grenadier\nà votre panier.':'From our trees.\nTo your table.'}</h1>
+        <h1>{fr?'Les grenades d’El Baya.':'El Baya pomegranates.'}</h1>
         <p className="harvest-intro">{customDescription?description:fr?'Une terre familiale à Testour, des arbres soignés par Mehdi, et la récolte qu’on a envie de partager.':'Family land in Testour, trees cared for by Mehdi, and a harvest we want to share with you.'}</p>
         <p className="harvest-growing"><Leaf size={18}/>{fr?'Culture bio, sans pesticides, selon Mehdi.':'Organically grown without pesticides, as described by Mehdi.'}</p>
         <p className="harvest-limited">{fr?'Cette saison, une petite quantité de notre récolte est proposée à la communauté. Chaque demande est confirmée personnellement.':'This season, we’re sharing a limited part of our harvest with the community. Each request is confirmed personally.'}</p>
-        <HarvestOrder product={product} fr={fr}/>
+        <HarvestOrder product={product} fr={fr} kg={kg} setKg={setKg}/>
       </div>
     </section>
     <section className="harvest-story-section"><div><p className="shop-eyebrow">{fr?'UNE FERME QUI SE RACONTE':'A FARM WITH A STORY'}</p><h2>{fr?'On cultive.\nOn accueille.\nOn partage.':'We grow.\nWe welcome.\nWe share.'}</h2><p lang="ar-TN" dir="rtl" className="harvest-arabic">من أرضنا، بكل محبّة</p></div><div><p>{fr?'El Baya, c’est la terre de la famille de Mehdi. Les oliviers, les grenadiers, le potager et les ruches font partie du quotidien. La permaculture guide le travail : prendre soin du sol, laisser de la place au vivant et suivre les saisons.':'El Baya is Mehdi’s family land. Olive trees, pomegranates, the vegetable garden and beehives are part of everyday life. Permaculture guides the work: caring for the soil, making room for living things and following the seasons.'}</p><p>{fr?'Cette année, on ouvre une petite part de la récolte à celles et ceux qui veulent retrouver ce lien avec la terre. Vous voyez les arbres, vous entendez Mehdi, vous savez à qui parler.':'This year, we’re opening a small part of the harvest to people who want that connection with the land. See the trees, hear from Mehdi and know who to speak to.'}</p><Link href="/farm" className="pantry-text-link">{fr?'Découvrir la vie à El Baya':'Meet the farm'} →</Link></div></section>
@@ -122,6 +144,6 @@ export default function HarvestPage({product,locale,otherProducts=[]}: {product:
       {[{title:fr?'Comment fonctionne le prix ?':'How does the price work?',text:fr?`5 kg : ${format(offer.baseUnitPrice*5)} (${format(offer.baseUnitPrice)}/kg). Dès 10 kg, tout le panier passe à ${format(offer.bulkUnitPrice)}/kg : ${format(offer.bulkUnitPrice*10)} pour 10 kg, ${format(offer.bulkUnitPrice*15)} pour 15 kg. Ajoutez 5 kg à la fois.`:`5 kg costs ${format(offer.baseUnitPrice*5)} (${format(offer.baseUnitPrice)}/kg). From 10 kg, the whole pack is ${format(offer.bulkUnitPrice)}/kg: ${format(offer.bulkUnitPrice*10)} for 10 kg, ${format(offer.bulkUnitPrice*15)} for 15 kg. Add in 5 kg steps.`},{title:fr?'Où et quand récupérer les grenades ?':'Where and when can I collect?',text:fr?`Retrait ${[offer.pickupFarm?'à la ferme de Testour':'',offer.pickupTunis?'à Tunis':''].filter(Boolean).join(' ou ')}. Mehdi vous appelle pour confirmer la disponibilité et le rendez-vous.${offer.pickupTunis?' L’adresse de Tunis vous sera communiquée directement.':''}`:`Pickup ${[offer.pickupFarm?'at the farm in Testour':'',offer.pickupTunis?'in Tunis':''].filter(Boolean).join(' or ')}. Mehdi calls to confirm availability and your appointment.${offer.pickupTunis?' The Tunis address is shared directly.':''}`},{title:fr?'Comment payer ?':'How do I pay?',text:fr?'Vous payez en espèces au retrait. Aucun acompte ni paiement en ligne. Votre demande sera confirmée par téléphone.':'Pay cash when you collect. No deposit or online payment. Your request is confirmed by phone.'}].map((item,index)=><details key={item.title} open={index===0}><summary>{item.title}<Plus size={18}/></summary><p>{item.text}</p></details>)}
     </section>
     {otherProducts.length>0&&<section className="harvest-other"><p className="shop-eyebrow">{fr?'AUSSI À LA FERME':'ALSO AT THE FARM'}</p><h2>{fr?'À chaque récolte, sa saison.':'Every harvest has its season.'}</h2><div>{otherProducts.map(p=><Link key={p.id} href={`/products/${p.id}`}><span>{fr?p.name.fr:p.name.en||p.name.fr}</span><span>{fr?'Découvrir':'Explore'} →</span></Link>)}</div></section>}
-    {offer.enabled&&<div className="harvest-mobile-cta"><span>{fr?'Le panier 10 kg':'The 10 kg pack'} <strong>{format(offer.bulkUnitPrice*10)}</strong></span><a href="#harvest-order">{fr?'Choisir mon panier':'Choose my pack'} ↑</a></div>}
+    {offer.enabled&&<div className="harvest-mobile-cta"><span>{fr?`Votre panier · ${kg} kg`:`Your pack · ${kg} kg`} <strong>{format(quote.total)}</strong></span><a href="#harvest-order">{fr?'Choisir mon panier':'Choose my pack'} ↑</a></div>}
   </main>;
 }
