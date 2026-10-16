@@ -50,9 +50,19 @@ try {
   await updateReservation({...r,status:'confirmed',harvest:{...r.harvest,total:1}});
   const saved=JSON.parse(String((await client.execute({sql:'SELECT data FROM shop_reservations WHERE id=?',args:[r.id]})).rows[0].data));
   assert.equal(saved.harvest.total,45000,'Admin follow-up cannot rewrite the quoted total');
+  const {saveProduct} = await load('service');
+  let configProduct=JSON.parse(String((await client.execute("SELECT data FROM shop_products WHERE id='pomegranates'")).rows[0].data));
+  configProduct=await saveProduct({...configProduct,harvestOffer:{enabled:true,baseUnitPrice:6000,bulkUnitPrice:5000,pickupFarm:true,pickupTunis:false}});
+  await assert.rejects(createReservation({...input,expectedTotal:45000,pickup:'farm',requestKey:crypto.randomUUID()}),e=>e.code==='price_changed');
+  await assert.rejects(createReservation({...input,expectedTotal:50000,requestKey:crypto.randomUUID()}),e=>e.code==='zone');
+  const custom=await createReservation({...input,expectedTotal:50000,pickup:'farm',requestKey:crypto.randomUUID()});assert.equal(custom.harvest.total,50000);assert.equal(custom.harvest.unitPrice,5000);
+  configProduct=await saveProduct({...configProduct,harvestOffer:{...configProduct.harvestOffer,enabled:false}});
+  await assert.rejects(createReservation({...input,expectedTotal:50000,pickup:'farm',requestKey:crypto.randomUUID()}),e=>e.code==='closed');
+  await assert.rejects(saveProduct({...configProduct,harvestOffer:{...configProduct.harvestOffer,enabled:true,pickupFarm:false}}));
+  await assert.rejects(saveProduct({...configProduct,harvestOffer:{...configProduct.harvestOffer,bulkUnitPrice:7000}}));
   const product=JSON.parse(String((await client.execute("SELECT data FROM shop_products WHERE id='pomegranates'")).rows[0].data));product.status='draft';
   await client.execute({sql:'UPDATE shop_products SET data=? WHERE id=?',args:[JSON.stringify(product),product.id]});
   await assert.rejects(createReservation({...input,requestKey:crypto.randomUUID()}));
-  assert.equal((await client.execute('SELECT COUNT(*) AS n FROM shop_reservations')).rows[0].n,2);
+  assert.equal((await client.execute('SELECT COUNT(*) AS n FROM shop_reservations')).rows[0].n,3);
   console.log('PASS: 5 kg steps, bulk price, pickup choices, price tampering, duplicate protection, email snapshot, admin persistence, draft rejection. No real email or production data.');
 } finally {globalThis.fetch=originalFetch;client?.close();}

@@ -26,6 +26,7 @@ import {
 import { errorMessage } from "./copy";
 import ReservationInbox from "./ReservationInbox";
 import type { ReservationRequest } from "@/lib/shop/types";
+import {harvestOffer} from '@/lib/shop/harvest';
 import type {ContactRequest} from '@/lib/shop/contact';
 
 type AdminData = {
@@ -255,7 +256,7 @@ function ProductEditor({
                 Visibilité
                 <select
                   className="field"
-                  value={draft.status}
+                  value={draft.id === 'pomegranates' && draft.status !== 'draft' ? 'seasonal' : draft.status}
                   onChange={(e) =>
                     setDraft({
                       ...draft,
@@ -264,14 +265,10 @@ function ProductEditor({
                   }
                 >
                   <option value="draft">Brouillon · masqué</option>
-                  <option value="seasonal">
-                    Hors saison · demandes uniquement
-                  </option>
-                  <option value="available">En vente</option>
-                  <option value="preorder">Précommandes ouvertes</option>
+                  {draft.id === 'pomegranates' ? <option value="seasonal">Visible sur la boutique</option> : <><option value="seasonal">Hors saison · demandes uniquement</option><option value="available">En vente</option><option value="preorder">Précommandes ouvertes</option></>}
                 </select>
                 <span className="pantry-small" aria-live="polite">
-                  {draft.status === "draft"
+                  {draft.id === 'pomegranates' ? (draft.status === 'draft' ? 'Offre masquée du site.' : 'Offre visible. Réglez les tarifs, les demandes et les retraits dans Offre récolte ci-dessous.') : draft.status === "draft"
                     ? "Masqué du catalogue et inaccessible par lien direct."
                     : draft.status === "seasonal"
                       ? "Visible, avec demande de précommande à confirmer par téléphone. Aucun achat au panier."
@@ -282,7 +279,7 @@ function ProductEditor({
                 </span>
               </label>
             </div>
-            {draft.status === "preorder" && (
+            {draft.status === "preorder" && draft.id !== "pomegranates" && (
               <div className="admin-preorder-settings">
                 <h3>Réserver la prochaine récolte</h3>
                 <p>
@@ -433,12 +430,20 @@ function ProductEditor({
               />
             </label>
             <p className="pantry-small">
-              Les photos sont redimensionnées automatiquement. Gardez
-              l’illustration en couverture ou choisissez une de vos photos.
+              La couverture et vos photos apparaissent dans la galerie du produit. La couverture est aussi utilisée sur l’accueil et la page de la ferme. Les vidéos se lisent à part, dans les pastilles sous la galerie.
             </p>
           </div>
         </section>
-        <section className="admin-form-section">
+        {draft.id === 'pomegranates' && <section className="admin-form-section"><div><h3>03. Offre récolte · grenades</h3><p>Un panier de 10 kg est proposé par défaut. Minimum 5 kg, puis ajouts de 5 kg. Les demandes arrivent dans Précommandes, avec le poids, le total et le lieu de retrait.</p></div><div className="admin-fields">
+          <label><input type="checkbox" checked={harvestOffer(draft).enabled} onChange={e=>setDraft({...draft,harvestOffer:{...harvestOffer(draft),enabled:e.target.checked}})}/> Accepter les demandes de récolte</label>
+          <div className="shop-two">{([['baseUnitPrice','Prix au kilo · panier de 5 kg'],['bulkUnitPrice','Prix au kilo · dès 10 kg']] as const).map(([field,label])=><label key={field}>{label}<input className="field" type="number" min="0.001" max={field==='bulkUnitPrice'?harvestOffer(draft).baseUnitPrice/1000:1000} step=".001" required value={harvestOffer(draft)[field]/1000} onChange={e=>setDraft({...draft,harvestOffer:{...harvestOffer(draft),[field]:Math.round(Number(e.target.value)*1000)}})}/></label>)}</div>
+          <p className="shop-notice">5 kg : {money(harvestOffer(draft).baseUnitPrice*5)} · 10 kg : {money(harvestOffer(draft).bulkUnitPrice*10)} · 15 kg : {money(harvestOffer(draft).bulkUnitPrice*15)}</p>
+          <label><input type="checkbox" checked={harvestOffer(draft).pickupFarm} onChange={e=>setDraft({...draft,harvestOffer:{...harvestOffer(draft),pickupFarm:e.target.checked}})}/> Retrait à la ferme · Testour</label>
+          <label><input type="checkbox" checked={harvestOffer(draft).pickupTunis} onChange={e=>setDraft({...draft,harvestOffer:{...harvestOffer(draft),pickupTunis:e.target.checked}})}/> Retrait à Tunis · adresse communiquée par téléphone</label>
+          <label><input type="checkbox" checked={harvestOffer(draft).showStories!==false} onChange={e=>setDraft({...draft,harvestOffer:{...harvestOffer(draft),showStories:e.target.checked}})}/> Afficher les vidéos de la ferme sous la galerie photo</label>
+          <p className="pantry-small">Gardez au moins un lieu de retrait si les demandes sont ouvertes. Le tarif réduit ne peut pas dépasser le tarif de base. Le paiement se fait au retrait, après confirmation par téléphone. Aucun stock n’est bloqué automatiquement. Le bouton d’ouverture des achats directs ne concerne pas cette offre.</p>
+        </div></section>}
+        {draft.id !== 'pomegranates' && <section className="admin-form-section">
           <div>
             <h3>03. Formats & stock</h3>
             <p>
@@ -582,7 +587,7 @@ function ProductEditor({
               en cours reste protégé jusqu’à son traitement.
             </p>
           </div>
-        </section>
+        </section>}
       </fieldset>
       {error && (
         <p className="shop-error" role="alert">
@@ -591,7 +596,7 @@ function ProductEditor({
       )}
       <div className="admin-save">
         <span>
-          {draft.status === "draft"
+          {draft.id === 'pomegranates' ? (draft.status === 'draft' ? 'Offre masquée.' : harvestOffer(draft).enabled ? 'Demandes ouvertes · paiement au retrait après confirmation.' : 'Offre visible · demandes en pause.') : draft.status === "draft"
             ? "Ce produit sera enregistré sans être visible sur le site."
             : draft.status === "seasonal"
               ? "Visible sur le site, sans possibilité de commander."
@@ -1166,11 +1171,11 @@ export default function AdminShop({
                   )}
                   <span>
                     <strong>{p.name.fr}</strong>
-                    <small>{p.variants.map((v) => v.label).join(" · ")}</small>
+                    <small>{p.id === "pomegranates" ? `5 kg : ${money(harvestOffer(p).baseUnitPrice*5)} · 10 kg : ${money(harvestOffer(p).bulkUnitPrice*10)}` : p.variants.map((v) => v.label).join(" · ")}</small>
                   </span>
-                  <span>{productStatus[p.status]}</span>
+                  <span>{p.id === "pomegranates" ? (p.status === "draft" ? "Masqué" : harvestOffer(p).enabled ? "Demandes ouvertes" : "Demandes en pause") : productStatus[p.status]}</span>
                   <span>
-                    {p.variants.reduce(
+                    {p.id === "pomegranates" ? "Retrait sur rendez-vous" : <>{p.variants.reduce(
                       (n, v) =>
                         n +
                         (p.status === "preorder"
@@ -1178,7 +1183,7 @@ export default function AdminShop({
                           : v.stock),
                       0,
                     )}{" "}
-                    {p.status === "preorder" ? "à réserver" : "colis"}
+                    {p.status === "preorder" ? "à réserver" : "colis"}</>}
                   </span>
                   <span className="admin-edit-label">
                     Modifier

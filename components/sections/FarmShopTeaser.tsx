@@ -1,7 +1,12 @@
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
-export default function FarmShopTeaser({ locale }: { locale: string }) {
+import {catalogue} from '@/lib/shop/service';
+import {seedProducts} from '@/lib/shop/db';
+export default async function FarmShopTeaser({ locale }: { locale: string }) {
   const fr = locale === "fr";
+  let products;
+  try {products=(await catalogue()).products;} catch {products=seedProducts;}
+  const featured=products.filter(p=>['pomegranates','olive-oil','honey'].includes(p.id));
   return (
     <section className="border-y border-olive/15 bg-sand px-6 py-16 md:py-20">
       <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-2">
@@ -27,17 +32,10 @@ export default function FarmShopTeaser({ locale }: { locale: string }) {
           </Link>
         </div>
         <div className="flex items-center justify-center gap-2">
-          {["pomegranate", "olive", "honey"].map((name) => (
-            <Image
-              key={name}
-              src={`/assets/shop/${name}.svg`}
-              width={180}
-              height={210}
-              sizes="(min-width:768px) 15vw, 28vw"
-              className="w-[31%]"
-              alt=""
-            />
-          ))}
+          {featured.map(product=>{
+            const src=product.images[0]||`/assets/shop/${product.id==='pomegranates'?'pomegranate':product.id==='olive-oil'?'olive':'honey'}.svg`;
+            return <Link key={product.id} href={`/products/${product.id}`} className="relative block w-[31%] overflow-hidden rounded-t-[70px]" aria-label={fr?product.name.fr:product.name.en||product.name.fr}><Image src={src} width={240} height={300} sizes="(min-width:768px) 15vw, 28vw" className={`aspect-[4/5] w-full ${src.endsWith('.svg')?'object-contain':'object-cover'}`} unoptimized={src.startsWith('/api/')} alt={fr?product.name.fr:product.name.en||product.name.fr}/></Link>;
+          })}
         </div>
       </div>
     </section>

@@ -21,8 +21,8 @@ export async function generateMetadata({
           : 'The Farm Pantry | Farm El Baya',
       description:
         locale === 'fr'
-          ? 'Grenades de la ferme à Testour : 10 kg à 45 DT, retrait à la ferme ou à Tunis. Découvrez la récolte en vidéo et envoyez votre demande directement.'
-          : 'Pomegranates from our farm in Testour: 10 kg for 45 DT, with farm or Tunis pickup. Watch the harvest and request your pack on the same page.',
+          ? 'Grenades de la ferme à Testour : paniers dès 5 kg, tarifs de récolte et points de retrait. Découvrez les vidéos de la ferme et envoyez votre demande directement.'
+          : 'Pomegranates from our farm in Testour: packs from 5 kg, harvest prices and pickup options. Watch the farm stories and request your pack on the same page.',
     },
     'picking_tree_fruits.webp',
   );

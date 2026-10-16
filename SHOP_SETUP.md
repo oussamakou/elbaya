@@ -141,3 +141,11 @@ Verification: `node scripts/test-shop-harvest.mjs` uses an isolated local databa
 The existing Resend sender/recipient are used. `reply_to` is the validated visitor email, so Mehdi can reply directly. Messages are also available in the authenticated admin **Messages** tab. Delivery retries use the same queue behaviour as shop alerts. Success means the message is saved, not that inbox delivery has been confirmed. No automatic email is sent to the visitor.
 
 Run `node scripts/test-contact.mjs` for isolated validation, deduplication, reply-to, provider and inbox tests with a mocked sender.
+
+## Harvest admin controls and product covers
+
+The pomegranate editor has **Offre récolte** controls for base price per kg, bulk price per kg from 10 kg, request opening, farm/Tunis pickup and story video visibility. Its visibility selector is simply draft/visible; requests can be paused while the product stays visible. The server reads these saved product settings for each new request and rejects old totals or disabled pickup options. Existing requests keep their snapshots. General product stock controls still apply to olive oil, honey and other products.
+
+The main pomegranate gallery contains uploaded photos only, in their saved cover order. With no uploaded photo it uses the product illustration; no extracted video stills are appended. A single photo has no carousel arrows. Videos remain in a separate playable story section that the owner can hide.
+
+Homepage and farm-page teasers now read the public catalogue on each page request, use saved product covers and link to individual products. Both pages render dynamically so cover changes do not require a rebuild; draft products are excluded. Illustrations are fallbacks when photos are not supplied.

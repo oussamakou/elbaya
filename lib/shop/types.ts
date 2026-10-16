@@ -29,6 +29,7 @@ export type Variant = {
 };
 export type Fulfillment = "ready" | "preorder";
 export type Product = {
+  harvestOffer?: import('./harvest').HarvestOffer;
   id: string;
   revision: number;
   name: LocaleText;

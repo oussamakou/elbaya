@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import FarmShopTeaser from '@/components/sections/FarmShopTeaser';
 import Image from 'next/image';
 import type {Metadata} from 'next';

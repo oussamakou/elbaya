@@ -1,4 +1,5 @@
 import type {Product, ShopSettings} from './types';
+import {DEFAULT_HARVEST_OFFER, type HarvestOffer} from './harvest';
 export class ShopError extends Error {
   constructor(
     public code: string,
@@ -42,6 +43,14 @@ function translation(value: unknown, required = true) {
 }
 export function productInput(value: unknown): Product {
   const o = object(value);
+  let harvestOffer:HarvestOffer|undefined;
+  if(o.id==='pomegranates') {
+    const h=o.harvestOffer===undefined?DEFAULT_HARVEST_OFFER:object(o.harvestOffer);
+    if(typeof h.enabled!=='boolean'||typeof h.pickupFarm!=='boolean'||typeof h.pickupTunis!=='boolean')throw new ShopError('invalid');
+    harvestOffer={enabled:h.enabled,baseUnitPrice:integer(h.baseUnitPrice,1,1000000),bulkUnitPrice:integer(h.bulkUnitPrice,1,1000000),pickupFarm:h.pickupFarm,pickupTunis:h.pickupTunis};
+    if(h.showStories!==undefined){if(typeof h.showStories!=='boolean')throw new ShopError('invalid');harvestOffer.showStories=h.showStories;}
+    if(harvestOffer.bulkUnitPrice>harvestOffer.baseUnitPrice || (harvestOffer.enabled&&!harvestOffer.pickupFarm&&!harvestOffer.pickupTunis))throw new ShopError('invalid');
+  }
   if (
     !['draft', 'available', 'seasonal', 'preorder'].includes(
       String(o.status),
@@ -71,13 +80,13 @@ export function productInput(value: unknown): Product {
     throw new ShopError('invalid');
   if (
     ['available', 'preorder'].includes(String(o.status)) &&
-    variants.some((v) => v.price === 0)
+    variants.some((v) => v.price === 0) && !harvestOffer
   )
     throw new ShopError('price_required');
   const preorderNote = o.preorderNote
     ? translation(o.preorderNote, false)
     : {fr: '', en: ''};
-  if (o.status === 'preorder' && !preorderNote.fr.trim())
+  if (o.status === 'preorder' && !preorderNote.fr.trim() && !harvestOffer)
     throw new ShopError('preorder_note');
   const images = o.images.map((image) => {
     const s = text(image, 200);
@@ -102,6 +111,7 @@ export function productInput(value: unknown): Product {
     variants,
     images,
     preorderNote,
+    ...(harvestOffer?{harvestOffer}:{}),
   };
 }
 export function settingsInput(value: unknown): ShopSettings {
