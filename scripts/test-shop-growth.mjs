@@ -95,7 +95,12 @@ try {
   await createReservation({...harvest,harvestKg:20,expectedTotal:72000,promoCode:'AMIS10',requestKey:crypto.randomUUID()});
   await assert.rejects(createReservation({...harvest,expectedTotal:40500,promoCode:'AMIS10',requestKey:crypto.randomUUID()}),e=>e.code==='promo_invalid','usage limit reached');
   await assert.rejects(createReservation({...general,productId:'olive-oil',variantId:draft.variants[0].id,promoCode:'AMIS10',requestKey:crypto.randomUUID()}),e=>e.code==='invalid','codes apply to harvest requests only');
+  // Pre-order requests: the street is optional; the stored address has no empty parts.
+  const {address:_street, ...noStreet} = general;
+  const request = await createReservation({...noStreet,productId:'olive-oil',variantId:draft.variants[0].id,requestKey:crypto.randomUUID()});
+  assert.equal(request.address,'Testour, Béja');
+  await assert.rejects(createReservation({...noStreet,city:'',productId:'olive-oil',variantId:draft.variants[0].id,requestKey:crypto.randomUUID()}),e=>e.code==='invalid','city stays required');
   const edited = await savePromo({code:'AMIS10',kind:'percent',value:15,active:false,maxUses:5,endsOn:null});
   assert.equal(edited.uses,2,'editing keeps the usage count');
-  console.log('PASS: sold-out status, waitlist consent/dedupe/counts/notified/removal, promo validation, preview, redemption, limits, idempotency, email line. No real email or production data.');
+  console.log('PASS: sold-out status, waitlist consent/dedupe/counts/notified/removal, promo validation, preview, redemption, limits, idempotency, email line, optional street address. No real email or production data.');
 } finally {globalThis.fetch=originalFetch;client?.close();}

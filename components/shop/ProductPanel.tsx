@@ -110,6 +110,8 @@ export default function ProductPanel({
     enabled && orderable(product) && available > 0 && variant.price > 0;
   const preorder = product.status === "preorder";
   const soldout = product.status === "soldout";
+  // Without a basket, sizes are listed, not picked: the request form below asks for the size.
+  const listSizes = soldout || product.status === "seasonal";
   // Real remaining stock only, and only when it is genuinely low.
   const low = orderable(product) && available > 0 && available <= 10;
   const src = product.images[photo] || product.images[0];
@@ -165,7 +167,7 @@ export default function ProductPanel({
           {soldout
             ? locale === "fr" ? "Bientôt de retour" : "Back soon"
             : variant?.price ? money(variant.price, locale) : t.priceSoon}
-          <span>{soldout ? product.variants.map((v) => v.label).join(" · ") : variant?.label}</span>
+          <span>{listSizes ? product.variants.map((v) => v.label).join(" · ") : variant?.label}</span>
         </p>
         <p className="pantry-description">
           {localized(product.description, locale)}
@@ -184,7 +186,7 @@ export default function ProductPanel({
             <p>{t.preorderHelp}</p>
           </div>
         )}
-        {!soldout && (
+        {!listSizes && (
         <fieldset className="pantry-formats">
           <legend>{t.format}</legend>
           {product.variants.map((v) => (
@@ -254,6 +256,13 @@ export default function ProductPanel({
                     : t.sold}
               {sellable && <Plus size={18} />}
             </button>
+          ) : product.status === "seasonal" ? (
+            <a href="#demande" className="shop-button">
+              {locale === "fr"
+                ? "Demander une précommande"
+                : "Request a pre-order"}
+              <ArrowRight size={18} />
+            </a>
           ) : (
             <Link
               href={`/products/reserve?product=${product.id}`}

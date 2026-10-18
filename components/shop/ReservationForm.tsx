@@ -83,6 +83,7 @@ export default function ReservationForm({
         <legend className="sr-only">
           {fr ? "Votre précommande" : "Your pre-order"}
         </legend>
+        {products.length > 1 ? (
         <label>
           {fr ? "Produit" : "Product"}
           <select
@@ -98,6 +99,9 @@ export default function ReservationForm({
             ))}
           </select>
         </label>
+        ) : (
+          <input type="hidden" name="productId" value={product.id} />
+        )}
         <div className="reservation-row">
           <label>
             {fr ? "Format" : "Size"}
@@ -157,14 +161,12 @@ export default function ReservationForm({
           />
         </label>
         <div className="reservation-row reservation-address-region"><label>{fr ? 'Gouvernorat' : 'Governorate'}<input className="field" name="governorate" autoComplete="address-level1" placeholder={fr ? 'Ex. Béja' : 'e.g. Béja'} maxLength={80} required /></label><label>{fr ? 'Ville / localité' : 'City / locality'}<input className="field" name="city" autoComplete="address-level2" placeholder={fr ? 'Ex. Testour' : 'e.g. Testour'} maxLength={100} required /></label></div>
-        <label>{fr ? 'Adresse (rue, quartier, maison)' : 'Street address (street, area, house)'}
-          <textarea
+        <label>{fr ? 'Adresse (facultatif, à préciser par téléphone)' : 'Street address (optional, confirmed by phone)'}
+          <input
             className="field"
             name="address"
             autoComplete="street-address"
             maxLength={500}
-            rows={3}
-            required
           />
         </label>
         <label>

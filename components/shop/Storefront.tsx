@@ -104,6 +104,14 @@ export default function Storefront({
   const hasPreorder = cart.some((i) => i.fulfillment === "preorder");
   const selectedProduct = data.products.find((p) => p.id === productId);
   const count = cart.reduce((n, i) => n + i.quantity, 0);
+  // Something can be bought right now: orders open and a priced size in stock (or pre-order places).
+  const canBuy =
+    data.settings.acceptingOrders &&
+    data.products.some(
+      (p) => orderable(p) && p.variants.some((v) => v.price > 0 && capacity(p, v) > 0),
+    );
+  // A saved basket or a just-placed order still needs its section, even if buying has since closed.
+  const showBasket = canBuy || count > 0 || Boolean(success);
   function changeCart(next: CartItem[]) {
     setCart(next);
     requestKey.current = "";
@@ -216,11 +224,13 @@ export default function Storefront({
             <Link href="/products" className="pantry-text-link">
               ← {t.back}
             </Link>
-            <a href="#pantry-basket" className="pantry-basket-link">
-              <ShoppingBag size={20} />
-              {t.basket}
-              <span>{count}</span>
-            </a>
+            {showBasket && (
+              <a href="#pantry-basket" className="pantry-basket-link">
+                <ShoppingBag size={20} />
+                {t.basket}
+                <span>{count}</span>
+              </a>
+            )}
           </div>
           {selectedProduct ? (
             <div>
@@ -232,7 +242,7 @@ export default function Storefront({
               add={add}
               waiting={data.waiting?.[selectedProduct.id] || 0}
             />
-            {selectedProduct.status === "seasonal" && <div className="harvest-inline-request"><h2>{locale === "fr" ? "Votre demande, ici." : "Your request, right here."}</h2><ReservationForm products={[selectedProduct]} locale={locale} productId={selectedProduct.id}/></div>}
+            {selectedProduct.status === "seasonal" && <div className="harvest-inline-request" id="demande"><h2>{locale === "fr" ? "Votre demande, ici." : "Your request, right here."}</h2><ReservationForm products={[selectedProduct]} locale={locale} productId={selectedProduct.id}/></div>}
             </div>
           ) : (
             <p className="shop-notice">{t.sold}</p>
@@ -294,14 +304,18 @@ export default function Storefront({
               <Sprout size={19} />
               {t.directTitle}
             </span>
-            <span>
-              <Truck size={19} />
-              {t.deliveryTitle}
-            </span>
-            <span>
-              <Banknote size={19} />
-              {t.cashTitle}
-            </span>
+            {canBuy && (
+              <>
+                <span>
+                  <Truck size={19} />
+                  {t.deliveryTitle}
+                </span>
+                <span>
+                  <Banknote size={19} />
+                  {t.cashTitle}
+                </span>
+              </>
+            )}
           </div>
           <section id="collection" className="shop-wrap pantry-collection">
             <div className="pantry-section-heading">
@@ -309,11 +323,13 @@ export default function Storefront({
                 <p className="shop-eyebrow">{t.collection}</p>
                 <h2>{t.harvest}</h2>
               </div>
-              <a href="#pantry-basket" className="pantry-basket-link">
-                <ShoppingBag size={20} />
-                {t.basket}
-                <span>{count}</span>
-              </a>
+              {showBasket && (
+                <a href="#pantry-basket" className="pantry-basket-link">
+                  <ShoppingBag size={20} />
+                  {t.basket}
+                  <span>{count}</span>
+                </a>
+              )}
             </div>
             {!data.settings.acceptingOrders && (
               <p className="shop-notice">
@@ -362,6 +378,7 @@ export default function Storefront({
           </section>
         </>
       )}
+      {showBasket && (
       <section id="pantry-basket" className="pantry-checkout shop-wrap">
         <div>
           <p className="shop-eyebrow">
@@ -595,6 +612,7 @@ export default function Storefront({
           )}
         </div>
       </section>
+      )}
       <section className="pantry-story shop-wrap">
         <div className="pantry-story-photo">
           <Image
@@ -619,6 +637,7 @@ export default function Storefront({
           </Link>
         </div>
       </section>
+      {canBuy && (
       <div className="shop-wrap pantry-explainer">
         {[
           [Truck, t.deliveryTitle, t.deliveryHelp],
@@ -635,6 +654,7 @@ export default function Storefront({
           );
         })}
       </div>
+      )}
     </div>
   );
 }

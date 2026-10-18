@@ -17,7 +17,7 @@ The site keeps room bookings as its main purpose. Farm products have a separate 
 
 1. Open /fr/admin with the password saved privately in .shop/admin-access.txt. The same generated password hash and session secret are configured in Vercel Production.
 2. Review product descriptions and formats. Upload real photos if available; the illustrations can remain until then.
-3. Share /fr/products/reserve or /en/products/reserve. Customers provide first name, last name, Tunisian phone, governorate, city/locality, street address, optional email, product, size and quantity. No customer account is required.
+3. Share /fr/products/reserve or /en/products/reserve. Customers provide first name, last name, Tunisian phone, governorate, city/locality, an optional street address, optional email, product, size and quantity. No customer account is required.
 4. Check the **Précommandes** admin tab for requests. Call the customer, agree on price, delivery fee and availability, then mark Contacté or Confirmée. A request is not a guaranteed inventory reservation; status changes here do not change stock. Email alerts require the Resend connection described below; there are no SMS notifications.
 5. When prices, inventory and delivery areas are finalized, optionally open direct cash-on-delivery checkout using the steps below.
 

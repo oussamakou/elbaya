@@ -29,7 +29,7 @@ export async function createReservation(input: unknown) {
   if (promoCode && !harvest) throw new ShopError('invalid');
   const governorate = harvest ? '' : text(o.governorate, 80);
   const city = harvest ? (harvest.pickup === 'farm' ? 'Testour' : 'Tunis') : text(o.city, 100);
-  const streetAddress = harvest ? pickupLabel(harvest.pickup) : text(o.address, 500);
+  const streetAddress = harvest ? pickupLabel(harvest.pickup) : text(o.address ?? "", 500, false);
   const data = {
     firstName,
     lastName,
@@ -38,7 +38,7 @@ export async function createReservation(input: unknown) {
     governorate,
     city,
     streetAddress,
-    address: harvest ? streetAddress : [streetAddress, city, governorate].join(", "),
+    address: harvest ? streetAddress : [streetAddress, city, governorate].filter(Boolean).join(", "),
     ...(harvest ? {harvest} : {}),
     notes: text(o.notes ?? "", 1000, false),
     productId: id(o.productId),
