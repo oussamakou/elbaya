@@ -436,8 +436,8 @@ function ProductEditor({
         </section>
         {draft.id === 'pomegranates' && <section className="admin-form-section"><div><h3>03. Offre récolte · grenades</h3><p>Un panier de 10 kg est proposé par défaut. Minimum 5 kg, puis ajouts de 5 kg. Les demandes arrivent dans Précommandes, avec le poids, le total et le lieu de retrait.</p></div><div className="admin-fields">
           <label><input type="checkbox" checked={harvestOffer(draft).enabled} onChange={e=>setDraft({...draft,harvestOffer:{...harvestOffer(draft),enabled:e.target.checked}})}/> Accepter les demandes de récolte</label>
-          <div className="shop-two">{([['baseUnitPrice','Prix au kilo · panier de 5 kg'],['bulkUnitPrice','Prix au kilo · dès 10 kg']] as const).map(([field,label])=><label key={field}>{label}<input className="field" type="number" min="0.001" max={field==='bulkUnitPrice'?harvestOffer(draft).baseUnitPrice/1000:1000} step=".001" required value={harvestOffer(draft)[field]/1000} onChange={e=>setDraft({...draft,harvestOffer:{...harvestOffer(draft),[field]:Math.round(Number(e.target.value)*1000)}})}/></label>)}</div>
-          <p className="shop-notice">5 kg : {money(harvestOffer(draft).baseUnitPrice*5)} · 10 kg : {money(harvestOffer(draft).bulkUnitPrice*10)} · 15 kg : {money(harvestOffer(draft).bulkUnitPrice*15)}</p>
+          <div className="shop-two">{([['baseUnitPrice','Prix au kilo · panier de 5 kg'],['bulkUnitPrice','Prix au kilo · de 10 à 15 kg'],['largeUnitPrice','Prix au kilo · dès 20 kg']] as const).map(([field,label])=><label key={field}>{label}<input className="field" type="number" min="0.001" max={field==='largeUnitPrice'?harvestOffer(draft).bulkUnitPrice/1000:field==='bulkUnitPrice'?harvestOffer(draft).baseUnitPrice/1000:1000} step=".001" required value={harvestOffer(draft)[field]/1000} onChange={e=>setDraft({...draft,harvestOffer:{...harvestOffer(draft),[field]:Math.round(Number(e.target.value)*1000)}})}/></label>)}</div>
+          <p className="shop-notice">5 kg : {money(harvestOffer(draft).baseUnitPrice*5)} · 10 kg : {money(harvestOffer(draft).bulkUnitPrice*10)} · 15 kg : {money(harvestOffer(draft).bulkUnitPrice*15)} · 20 kg : {money(harvestOffer(draft).largeUnitPrice*20)}</p>
           <label><input type="checkbox" checked={harvestOffer(draft).pickupFarm} onChange={e=>setDraft({...draft,harvestOffer:{...harvestOffer(draft),pickupFarm:e.target.checked}})}/> Retrait à la ferme · Testour</label>
           <label><input type="checkbox" checked={harvestOffer(draft).pickupTunis} onChange={e=>setDraft({...draft,harvestOffer:{...harvestOffer(draft),pickupTunis:e.target.checked}})}/> Retrait à Tunis · adresse communiquée par téléphone</label>
           <label><input type="checkbox" checked={harvestOffer(draft).showStories!==false} onChange={e=>setDraft({...draft,harvestOffer:{...harvestOffer(draft),showStories:e.target.checked}})}/> Afficher les vidéos de la ferme sous la galerie photo</label>
@@ -1171,7 +1171,7 @@ export default function AdminShop({
                   )}
                   <span>
                     <strong>{p.name.fr}</strong>
-                    <small>{p.id === "pomegranates" ? `5 kg : ${money(harvestOffer(p).baseUnitPrice*5)} · 10 kg : ${money(harvestOffer(p).bulkUnitPrice*10)}` : p.variants.map((v) => v.label).join(" · ")}</small>
+                    <small>{p.id === "pomegranates" ? `5 kg : ${money(harvestOffer(p).baseUnitPrice*5)} · 10 kg : ${money(harvestOffer(p).bulkUnitPrice*10)} · 20 kg : ${money(harvestOffer(p).largeUnitPrice*20)}` : p.variants.map((v) => v.label).join(" · ")}</small>
                   </span>
                   <span>{p.id === "pomegranates" ? (p.status === "draft" ? "Masqué" : harvestOffer(p).enabled ? "Demandes ouvertes" : "Demandes en pause") : productStatus[p.status]}</span>
                   <span>

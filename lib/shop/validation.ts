@@ -48,8 +48,9 @@ export function productInput(value: unknown): Product {
     const h=o.harvestOffer===undefined?DEFAULT_HARVEST_OFFER:object(o.harvestOffer);
     if(typeof h.enabled!=='boolean'||typeof h.pickupFarm!=='boolean'||typeof h.pickupTunis!=='boolean')throw new ShopError('invalid');
     harvestOffer={enabled:h.enabled,baseUnitPrice:integer(h.baseUnitPrice,1,1000000),bulkUnitPrice:integer(h.bulkUnitPrice,1,1000000),pickupFarm:h.pickupFarm,pickupTunis:h.pickupTunis};
+    harvestOffer.largeUnitPrice=integer(h.largeUnitPrice ?? Math.min(4000,harvestOffer.bulkUnitPrice),1,1000000);
     if(h.showStories!==undefined){if(typeof h.showStories!=='boolean')throw new ShopError('invalid');harvestOffer.showStories=h.showStories;}
-    if(harvestOffer.bulkUnitPrice>harvestOffer.baseUnitPrice || (harvestOffer.enabled&&!harvestOffer.pickupFarm&&!harvestOffer.pickupTunis))throw new ShopError('invalid');
+    if(harvestOffer.largeUnitPrice>harvestOffer.bulkUnitPrice || harvestOffer.bulkUnitPrice>harvestOffer.baseUnitPrice || (harvestOffer.enabled&&!harvestOffer.pickupFarm&&!harvestOffer.pickupTunis))throw new ShopError('invalid');
   }
   if (
     !['draft', 'available', 'seasonal', 'preorder'].includes(

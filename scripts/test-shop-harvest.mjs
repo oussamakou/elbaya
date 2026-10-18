@@ -34,7 +34,7 @@ try {
   const {createReservation,updateReservation} = await load('reservations');
   const {reservationMessage} = await load('notifications');
   client = await db();
-  for(const [kg,total] of [[5,25000],[10,45000],[15,67500],[20,90000],[500,2250000]])assert.equal(harvestQuote(kg).total,total);
+  for(const [kg,total] of [[5,25000],[10,45000],[15,67500],[20,80000],[25,100000],[500,2000000]])assert.equal(harvestQuote(kg).total,total);
   for(const kg of [0,1,6,9,11,501,NaN,Infinity])assert.throws(()=>harvestQuote(kg));
   const input={firstName:'Test',lastName:'Harvest',phone:'22123456',email:'',productId:'pomegranates',variantId:'box-3',harvestKg:10,pickup:'tunis',expectedTotal:45000,requestKey:crypto.randomUUID()};
   const r=await createReservation(input);
@@ -56,6 +56,12 @@ try {
   await assert.rejects(createReservation({...input,expectedTotal:45000,pickup:'farm',requestKey:crypto.randomUUID()}),e=>e.code==='price_changed');
   await assert.rejects(createReservation({...input,expectedTotal:50000,requestKey:crypto.randomUUID()}),e=>e.code==='zone');
   const custom=await createReservation({...input,expectedTotal:50000,pickup:'farm',requestKey:crypto.randomUUID()});assert.equal(custom.harvest.total,50000);assert.equal(custom.harvest.unitPrice,5000);
+  configProduct=await saveProduct({...configProduct,harvestOffer:{...configProduct.harvestOffer,largeUnitPrice:3500}});
+  assert.equal(configProduct.harvestOffer.largeUnitPrice,3500);
+  await assert.rejects(createReservation({...input,harvestKg:20,expectedTotal:90000,pickup:'farm',requestKey:crypto.randomUUID()}),e=>e.code==='price_changed');
+  const large=await createReservation({...input,harvestKg:20,expectedTotal:70000,pickup:'farm',requestKey:crypto.randomUUID()});
+  assert.equal(large.harvest.unitPrice,3500);assert.equal(large.harvest.total,70000);
+  await assert.rejects(saveProduct({...configProduct,harvestOffer:{...configProduct.harvestOffer,largeUnitPrice:5500}}));
   configProduct=await saveProduct({...configProduct,harvestOffer:{...configProduct.harvestOffer,enabled:false}});
   await assert.rejects(createReservation({...input,expectedTotal:50000,pickup:'farm',requestKey:crypto.randomUUID()}),e=>e.code==='closed');
   await assert.rejects(saveProduct({...configProduct,harvestOffer:{...configProduct.harvestOffer,enabled:true,pickupFarm:false}}));
@@ -63,6 +69,6 @@ try {
   const product=JSON.parse(String((await client.execute("SELECT data FROM shop_products WHERE id='pomegranates'")).rows[0].data));product.status='draft';
   await client.execute({sql:'UPDATE shop_products SET data=? WHERE id=?',args:[JSON.stringify(product),product.id]});
   await assert.rejects(createReservation({...input,requestKey:crypto.randomUUID()}));
-  assert.equal((await client.execute('SELECT COUNT(*) AS n FROM shop_reservations')).rows[0].n,3);
+  assert.equal((await client.execute('SELECT COUNT(*) AS n FROM shop_reservations')).rows[0].n,4);
   console.log('PASS: 5 kg steps, bulk price, pickup choices, price tampering, duplicate protection, email snapshot, admin persistence, draft rejection. No real email or production data.');
 } finally {globalThis.fetch=originalFetch;client?.close();}
