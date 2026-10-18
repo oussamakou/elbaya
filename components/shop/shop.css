@@ -1587,7 +1587,14 @@
 .harvest-packs strong { font-size:1.5rem; font-weight:500; }
 .harvest-packs small { grid-column:1 / -1; font-size:.72rem; color:#625d50; }
 .harvest-pack-label { grid-column:1 / -1; color:var(--color-olive); font-size:.68rem; margin-bottom:5px; }
-.harvest-packs .harvest-value-pack { border-color:var(--color-olive); background:#eeeedf; }
+.harvest-packs .harvest-value-pack { --harvest-value-accent:#87432e; border-color:#c99c83; background:#fbefe4; }
+.harvest-packs .harvest-value-pack[aria-pressed=true] { border-color:var(--harvest-value-accent); background:#f3e1d1; }
+.harvest-value-pack .harvest-pack-label { justify-self:start; padding:5px 9px; border-radius:3px; background:var(--harvest-value-accent); color:#fff9f2; line-height:1.5; }
+.harvest-packs .harvest-value-pack .harvest-pack-saving,.harvest-value-pack .harvest-basket { color:var(--harvest-value-accent); }
+.harvest-packs .harvest-pack-state { display:flex; align-items:center; justify-self:end; gap:6px; margin-top:8px; font-size:.7rem; line-height:1.5; color:#6b6053; }
+.harvest-packs .harvest-pack-state.is-selected { color:var(--color-olive-dark); font-weight:600; }
+.harvest-pack-state.is-selected svg { border-radius:50%; background:var(--color-olive-dark); color:white; padding:2px; width:18px; height:18px; }
+.harvest-pack-radio { width:16px; height:16px; border:1px solid currentColor; border-radius:50%; }
 .harvest-packs .harvest-pack-saving { color:var(--color-olive); font-weight:500; margin-top:5px; line-height:1.5; }
 .harvest-oula { display:flex; align-items:center; gap:8px; }
 .harvest-oula b { font-size:1.6rem; font-weight:500; line-height:1.4; }

@@ -76,6 +76,13 @@ function FarmStories({fr}: {fr:boolean}) {
   </section>;
 }
 
+function PackSelection({selected,fr}: {selected:boolean;fr:boolean}) {
+  return <small className={`harvest-pack-state${selected?' is-selected':''}`}>
+    {selected?<Check size={14} aria-hidden="true"/>:<span className="harvest-pack-radio" aria-hidden="true"/>}
+    {selected?(fr?'Sélectionné':'Selected'):(fr?'Choisir ce panier':'Choose this pack')}
+  </small>;
+}
+
 function HarvestOrder({product,fr,kg,setKg}: {product:Product;fr:boolean;kg:number;setKg:(kg:number)=>void}) {
   const offer=harvestOffer(product);
   const [pickup,setPickup] = useState<'farm'|'tunis'>(offer.pickupFarm?'farm':'tunis');
@@ -108,9 +115,9 @@ function HarvestOrder({product,fr,kg,setKg}: {product:Product;fr:boolean;kg:numb
       <legend className="sr-only">{fr ? 'Votre demande de grenades' : 'Your pomegranate order request'}</legend>
       <div className="harvest-pack-heading"><h2>{fr ? 'Votre part de récolte' : 'Your share of the harvest'}</h2><span>{fr ? 'Dès 5 kg' : 'From 5 kg'}</span></div>
       <div className="harvest-packs" role="group" aria-label={fr ? 'Choisir un panier' : 'Choose a pack'}>
-        <button type="button" aria-pressed={kg===5} onClick={()=>{setKg(5);key.current='';}}><span>5 kg</span><strong>{format(offer.baseUnitPrice*5)}</strong><small>{format(offer.baseUnitPrice)} / kg</small></button>
-        <button type="button" aria-pressed={kg>=10&&kg<20} onClick={()=>{setKg(kg>=10&&kg<20?kg:10);key.current='';}}><span className="harvest-pack-label">{fr ? 'Le panier classique' : 'Our signature pack'}</span><span>{kg>=10&&kg<20?kg:10} kg</span><strong>{format(offer.bulkUnitPrice*(kg>=10&&kg<20?kg:10))}</strong><small>{format(offer.bulkUnitPrice)} / kg</small>{savings(kg>=10&&kg<20?kg:10)}</button>
-        <button type="button" className="harvest-value-pack" aria-pressed={kg>=20} onClick={()=>{setKg(Math.max(20,kg));key.current='';}}><span className="harvest-pack-label">{fr ? 'Recommandé · meilleur prix au kilo' : 'Recommended · best price per kg'}</span><span className="harvest-oula"><HarvestBasket/><b lang="ar-TN" dir="rtl">عولة</b><span>· {Math.max(20,kg)} kg</span></span><strong>{format(offer.largeUnitPrice*Math.max(20,kg))}</strong><small>{format(offer.largeUnitPrice)} / kg · {fr?'La réserve à partager en famille':'Stock up together, share with family'}</small>{savings(Math.max(20,kg))}</button>
+        <button type="button" aria-pressed={kg===5} onClick={()=>{setKg(5);key.current='';}}><span>5 kg</span><strong>{format(offer.baseUnitPrice*5)}</strong><small>{format(offer.baseUnitPrice)} / kg</small><PackSelection selected={kg===5} fr={fr}/></button>
+        <button type="button" aria-pressed={kg>=10&&kg<20} onClick={()=>{setKg(kg>=10&&kg<20?kg:10);key.current='';}}><span className="harvest-pack-label">{fr ? 'Le panier classique' : 'Our signature pack'}</span><span>{kg>=10&&kg<20?kg:10} kg</span><strong>{format(offer.bulkUnitPrice*(kg>=10&&kg<20?kg:10))}</strong><small>{format(offer.bulkUnitPrice)} / kg</small>{savings(kg>=10&&kg<20?kg:10)}<PackSelection selected={kg>=10&&kg<20} fr={fr}/></button>
+        <button type="button" className="harvest-value-pack" aria-pressed={kg>=20} onClick={()=>{setKg(Math.max(20,kg));key.current='';}}><span className="harvest-pack-label">{fr ? 'Recommandé · meilleur prix au kilo' : 'Recommended · best price per kg'}</span><span className="harvest-oula"><HarvestBasket/><b lang="ar-TN" dir="rtl">عولة</b><span>· {Math.max(20,kg)} kg</span></span><strong>{format(offer.largeUnitPrice*Math.max(20,kg))}</strong><small>{format(offer.largeUnitPrice)} / kg · {fr?'La réserve à partager en famille':'Stock up together, share with family'}</small>{savings(Math.max(20,kg))}<PackSelection selected={kg>=20} fr={fr}/></button>
       </div>
       <div className="harvest-quantity"><div><label htmlFor="harvest-kg">{fr ? 'Quantité totale' : 'Total quantity'}</label><small>{fr ? `Par pas de 5 kg · ${format(offer.largeUnitPrice)}/kg dès 20 kg` : `In 5 kg steps · ${format(offer.largeUnitPrice)}/kg from 20 kg`}</small></div><div className="harvest-stepper"><button type="button" disabled={kg<=5} aria-label={fr ? 'Retirer 5 kg' : 'Remove 5 kg'} onClick={()=>{setKg(kg-5);key.current='';}}><Minus size={17}/></button><output id="harvest-kg" aria-live="polite">{kg} kg</output><button type="button" disabled={kg>=500} aria-label={fr ? 'Ajouter 5 kg' : 'Add 5 kg'} onClick={()=>{setKg(kg+5);key.current='';}}><Plus size={17}/></button></div></div>
       <fieldset className="harvest-pickups"><legend>{fr ? 'Où récupérer votre panier ?' : 'Where will you collect?'}</legend>
