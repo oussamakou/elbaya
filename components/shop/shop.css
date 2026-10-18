@@ -1588,6 +1588,7 @@
 .harvest-packs small { grid-column:1 / -1; font-size:.72rem; color:#625d50; }
 .harvest-pack-label { grid-column:1 / -1; color:var(--color-olive); font-size:.68rem; margin-bottom:5px; }
 .harvest-packs .harvest-value-pack { border-color:var(--color-olive); background:#eeeedf; }
+.harvest-packs .harvest-pack-saving { color:var(--color-olive); font-weight:500; margin-top:5px; line-height:1.5; }
 .harvest-oula { display:flex; align-items:center; gap:8px; }
 .harvest-oula b { font-size:1.6rem; font-weight:500; line-height:1.4; }
 .harvest-basket { flex-shrink:0; color:var(--color-olive); }
