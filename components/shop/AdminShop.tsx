@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useEffect, useState, type FormEvent } from "react";
 import {
   ArrowLeft,
@@ -894,6 +895,12 @@ function OrderRow({
     </details>
   );
 }
+// Open where the work is: new harvest requests first, then new orders.
+function startTab(data: AdminData | null) {
+  if (data?.reservations.some((r) => r.status === "new")) return "reservations";
+  if (data?.orders.some((o) => o.status === "new")) return "orders";
+  return "products";
+}
 export default function AdminShop({
   configured,
   initial,
@@ -902,7 +909,7 @@ export default function AdminShop({
   initial: AdminData | null;
 }) {
   const [data, setData] = useState(initial),
-    [tab, setTab] = useState("products"),
+    [tab, setTab] = useState(() => startTab(initial)),
     [editor, setEditor] = useState<Product | null>(null);
   const [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
@@ -926,7 +933,9 @@ export default function AdminShop({
     const form = new FormData(event.currentTarget);
     try {
       await api("/api/shop/admin/session", { password: form.get("password") });
-      setData(await api("/api/shop/admin", undefined, "GET"));
+      const loaded: AdminData = await api("/api/shop/admin", undefined, "GET");
+      setData(loaded);
+      setTab(startTab(loaded));
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -1037,33 +1046,57 @@ export default function AdminShop({
       </div>
     );
   const newCount = data.orders.filter((o) => o.status === "new").length;
+  const newRequests = data.reservations.filter((r) => r.status === "new").length;
+  const tabs: [string, string, string, typeof Package, number][] = [
+    ["products", "Produits", "Produits", Package, 0],
+    ["reservations", "Précommandes", "Demandes", Leaf, newRequests],
+    ["orders", "Commandes", "Commandes", ShoppingBag, newCount],
+    ["settings", "Livraison & ouverture", "Livraison", Settings, 0],
+    ["contacts", "Messages", "Messages", Mail, 0],
+  ];
   return (
-    <div className="shop-admin shop-wrap">
-      <header className="admin-header">
-        <div>
-          <p className="shop-eyebrow">FARM EL BAYA · ESPACE PROPRIÉTAIRE</p>
-          <h1>La boutique de Mehdi.</h1>
-          <p>
-            {data.settings.acceptingOrders
-              ? "La boutique accepte les commandes."
-              : "Achats directs en pause · demandes de précommande ouvertes."}
-          </p>
-        </div>
-        <div className="admin-header-actions">
-          <Link href="/products" className="pantry-text-link">
-            Voir la boutique
-            <ArrowUpRight size={17} />
+    <div className="shop-admin">
+      <header className="admin-bar">
+        <div className="admin-bar-inner shop-wrap">
+          <Link href="/" className="admin-bar-brand">
+            <Image src="/assets/images/logo.webp" alt="Farm El Baya" width={44} height={44} />
+            <span>Espace propriétaire</span>
           </Link>
-          <button
-            className="admin-icon-button"
-            onClick={logout}
-            disabled={busy}
-            aria-label="Se déconnecter"
-          >
-            <LogOut size={20} />
-          </button>
+          <div className="admin-bar-actions">
+            <Link href="/products" className="admin-bar-link">
+              <span>Voir la boutique</span>
+              <ArrowUpRight size={17} />
+            </Link>
+            <button
+              className="admin-icon-button"
+              disabled={busy || !!editor}
+              onClick={refresh}
+              aria-label="Actualiser"
+              title="Actualiser"
+            >
+              <RefreshCw size={17} />
+            </button>
+            <button
+              className="admin-icon-button"
+              onClick={logout}
+              disabled={busy}
+              aria-label="Se déconnecter"
+              title="Se déconnecter"
+            >
+              <LogOut size={18} />
+            </button>
+          </div>
         </div>
       </header>
+      <div className="shop-wrap">
+      <div className="admin-header">
+        <h1>La boutique de Mehdi.</h1>
+        <p>
+          {data.settings.acceptingOrders
+            ? "La boutique accepte les commandes."
+            : "Achats directs en pause · demandes de précommande ouvertes."}
+        </p>
+      </div>
       {data.notifications && (!data.notifications.configured || data.notifications.pending > 0) && (
         <p className="shop-notice" role="status">
           {!data.notifications.configured
@@ -1072,50 +1105,32 @@ export default function AdminShop({
         </p>
       )}
       <nav className="admin-tabs" aria-label="Administration">
-        {[
-          ["products", "Produits", Package],
-          [
-            "reservations",
-            `Précommandes (${data.reservations.filter((r) => r.status === "new").length})`,
-            Leaf,
-          ],
-          [
-            "orders",
-            `Commandes${newCount ? ` (${newCount})` : ""}`,
-            ShoppingBag,
-          ],
-          ["settings", "Livraison & ouverture", Settings],
-          ["contacts", `Messages (${data.contacts?.length || 0})`, Mail],
-        ].map(([value, label, Icon]) => {
-          const I = Icon as typeof Package;
-          return (
-            <button
-              key={String(value)}
-              aria-current={tab === value ? "page" : undefined}
-              onClick={() => {
-                if (
-                  editor &&
-                  !window.confirm("Quitter la fiche sans enregistrer ?")
-                )
-                  return;
-                setTab(String(value));
-                setEditor(null);
-                setNotice("");
-              }}
-            >
-              <I size={18} />
-              {String(label)}
-            </button>
-          );
-        })}
-        <button
-          className="admin-refresh"
-          disabled={busy || !!editor}
-          onClick={refresh}
-          aria-label="Actualiser"
-        >
-          <RefreshCw size={17} />
-        </button>
+        {tabs.map(([value, label, short, I, count]) => (
+          <button
+            key={value}
+            aria-current={tab === value ? "page" : undefined}
+            onClick={() => {
+              if (
+                editor &&
+                !window.confirm("Quitter la fiche sans enregistrer ?")
+              )
+                return;
+              setTab(value);
+              setEditor(null);
+              setNotice("");
+              window.scrollTo({top: 0});
+            }}
+          >
+            <I size={18} />
+            <span className="admin-tab-label">{label}</span>
+            <span className="admin-tab-short">{short}</span>
+            {count > 0 && (
+              <span className="admin-tab-badge" aria-label={`${count} nouveau${count > 1 ? "x" : ""}`}>
+                {count}
+              </span>
+            )}
+          </button>
+        ))}
       </nav>
       {notice && (
         <p className="admin-feedback" role="status">
@@ -1287,6 +1302,7 @@ export default function AdminShop({
           )}
         </>
       )}
+      </div>
     </div>
   );
 }

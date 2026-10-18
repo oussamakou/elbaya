@@ -559,31 +559,67 @@
   color: color-mix(in srgb, var(--color-earth) 80%, transparent);
 }
 .shop-admin {
-  padding-block: 136px 100px;
-  min-height: 80vh;
+  padding-bottom: 100px;
+  min-height: 100vh;
+}
+/* The owner dashboard has its own slim bar instead of the guest navigation. */
+.admin-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: color-mix(in srgb, var(--color-sand) 92%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-mist);
+}
+.admin-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 68px;
+}
+.admin-bar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+  color: var(--color-olive);
+}
+.admin-bar-brand img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+.admin-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.admin-bar-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding-inline: 14px;
+  font-size: 0.8rem;
+  color: var(--color-olive-dark);
 }
 .admin-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 24px;
+  margin-top: 40px;
 }
 .admin-header h1 {
-  font-size: 3.5rem;
+  font-size: 2.9rem;
   font-style: italic;
   letter-spacing: -0.025em;
   line-height: 1.1;
-  margin-top: 16px;
 }
-.admin-header p:not(.shop-eyebrow) {
+.admin-header p {
   font-size: 0.85rem;
-  margin-top: 12px;
+  margin-top: 10px;
   color: var(--color-olive-dark);
-}
-.admin-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 20px;
 }
 .admin-icon-button {
   width: 44px;
@@ -596,10 +632,11 @@
 .admin-tabs {
   display: flex;
   gap: 32px;
-  margin-top: 40px;
+  margin-top: 32px;
   border-bottom: 1px solid var(--color-mist);
 }
 .admin-tabs button {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -611,10 +648,21 @@
   border-bottom-color: var(--color-olive);
   color: var(--color-olive-dark);
 }
-.admin-tabs .admin-refresh {
-  margin-left: auto;
-  min-width: 44px;
-  justify-content: center;
+.admin-tab-short {
+  display: none;
+}
+.admin-tab-badge {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #87432e;
+  color: var(--color-cream);
+  font-size: 0.68rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 .admin-heading {
   display: flex;
@@ -931,7 +979,7 @@
 .admin-login {
   max-width: 480px;
   min-height: 75vh;
-  padding-block: 160px 80px;
+  padding-block: 96px 80px;
 }
 .admin-login > .shop-eyebrow {
   margin-top: 24px;
@@ -1098,35 +1146,84 @@
   .pantry-add-row .shop-button {
     padding-inline: 16px;
   }
+  /* Phones: the sections become a bottom tab bar within thumb reach. */
   .shop-admin {
-    padding-top: 112px;
+    padding-bottom: calc(110px + env(safe-area-inset-bottom));
   }
-  .admin-header {
-    align-items: start;
-    flex-direction: column;
-    gap: 16px;
+  .admin-bar-inner {
+    min-height: 60px;
   }
-  .admin-header h1 {
-    font-size: 2.7rem;
+  .admin-bar-brand img {
+    width: 38px;
+    height: 38px;
   }
-  .admin-header-actions {
-    justify-content: space-between;
-    width: 100%;
-  }
-  .admin-tabs {
-    gap: 16px;
-    margin-top: 24px;
-    overflow-x: auto;
-  }
-  .admin-tabs button {
-    font-size: 0.75rem;
-    white-space: nowrap;
-  }
-  .admin-tabs button svg {
+  .admin-bar-link span {
     display: none;
   }
-  .admin-tabs .admin-refresh svg {
+  .admin-bar-link {
+    width: 44px;
+    padding: 0;
+    justify-content: center;
+    border: 1px solid var(--color-mist);
+    border-radius: 50%;
+  }
+  .admin-header {
+    margin-top: 24px;
+  }
+  .admin-header h1 {
+    font-size: 2.1rem;
+  }
+  .admin-header p {
+    font-size: 0.8rem;
+    margin-top: 6px;
+  }
+  .admin-tabs {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 40;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0;
+    margin: 0;
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+    background: color-mix(in srgb, var(--color-cream) 96%, transparent);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid var(--color-mist);
+    border-bottom: 0;
+  }
+  .admin-tabs button {
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    min-height: 54px;
+    padding: 4px 2px;
+    border-bottom: 0;
+    border-radius: 10px;
+    font-size: 0.66rem;
+    color: color-mix(in srgb, var(--color-earth) 75%, transparent);
+  }
+  .admin-tabs button[aria-current="page"] {
+    background: color-mix(in srgb, var(--color-olive) 12%, var(--color-cream));
+    color: var(--color-olive-dark);
+    font-weight: 600;
+  }
+  .admin-tab-label {
+    display: none;
+  }
+  .admin-tab-short {
     display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .admin-tab-badge {
+    position: absolute;
+    top: 2px;
+    left: calc(50% + 6px);
+    min-width: 18px;
+    height: 18px;
+    font-size: 0.62rem;
   }
   .admin-heading {
     align-items: start;
@@ -1228,7 +1325,7 @@
 @media print {
   body > header,
   body > footer,
-  .admin-header-actions,
+  .admin-bar,
   .admin-tabs,
   .admin-heading > button,
   .pantry-filters,
@@ -1782,7 +1879,7 @@
   .inbox-contact { display:grid; grid-template-columns:1fr 1fr; }
   .inbox-contact .pantry-text-link { grid-column:1 / -1; justify-self:start; }
   .inbox-toolbar .pantry-filters button { padding:8px 13px; }
-  .inbox-toolbar .pantry-filters { flex-wrap:nowrap; overflow-x:auto; margin-inline:-16px; padding-inline:16px; scrollbar-width:none; }
+  .inbox-toolbar .pantry-filters { flex-wrap:nowrap; overflow-x:auto; margin-inline:-20px; padding-inline:20px; scrollbar-width:none; }
   .inbox-toolbar .pantry-filters button { flex-shrink:0; }
 }
 @media print {

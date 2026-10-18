@@ -10,6 +10,7 @@ import {routing} from '@/i18n/routing';
 import {DEFAULT_OG_IMAGE, SITE_NAME} from '@/content';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import HideOnAdmin from '@/components/layout/HideOnAdmin';
 import '../globals.css';
 
 const cormorant = Cormorant_Garamond({
@@ -65,9 +66,9 @@ export default async function LocaleLayout({
       </head>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Navbar />
+          <HideOnAdmin><Navbar /></HideOnAdmin>
           <main>{children}</main>
-          <Footer />
+          <HideOnAdmin><Footer /></HideOnAdmin>
         </NextIntlClientProvider>
         <Analytics />
         <SpeedInsights />
