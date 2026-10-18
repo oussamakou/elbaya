@@ -38,12 +38,34 @@ export type Product = {
   name: LocaleText;
   description: LocaleText;
   category: "fruit" | "oil" | "honey" | "other";
-  status: "draft" | "available" | "seasonal" | "preorder";
+  // soldout: visible, cannot be ordered or requested; visitors join the back-in-stock list.
+  status: "draft" | "available" | "seasonal" | "preorder" | "soldout";
   preorderNote?: LocaleText;
   images: string[];
   variants: Variant[];
 };
 export type Zone = { id: string; name: string; fee: number };
+export type WaitlistEntry = {
+  id: string;
+  createdAt: string;
+  productId: string;
+  productName: string;
+  firstName: string;
+  phone: string;
+  email: string;
+  notifiedAt?: string;
+};
+export type PromoCode = {
+  code: string;
+  kind: "percent" | "amount";
+  // percent: 1-90; amount: millimes
+  value: number;
+  active: boolean;
+  maxUses: number | null;
+  uses: number;
+  endsOn: string | null;
+  createdAt: string;
+};
 export type ShopSettings = {
   revision: number;
   acceptingOrders: boolean;

@@ -36,6 +36,6 @@ export default async function Products({
   setRequestLocale(locale);
   const data = await catalogue();
   const harvest = data.products.find(p => p.id === 'pomegranates');
-  if (harvest) return <HarvestPage product={harvest} locale={locale === 'fr' ? 'fr' : 'en'} otherProducts={data.products.filter(p=>p.id!==harvest.id)}/>;
+  if (harvest) return <HarvestPage product={harvest} locale={locale === 'fr' ? 'fr' : 'en'} otherProducts={data.products.filter(p=>p.id!==harvest.id)} waiting={data.waiting}/>;
   return <Storefront initial={data} locale={locale === 'fr' ? 'fr' : 'en'} />;
 }

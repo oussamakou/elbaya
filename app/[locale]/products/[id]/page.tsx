@@ -53,7 +53,7 @@ export default async function ProductPage({params}: Props) {
           __html: JSON.stringify(schema).replace(/</g, '\\u003c'),
         }}
       />
-      {id === 'pomegranates' ? <HarvestPage product={product} locale={locale === 'fr' ? 'fr' : 'en'}/> : <Storefront
+      {id === 'pomegranates' ? <HarvestPage product={product} locale={locale === 'fr' ? 'fr' : 'en'} otherProducts={data.products.filter((p) => p.id !== product.id)} waiting={data.waiting}/> : <Storefront
         initial={data}
         locale={locale === 'fr' ? 'fr' : 'en'}
         productId={id}

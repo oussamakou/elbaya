@@ -88,6 +88,9 @@ export async function db(): Promise<Client> {
         'CREATE TABLE IF NOT EXISTS shop_contacts (id TEXT PRIMARY KEY, request_key TEXT UNIQUE NOT NULL, request_hash TEXT NOT NULL, data TEXT NOT NULL)',
         'CREATE TABLE IF NOT EXISTS shop_notifications (id TEXT PRIMARY KEY, data TEXT NOT NULL, sent_at INTEGER, next_attempt INTEGER NOT NULL DEFAULT 0, lease TEXT)',
         'CREATE TABLE IF NOT EXISTS shop_reservations (id TEXT PRIMARY KEY, request_key TEXT UNIQUE NOT NULL, request_hash TEXT NOT NULL, data TEXT NOT NULL)',
+        // One entry per phone and product: signing up twice keeps the first entry.
+        'CREATE TABLE IF NOT EXISTS shop_waitlist (id TEXT PRIMARY KEY, request_key TEXT UNIQUE NOT NULL, product_id TEXT NOT NULL, phone TEXT NOT NULL, data TEXT NOT NULL, UNIQUE(product_id, phone))',
+        'CREATE TABLE IF NOT EXISTS shop_promos (code TEXT PRIMARY KEY, data TEXT NOT NULL)',
         ...seedProducts.map((p) => ({
           sql: 'INSERT OR IGNORE INTO shop_products (id, data) VALUES (?, ?)',
           args: [p.id, JSON.stringify(p)],

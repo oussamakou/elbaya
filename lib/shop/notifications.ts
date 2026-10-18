@@ -33,7 +33,9 @@ export function reservationMessage(r: ReservationRequest): Message {
       `${r.quantity} × ${r.productName} · ${r.size}`, `Notes : ${r.notes || 'Aucune'}`, '',
       ...(r.harvest ? [
         `Poids : ${r.harvest.kg} kg · ${money(r.harvest.unitPrice)} / kg`,
-        `Total : ${money(r.harvest.total)}`, pickupLabel(r.harvest.pickup),
+        `Total : ${money(r.harvest.total)}`,
+        ...(r.harvest.promoCode ? [`Code promo ${r.harvest.promoCode} : −${money(r.harvest.discount || 0)} (avant remise : ${money(r.harvest.subtotal || 0)})`] : []),
+        pickupLabel(r.harvest.pickup),
         'Paiement au retrait. Aucun paiement en ligne. Confirmer le rendez-vous et la disponibilité par téléphone.',
       ] : ['Prix, disponibilité et livraison à confirmer par téléphone.']),
       'Cette demande ne réserve pas automatiquement le stock.',

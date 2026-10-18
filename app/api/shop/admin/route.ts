@@ -12,6 +12,8 @@ import { body, failure, json } from "@/lib/shop/http";
 import { object, ShopError } from "@/lib/shop/validation";
 import { reservations, updateReservation } from "@/lib/shop/reservations";
 import {contacts} from '@/lib/shop/contact';
+import {removeWaitlist, updateWaitlist, waitlist} from '@/lib/shop/waitlist';
+import {promos, savePromo} from '@/lib/shop/promo';
 export const dynamic = "force-dynamic";
 export async function GET() {
   try {
@@ -23,6 +25,8 @@ export async function GET() {
       orders: await orders(),
       reservations: await reservations(),
       contacts: await contacts(),
+      waitlist: await waitlist(),
+      promos: await promos(),
     });
   } catch (e) {
     return failure(e);
@@ -39,6 +43,9 @@ export async function POST(request: Request) {
     if (input.action === "order") return json(await updateOrder(input.data));
     if (input.action === "reservation")
       return json(await updateReservation(input.data));
+    if (input.action === "waitlist") return json(await updateWaitlist(input.data));
+    if (input.action === "waitlist_remove") return json(await removeWaitlist(input.data));
+    if (input.action === "promo") return json(await savePromo(input.data));
     throw new ShopError("invalid");
   } catch (e) {
     return failure(e);

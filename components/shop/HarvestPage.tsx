@@ -2,11 +2,56 @@
 
 import Image from 'next/image';
 import {useRef, useState, type FormEvent} from 'react';
-import {Check, ChevronLeft, ChevronRight, Leaf, MapPin, Minus, Pause, Play, Plus, Volume2, VolumeX, X} from 'lucide-react';
+import {Bell, Check, ChevronLeft, ChevronRight, Leaf, MapPin, MessageCircle, Minus, Pause, Play, Plus, Tag, Volume2, VolumeX, X} from 'lucide-react';
 import {Link} from '@/i18n/routing';
 import {money, type Product} from '@/lib/shop/types';
-import {FARM_MAP, harvestQuote, harvestOffer, pickupLabel} from '@/lib/shop/harvest';
+import {FARM_MAP, harvestQuote, harvestOffer, pickupLabel, promoDiscount, type PromoRule} from '@/lib/shop/harvest';
 import {errorMessage} from './copy';
+import WaitlistForm from './WaitlistForm';
+
+// Products that cannot be ordered now and can be followed with one tap after a request.
+const followable = (p: Product) => p.status === 'soldout' || p.status === 'seasonal';
+const SHARE_URL = 'https://www.farmelbaya.com/fr/products/pomegranates';
+
+// After a request: share with friends, follow other products, and (for farm pickup) stay the night.
+function AfterRequest({fr, pickup, contact, others}: {fr:boolean; pickup:'farm'|'tunis'; contact:{firstName:string; phone:string; email:string}; others:Product[]}) {
+  const [followed, setFollowed] = useState<Record<string, 'busy'|'done'|'error'>>({});
+  async function follow(p: Product) {
+    setFollowed(f => ({...f, [p.id]: 'busy'}));
+    try {
+      // The tap itself is the consent, for this product only.
+      const response = await fetch('/api/shop/waitlist', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({...contact, consent:true, productId:p.id, requestKey:crypto.randomUUID()})});
+      setFollowed(f => ({...f, [p.id]: response.ok ? 'done' : 'error'}));
+    } catch { setFollowed(f => ({...f, [p.id]: 'error'})); }
+  }
+  const share = fr
+    ? `Les grenades d’El Baya sont là : paniers dès 5 kg, retrait à Testour ou Tunis. ${SHARE_URL}`
+    : `El Baya pomegranates are in: packs from 5 kg, pickup in Testour or Tunis. ${SHARE_URL.replace('/fr/', '/en/')}`;
+  return <div className="harvest-after">
+    <div>
+      <p className="shop-eyebrow">{fr ? 'PARTAGER LA RÉCOLTE' : 'SHARE THE HARVEST'}</p>
+      <p>{fr ? 'Une famille, des voisins, des collègues ? Un panier de 20 kg se partage bien.' : 'Family, neighbours, colleagues? A 20 kg pack shares well.'}</p>
+      <a className="shop-button" href={`https://wa.me/?text=${encodeURIComponent(share)}`} target="_blank" rel="noreferrer"><MessageCircle size={17}/>{fr ? 'Envoyer sur WhatsApp' : 'Send on WhatsApp'}</a>
+    </div>
+    {others.length > 0 && <div>
+      <p className="shop-eyebrow">{fr ? 'AUSSI À LA FERME' : 'ALSO AT THE FARM'}</p>
+      <p>{fr ? 'Soyez prévenu(e) en premier, avec le même numéro :' : 'Hear first, with the same number:'}</p>
+      <div className="harvest-after-follow">{others.map(p => {
+        const state = followed[p.id];
+        const name = fr ? p.name.fr : p.name.en || p.name.fr;
+        return <button key={p.id} type="button" className="shop-button secondary" disabled={state === 'busy' || state === 'done'} onClick={() => follow(p)}>
+          {state === 'done' ? <Check size={16}/> : <Bell size={16}/>}
+          {state === 'done' ? (fr ? `${name} : c’est noté` : `${name}: noted`) : state === 'error' ? (fr ? 'Réessayer' : 'Try again') : (fr ? `Me prévenir · ${name.toLowerCase()}` : `Notify me · ${name.toLowerCase()}`)}
+        </button>;
+      })}</div>
+    </div>}
+    {pickup === 'farm' && <div>
+      <p className="shop-eyebrow">{fr ? 'VOUS VENEZ À TESTOUR ?' : 'COMING TO TESTOUR?'}</p>
+      <p>{fr ? 'Restez une nuit à la ferme : la chambre Baya, le petit-déjeuner, le calme des oliviers.' : 'Stay a night at the farm: the Baya Room, farm breakfast, the quiet of the olive trees.'}</p>
+      <Link href="/stay" className="pantry-text-link">{fr ? 'Découvrir le séjour' : 'See the stay'} →</Link>
+    </div>}
+  </div>;
+}
 
 const media = [
   {id:'harvest', fr:'La récolte, en vrai', en:'The real harvest', duration:'0:16'},
@@ -83,14 +128,35 @@ function PackSelection({selected,fr}: {selected:boolean;fr:boolean}) {
   </small>;
 }
 
-function HarvestOrder({product,fr,kg,setKg}: {product:Product;fr:boolean;kg:number;setKg:(kg:number)=>void}) {
+function HarvestOrder({product,fr,kg,setKg,others,waiting}: {product:Product;fr:boolean;kg:number;setKg:(kg:number)=>void;others:Product[];waiting:number}) {
   const offer=harvestOffer(product);
   const [pickup,setPickup] = useState<'farm'|'tunis'>(offer.pickupFarm?'farm':'tunis');
   const [busy,setBusy] = useState(false);
   const [error,setError] = useState('');
   const [reference,setReference] = useState('');
+  const [contact,setContact] = useState({firstName:'',phone:'',email:''});
+  const [promo,setPromo] = useState<PromoRule|null>(null);
+  const [promoOpen,setPromoOpen] = useState(false);
+  const [promoBusy,setPromoBusy] = useState(false);
+  const [promoError,setPromoError] = useState('');
+  const promoField = useRef<HTMLInputElement>(null);
   const key = useRef('');
   const quote = harvestQuote(kg,offer);
+  // The discount follows the pack size; the server recomputes it and counts the use on submit.
+  const discount = promo ? promoDiscount(quote.total,promo) : 0;
+  const total = quote.total - discount;
+  async function applyPromo() {
+    const code = promoField.current?.value || '';
+    if(!code.trim())return;
+    setPromoBusy(true);setPromoError('');
+    try {
+      const response = await fetch('/api/shop/promo',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,subtotal:quote.total})});
+      const result = await response.json();
+      if(!response.ok)throw Error(errorMessage(result.error,fr?'fr':'en'));
+      setPromo({code:result.code,kind:result.kind,value:result.value});key.current='';
+    } catch(e) {setPromoError(e instanceof Error ? e.message : errorMessage('unavailable',fr?'fr':'en'));}
+    finally {setPromoBusy(false);}
+  }
   const format=(amount:number)=>money(amount,fr?'fr':'en');
   function savings(weight:number) {
     const amount=weight*offer.baseUnitPrice-harvestQuote(weight,offer).total;
@@ -101,15 +167,19 @@ function HarvestOrder({product,fr,kg,setKg}: {product:Product;fr:boolean;kg:numb
     const fields = Object.fromEntries(new FormData(e.currentTarget));
     setBusy(true);setError(''); key.current ||= crypto.randomUUID();
     try {
-      const response = await fetch('/api/shop/reservations',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...fields,productId:product.id,variantId:product.variants[0].id,harvestKg:kg,pickup,expectedTotal:quote.total,requestKey:key.current})});
+      const response = await fetch('/api/shop/reservations',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...fields,productId:product.id,variantId:product.variants[0].id,harvestKg:kg,pickup,expectedTotal:total,...(promo?{promoCode:promo.code}:{}),requestKey:key.current})});
       const result = await response.json();
-      if(!response.ok)throw Error(errorMessage(result.error,fr?'fr':'en'));
+      if(!response.ok) {
+        if(result.error==='promo_invalid')setPromo(null);
+        throw Error(errorMessage(result.error,fr?'fr':'en'));
+      }
+      setContact({firstName:String(fields.firstName||''),phone:String(fields.phone||''),email:String(fields.email||'')});
       setReference(result.id);
     } catch(e) {setError(e instanceof Error ? e.message : errorMessage('unavailable',fr?'fr':'en'));}
     finally {setBusy(false);}
   }
-  if(reference)return <div className="harvest-confirmation" role="status"><Check size={30}/><p className="shop-eyebrow">{reference}</p><h2>{fr ? 'Votre part de récolte est demandée.' : 'Your harvest request is in.'}</h2><p>{kg} kg · {money(quote.total,fr?'fr':'en')}</p><p>{pickupLabel(pickup,fr)}</p><p>{fr ? 'Mehdi vous appelle pour confirmer la disponibilité et le rendez-vous. Vous payez au retrait.' : 'Mehdi will call to confirm availability and your pickup appointment. Pay when you collect.'}</p></div>;
-  if(!offer.enabled || (!offer.pickupFarm&&!offer.pickupTunis))return <p id="harvest-order" className="shop-notice">{fr?'Les demandes sont en pause. Retrouvez bientôt les prochaines disponibilités.':'Requests are paused. Check back for the next availability.'}</p>;
+  if(reference)return <div className="harvest-confirmation" role="status"><Check size={30}/><p className="shop-eyebrow">{reference}</p><h2>{fr ? 'Votre part de récolte est demandée.' : 'Your harvest request is in.'}</h2><p>{kg} kg · {money(total,fr?'fr':'en')}{promo?` · code ${promo.code}`:''}</p><p>{pickupLabel(pickup,fr)}</p><p>{fr ? 'Mehdi vous appelle pour confirmer la disponibilité et le rendez-vous. Vous payez au retrait.' : 'Mehdi will call to confirm availability and your pickup appointment. Pay when you collect.'}</p><AfterRequest fr={fr} pickup={pickup} contact={contact} others={others.filter(followable)}/></div>;
+  if(!offer.enabled || (!offer.pickupFarm&&!offer.pickupTunis))return <div id="harvest-order"><p className="shop-notice">{fr?'Les demandes sont en pause pour le moment.':'Requests are paused for now.'}</p><WaitlistForm productId={product.id} productName={fr?product.name.fr:product.name.en||product.name.fr} locale={fr?'fr':'en'} waiting={waiting} title={fr?'Prévenez-moi pour la prochaine récolte':'Tell me about the next harvest'}/></div>;
   return <form id="harvest-order" className="harvest-order" onSubmit={submit} onChange={()=>{key.current='';}}>
     <fieldset disabled={busy}>
       <legend className="sr-only">{fr ? 'Votre demande de grenades' : 'Your pomegranate order request'}</legend>
@@ -128,7 +198,13 @@ function HarvestOrder({product,fr,kg,setKg}: {product:Product;fr:boolean;kg:numb
       <label>{fr?'Téléphone tunisien':'Tunisian phone number'}<input className="field" name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="+216" maxLength={30} required/></label>
       <label>{fr?'Email (facultatif)':'Email (optional)'}<input className="field" name="email" type="email" autoComplete="email" maxLength={254}/></label>
       <div hidden aria-hidden="true"><input name="website" tabIndex={-1} autoComplete="off"/></div>
-      <div className="harvest-total" aria-live="polite"><span>{fr?'Total à régler au retrait':'Total to pay at pickup'}</span><strong>{money(quote.total,fr?'fr':'en')}</strong></div>
+      <div className="harvest-promo">
+        {promo ? <p className="harvest-promo-applied"><Tag size={15}/>{fr?`Code ${promo.code} appliqué · −${money(discount)}`:`Code ${promo.code} applied · −${money(discount,'en')}`}<button type="button" onClick={()=>{setPromo(null);key.current='';}}>{fr?'Retirer':'Remove'}</button></p>
+        : promoOpen ? <div className="harvest-promo-row"><input ref={promoField} className="field" aria-label={fr?'Code promo':'Promo code'} placeholder={fr?'Code promo':'Promo code'} autoCapitalize="characters" maxLength={20} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();void applyPromo();}}}/><button type="button" className="shop-button secondary" disabled={promoBusy} onClick={()=>void applyPromo()}>{promoBusy?'…':(fr?'Appliquer':'Apply')}</button></div>
+        : <button type="button" className="harvest-promo-toggle" onClick={()=>setPromoOpen(true)}><Tag size={15}/>{fr?'J’ai un code promo':'I have a promo code'}</button>}
+        {promoError&&<p role="alert" className="shop-error">{promoError}</p>}
+      </div>
+      <div className="harvest-total" aria-live="polite"><span>{fr?'Total à régler au retrait':'Total to pay at pickup'}</span><strong>{discount>0&&<s>{money(quote.total,fr?'fr':'en')}</s>}{money(total,fr?'fr':'en')}</strong></div>
       <p className="harvest-discount">{kg>=10 ? (fr?`Vous économisez ${money(kg*offer.baseUnitPrice-quote.total)} par rapport au tarif 5 kg.`:`You save ${money(kg*offer.baseUnitPrice-quote.total,'en')} compared with the 5 kg rate.`) : (fr?`Dès 10 kg : ${format(offer.bulkUnitPrice)}/kg.`:`From 10 kg: ${format(offer.bulkUnitPrice)}/kg.`)}</p>
       {error&&<p role="alert" className="shop-error">{error}</p>}
       <button type="submit" className="shop-button harvest-submit" disabled={busy}>{busy ? (fr?'Envoi…':'Sending…') : (fr?'Demander mon panier':'Request my harvest pack')} <span>→</span></button>
@@ -137,7 +213,7 @@ function HarvestOrder({product,fr,kg,setKg}: {product:Product;fr:boolean;kg:numb
   </form>;
 }
 
-export default function HarvestPage({product,locale,otherProducts=[]}: {product:Product;locale:'fr'|'en';otherProducts?:Product[]}) {
+export default function HarvestPage({product,locale,otherProducts=[],waiting={}}: {product:Product;locale:'fr'|'en';otherProducts?:Product[];waiting?:Record<string,number>}) {
   const fr=locale==='fr';
   const uploaded=product.images.filter(src=>!src.endsWith('.svg'));
   const photos=(uploaded.length?uploaded:[product.images[0]||'/assets/shop/pomegranate.svg']).map(src=>({src,fr:'Les grenades d’El Baya',en:'El Baya pomegranates'}));
@@ -162,14 +238,14 @@ export default function HarvestPage({product,locale,otherProducts=[]}: {product:
         <p className="harvest-intro">{customDescription?description:fr?'Une terre familiale à Testour, des arbres soignés par Mehdi, et la récolte qu’on a envie de partager.':'Family land in Testour, trees cared for by Mehdi, and a harvest we want to share with you.'}</p>
         <p className="harvest-growing"><Leaf size={18}/>{fr?'Culture bio, sans pesticides.':'Organically grown without pesticides, as described by Mehdi.'}</p>
         <p className="harvest-limited">{fr?'Cette saison, une petite quantité de notre récolte est proposée à la communauté. Chaque demande est confirmée personnellement.':'This season, we’re sharing a limited part of our harvest with the community. Each request is confirmed personally.'}</p>
-        <HarvestOrder product={product} fr={fr} kg={kg} setKg={setKg}/>
+        <HarvestOrder product={product} fr={fr} kg={kg} setKg={setKg} others={otherProducts} waiting={waiting[product.id]||0}/>
       </div>
     </section>
     <section className="harvest-story-section"><div><p className="shop-eyebrow">{fr?'UNE FERME QUI SE RACONTE':'A FARM WITH A STORY'}</p><h2>{fr?'On cultive.\nOn accueille.\nOn partage.':'We grow.\nWe welcome.\nWe share.'}</h2><p lang="ar-TN" dir="rtl" className="harvest-arabic">من أرضنا، بكل محبّة</p></div><div><p>{fr?'El Baya, c’est la terre de la famille de Mehdi. Les oliviers, les grenadiers, le potager et les ruches font partie du quotidien. La permaculture guide le travail : prendre soin du sol, laisser de la place au vivant et suivre les saisons.':'El Baya is Mehdi’s family land. Olive trees, pomegranates, the vegetable garden and beehives are part of everyday life. Permaculture guides the work: caring for the soil, making room for living things and following the seasons.'}</p><p>{fr?'Cette année, on ouvre une petite part de la récolte à celles et ceux qui veulent retrouver ce lien avec la terre. Vous voyez les arbres, vous entendez Mehdi, vous savez à qui parler.':'This year, we’re opening a small part of the harvest to people who want that connection with the land. See the trees, hear from Mehdi and know who to speak to.'}</p><Link href="/farm" className="pantry-text-link">{fr?'Découvrir la vie à El Baya':'Meet the farm'} →</Link></div></section>
     <section className="harvest-details" aria-label={fr?'Les détails de votre panier':'Your harvest pack, explained'}>
       {[{title:fr?'Comment fonctionne le prix ?':'How does the price work?',text:fr?`5 kg : ${format(offer.baseUnitPrice*5)} (${format(offer.baseUnitPrice)}/kg). Dès 10 kg, tout le panier passe à ${format(offer.bulkUnitPrice)}/kg : ${format(offer.bulkUnitPrice*10)} pour 10 kg, ${format(offer.bulkUnitPrice*15)} pour 15 kg. Dès 20 kg, le panier passe à ${format(offer.largeUnitPrice)}/kg : ${format(offer.largeUnitPrice*20)} pour 20 kg. Ajoutez 5 kg à la fois.`:`5 kg costs ${format(offer.baseUnitPrice*5)} (${format(offer.baseUnitPrice)}/kg). From 10 kg, the whole pack is ${format(offer.bulkUnitPrice)}/kg: ${format(offer.bulkUnitPrice*10)} for 10 kg, ${format(offer.bulkUnitPrice*15)} for 15 kg. From 20 kg, the whole pack is ${format(offer.largeUnitPrice)}/kg: ${format(offer.largeUnitPrice*20)} for 20 kg. Add in 5 kg steps.`},{title:fr?'Où et quand récupérer les grenades ?':'Where and when can I collect?',text:fr?`Retrait ${[offer.pickupFarm?'à la ferme de Testour':'',offer.pickupTunis?'à Tunis':''].filter(Boolean).join(' ou ')}. Mehdi vous appelle pour confirmer la disponibilité et le rendez-vous.${offer.pickupTunis?' L’adresse de Tunis vous sera communiquée directement.':''}`:`Pickup ${[offer.pickupFarm?'at the farm in Testour':'',offer.pickupTunis?'in Tunis':''].filter(Boolean).join(' or ')}. Mehdi calls to confirm availability and your appointment.${offer.pickupTunis?' The Tunis address is shared directly.':''}`},{title:fr?'Comment payer ?':'How do I pay?',text:fr?'Vous payez en espèces au retrait. Aucun acompte ni paiement en ligne. Votre demande sera confirmée par téléphone.':'Pay cash when you collect. No deposit or online payment. Your request is confirmed by phone.'}].map((item,index)=><details key={item.title} open={index===0}><summary>{item.title}<Plus size={18}/></summary><p>{item.text}</p></details>)}
     </section>
-    {otherProducts.length>0&&<section className="harvest-other"><p className="shop-eyebrow">{fr?'AUSSI À LA FERME':'ALSO AT THE FARM'}</p><h2>{fr?'À chaque récolte, sa saison.':'Every harvest has its season.'}</h2><div>{otherProducts.map(p=><Link key={p.id} href={`/products/${p.id}`}><span>{fr?p.name.fr:p.name.en||p.name.fr}</span><span>{fr?'Découvrir':'Explore'} →</span></Link>)}</div></section>}
+    {otherProducts.length>0&&<section className="harvest-other"><p className="shop-eyebrow">{fr?'AUSSI À LA FERME':'ALSO AT THE FARM'}</p><h2>{fr?'À chaque récolte, sa saison.':'Every harvest has its season.'}</h2><div>{otherProducts.map(p=><Link key={p.id} href={`/products/${p.id}`}><span>{fr?p.name.fr:p.name.en||p.name.fr}{p.status==='soldout'&&<small className="harvest-other-state">{fr?'Épuisé · prévenez-moi':'Sold out · notify me'}</small>}</span><span>{fr?'Découvrir':'Explore'} →</span></Link>)}</div></section>}
     {offer.enabled&&<div className="harvest-mobile-cta"><span>{fr?`Votre panier · ${kg} kg`:`Your pack · ${kg} kg`} <strong>{format(quote.total)}</strong></span><a href="#harvest-order">{fr?'Choisir mon panier':'Choose my pack'} ↑</a></div>}
   </main>;
 }

@@ -25,7 +25,7 @@ import ReservationForm from "./ReservationForm";
 import ProductPanel, { ProductCard } from "./ProductPanel";
 import { capacity, fulfillment, orderable } from "@/lib/shop/types";
 
-type Data = { products: Product[]; settings: ShopSettings };
+type Data = { products: Product[]; settings: ShopSettings; waiting?: Record<string, number> };
 const cartKey = "elbaya-basket-v1";
 export default function Storefront({
   initial,
@@ -230,6 +230,7 @@ export default function Storefront({
               enabled={data.settings.acceptingOrders}
               busy={busy}
               add={add}
+              waiting={data.waiting?.[selectedProduct.id] || 0}
             />
             {selectedProduct.status === "seasonal" && <div className="harvest-inline-request"><h2>{locale === "fr" ? "Votre demande, ici." : "Your request, right here."}</h2><ReservationForm products={[selectedProduct]} locale={locale} productId={selectedProduct.id}/></div>}
             </div>

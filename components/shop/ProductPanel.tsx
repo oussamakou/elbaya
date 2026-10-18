@@ -18,11 +18,13 @@ import {
   type Product,
 } from "@/lib/shop/types";
 import { copy } from "./copy";
+import WaitlistForm from "./WaitlistForm";
 
 function productStatus(product: Product, locale: "fr" | "en") {
   const t = copy[locale];
   if (product.status === "preorder") return t.preorder;
   if (product.status === "seasonal") return t.seasonal;
+  if (product.status === "soldout") return t.sold;
   return product.variants.some((v) => v.stock > 0) ? t.available : t.sold;
 }
 export function ProductCard({
@@ -85,12 +87,14 @@ export default function ProductPanel({
   enabled,
   busy,
   add,
+  waiting = 0,
 }: {
   product: Product;
   locale: "fr" | "en";
   enabled: boolean;
   busy: boolean;
   add: (p: Product, variantId: string, count: number) => void;
+  waiting?: number;
 }) {
   const t = copy[locale];
   const [selected, setSelected] = useState(
@@ -105,6 +109,9 @@ export default function ProductPanel({
   const sellable =
     enabled && orderable(product) && available > 0 && variant.price > 0;
   const preorder = product.status === "preorder";
+  const soldout = product.status === "soldout";
+  // Real remaining stock only, and only when it is genuinely low.
+  const low = orderable(product) && available > 0 && available <= 10;
   const src = product.images[photo] || product.images[0];
   return (
     <article className="pantry-product-detail">
@@ -155,8 +162,10 @@ export default function ProductPanel({
         </p>
         <h1>{localized(product.name, locale)}</h1>
         <p className="pantry-detail-price">
-          {variant?.price ? money(variant.price, locale) : t.priceSoon}
-          <span>{variant?.label}</span>
+          {soldout
+            ? locale === "fr" ? "Bientôt de retour" : "Back soon"
+            : variant?.price ? money(variant.price, locale) : t.priceSoon}
+          <span>{soldout ? product.variants.map((v) => v.label).join(" · ") : variant?.label}</span>
         </p>
         <p className="pantry-description">
           {localized(product.description, locale)}
@@ -175,6 +184,7 @@ export default function ProductPanel({
             <p>{t.preorderHelp}</p>
           </div>
         )}
+        {!soldout && (
         <fieldset className="pantry-formats">
           <legend>{t.format}</legend>
           {product.variants.map((v) => (
@@ -190,11 +200,19 @@ export default function ProductPanel({
             </button>
           ))}
         </fieldset>
+        )}
         {orderable(product) && (
-          <p className="pantry-stock">
-            {available} {preorder ? t.reserveStock : t.stock}
+          <p className={`pantry-stock${low ? " is-low" : ""}`}>
+            {low
+              ? locale === "fr"
+                ? `Plus que ${available} ${preorder ? "places" : "colis"} pour ce format`
+                : `Only ${available} ${preorder ? "places" : "packs"} left in this size`
+              : `${available} ${preorder ? t.reserveStock : t.stock}`}
           </p>
         )}
+        {soldout ? (
+          <WaitlistForm productId={product.id} productName={localized(product.name, locale)} locale={locale} waiting={waiting} />
+        ) : (
         <div className="pantry-add-row">
           {sellable && (
             <div className="pantry-stepper">
@@ -248,6 +266,7 @@ export default function ProductPanel({
             </Link>
           )}
         </div>
+        )}
         {product.status === "seasonal" && (
           <p className="pantry-small">
             {locale === "fr"
@@ -255,13 +274,15 @@ export default function ProductPanel({
               : "Mehdi will call to confirm the price and next availability."}
           </p>
         )}
-        <div className="pantry-detail-payment">
-          <Banknote size={20} />
-          <p>
-            {t.cashTitle}
-            <span>{t.cashHelp}</span>
-          </p>
-        </div>
+        {!soldout && (
+          <div className="pantry-detail-payment">
+            <Banknote size={20} />
+            <p>
+              {t.cashTitle}
+              <span>{t.cashHelp}</span>
+            </p>
+          </div>
+        )}
       </div>
     </article>
   );

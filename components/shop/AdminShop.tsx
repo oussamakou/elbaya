@@ -26,7 +26,9 @@ import {
 } from "@/lib/shop/types";
 import { errorMessage } from "./copy";
 import ReservationInbox from "./ReservationInbox";
-import type { ReservationRequest } from "@/lib/shop/types";
+import type { PromoCode, ReservationRequest, WaitlistEntry } from "@/lib/shop/types";
+import WaitlistPanel from "./WaitlistPanel";
+import PromoCodes from "./PromoCodes";
 import {harvestOffer} from '@/lib/shop/harvest';
 import type {ContactRequest} from '@/lib/shop/contact';
 
@@ -37,6 +39,8 @@ type AdminData = {
   settings: ShopSettings;
   orders: Order[];
   reservations: ReservationRequest[];
+  waitlist?: WaitlistEntry[];
+  promos?: PromoCode[];
 };
 const statusNames = {
   new: "Nouvelle",
@@ -50,6 +54,7 @@ const productStatus = {
   available: "En vente",
   seasonal: "Hors saison",
   preorder: "Précommande",
+  soldout: "Épuisé",
 };
 function matchesOrderFilter(order: Order, filter: string) {
   return (
@@ -266,13 +271,15 @@ function ProductEditor({
                   }
                 >
                   <option value="draft">Brouillon · masqué</option>
-                  {draft.id === 'pomegranates' ? <option value="seasonal">Visible sur la boutique</option> : <><option value="seasonal">Hors saison · demandes uniquement</option><option value="available">En vente</option><option value="preorder">Précommandes ouvertes</option></>}
+                  {draft.id === 'pomegranates' ? <option value="seasonal">Visible sur la boutique</option> : <><option value="seasonal">Hors saison · demandes uniquement</option><option value="soldout">Épuisé · liste d’attente</option><option value="available">En vente</option><option value="preorder">Précommandes ouvertes</option></>}
                 </select>
                 <span className="pantry-small" aria-live="polite">
                   {draft.id === 'pomegranates' ? (draft.status === 'draft' ? 'Offre masquée du site.' : 'Offre visible. Réglez les tarifs, les demandes et les retraits dans Offre récolte ci-dessous.') : draft.status === "draft"
                     ? "Masqué du catalogue et inaccessible par lien direct."
                     : draft.status === "seasonal"
                       ? "Visible, avec demande de précommande à confirmer par téléphone. Aucun achat au panier."
+                      : draft.status === "soldout"
+                        ? "Visible, sans commande ni demande. Les visiteurs laissent leur numéro pour être prévenus en premier (voir Liste d’attente)."
                       : draft.status === "preorder"
                         ? "Réservation au prix affiché, selon les places disponibles et l’ouverture de la boutique."
                         : "Achat au panier selon le stock disponible et l’ouverture de la boutique."}
@@ -601,6 +608,8 @@ function ProductEditor({
             ? "Ce produit sera enregistré sans être visible sur le site."
             : draft.status === "seasonal"
               ? "Visible sur le site, sans possibilité de commander."
+              : draft.status === "soldout"
+                ? "Épuisé : les visiteurs s’inscrivent pour être prévenus du retour."
               : draft.status === "preorder"
                 ? "Les clients pourront réserver les quantités prévues, sans acompte, si la boutique est ouverte."
                 : "Les formats avec du stock pourront être commandés si la boutique est ouverte."}
@@ -1051,7 +1060,7 @@ export default function AdminShop({
     ["products", "Produits", "Produits", Package, 0],
     ["reservations", "Précommandes", "Demandes", Leaf, newRequests],
     ["orders", "Commandes", "Commandes", ShoppingBag, newCount],
-    ["settings", "Livraison & ouverture", "Livraison", Settings, 0],
+    ["settings", "Livraison & codes promo", "Réglages", Settings, 0],
     ["contacts", "Messages", "Messages", Mail, 0],
   ];
   return (
@@ -1190,7 +1199,7 @@ export default function AdminShop({
                   </span>
                   <span>{p.id === "pomegranates" ? (p.status === "draft" ? "Masqué" : harvestOffer(p).enabled ? "Demandes ouvertes" : "Demandes en pause") : productStatus[p.status]}</span>
                   <span>
-                    {p.id === "pomegranates" ? "Retrait sur rendez-vous" : <>{p.variants.reduce(
+                    {p.id === "pomegranates" ? "Retrait sur rendez-vous" : p.status === "soldout" ? `${(data.waitlist || []).filter((w) => w.productId === p.id && !w.notifiedAt).length} en attente` : <>{p.variants.reduce(
                       (n, v) =>
                         n +
                         (p.status === "preorder"
@@ -1216,6 +1225,14 @@ export default function AdminShop({
               Les brouillons sont masqués. Les produits hors saison restent
               visibles sans pouvoir être commandés.
             </p>
+            <WaitlistPanel
+              entries={data.waitlist || []}
+              products={data.products}
+              onChange={async (action, payload) => {
+                await api("/api/shop/admin", { action, data: payload });
+                setData(await api("/api/shop/admin", undefined, "GET"));
+              }}
+            />
           </>
         ))}
       {tab === "reservations" && (
@@ -1231,11 +1248,20 @@ export default function AdminShop({
         />
       )}
       {tab === "settings" && (
-        <DeliverySettings
-          key={data.settings.revision}
-          settings={data.settings}
-          onSave={saveSettings}
-        />
+        <>
+          <DeliverySettings
+            key={data.settings.revision}
+            settings={data.settings}
+            onSave={saveSettings}
+          />
+          <PromoCodes
+            promos={data.promos || []}
+            onSave={async (promo) => {
+              await api("/api/shop/admin", { action: "promo", data: promo });
+              setData(await api("/api/shop/admin", undefined, "GET"));
+            }}
+          />
+        </>
       )}
       {tab === "orders" && (
         <>

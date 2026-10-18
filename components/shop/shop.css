@@ -1895,3 +1895,76 @@
   .inbox-print tfoot td { font-weight:600; border-bottom:0; }
   .inbox-print tr { break-inside:avoid; }
 }
+
+/* Back-in-stock list, low stock, promo codes and after-request suggestions. */
+.waitlist-form { margin-top:28px; padding:24px; border:1px solid var(--color-mist); border-radius:8px; background:var(--color-cream); }
+.waitlist-form fieldset { display:grid; gap:14px; min-width:0; }
+.waitlist-form legend { display:flex; align-items:center; gap:10px; font-family:var(--font-serif); font-size:1.6rem; font-style:italic; line-height:1.2; margin-bottom:6px; }
+.waitlist-form label { display:grid; gap:6px; font-size:.8rem; }
+.waitlist-fields { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.waitlist-proof { font-size:.85rem; color:#87432e; }
+.waitlist-consent { display:flex !important; grid-template-columns:none; align-items:flex-start; gap:10px; font-size:.75rem !important; line-height:1.6; color:color-mix(in srgb, var(--color-earth) 75%, transparent); }
+.waitlist-consent input { width:18px; height:18px; margin-top:2px; flex-shrink:0; accent-color:var(--color-olive); }
+.waitlist-form .shop-button { justify-self:start; }
+.waitlist-done { display:flex; align-items:flex-start; gap:12px; font-size:.9rem; line-height:1.7; color:var(--color-olive-dark); }
+.waitlist-done svg { flex-shrink:0; margin-top:3px; }
+.pantry-stock.is-low { color:#87432e; font-weight:600; }
+
+.admin-panel { margin-top:72px; padding-top:8px; border-top:1px solid var(--color-mist); }
+.waitlist-group { margin-top:24px; }
+.waitlist-group-head { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:8px 24px; padding-bottom:10px; border-bottom:1px solid var(--color-mist); }
+.waitlist-group-head h3 { font-family:var(--font-serif); font-size:1.6rem; font-weight:400; }
+.waitlist-group-head h3 span { margin-left:12px; font-family:var(--font-sans); font-size:.75rem; color:#87432e; }
+.waitlist-group-head .pantry-text-link { display:inline-flex; align-items:center; gap:6px; font-size:.78rem; }
+.waitlist-list { list-style:none; margin:0; padding:0; }
+.waitlist-list li { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px 24px; padding:16px 0; border-bottom:1px solid var(--color-mist); }
+.waitlist-list li > div:first-child { display:grid; grid-template-columns:auto auto; gap:2px 14px; align-items:baseline; }
+.waitlist-list li strong { font-weight:600; }
+.waitlist-list li span { font-variant-numeric:tabular-nums; }
+.waitlist-list li small { grid-column:1 / -1; font-size:.72rem; color:color-mix(in srgb, var(--color-earth) 75%, transparent); }
+.waitlist-list li[data-notified] > div:first-child { opacity:.6; }
+.waitlist-actions { display:flex; flex-wrap:wrap; align-items:center; gap:10px 14px; }
+.waitlist-actions .shop-button { min-height:40px; padding:8px 16px; gap:8px; }
+.waitlist-toggle { display:inline-flex; align-items:center; gap:6px; min-height:40px; padding:8px 14px; border:1px solid var(--color-mist); border-radius:999px; font-size:.75rem; }
+.waitlist-toggle[aria-pressed=true] { background:color-mix(in srgb, var(--color-olive) 12%, var(--color-cream)); border-color:transparent; color:var(--color-olive-dark); font-weight:600; }
+
+.promo-form { display:grid; grid-template-columns:1.1fr 1fr 1fr 1.1fr auto; align-items:end; gap:14px; margin-top:8px; }
+.promo-form label { display:grid; gap:6px; font-size:.75rem; }
+.promo-form small { color:color-mix(in srgb, var(--color-earth) 75%, transparent); }
+.promo-form input[name=code] { text-transform:uppercase; }
+.promo-value { display:grid; grid-template-columns:1fr 76px; gap:6px; }
+.promo-form .shop-button { gap:8px; min-height:46px; }
+.promo-list { list-style:none; margin:24px 0 0; padding:0; }
+.promo-list li { display:grid; grid-template-columns:20px 1fr 0.8fr 1fr 1.3fr 0.8fr auto; align-items:center; gap:14px; padding:14px 0; border-bottom:1px solid var(--color-mist); font-size:.85rem; }
+.promo-list strong { font-weight:600; letter-spacing:.06em; }
+.promo-state { justify-self:start; padding:3px 10px; border-radius:999px; font-size:.7rem; background:var(--color-mist); }
+.promo-list li[data-state="Actif"] .promo-state { background:color-mix(in srgb, var(--color-olive) 14%, var(--color-cream)); color:var(--color-olive-dark); font-weight:600; }
+.promo-list li:not([data-state="Actif"]) > :not(button) { opacity:.65; }
+
+.harvest-promo { margin-top:4px; }
+.harvest-promo-toggle, .harvest-promo-applied { display:inline-flex; align-items:center; gap:8px; min-height:40px; font-size:.8rem; color:var(--color-olive-dark); }
+.harvest-promo-toggle { text-decoration:underline; text-underline-offset:3px; }
+.harvest-promo-applied button { margin-left:6px; font-size:.75rem; text-decoration:underline; text-underline-offset:3px; color:color-mix(in srgb, var(--color-earth) 75%, transparent); }
+.harvest-promo-row { display:grid; grid-template-columns:1fr auto; gap:8px; }
+.harvest-promo-row input { text-transform:uppercase; }
+.harvest-promo-row .shop-button { min-height:46px; padding:10px 18px; }
+.harvest-total s { margin-right:10px; font-size:.7em; font-weight:400; color:color-mix(in srgb, var(--color-earth) 55%, transparent); }
+.harvest-after { display:grid; gap:22px; margin-top:26px; padding-top:22px; border-top:1px solid var(--color-mist); text-align:left; }
+.harvest-after p:not(.shop-eyebrow) { margin:6px 0 12px; font-size:.85rem; line-height:1.7; }
+.harvest-after .shop-button { gap:8px; min-height:42px; padding:9px 18px; }
+.harvest-after .shop-button.secondary { background:var(--color-cream); border-color:color-mix(in srgb, var(--color-earth) 22%, var(--color-mist)); }
+.harvest-after .shop-button.secondary:disabled { opacity:1; color:var(--color-olive-dark); background:color-mix(in srgb, var(--color-olive) 10%, var(--color-cream)); border-color:transparent; }
+.harvest-after-follow { display:flex; flex-wrap:wrap; gap:10px; }
+.harvest-other-state { display:block; margin-top:4px; font-size:.72rem; color:#87432e; }
+
+@media (max-width: 900px) {
+  .promo-form { grid-template-columns:1fr 1fr; }
+  .promo-form .shop-button { grid-column:1 / -1; }
+  .promo-list li { grid-template-columns:20px 1fr auto; }
+  .promo-list li > span:not(.promo-state) { grid-column:2 / -1; }
+}
+@media (max-width: 560px) {
+  .waitlist-fields { grid-template-columns:1fr; }
+  .waitlist-form { padding:20px 16px; }
+  .waitlist-form .shop-button { justify-self:stretch; }
+}

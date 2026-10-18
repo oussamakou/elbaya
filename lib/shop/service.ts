@@ -12,6 +12,7 @@ import {
 } from './validation';
 import type {Order, Product, ShopSettings, OrderStatus} from './types';
 import {capacity, fulfillment, orderable} from './types';
+import {waitlistCounts} from './waitlist';
 
 export async function catalogue(admin = false) {
   if (!storageConfigured())
@@ -22,6 +23,7 @@ export async function catalogue(admin = false) {
         acceptingOrders: false,
         zones: [],
       } as ShopSettings,
+      waiting: {} as Record<string, number>,
     };
   const client = await db();
   const [products, settings] = await client.batch(
@@ -36,6 +38,8 @@ export async function catalogue(admin = false) {
       .map((row) => JSON.parse(String(row.data)) as Product)
       .filter((p) => admin || p.status !== 'draft'),
     settings: JSON.parse(String(settings.rows[0].data)) as ShopSettings,
+    // Real back-in-stock signups per product, used for "N people are waiting".
+    waiting: await waitlistCounts(),
   };
 }
 export async function saveProduct(input: unknown) {

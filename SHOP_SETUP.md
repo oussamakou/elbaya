@@ -149,3 +149,19 @@ The pomegranate editor has **Offre récolte** controls for base price per kg, bu
 The main pomegranate gallery contains uploaded photos only, in their saved cover order. With no uploaded photo it uses the product illustration; no extracted video stills are appended. A single photo has no carousel arrows. Videos remain in a separate playable story section that the owner can hide.
 
 Homepage and farm-page teasers now read the public catalogue on each page request, use saved product covers and link to individual products. Both pages render dynamically so cover changes do not require a rebuild; draft products are excluded. Illustrations are fallbacks when photos are not supplied.
+
+## Sold out, waitlist and promo codes
+
+**Épuisé** is a product status next to Brouillon, Hors saison, En vente and Précommandes ouvertes. The product stays visible with its sizes, but cannot be ordered or requested; its page shows **Prévenez-moi dès le retour** instead. Visitors leave a first name, a Tunisian phone (WhatsApp) and an optional email, and must tick an explicit consent box limited to that product's return. One entry is kept per phone and product, whatever the number format. When pomegranate requests are paused, the same form offers to hear about the next harvest.
+
+The owner sees everyone under **Produits → Liste d'attente**, grouped by product: one-tap WhatsApp with a prepared "c'est de retour" message, **Marquer prévenu**, **Retirer** (deletes the entry, for opt-outs), copy all waiting numbers, and CSV export. Nothing is sent automatically. The product list shows how many people are waiting for each sold-out product.
+
+Public pages show only real numbers: "N personnes attendent déjà son retour" appears from 3 people still waiting (not yet marked prévenu), and "Plus que N colis" appears when ready stock or pre-order places for the chosen size are 10 or fewer.
+
+**Codes promo** live under **Livraison & codes promo** and apply to pomegranate harvest requests only. A code has a percentage (1–90 %, rounded down to 0.1 DT) or a fixed amount in DT, an optional usage limit and an optional last day (inclusive, Tunis time); it can be deactivated and reactivated, and editing keeps its usage count. Customers apply a code before sending; the server re-checks it and counts one use in the same transaction as the request, so a rejected or retried request never spends it twice. The request, the owner email and the inbox keep the code, the discount and the total before discount.
+
+After a harvest request, the confirmation offers a WhatsApp share link, one-tap "Me prévenir" for sold-out or out-of-season products (using the phone just entered), and, for farm pickup, an invitation to the farm stay.
+
+Custom conversion events were not added: Vercel Web Analytics custom events require a Pro or Enterprise plan.
+
+Run `node scripts/test-shop-growth.mjs` for isolated tests of the sold-out status, waitlist and promo codes.

@@ -3,6 +3,8 @@ import { adminConfigured, isAdmin } from "@/lib/shop/auth";
 import { catalogue, orders } from "@/lib/shop/service";
 import { reservations } from "@/lib/shop/reservations";
 import {contacts} from '@/lib/shop/contact';
+import {waitlist} from '@/lib/shop/waitlist';
+import {promos} from '@/lib/shop/promo';
 import AdminShop from "@/components/shop/AdminShop";
 import "@/components/shop/shop.css";
 export const dynamic = "force-dynamic";
@@ -23,6 +25,8 @@ export default async function AdminPage() {
               orders: await orders(),
               reservations: await reservations(),
               contacts: await contacts(),
+              waitlist: await waitlist(),
+              promos: await promos(),
             }
           : null
       }

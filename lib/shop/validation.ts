@@ -53,7 +53,7 @@ export function productInput(value: unknown): Product {
     if(harvestOffer.largeUnitPrice>harvestOffer.bulkUnitPrice || harvestOffer.bulkUnitPrice>harvestOffer.baseUnitPrice || (harvestOffer.enabled&&!harvestOffer.pickupFarm&&!harvestOffer.pickupTunis))throw new ShopError('invalid');
   }
   if (
-    !['draft', 'available', 'seasonal', 'preorder'].includes(
+    !['draft', 'available', 'seasonal', 'preorder', 'soldout'].includes(
       String(o.status),
     ) ||
     !['fruit', 'oil', 'honey', 'other'].includes(String(o.category))

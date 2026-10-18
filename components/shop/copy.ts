@@ -157,6 +157,8 @@ export const copy = {
   },
 };
 const errors: Record<string, [string, string]> = {
+  consent: ['Cochez la case pour accepter d’être prévenu(e).', 'Tick the box to agree to be notified.'],
+  promo_invalid: ['Ce code n’est pas valable ou a expiré.', 'This code is not valid or has expired.'],
   email: ['Saisissez une adresse e-mail valide ou laissez ce champ vide.', 'Enter a valid email address or leave this field empty.'],
   availability_changed: [
     'La période de disponibilité a changé. Retirez le produit puis ajoutez-le à nouveau après avoir vérifié sa fiche.',

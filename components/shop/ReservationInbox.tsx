@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Check, MapPin, MessageCircle, Phone, Printer } from "lucide-react";
 import type { ReservationRequest } from "@/lib/shop/types";
 import { money } from "@/lib/shop/types";
+import { displayPhone, internationalDigits, whatsappHref } from "./phone";
 
 type Status = ReservationRequest["status"];
 type Place = "farm" | "tunis";
@@ -27,24 +28,11 @@ const received = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "shor
 const pickupDay = new Intl.DateTimeFormat("fr-FR", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
 const formatPickup = (date?: string) => (date ? pickupDay.format(new Date(`${date}T00:00:00Z`)) : "");
 
-// Stored numbers are local (8 digits) or carry +216 / 00216.
-function internationalDigits(phone: string) {
-  const digits = phone.replace(/\D/g, "");
-  if (digits.startsWith("00216")) return digits.slice(2);
-  return digits.length === 8 ? `216${digits}` : digits;
-}
-function displayPhone(phone: string) {
-  const digits = internationalDigits(phone);
-  return digits.length === 11 && digits.startsWith("216")
-    ? `+216 ${digits.slice(3, 5)} ${digits.slice(5, 8)} ${digits.slice(8)}`
-    : phone;
-}
 function orderLine(r: ReservationRequest) {
   return r.harvest ? `${r.harvest.kg} kg de grenades` : `${r.quantity} × ${r.productName} (${r.size})`;
 }
 function whatsappLink(r: ReservationRequest) {
-  const text = `Bonjour ${r.firstName}, c’est Mehdi de Farm El Baya, au sujet de votre demande (${orderLine(r)}, réf. ${r.id}).`;
-  return `https://wa.me/${internationalDigits(r.phone)}?text=${encodeURIComponent(text)}`;
+  return whatsappHref(r.phone, `Bonjour ${r.firstName}, c’est Mehdi de Farm El Baya, au sujet de votre demande (${orderLine(r)}, réf. ${r.id}).`);
 }
 const placeOf = (r: ReservationRequest): Place | null => r.harvest?.pickup ?? null;
 

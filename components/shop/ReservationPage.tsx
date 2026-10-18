@@ -5,6 +5,7 @@ import {Link} from "@/i18n/routing";
 import {localized, type Product} from "@/lib/shop/types";
 import ReservationForm from "./ReservationForm";
 import HarvestPage from './HarvestPage';
+import WaitlistForm from './WaitlistForm';
 export default function ReservationPage({products,locale,productId}:{products:Product[];locale:"fr"|"en";productId?:string}) {
 const fr=locale==="fr";
 const [selected,setSelected]=useState(productId || products[0]?.id);
@@ -29,12 +30,17 @@ const product=products.find(p=>p.id===selected)||products[0];
         </p>
         {product?.images[0] && <figure className="reservation-product-image"><Image key={product.images[0]} src={product.images[0]} alt={localized(product.name,locale)} fill sizes="(min-width: 1300px) 550px, (min-width: 761px) 44vw, 100vw" unoptimized={product.images[0].startsWith('/api/')} className={product.images[0].endsWith('.svg') ? 'illustration' : ''} /><figcaption>{localized(product.name,locale)}</figcaption></figure>}
       </div>
-      <ReservationForm
-        products={products}
-        locale={fr ? "fr" : "en"}
-        productId={selected}
-        onProductChange={setSelected}
-      />
+      {product?.status === "soldout" ? (
+        // Sold-out products take no requests: offer the back-in-stock list instead.
+        <WaitlistForm productId={product.id} productName={localized(product.name, locale)} locale={locale} />
+      ) : (
+        <ReservationForm
+          products={products.filter((p) => p.status !== "soldout")}
+          locale={fr ? "fr" : "en"}
+          productId={selected}
+          onProductChange={setSelected}
+        />
+      )}
     </main>
   );
 }
