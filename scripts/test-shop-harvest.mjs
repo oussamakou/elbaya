@@ -50,6 +50,16 @@ try {
   await updateReservation({...r,status:'confirmed',harvest:{...r.harvest,total:1}});
   const saved=JSON.parse(String((await client.execute({sql:'SELECT data FROM shop_reservations WHERE id=?',args:[r.id]})).rows[0].data));
   assert.equal(saved.harvest.total,45000,'Admin follow-up cannot rewrite the quoted total');
+  // Owner follow-up: private note and pickup date persist; an older admin page that omits them keeps them.
+  const noted=await updateReservation({...saved,ownerNote:'  Rappeler après 18 h ',pickupDate:'2026-10-25'});
+  assert.equal(noted.ownerNote,'Rappeler après 18 h');assert.equal(noted.pickupDate,'2026-10-25');
+  const {ownerNote:_n,pickupDate:_d,...legacy}=noted;
+  const kept=await updateReservation({...legacy,status:'contacted'});
+  assert.equal(kept.ownerNote,'Rappeler après 18 h');assert.equal(kept.pickupDate,'2026-10-25');assert.equal(kept.status,'contacted');
+  for(const pickupDate of ['2026-02-31','25/10/2026','2026-10-25T10:00'])await assert.rejects(updateReservation({...kept,pickupDate}),e=>e.code==='invalid');
+  await assert.rejects(updateReservation({...kept,ownerNote:'x'.repeat(1001)}),e=>e.code==='invalid');
+  const cleared=await updateReservation({...kept,status:'confirmed',ownerNote:'',pickupDate:''});
+  assert.equal(cleared.ownerNote,'');assert.equal(cleared.pickupDate,'');
   const {saveProduct} = await load('service');
   let configProduct=JSON.parse(String((await client.execute("SELECT data FROM shop_products WHERE id='pomegranates'")).rows[0].data));
   configProduct=await saveProduct({...configProduct,harvestOffer:{enabled:true,baseUnitPrice:6000,bulkUnitPrice:5000,pickupFarm:true,pickupTunis:false}});
@@ -70,5 +80,5 @@ try {
   await client.execute({sql:'UPDATE shop_products SET data=? WHERE id=?',args:[JSON.stringify(product),product.id]});
   await assert.rejects(createReservation({...input,requestKey:crypto.randomUUID()}));
   assert.equal((await client.execute('SELECT COUNT(*) AS n FROM shop_reservations')).rows[0].n,4);
-  console.log('PASS: 5 kg steps, bulk price, pickup choices, price tampering, duplicate protection, email snapshot, admin persistence, draft rejection. No real email or production data.');
+  console.log('PASS: 5 kg steps, bulk price, pickup choices, price tampering, duplicate protection, email snapshot, admin persistence, owner note and pickup date, draft rejection. No real email or production data.');
 } finally {globalThis.fetch=originalFetch;client?.close();}

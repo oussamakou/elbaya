@@ -19,6 +19,9 @@ export type ReservationRequest = {
   size: string;
   quantity: number;
   notes: string;
+  // Owner-only follow-up details; never shown to customers.
+  ownerNote?: string;
+  pickupDate?: string;
 };
 export type Variant = {
   id: string;

@@ -1,77 +1,279 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Check, MapPin, MessageCircle, Phone, Printer } from "lucide-react";
 import type { ReservationRequest } from "@/lib/shop/types";
-import {money} from '@/lib/shop/types';
-const statuses = {
+import { money } from "@/lib/shop/types";
+
+type Status = ReservationRequest["status"];
+type Place = "farm" | "tunis";
+const statuses: Record<Status, string> = {
   new: "Nouvelle",
   contacted: "Contacté",
   confirmed: "Confirmée",
   cancelled: "Annulée",
 };
-function RequestCard({
-  request,
-  onSave,
-}: {
-  request: ReservationRequest;
-  onSave: (request: ReservationRequest) => Promise<void>;
-}) {
-  const [busy, setBusy] = useState(false),
-    [error, setError] = useState("");
+const steps: Status[] = ["new", "contacted", "confirmed"];
+const places: Record<Place, string> = { farm: "Ferme · Testour", tunis: "Tunis" };
+const filters = {
+  open: { label: "À traiter", test: (r: ReservationRequest) => r.status === "new" || r.status === "contacted" },
+  confirmed: { label: "Confirmées", test: (r: ReservationRequest) => r.status === "confirmed" },
+  cancelled: { label: "Annulées", test: (r: ReservationRequest) => r.status === "cancelled" },
+  all: { label: "Toutes", test: () => true },
+};
+type Filter = keyof typeof filters;
+
+// Fixed time zone so the server render and the browser agree on the displayed time.
+const received = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Africa/Tunis" });
+const pickupDay = new Intl.DateTimeFormat("fr-FR", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
+const formatPickup = (date?: string) => (date ? pickupDay.format(new Date(`${date}T00:00:00Z`)) : "");
+
+// Stored numbers are local (8 digits) or carry +216 / 00216.
+function internationalDigits(phone: string) {
+  const digits = phone.replace(/\D/g, "");
+  if (digits.startsWith("00216")) return digits.slice(2);
+  return digits.length === 8 ? `216${digits}` : digits;
+}
+function displayPhone(phone: string) {
+  const digits = internationalDigits(phone);
+  return digits.length === 11 && digits.startsWith("216")
+    ? `+216 ${digits.slice(3, 5)} ${digits.slice(5, 8)} ${digits.slice(8)}`
+    : phone;
+}
+function orderLine(r: ReservationRequest) {
+  return r.harvest ? `${r.harvest.kg} kg de grenades` : `${r.quantity} × ${r.productName} (${r.size})`;
+}
+function whatsappLink(r: ReservationRequest) {
+  const text = `Bonjour ${r.firstName}, c’est Mehdi de Farm El Baya, au sujet de votre demande (${orderLine(r)}, réf. ${r.id}).`;
+  return `https://wa.me/${internationalDigits(r.phone)}?text=${encodeURIComponent(text)}`;
+}
+const placeOf = (r: ReservationRequest): Place | null => r.harvest?.pickup ?? null;
+
+function Summary({ requests }: { requests: ReservationRequest[] }) {
+  const active = requests.filter((r) => r.status !== "cancelled");
+  const kg = (list: ReservationRequest[]) => list.reduce((sum, r) => sum + (r.harvest?.kg || 0), 0);
+  const cash = (list: ReservationRequest[]) => list.reduce((sum, r) => sum + (r.harvest?.total || 0), 0);
+  const confirmed = active.filter((r) => r.status === "confirmed");
+  const toCall = active.filter((r) => r.status === "new").length;
   return (
-    <article className="reservation-inbox-card">
-      <div>
-        <p className="shop-eyebrow">
-          {request.id} ·{" "}
-          {new Date(request.createdAt).toLocaleDateString("fr-TN")}
-        </p>
-        <h3>
-          {request.firstName} {request.lastName}
-        </h3>
-        <p>
-          {request.quantity} × {request.productName} · {request.size}
-        </p>
-        {request.harvest && <p><strong>{money(request.harvest.total)}</strong> · {money(request.harvest.unitPrice)} / kg · Paiement au retrait</p>}
-        <a className="pantry-text-link" href={`tel:${request.phone}`}>
-          {request.phone}
-        </a>
-        <p style={{ whiteSpace: "pre-wrap" }}>{request.address}</p>
-        {request.email && (
-          <a href={`mailto:${request.email}`}>{request.email}</a>
-        )}
-        {request.notes && <p>{request.notes}</p>}
+    <dl className="inbox-summary">
+      <div data-tone={toCall ? "alert" : undefined}>
+        <dt>À rappeler</dt>
+        <dd>{toCall}</dd>
+        <small>{toCall === 1 ? "nouvelle demande" : "nouvelles demandes"}</small>
       </div>
-      <label>
-        Suivi
-        <select
-          className="field"
-          disabled={busy}
-          value={request.status}
-          onChange={async (e) => {
-            setBusy(true);
-            setError("");
-            try {
-              await onSave({
-                ...request,
-                status: e.target.value as ReservationRequest["status"],
-              });
-            } catch (e) {
-              setError(e instanceof Error ? e.message : "Erreur");
-            } finally {
-              setBusy(false);
-            }
-          }}
-        >
-          {Object.entries(statuses).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-        {error && <span role="alert">{error}</span>}
-      </label>
+      <div>
+        <dt>Grenades demandées</dt>
+        <dd>{kg(active)} kg</dd>
+        <small>dont {kg(confirmed)} kg confirmés</small>
+      </div>
+      <div>
+        <dt>Par lieu de retrait</dt>
+        <dd className="inbox-summary-split">
+          <span>{kg(active.filter((r) => placeOf(r) === "farm"))} kg <em>Testour</em></span>
+          <span>{kg(active.filter((r) => placeOf(r) === "tunis"))} kg <em>Tunis</em></span>
+        </dd>
+        <small>hors demandes annulées</small>
+      </div>
+      <div>
+        <dt>À encaisser</dt>
+        <dd>{money(cash(confirmed))}</dd>
+        <small>{money(cash(active))} si tout est confirmé</small>
+      </div>
+    </dl>
+  );
+}
+
+function RequestCard({ request, onSave }: { request: ReservationRequest; onSave: (r: ReservationRequest) => Promise<void> }) {
+  const [note, setNote] = useState(request.ownerNote || ""),
+    [date, setDate] = useState(request.pickupDate || ""),
+    [busy, setBusy] = useState(false),
+    [saved, setSaved] = useState(false),
+    [error, setError] = useState("");
+  // A refreshed request (new revision) replaces the local draft.
+  useEffect(() => {
+    setNote(request.ownerNote || "");
+    setDate(request.pickupDate || "");
+  }, [request.revision, request.ownerNote, request.pickupDate]);
+  useEffect(() => {
+    if (!saved) return;
+    const timer = window.setTimeout(() => setSaved(false), 3000);
+    return () => window.clearTimeout(timer);
+  }, [saved]);
+  const dirty = note !== (request.ownerNote || "") || date !== (request.pickupDate || "");
+  async function save(status: Status) {
+    setBusy(true);
+    setError("");
+    setSaved(false);
+    try {
+      await onSave({ ...request, status, ownerNote: note, pickupDate: date });
+      setSaved(true);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Erreur");
+    } finally {
+      setBusy(false);
+    }
+  }
+  function cancel() {
+    if (window.confirm(`Annuler la demande de ${request.firstName} ${request.lastName} (${orderLine(request)}) ?\n\nVous pourrez la rétablir ensuite.`))
+      void save("cancelled");
+  }
+  const place = placeOf(request);
+  return (
+    <article className="inbox-card" data-status={request.status}>
+      <div className="inbox-card-main">
+        <p className="inbox-card-meta">
+          <span className="inbox-status">{statuses[request.status]}</span>
+          <span>{request.id} · reçue le {received.format(new Date(request.createdAt))}</span>
+        </p>
+        <h3>{request.firstName} {request.lastName}</h3>
+        {request.harvest ? (
+          <>
+            <p className="inbox-order">
+              <strong>{request.harvest.kg} kg</strong>
+              <span>{money(request.harvest.total)}</span>
+              {place && (
+                <span className="inbox-place" data-place={place}>
+                  <MapPin size={14} />
+                  {places[place]}
+                </span>
+              )}
+            </p>
+            <p className="inbox-order-detail">{money(request.harvest.unitPrice)} / kg · paiement au retrait</p>
+          </>
+        ) : (
+          <>
+            <p className="inbox-order">
+              <strong>{request.quantity} × {request.productName}</strong>
+              <span>{request.size}</span>
+            </p>
+            <p className="inbox-order-detail" style={{ whiteSpace: "pre-wrap" }}>{request.address}</p>
+          </>
+        )}
+        {request.notes && <blockquote className="inbox-customer-note">« {request.notes} »</blockquote>}
+        <p className="inbox-phone">{displayPhone(request.phone)}</p>
+        <div className="inbox-contact">
+          <a className="shop-button" href={`tel:+${internationalDigits(request.phone)}`}>
+            <Phone size={17} />
+            Appeler
+          </a>
+          <a className="shop-button secondary" href={whatsappLink(request)} target="_blank" rel="noreferrer">
+            <MessageCircle size={17} />
+            WhatsApp
+          </a>
+          {request.email && (
+            <a className="pantry-text-link" href={`mailto:${request.email}`}>
+              {request.email}
+            </a>
+          )}
+        </div>
+      </div>
+      <div className="inbox-card-side">
+        {request.status === "cancelled" ? (
+          <button type="button" className="shop-button secondary" disabled={busy} onClick={() => save("new")}>
+            Rétablir la demande
+          </button>
+        ) : (
+          <div className="inbox-steps" role="group" aria-label="Suivi de la demande">
+            {steps.map((step) => (
+              <button key={step} type="button" aria-pressed={request.status === step} disabled={busy} onClick={() => request.status !== step && save(step)}>
+                {request.status === step && <Check size={14} />}
+                {statuses[step]}
+              </button>
+            ))}
+          </div>
+        )}
+        <details className="inbox-followup" open={Boolean(request.pickupDate || request.ownerNote || request.status === "confirmed")}>
+          <summary>
+            Retrait et note
+            {request.pickupDate && <span>{formatPickup(request.pickupDate)}</span>}
+          </summary>
+          <label>
+            Date de retrait
+            <input className="field" type="date" value={date} disabled={busy} onChange={(e) => setDate(e.target.value)} />
+          </label>
+          <label>
+            Note privée
+            <textarea className="field" rows={2} maxLength={1000} value={note} disabled={busy} placeholder="Ex. rappeler après 18 h" onChange={(e) => setNote(e.target.value)} />
+          </label>
+        </details>
+        <div className="inbox-card-actions">
+          {dirty && (
+            <button type="button" className="shop-button secondary" disabled={busy} onClick={() => save(request.status)}>
+              Enregistrer
+            </button>
+          )}
+          {saved && !dirty && !busy && (
+            <span className="inbox-saved" role="status">
+              <Check size={15} />
+              Enregistré
+            </span>
+          )}
+          {request.status !== "cancelled" && (
+            <button type="button" className="inbox-cancel" disabled={busy} onClick={cancel}>
+              Annuler la demande
+            </button>
+          )}
+        </div>
+        {error && <p role="alert" className="shop-error">{error}</p>}
+      </div>
     </article>
   );
 }
+
+function PrintList({ requests, title, includeCancelled }: { requests: ReservationRequest[]; title: string; includeCancelled: boolean }) {
+  // A pickup sheet lists what is still to hand over, soonest date first.
+  const list = requests
+    .filter((r) => includeCancelled || r.status !== "cancelled")
+    .sort((a, b) => (a.pickupDate || "9999").localeCompare(b.pickupDate || "9999"));
+  const groups: [string, ReservationRequest[]][] = [
+    ["Retrait à la ferme · Testour", list.filter((r) => placeOf(r) === "farm")],
+    ["Retrait à Tunis", list.filter((r) => placeOf(r) === "tunis")],
+    ["Autres produits", list.filter((r) => !placeOf(r))],
+  ];
+  return (
+    <div className="inbox-print">
+      <h2>Liste de retrait · {title}</h2>
+      {groups
+        .filter(([, list]) => list.length)
+        .map(([label, list]) => (
+          <section key={label}>
+            <h3>{label}</h3>
+            <table>
+              <colgroup><col style={{ width: "11%" }} /><col style={{ width: "17%" }} /><col style={{ width: "15%" }} /><col style={{ width: "12%" }} /><col style={{ width: "11%" }} /><col style={{ width: "10%" }} /><col /><col style={{ width: "6%" }} /></colgroup>
+              <thead>
+                <tr><th>Retrait</th><th>Client</th><th>Téléphone</th><th>Demande</th><th>Total</th><th>Suivi</th><th>Note</th><th>Remis</th></tr>
+              </thead>
+              <tbody>
+                {list.map((r) => (
+                  <tr key={r.id}>
+                    <td>{formatPickup(r.pickupDate) || "—"}</td>
+                    <td>{r.firstName} {r.lastName}</td>
+                    <td>{displayPhone(r.phone)}</td>
+                    <td>{r.harvest ? `${r.harvest.kg} kg` : `${r.quantity} × ${r.productName} · ${r.size}`}</td>
+                    <td>{r.harvest ? money(r.harvest.total) : "—"}</td>
+                    <td>{statuses[r.status]}</td>
+                    <td>{r.ownerNote || ""}</td>
+                    <td><span className="inbox-print-tick" /></td>
+                  </tr>
+                ))}
+              </tbody>
+              {list.some((r) => r.harvest) && (
+                <tfoot>
+                  <tr>
+                    <td colSpan={3}>{list.length} demande{list.length > 1 ? "s" : ""}</td>
+                    <td>{list.reduce((sum, r) => sum + (r.harvest?.kg || 0), 0)} kg</td>
+                    <td>{money(list.reduce((sum, r) => sum + (r.harvest?.total || 0), 0))}</td>
+                    <td colSpan={3} />
+                  </tr>
+                </tfoot>
+              )}
+            </table>
+          </section>
+        ))}
+    </div>
+  );
+}
+
 export default function ReservationInbox({
   requests,
   onSave,
@@ -79,29 +281,68 @@ export default function ReservationInbox({
   requests: ReservationRequest[];
   onSave: (request: ReservationRequest) => Promise<void>;
 }) {
+  const [filter, setFilter] = useState<Filter>(() => (requests.some(filters.open.test) ? "open" : "all")),
+    [place, setPlace] = useState<Place | "any">("any");
+  const hasHarvest = requests.some((r) => r.harvest);
+  // The list is fixed when a view is chosen (or a request arrives), so a card that changes
+  // status stays in place with its feedback instead of jumping or vanishing mid-task.
+  const viewIds = useMemo(() => {
+    const list = requests.filter(filters[filter].test).filter((r) => place === "any" || placeOf(r) === place);
+    // Confirmed requests are a pickup schedule: soonest date first, undated last.
+    // Open requests put the ones nobody has called yet first; otherwise newest first, as stored.
+    if (filter === "confirmed") list.sort((a, b) => (a.pickupDate || "9999").localeCompare(b.pickupDate || "9999"));
+    else if (filter === "open") list.sort((a, b) => Number(b.status === "new") - Number(a.status === "new"));
+    return list.map((r) => r.id);
+  }, [filter, place, requests.length]);
+  const byId = new Map(requests.map((r) => [r.id, r]));
+  const visible = viewIds.map((id) => byId.get(id)).filter((r): r is ReservationRequest => Boolean(r));
+  const title = `${filters[filter].label}${place === "any" ? "" : ` · ${places[place]}`}`;
   return (
-    <section>
-      <h2>Demandes de précommande</h2>
-      <p className="pantry-lead">
-        Appelez le client pour convenir du prix, de la disponibilité et de la
-        livraison, puis mettez à jour le suivi.
-      </p>
+    <section className="inbox">
+      <div className="admin-heading">
+        <div>
+          <h2>Demandes de récolte</h2>
+          <p>Appelez ou écrivez au client, fixez le retrait, puis passez la demande en « Confirmée ».</p>
+        </div>
+        <button type="button" className="shop-button secondary" disabled={!visible.length} onClick={() => window.print()}>
+          <Printer size={17} />
+          Imprimer la liste
+        </button>
+      </div>
+      {hasHarvest && <Summary requests={requests} />}
+      <div className="inbox-toolbar">
+        <div className="pantry-filters" role="group" aria-label="Filtrer par suivi">
+          {(Object.keys(filters) as Filter[]).map((key) => (
+            <button key={key} type="button" aria-pressed={filter === key} onClick={() => setFilter(key)}>
+              {filters[key].label}
+              <span className="inbox-count">{requests.filter(filters[key].test).length}</span>
+            </button>
+          ))}
+        </div>
+        {hasHarvest && (
+          <div className="pantry-filters" role="group" aria-label="Filtrer par lieu de retrait">
+            {(["any", "farm", "tunis"] as const).map((key) => (
+              <button key={key} type="button" aria-pressed={place === key} onClick={() => setPlace(key)}>
+                {key === "any" ? "Tous les lieux" : places[key]}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="inbox-list">
+        {visible.map((request) => (
+          <RequestCard key={request.id} request={request} onSave={onSave} />
+        ))}
+        {!visible.length && (
+          <p className="shop-notice">
+            {requests.length ? "Aucune demande dans cette vue." : "Aucune demande pour le moment. Les nouvelles demandes de récolte arriveront ici."}
+          </p>
+        )}
+      </div>
       <p className="pantry-small">
-        Ces demandes ne réservent pas automatiquement le stock et ne créent pas
-        de commande payante. Le statut « Confirmée » consigne votre accord avec
-        le client.
+        Ces demandes ne bloquent pas de stock et ne créent pas de commande payée. « Confirmée » note votre accord avec le client ; la date et la note privée ne sont visibles que par vous.
       </p>
-      {requests.length ? (
-        requests.map((request) => (
-          <RequestCard
-            key={`${request.id}-${request.revision}`}
-            request={request}
-            onSave={onSave}
-          />
-        ))
-      ) : (
-        <p className="shop-notice">Aucune demande pour le moment.</p>
-      )}
+      <PrintList requests={visible} title={title} includeCancelled={filter === "cancelled"} />
     </section>
   );
 }

@@ -108,6 +108,15 @@ export async function updateReservation(input: unknown) {
     status = text(o.status, 20);
   if (!["new", "contacted", "confirmed", "cancelled"].includes(status))
     throw new ShopError("invalid");
+  // Optional so an admin page opened before these fields existed still saves status only.
+  const ownerNote = o.ownerNote === undefined ? undefined : text(o.ownerNote, 1000, false);
+  const pickupDate = o.pickupDate === undefined ? undefined : text(o.pickupDate, 10, false);
+  if (pickupDate) {
+    // Rejects impossible days such as 2026-02-31 instead of rolling them over.
+    const day = new Date(`${pickupDate}T00:00:00Z`);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(pickupDate) || Number.isNaN(day.getTime()) || day.toISOString().slice(0, 10) !== pickupDate)
+      throw new ShopError("invalid");
+  }
   const tx = await (await db()).transaction("write");
   try {
     const result = await tx.execute({
@@ -119,6 +128,8 @@ export async function updateReservation(input: unknown) {
     if (data.revision !== revision) throw new ShopError("conflict", 409);
     data.revision++;
     data.status = status as ReservationRequest["status"];
+    if (ownerNote !== undefined) data.ownerNote = ownerNote;
+    if (pickupDate !== undefined) data.pickupDate = pickupDate;
     await tx.execute({
       sql: "UPDATE shop_reservations SET data=? WHERE id=?",
       args: [JSON.stringify(data), data.id],
