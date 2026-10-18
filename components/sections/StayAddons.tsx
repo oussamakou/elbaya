@@ -11,7 +11,7 @@ const copy = {
     reveal: 'See all 11 options and current prices',
     from: 'From',
     groups: {
-      meals: {title: 'Meals', summary: 'Breakfast and home-cooked meals from the farm kitchen. Vegetarian meals are available on request.'},
+      meals: {title: 'Meals', summary: 'Breakfast and home-cooked meals from the farm kitchen. Our meals are cooked with olive oil, without seed oils. Vegetarian meals are available on request.'},
       experiences: {title: 'Farm time & activities', summary: 'Movement, beekeeping, harvest, cooking, cycling, or time with the donkey.'},
       outing: {title: 'A day beyond the farm', summary: 'A private guided day through Testour and Dougga.'}
     }
@@ -24,7 +24,7 @@ const copy = {
     reveal: 'Voir les 11 options et les prix actuels',
     from: 'Dès',
     groups: {
-      meals: {title: 'Repas', summary: 'Petit-déjeuner et repas maison préparés à la ferme. Des repas végétariens sont possibles sur demande.'},
+      meals: {title: 'Repas', summary: 'Petit-déjeuner et repas maison préparés à la ferme. Nos repas sont cuisinés à l’huile d’olive, sans huiles de graines. Des repas végétariens sont possibles sur demande.'},
       experiences: {title: 'Ferme et activités', summary: 'Mouvement, ruches, récolte, cuisine, VTT ou moment avec l’âne.'},
       outing: {title: 'Une journée hors de la ferme', summary: 'Une journée privée et guidée à Testour et Dougga.'}
     }
