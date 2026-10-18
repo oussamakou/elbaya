@@ -160,7 +160,7 @@ export default function HarvestPage({product,locale,otherProducts=[]}: {product:
         <p className="shop-eyebrow">{fr?'LES GRENADES D’EL BAYA · SAISON 2026':'EL BAYA POMEGRANATES · SEASON 2026'}</p>
         <h1>{fr?'Les grenades d’El Baya.':'El Baya pomegranates.'}</h1>
         <p className="harvest-intro">{customDescription?description:fr?'Une terre familiale à Testour, des arbres soignés par Mehdi, et la récolte qu’on a envie de partager.':'Family land in Testour, trees cared for by Mehdi, and a harvest we want to share with you.'}</p>
-        <p className="harvest-growing"><Leaf size={18}/>{fr?'Culture bio, sans pesticides, selon Mehdi.':'Organically grown without pesticides, as described by Mehdi.'}</p>
+        <p className="harvest-growing"><Leaf size={18}/>{fr?'Culture bio, sans pesticides.':'Organically grown without pesticides, as described by Mehdi.'}</p>
         <p className="harvest-limited">{fr?'Cette saison, une petite quantité de notre récolte est proposée à la communauté. Chaque demande est confirmée personnellement.':'This season, we’re sharing a limited part of our harvest with the community. Each request is confirmed personally.'}</p>
         <HarvestOrder product={product} fr={fr} kg={kg} setKg={setKg}/>
       </div>
