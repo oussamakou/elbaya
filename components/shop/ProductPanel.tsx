@@ -19,13 +19,14 @@ import {
 } from "@/lib/shop/types";
 import { copy } from "./copy";
 import WaitlistForm from "./WaitlistForm";
+import { saleState } from "@/lib/shop/harvest";
 
 function productStatus(product: Product, locale: "fr" | "en") {
   const t = copy[locale];
-  if (product.status === "preorder") return t.preorder;
-  if (product.status === "seasonal") return t.seasonal;
-  if (product.status === "soldout") return t.sold;
-  return product.variants.some((v) => v.stock > 0) ? t.available : t.sold;
+  const state = saleState(product);
+  if (state === "preorder") return t.preorder;
+  if (state === "soldout") return t.sold;
+  return t.available;
 }
 export function ProductCard({
   product,

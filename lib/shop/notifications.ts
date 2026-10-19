@@ -25,14 +25,17 @@ export function orderMessage(order: Order): Message {
 
 export function reservationMessage(r: ReservationRequest): Message {
   return {
-    subject: `El Baya · Demande de précommande ${r.id}`,
+    subject: `El Baya · ${r.harvest && !r.harvest.preorder ? 'Commande' : 'Demande de précommande'} ${r.id}`,
     text: [
       `Demande ${r.id}`, `Client : ${r.firstName} ${r.lastName}`,
       `Téléphone : ${r.phone}`, `Adresse : ${r.address}`,
       ...(r.email ? [`Email : ${r.email}`] : []), '',
-      `${r.quantity} × ${r.productName} · ${r.size}`, `Notes : ${r.notes || 'Aucune'}`, '',
+      r.harvest ? `${r.productName} · ${r.size}` : `${r.quantity} × ${r.productName} · ${r.size}`, `Notes : ${r.notes || 'Aucune'}`, '',
       ...(r.harvest ? [
-        `Poids : ${r.harvest.kg} kg · ${money(r.harvest.unitPrice)} / kg`,
+        ...(r.harvest.preorder ? [`PRÉCOMMANDE${r.harvest.availability ? ` · disponibilité annoncée : ${r.harvest.availability}` : ''}`] : []),
+        r.harvest.kg !== undefined
+          ? `Poids : ${r.harvest.kg} kg · ${money(r.harvest.unitPrice)} / kg`
+          : `Quantité : ${r.harvest.quantity} × ${r.harvest.label} · ${money(r.harvest.unitPrice)} l’unité`,
         `Total : ${money(r.harvest.total)}`,
         ...(r.harvest.promoCode ? [`Code promo ${r.harvest.promoCode} : −${money(r.harvest.discount || 0)} (avant remise : ${money(r.harvest.subtotal || 0)})`] : []),
         pickupLabel(r.harvest.pickup),

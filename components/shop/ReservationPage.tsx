@@ -1,46 +1,18 @@
 "use client";
-import {useState} from "react";
-import Image from "next/image";
 import {Link} from "@/i18n/routing";
-import {localized, type Product} from "@/lib/shop/types";
-import ReservationForm from "./ReservationForm";
+import type {Product} from "@/lib/shop/types";
 import HarvestPage from './HarvestPage';
-import WaitlistForm from './WaitlistForm';
+// /products/reserve shows the chosen product's request page (the first visible one by default).
 export default function ReservationPage({products,locale,productId}:{products:Product[];locale:"fr"|"en";productId?:string}) {
-const fr=locale==="fr";
-const [selected,setSelected]=useState(productId || products[0]?.id);
-const product=products.find(p=>p.id===selected)||products[0];
-  if(product?.id === 'pomegranates') return <HarvestPage product={product} locale={locale} otherProducts={products.filter(p=>p.id!==product.id)}/>;
+  const fr=locale==="fr";
+  const product=products.find(p=>p.id===productId)||products[0];
+  if(product) return <HarvestPage product={product} locale={locale} otherProducts={products.filter(p=>p.id!==product.id)}/>;
   return (
     <main className="shop-wrap reservation-page">
-      <div className="reservation-intro">
-        <Link href="/products" className="pantry-text-link">
-          ← {fr ? "La boutique" : "Farm shop"}
-        </Link>
-        <p className="shop-eyebrow">FARM EL BAYA · TESTOUR</p>
-        <h1>
-          {fr
-            ? "La prochaine récolte, pour vous."
-            : "A little of the next harvest, for you."}
-        </h1>
-        <p className="pantry-lead">
-          {fr
-            ? "Grenades, huile d’olive ou miel : dites-nous ce qui vous ferait plaisir. Mehdi vous appelle pour préparer votre précommande."
-            : "Pomegranates, olive oil or honey: tell us what you would like. Mehdi will call to arrange your pre-order."}
-        </p>
-        {product?.images[0] && <figure className="reservation-product-image"><Image key={product.images[0]} src={product.images[0]} alt={localized(product.name,locale)} fill sizes="(min-width: 1300px) 550px, (min-width: 761px) 44vw, 100vw" unoptimized={product.images[0].startsWith('/api/')} className={product.images[0].endsWith('.svg') ? 'illustration' : ''} /><figcaption>{localized(product.name,locale)}</figcaption></figure>}
-      </div>
-      {product?.status === "soldout" ? (
-        // Sold-out products take no requests: offer the back-in-stock list instead.
-        <WaitlistForm productId={product.id} productName={localized(product.name, locale)} locale={locale} />
-      ) : (
-        <ReservationForm
-          products={products.filter((p) => p.status !== "soldout")}
-          locale={fr ? "fr" : "en"}
-          productId={selected}
-          onProductChange={setSelected}
-        />
-      )}
+      <p className="shop-notice">
+        {fr ? "Les produits de la ferme seront bientôt disponibles." : "Farm products are coming soon."}{" "}
+        <Link href="/farm" className="pantry-text-link">{fr ? "Découvrir la ferme" : "Meet the farm"} →</Link>
+      </p>
     </main>
   );
 }

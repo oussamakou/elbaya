@@ -5,12 +5,15 @@ import {useRef, useState, type FormEvent} from 'react';
 import {Bell, Check, ChevronLeft, ChevronRight, Leaf, MapPin, MessageCircle, Minus, Pause, Play, Plus, Tag, Volume2, VolumeX, X} from 'lucide-react';
 import {Link} from '@/i18n/routing';
 import {money, type Product} from '@/lib/shop/types';
-import {FARM_MAP, harvestQuote, harvestOffer, pickupLabel, promoDiscount, type PromoRule} from '@/lib/shop/harvest';
+import {FARM_MAP, harvestQuote, harvestOffer, packQuote, pickupLabel, pricingMode, promoDiscount, requestable, saleState, type PromoRule} from '@/lib/shop/harvest';
 import {errorMessage} from './copy';
 import WaitlistForm from './WaitlistForm';
 
 // Products that cannot be ordered now and can be followed with one tap after a request.
-const followable = (p: Product) => p.status === 'soldout' || p.status === 'seasonal';
+const followable = (p: Product) => saleState(p) === 'soldout';
+// Each product's own illustration when no photo has been uploaded.
+const ILLUSTRATION: Record<Product['category'], string> = {fruit: '/assets/shop/pomegranate.svg', oil: '/assets/shop/olive.svg', honey: '/assets/shop/honey.svg', other: '/assets/shop/pomegranate.svg'};
+const productName = (p: Product, fr: boolean) => (fr ? p.name.fr : p.name.en || p.name.fr);
 const SHARE_URL = 'https://www.farmelbaya.com/fr/products/pomegranates';
 
 // After a request: share with friends, follow other products, and (for farm pickup) stay the night.
@@ -121,15 +124,21 @@ function FarmStories({fr}: {fr:boolean}) {
   </section>;
 }
 
-function PackSelection({selected,fr}: {selected:boolean;fr:boolean}) {
+function PackSelection({selected,fr,noun='panier'}: {selected:boolean;fr:boolean;noun?:string}) {
   return <small className={`harvest-pack-state${selected?' is-selected':''}`}>
     {selected?<Check size={14} aria-hidden="true"/>:<span className="harvest-pack-radio" aria-hidden="true"/>}
-    {selected?(fr?'Sélectionné':'Selected'):(fr?'Choisir ce panier':'Choose this pack')}
+    {selected?(fr?'Sélectionné':'Selected'):(fr?`Choisir ce ${noun}`:'Choose this pack')}
   </small>;
 }
 
-function HarvestOrder({product,fr,kg,setKg,others,waiting}: {product:Product;fr:boolean;kg:number;setKg:(kg:number)=>void;others:Product[];waiting:number}) {
+type Choice = {kg:number; setKg:(kg:number)=>void; packId:string; setPackId:(id:string)=>void; qty:number; setQty:(qty:number)=>void};
+function HarvestOrder({product,fr,choice,others,waiting}: {product:Product;fr:boolean;choice:Choice;others:Product[];waiting:number}) {
+  const {kg,setKg,packId,setPackId,qty,setQty}=choice;
   const offer=harvestOffer(product);
+  const weight=pricingMode(product)==='weight';
+  const state=saleState(product);
+  const packs=product.variants.filter(v=>v.price>0);
+  const pack=packs.find(v=>v.id===packId)||packs[0];
   const [pickup,setPickup] = useState<'farm'|'tunis'>(offer.pickupFarm?'farm':'tunis');
   const [busy,setBusy] = useState(false);
   const [error,setError] = useState('');
@@ -141,8 +150,10 @@ function HarvestOrder({product,fr,kg,setKg,others,waiting}: {product:Product;fr:
   const [promoError,setPromoError] = useState('');
   const promoField = useRef<HTMLInputElement>(null);
   const key = useRef('');
-  const quote = harvestQuote(kg,offer);
-  // The discount follows the pack size; the server recomputes it and counts the use on submit.
+  // Nothing to price: a pack product without a priced size cannot take requests.
+  const quote = weight ? harvestQuote(kg,offer) : pack ? packQuote(pack,qty) : {total:0};
+  const chosen = weight ? `${kg} kg` : pack ? `${qty} × ${pack.label}` : '';
+  // The discount follows the selection; the server recomputes it and counts the use on submit.
   const discount = promo ? promoDiscount(quote.total,promo) : 0;
   const total = quote.total - discount;
   async function applyPromo() {
@@ -167,7 +178,7 @@ function HarvestOrder({product,fr,kg,setKg,others,waiting}: {product:Product;fr:
     const fields = Object.fromEntries(new FormData(e.currentTarget));
     setBusy(true);setError(''); key.current ||= crypto.randomUUID();
     try {
-      const response = await fetch('/api/shop/reservations',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...fields,productId:product.id,variantId:product.variants[0].id,harvestKg:kg,pickup,expectedTotal:total,...(promo?{promoCode:promo.code}:{}),requestKey:key.current})});
+      const response = await fetch('/api/shop/reservations',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...fields,productId:product.id,...(weight?{variantId:product.variants[0].id,harvestKg:kg}:{variantId:pack!.id,quantity:qty}),pickup,expectedTotal:total,...(promo?{promoCode:promo.code}:{}),requestKey:key.current})});
       const result = await response.json();
       if(!response.ok) {
         if(result.error==='promo_invalid')setPromo(null);
@@ -178,19 +189,27 @@ function HarvestOrder({product,fr,kg,setKg,others,waiting}: {product:Product;fr:
     } catch(e) {setError(e instanceof Error ? e.message : errorMessage('unavailable',fr?'fr':'en'));}
     finally {setBusy(false);}
   }
-  if(reference)return <div className="harvest-confirmation" role="status"><Check size={30}/><p className="shop-eyebrow">{reference}</p><h2>{fr ? 'Votre part de récolte est demandée.' : 'Your harvest request is in.'}</h2><p>{kg} kg · {money(total,fr?'fr':'en')}{promo?` · code ${promo.code}`:''}</p><p>{pickupLabel(pickup,fr)}</p><p>{fr ? 'Mehdi vous appelle pour confirmer la disponibilité et le rendez-vous. Vous payez au retrait.' : 'Mehdi will call to confirm availability and your pickup appointment. Pay when you collect.'}</p><AfterRequest fr={fr} pickup={pickup} contact={contact} others={others.filter(followable)}/></div>;
-  if(!offer.enabled || (!offer.pickupFarm&&!offer.pickupTunis))return <div id="harvest-order"><p className="shop-notice">{fr?'Les demandes sont en pause pour le moment.':'Requests are paused for now.'}</p><WaitlistForm productId={product.id} productName={fr?product.name.fr:product.name.en||product.name.fr} locale={fr?'fr':'en'} waiting={waiting} title={fr?'Prévenez-moi pour la prochaine récolte':'Tell me about the next harvest'}/></div>;
+  if(reference)return <div className="harvest-confirmation" role="status"><Check size={30}/><p className="shop-eyebrow">{reference}</p><h2>{state==='preorder' ? (fr ? 'Votre précommande est envoyée.' : 'Your pre-order is in.') : weight ? (fr ? 'Votre part de récolte est demandée.' : 'Your harvest request is in.') : (fr ? 'Votre commande est envoyée.' : 'Your order request is in.')}</h2><p>{productName(product,fr)} · {chosen} · {money(total,fr?'fr':'en')}{promo?` · code ${promo.code}`:''}</p><p>{pickupLabel(pickup,fr)}</p><p>{fr ? 'Mehdi vous appelle pour confirmer la disponibilité et le rendez-vous. Vous payez au retrait.' : 'Mehdi will call to confirm availability and your pickup appointment. Pay when you collect.'}</p><AfterRequest fr={fr} pickup={pickup} contact={contact} others={others.filter(followable)}/></div>;
+  if(!requestable(product) || (!offer.pickupFarm&&!offer.pickupTunis) || (!weight&&!pack))return <div id="harvest-order"><p className="shop-notice">{state==='soldout'?(fr?'Épuisé pour le moment.':'Sold out for now.'):(fr?'Les demandes sont en pause pour le moment.':'Requests are paused for now.')}</p><WaitlistForm productId={product.id} productName={fr?product.name.fr:product.name.en||product.name.fr} locale={fr?'fr':'en'} waiting={waiting} title={weight?(fr?'Prévenez-moi pour la prochaine récolte':'Tell me about the next harvest'):undefined}/></div>;
   return <form id="harvest-order" className="harvest-order" onSubmit={submit} onChange={()=>{key.current='';}}>
     <fieldset disabled={busy}>
-      <legend className="sr-only">{fr ? 'Votre demande de grenades' : 'Your pomegranate order request'}</legend>
-      <div className="harvest-pack-heading"><h2>{fr ? 'Votre part de récolte' : 'Your share of the harvest'}</h2><span>{fr ? 'Dès 5 kg' : 'From 5 kg'}</span></div>
+      <legend className="sr-only">{fr ? `Votre demande · ${productName(product,fr)}` : `Your request · ${productName(product,fr)}`}</legend>
+      {state==='preorder'&&<p className="harvest-preorder"><strong>{fr?'Précommande':'Pre-order'}</strong>{(fr?product.preorderNote?.fr:product.preorderNote?.en||product.preorderNote?.fr)||(fr?'Disponibilité confirmée par téléphone.':'Availability confirmed by phone.')}<small>{fr?'Réservez maintenant : Mehdi vous appelle quand c’est prêt. Retrait et paiement à ce moment-là.':'Reserve now: Mehdi calls when it’s ready. Pick up and pay then.'}</small></p>}
+      <div className="harvest-pack-heading"><h2>{weight ? (fr ? 'Votre part de récolte' : 'Your share of the harvest') : (fr ? 'Votre format' : 'Your size')}</h2><span>{weight ? (fr ? 'Dès 5 kg' : 'From 5 kg') : packs.length > 1 ? (fr ? `${packs.length} formats` : `${packs.length} sizes`) : ''}</span></div>
+      {weight ? <>
       <div className="harvest-packs" role="group" aria-label={fr ? 'Choisir un panier' : 'Choose a pack'}>
         <button type="button" aria-pressed={kg===5} onClick={()=>{setKg(5);key.current='';}}><span>5 kg</span><strong>{format(offer.baseUnitPrice*5)}</strong><small>{format(offer.baseUnitPrice)} / kg</small><PackSelection selected={kg===5} fr={fr}/></button>
         <button type="button" aria-pressed={kg>=10&&kg<20} onClick={()=>{setKg(kg>=10&&kg<20?kg:10);key.current='';}}><span className="harvest-pack-label">{fr ? 'Le panier classique' : 'Our signature pack'}</span><span>{kg>=10&&kg<20?kg:10} kg</span><strong>{format(offer.bulkUnitPrice*(kg>=10&&kg<20?kg:10))}</strong><small>{format(offer.bulkUnitPrice)} / kg</small>{savings(kg>=10&&kg<20?kg:10)}<PackSelection selected={kg>=10&&kg<20} fr={fr}/></button>
         <button type="button" className="harvest-value-pack" aria-pressed={kg>=20} onClick={()=>{setKg(Math.max(20,kg));key.current='';}}><span className="harvest-pack-label">{fr ? 'Recommandé · meilleur prix au kilo' : 'Recommended · best price per kg'}</span><span className="harvest-oula"><HarvestBasket/><b lang="ar-TN" dir="rtl">عولة</b><span>· {Math.max(20,kg)} kg</span></span><strong>{format(offer.largeUnitPrice*Math.max(20,kg))}</strong><small>{format(offer.largeUnitPrice)} / kg · {fr?'La réserve à partager en famille':'Stock up together, share with family'}</small>{savings(Math.max(20,kg))}<PackSelection selected={kg>=20} fr={fr}/></button>
       </div>
       <div className="harvest-quantity"><div><label htmlFor="harvest-kg">{fr ? 'Quantité totale' : 'Total quantity'}</label><small>{fr ? `Par pas de 5 kg · ${format(offer.largeUnitPrice)}/kg dès 20 kg` : `In 5 kg steps · ${format(offer.largeUnitPrice)}/kg from 20 kg`}</small></div><div className="harvest-stepper"><button type="button" disabled={kg<=5} aria-label={fr ? 'Retirer 5 kg' : 'Remove 5 kg'} onClick={()=>{setKg(kg-5);key.current='';}}><Minus size={17}/></button><output id="harvest-kg" aria-live="polite">{kg} kg</output><button type="button" disabled={kg>=500} aria-label={fr ? 'Ajouter 5 kg' : 'Add 5 kg'} onClick={()=>{setKg(kg+5);key.current='';}}><Plus size={17}/></button></div></div>
-      <fieldset className="harvest-pickups"><legend>{fr ? 'Où récupérer votre panier ?' : 'Where will you collect?'}</legend>
+      </> : <>
+      <div className="harvest-packs" role="group" aria-label={fr ? 'Choisir un format' : 'Choose a size'}>
+        {packs.map(v=><button key={v.id} type="button" aria-pressed={pack?.id===v.id} onClick={()=>{setPackId(v.id);key.current='';}}><span>{v.label}</span><strong>{format(v.price)}</strong><small>{fr?'le format':'each'}</small><PackSelection selected={pack?.id===v.id} fr={fr} noun="format"/></button>)}
+      </div>
+      <div className="harvest-quantity"><div><label htmlFor="pack-qty">{fr ? 'Quantité' : 'Quantity'}</label><small>{pack ? `${format(pack.price)} × ${qty}` : ''}</small></div><div className="harvest-stepper"><button type="button" disabled={qty<=1} aria-label={fr ? 'Retirer un' : 'Remove one'} onClick={()=>{setQty(qty-1);key.current='';}}><Minus size={17}/></button><output id="pack-qty" aria-live="polite">{qty}</output><button type="button" disabled={qty>=99} aria-label={fr ? 'Ajouter un' : 'Add one'} onClick={()=>{setQty(qty+1);key.current='';}}><Plus size={17}/></button></div></div>
+      </>}
+      <fieldset className="harvest-pickups"><legend>{fr ? (weight ? 'Où récupérer votre panier ?' : 'Où récupérer votre commande ?') : 'Where will you collect?'}</legend>
         {(['farm','tunis'] as const).filter(p=>p==='farm'?offer.pickupFarm:offer.pickupTunis).map(place=><label key={place} className={pickup===place?'selected':''}><input type="radio" name="pickup" value={place} checked={pickup===place} onChange={()=>setPickup(place)}/><span><strong>{place==='farm' ? (fr?'À la ferme · Testour':'At the farm · Testour') : (fr?'À Tunis':'In Tunis')}</strong><small>{place==='farm' ? (fr?'Sur rendez-vous, à El Baya.':'By appointment, at El Baya.') : (fr?'Mehdi vous communique l’adresse par téléphone.':'Mehdi will call with the pickup address.')}</small></span><MapPin size={17}/></label>)}
         {pickup==='farm'&&<a href={FARM_MAP} target="_blank" rel="noreferrer">{fr ? 'Voir la ferme sur Maps ↗' : 'Find the farm on Maps ↗'}</a>}
       </fieldset>
@@ -205,9 +224,9 @@ function HarvestOrder({product,fr,kg,setKg,others,waiting}: {product:Product;fr:
         {promoError&&<p role="alert" className="shop-error">{promoError}</p>}
       </div>
       <div className="harvest-total" aria-live="polite"><span>{fr?'Total à régler au retrait':'Total to pay at pickup'}</span><strong>{discount>0&&<s>{money(quote.total,fr?'fr':'en')}</s>}{money(total,fr?'fr':'en')}</strong></div>
-      <p className="harvest-discount">{kg>=10 ? (fr?`Vous économisez ${money(kg*offer.baseUnitPrice-quote.total)} par rapport au tarif 5 kg.`:`You save ${money(kg*offer.baseUnitPrice-quote.total,'en')} compared with the 5 kg rate.`) : (fr?`Dès 10 kg : ${format(offer.bulkUnitPrice)}/kg.`:`From 10 kg: ${format(offer.bulkUnitPrice)}/kg.`)}</p>
+      {weight&&<p className="harvest-discount">{kg>=10 ? (fr?`Vous économisez ${money(kg*offer.baseUnitPrice-quote.total)} par rapport au tarif 5 kg.`:`You save ${money(kg*offer.baseUnitPrice-quote.total,'en')} compared with the 5 kg rate.`) : (fr?`Dès 10 kg : ${format(offer.bulkUnitPrice)}/kg.`:`From 10 kg: ${format(offer.bulkUnitPrice)}/kg.`)}</p>}
       {error&&<p role="alert" className="shop-error">{error}</p>}
-      <button type="submit" className="shop-button harvest-submit" disabled={busy}>{busy ? (fr?'Envoi…':'Sending…') : (fr?'Demander mon panier':'Request my harvest pack')} <span>→</span></button>
+      <button type="submit" className="shop-button harvest-submit" disabled={busy}>{busy ? (fr?'Envoi…':'Sending…') : state==='preorder' ? (fr?'Précommander':'Pre-order') : weight ? (fr?'Demander mon panier':'Request my harvest pack') : (fr?'Commander':'Order')} <span>→</span></button>
       <p className="harvest-form-note">{fr?'Sans paiement en ligne. Mehdi confirme la disponibilité et le retrait par téléphone. La demande ne bloque pas de stock. Vos coordonnées servent à traiter votre demande.':'No online payment. Mehdi confirms availability and pickup by phone. Requests do not hold stock. Your details are used to handle your request.'}</p>
     </fieldset>
   </form>;
@@ -216,36 +235,44 @@ function HarvestOrder({product,fr,kg,setKg,others,waiting}: {product:Product;fr:
 export default function HarvestPage({product,locale,otherProducts=[],waiting={}}: {product:Product;locale:'fr'|'en';otherProducts?:Product[];waiting?:Record<string,number>}) {
   const fr=locale==='fr';
   const uploaded=product.images.filter(src=>!src.endsWith('.svg'));
-  const photos=(uploaded.length?uploaded:[product.images[0]||'/assets/shop/pomegranate.svg']).map(src=>({src,fr:'Les grenades d’El Baya',en:'El Baya pomegranates'}));
+  const name=productName(product,fr);
+  const photos=(uploaded.length?uploaded:[product.images[0]||ILLUSTRATION[product.category]]).map(src=>({src,fr:product.name.fr,en:product.name.en||product.name.fr}));
   const offer=harvestOffer(product);
+  const weight=pricingMode(product)==='weight';
+  const state=saleState(product);
+  const packs=product.variants.filter(v=>v.price>0);
   const format=(amount:number)=>money(amount,locale);
   const description=product.description[locale]||product.description.fr;
   const customDescription=description&&!description.includes('formats, les prix')&&!description.includes('Pack sizes, prices');
   const [photo,setPhoto]=useState(0);
   const [kg,setKg]=useState(10);
-  const quote=harvestQuote(kg,offer);
+  const [packId,setPackId]=useState(packs[0]?.id||'');
+  const [qty,setQty]=useState(1);
+  const pack=packs.find(v=>v.id===packId)||packs[0];
+  const quote=weight?harvestQuote(kg,offer):pack?packQuote(pack,qty):null;
+  const chosen=weight?`${kg} kg`:pack?`${qty} × ${pack.label}`:'';
   const currentPhoto=photos[photo]||photos[0];
   return <main className="harvest-page shop-wrap">
-    <div className="harvest-topline"><Link href="/farm">{fr?'El Baya · une ferme à Testour':'El Baya · a farm in Testour'}</Link><span lang="ar-TN" dir="rtl">رمان بلادنا، من أرضنا ليكم</span></div>
+    <div className="harvest-topline"><Link href="/farm">{fr?'El Baya · une ferme à Testour':'El Baya · a farm in Testour'}</Link><span lang="ar-TN" dir="rtl">{weight?'رمان بلادنا، من أرضنا ليكم':'من أرضنا ليكم'}</span></div>
     <section className="harvest-hero">
       <div className="harvest-visuals">
-        <div className="harvest-photo"><Image key={currentPhoto.src} src={currentPhoto.src} alt={fr?currentPhoto.fr:currentPhoto.en} fill sizes="(min-width: 900px) 48vw, 100vw" preload className="object-cover" unoptimized={currentPhoto.src.startsWith('/api/')} /><span className="harvest-photo-caption">{fr?'Images de la ferme · récolte 2026':'From our farm · harvest 2026'}</span>{photos.length>1&&<div className="harvest-photo-nav"><button type="button" aria-label={fr?'Image précédente':'Previous image'} onClick={()=>setPhoto((photo+photos.length-1)%photos.length)}><ChevronLeft size={19}/></button><span>{photo+1} / {photos.length}</span><button type="button" aria-label={fr?'Image suivante':'Next image'} onClick={()=>setPhoto((photo+1)%photos.length)}><ChevronRight size={19}/></button></div>}</div>
+        <div className="harvest-photo"><Image key={currentPhoto.src} src={currentPhoto.src} alt={fr?currentPhoto.fr:currentPhoto.en} fill sizes="(min-width: 900px) 48vw, 100vw" preload className={currentPhoto.src.endsWith('.svg') ? 'harvest-illustration' : 'object-cover'} unoptimized={currentPhoto.src.startsWith('/api/')} />{uploaded.length>0&&<span className="harvest-photo-caption">{fr?'Images de la ferme':'From our farm'}</span>}{photos.length>1&&<div className="harvest-photo-nav"><button type="button" aria-label={fr?'Image précédente':'Previous image'} onClick={()=>setPhoto((photo+photos.length-1)%photos.length)}><ChevronLeft size={19}/></button><span>{photo+1} / {photos.length}</span><button type="button" aria-label={fr?'Image suivante':'Next image'} onClick={()=>setPhoto((photo+1)%photos.length)}><ChevronRight size={19}/></button></div>}</div>
         {offer.showStories!==false&&<FarmStories fr={fr}/>}
       </div>
       <div className="harvest-offer">
-        <p className="shop-eyebrow">{fr?'LES GRENADES D’EL BAYA · SAISON 2026':'EL BAYA POMEGRANATES · SEASON 2026'}</p>
-        <h1>{fr?'Les grenades d’El Baya.':'El Baya pomegranates.'}</h1>
-        <p className="harvest-intro">{customDescription?description:fr?'Une terre familiale à Testour, des arbres soignés par Mehdi, et la récolte qu’on a envie de partager.':'Family land in Testour, trees cared for by Mehdi, and a harvest we want to share with you.'}</p>
-        <p className="harvest-growing"><Leaf size={18}/>{fr?'Culture bio, sans pesticides.':'Organically grown without pesticides, as described by Mehdi.'}</p>
-        <p className="harvest-limited">{fr?'Cette saison, une petite quantité de notre récolte est proposée à la communauté. Chaque demande est confirmée personnellement.':'This season, we’re sharing a limited part of our harvest with the community. Each request is confirmed personally.'}</p>
-        <HarvestOrder product={product} fr={fr} kg={kg} setKg={setKg} others={otherProducts} waiting={waiting[product.id]||0}/>
+        <p className="shop-eyebrow">{`${name.toUpperCase()} · EL BAYA`}{state==='preorder'?(fr?' · PRÉCOMMANDE':' · PRE-ORDER'):state==='soldout'?(fr?' · ÉPUISÉ':' · SOLD OUT'):''}</p>
+        <h1>{weight?(fr?'Les grenades d’El Baya.':'El Baya pomegranates.'):`${name}.`}</h1>
+        <p className="harvest-intro">{customDescription?description:weight?(fr?'Une terre familiale à Testour, des arbres soignés par Mehdi, et la récolte qu’on a envie de partager.':'Family land in Testour, trees cared for by Mehdi, and a harvest we want to share with you.'):(fr?'De la ferme El Baya, à Testour.':'From El Baya farm, in Testour.')}</p>
+        {weight&&<p className="harvest-growing"><Leaf size={18}/>{fr?'Culture bio, sans pesticides.':'Organically grown without pesticides, as described by Mehdi.'}</p>}
+        <p className="harvest-limited">{fr?'Une petite quantité de nos récoltes est proposée à la communauté. Chaque demande est confirmée personnellement.':'We share a limited part of our harvests with the community. Each request is confirmed personally.'}</p>
+        <HarvestOrder product={product} fr={fr} choice={{kg,setKg,packId,setPackId,qty,setQty}} others={otherProducts} waiting={waiting[product.id]||0}/>
       </div>
     </section>
     <section className="harvest-story-section"><div><p className="shop-eyebrow">{fr?'UNE FERME QUI SE RACONTE':'A FARM WITH A STORY'}</p><h2>{fr?'On cultive.\nOn accueille.\nOn partage.':'We grow.\nWe welcome.\nWe share.'}</h2><p lang="ar-TN" dir="rtl" className="harvest-arabic">من أرضنا، بكل محبّة</p></div><div><p>{fr?'El Baya, c’est la terre de la famille de Mehdi. Les oliviers, les grenadiers, le potager et les ruches font partie du quotidien. La permaculture guide le travail : prendre soin du sol, laisser de la place au vivant et suivre les saisons.':'El Baya is Mehdi’s family land. Olive trees, pomegranates, the vegetable garden and beehives are part of everyday life. Permaculture guides the work: caring for the soil, making room for living things and following the seasons.'}</p><p>{fr?'Cette année, on ouvre une petite part de la récolte à celles et ceux qui veulent retrouver ce lien avec la terre. Vous voyez les arbres, vous entendez Mehdi, vous savez à qui parler.':'This year, we’re opening a small part of the harvest to people who want that connection with the land. See the trees, hear from Mehdi and know who to speak to.'}</p><Link href="/farm" className="pantry-text-link">{fr?'Découvrir la vie à El Baya':'Meet the farm'} →</Link></div></section>
     <section className="harvest-details" aria-label={fr?'Les détails de votre panier':'Your harvest pack, explained'}>
-      {[{title:fr?'Comment fonctionne le prix ?':'How does the price work?',text:fr?`5 kg : ${format(offer.baseUnitPrice*5)} (${format(offer.baseUnitPrice)}/kg). Dès 10 kg, tout le panier passe à ${format(offer.bulkUnitPrice)}/kg : ${format(offer.bulkUnitPrice*10)} pour 10 kg, ${format(offer.bulkUnitPrice*15)} pour 15 kg. Dès 20 kg, le panier passe à ${format(offer.largeUnitPrice)}/kg : ${format(offer.largeUnitPrice*20)} pour 20 kg. Ajoutez 5 kg à la fois.`:`5 kg costs ${format(offer.baseUnitPrice*5)} (${format(offer.baseUnitPrice)}/kg). From 10 kg, the whole pack is ${format(offer.bulkUnitPrice)}/kg: ${format(offer.bulkUnitPrice*10)} for 10 kg, ${format(offer.bulkUnitPrice*15)} for 15 kg. From 20 kg, the whole pack is ${format(offer.largeUnitPrice)}/kg: ${format(offer.largeUnitPrice*20)} for 20 kg. Add in 5 kg steps.`},{title:fr?'Où et quand récupérer les grenades ?':'Where and when can I collect?',text:fr?`Retrait ${[offer.pickupFarm?'à la ferme de Testour':'',offer.pickupTunis?'à Tunis':''].filter(Boolean).join(' ou ')}. Mehdi vous appelle pour confirmer la disponibilité et le rendez-vous.${offer.pickupTunis?' L’adresse de Tunis vous sera communiquée directement.':''}`:`Pickup ${[offer.pickupFarm?'at the farm in Testour':'',offer.pickupTunis?'in Tunis':''].filter(Boolean).join(' or ')}. Mehdi calls to confirm availability and your appointment.${offer.pickupTunis?' The Tunis address is shared directly.':''}`},{title:fr?'Comment payer ?':'How do I pay?',text:fr?'Vous payez en espèces au retrait. Aucun acompte ni paiement en ligne. Votre demande sera confirmée par téléphone.':'Pay cash when you collect. No deposit or online payment. Your request is confirmed by phone.'}].map((item,index)=><details key={item.title} open={index===0}><summary>{item.title}<Plus size={18}/></summary><p>{item.text}</p></details>)}
+      {[{title:fr?'Comment fonctionne le prix ?':'How does the price work?',text:!weight?(packs.length?(fr?`Chaque format a son prix : ${packs.map(v=>`${v.label} : ${format(v.price)}`).join(' · ')}. Choisissez le format et la quantité.`:`Each size has its own price: ${packs.map(v=>`${v.label}: ${format(v.price)}`).join(' · ')}. Choose the size and quantity.`):(fr?'Les prix seront annoncés au retour du produit.':'Prices will be announced when it’s back.')):fr?`5 kg : ${format(offer.baseUnitPrice*5)} (${format(offer.baseUnitPrice)}/kg). Dès 10 kg, tout le panier passe à ${format(offer.bulkUnitPrice)}/kg : ${format(offer.bulkUnitPrice*10)} pour 10 kg, ${format(offer.bulkUnitPrice*15)} pour 15 kg. Dès 20 kg, le panier passe à ${format(offer.largeUnitPrice)}/kg : ${format(offer.largeUnitPrice*20)} pour 20 kg. Ajoutez 5 kg à la fois.`:`5 kg costs ${format(offer.baseUnitPrice*5)} (${format(offer.baseUnitPrice)}/kg). From 10 kg, the whole pack is ${format(offer.bulkUnitPrice)}/kg: ${format(offer.bulkUnitPrice*10)} for 10 kg, ${format(offer.bulkUnitPrice*15)} for 15 kg. From 20 kg, the whole pack is ${format(offer.largeUnitPrice)}/kg: ${format(offer.largeUnitPrice*20)} for 20 kg. Add in 5 kg steps.`},{title:fr?(weight?'Où et quand récupérer les grenades ?':'Où et quand récupérer ma commande ?'):'Where and when can I collect?',text:fr?`Retrait ${[offer.pickupFarm?'à la ferme de Testour':'',offer.pickupTunis?'à Tunis':''].filter(Boolean).join(' ou ')}. Mehdi vous appelle pour confirmer la disponibilité et le rendez-vous.${offer.pickupTunis?' L’adresse de Tunis vous sera communiquée directement.':''}`:`Pickup ${[offer.pickupFarm?'at the farm in Testour':'',offer.pickupTunis?'in Tunis':''].filter(Boolean).join(' or ')}. Mehdi calls to confirm availability and your appointment.${offer.pickupTunis?' The Tunis address is shared directly.':''}`},{title:fr?'Comment payer ?':'How do I pay?',text:fr?'Vous payez en espèces au retrait. Aucun acompte ni paiement en ligne. Votre demande sera confirmée par téléphone.':'Pay cash when you collect. No deposit or online payment. Your request is confirmed by phone.'}].map((item,index)=><details key={item.title} open={index===0}><summary>{item.title}<Plus size={18}/></summary><p>{item.text}</p></details>)}
     </section>
-    {otherProducts.length>0&&<section className="harvest-other"><p className="shop-eyebrow">{fr?'AUSSI À LA FERME':'ALSO AT THE FARM'}</p><h2>{fr?'À chaque récolte, sa saison.':'Every harvest has its season.'}</h2><div>{otherProducts.map(p=><Link key={p.id} href={`/products/${p.id}`}><span>{fr?p.name.fr:p.name.en||p.name.fr}{p.status==='soldout'&&<small className="harvest-other-state">{fr?'Épuisé · prévenez-moi':'Sold out · notify me'}</small>}</span><span>{fr?'Découvrir':'Explore'} →</span></Link>)}</div></section>}
-    {offer.enabled&&<div className="harvest-mobile-cta"><span>{fr?`Votre panier · ${kg} kg`:`Your pack · ${kg} kg`} <strong>{format(quote.total)}</strong></span><a href="#harvest-order">{fr?'Choisir mon panier':'Choose my pack'} ↑</a></div>}
+    {otherProducts.length>0&&<section className="harvest-other"><p className="shop-eyebrow">{fr?'AUSSI À LA FERME':'ALSO AT THE FARM'}</p><h2>{fr?'À chaque récolte, sa saison.':'Every harvest has its season.'}</h2><div>{otherProducts.map(p=><Link key={p.id} href={`/products/${p.id}`}><span>{fr?p.name.fr:p.name.en||p.name.fr}{saleState(p)!=='order'&&<small className="harvest-other-state">{saleState(p)==='preorder'?(fr?'Précommande':'Pre-order'):(fr?'Épuisé · prévenez-moi':'Sold out · notify me')}</small>}</span><span>{fr?'Découvrir':'Explore'} →</span></Link>)}</div></section>}
+    {requestable(product)&&quote&&<div className="harvest-mobile-cta"><span>{chosen} <strong>{format(quote.total)}</strong></span><a href="#harvest-order">{state==='preorder'?(fr?'Précommander':'Pre-order'):(fr?'Choisir':'Choose')} ↑</a></div>}
   </main>;
 }

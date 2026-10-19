@@ -35,7 +35,7 @@ try {
   const {joinWaitlist, waitlist, waitlistCounts, updateWaitlist, removeWaitlist} = await load('waitlist');
   const {savePromo, checkPromo, promos} = await load('promo');
   const {reservationMessage} = await load('notifications');
-  const {promoDiscount} = await load('harvest');
+  const {promoDiscount, saleState} = await load('harvest');
   client = await db();
   const product = id => client.execute({sql:'SELECT data FROM shop_products WHERE id=?',args:[id]}).then(r=>JSON.parse(String(r.rows[0].data)));
 
@@ -68,7 +68,7 @@ try {
   assert.equal((await waitlist()).length,2);
   const draft = await saveProduct({...(await product('olive-oil')), status:'draft'});
   await assert.rejects(signUp({productId:'olive-oil',phone:'50999888'}),e=>e.code==='stock');
-  await saveProduct({...draft,status:'seasonal'});
+  const olive = await saveProduct({...draft,status:'available',variants:[{...draft.variants[0],price:35000}]});
 
   // Promo codes: validation, preview without spending, redemption inside the request.
   assert.equal(promoDiscount(45000,{code:'X',kind:'percent',value:10}),4500);
@@ -100,7 +100,31 @@ try {
   const request = await createReservation({...noStreet,productId:'olive-oil',variantId:draft.variants[0].id,requestKey:crypto.randomUUID()});
   assert.equal(request.address,'Testour, Béja');
   await assert.rejects(createReservation({...noStreet,city:'',productId:'olive-oil',variantId:draft.variants[0].id,requestKey:crypto.randomUUID()}),e=>e.code==='invalid','city stays required');
+  // Per-product sale states, including records saved before them.
+  assert.equal(saleState({id:'pomegranates',status:'seasonal'}),'order','legacy pomegranates kept taking requests');
+  assert.equal(saleState({id:'honey',status:'seasonal'}),'soldout','legacy unpriced pack product reads as sold out');
+  assert.equal(saleState({id:'pomegranates',status:'seasonal',harvestOffer:{enabled:false,baseUnitPrice:5000,bulkUnitPrice:4500,pickupFarm:true,pickupTunis:true}}),'soldout');
+  assert.deepEqual(['draft','available','preorder','soldout'].map(status=>saleState({id:'honey',status})),['hidden','order','preorder','soldout']);
+  // Pack requests: a size and a quantity, pickup, total checked on the server.
+  const pack = {firstName:'Test',lastName:'Pack',phone:'22123456',email:'',productId:'olive-oil',variantId:olive.variants[0].id,quantity:2,pickup:'tunis'};
+  await assert.rejects(createReservation({...pack,expectedTotal:35000,requestKey:crypto.randomUUID()}),e=>e.code==='price_changed');
+  await assert.rejects(createReservation({...pack,harvestKg:10,expectedTotal:70000,requestKey:crypto.randomUUID()}),e=>e.code==='invalid','packs are not sold by weight');
+  const packed = await createReservation({...pack,expectedTotal:70000,requestKey:crypto.randomUUID()});
+  assert.deepEqual([packed.harvest.quantity,packed.harvest.label,packed.harvest.unitPrice,packed.harvest.total,packed.size,packed.harvest.preorder],[2,olive.variants[0].label,35000,70000,`2 × ${olive.variants[0].label}`,undefined]);
+  assert.match(reservationMessage(packed).text,/Quantité : 2 ×/);
+  assert.match(reservationMessage(packed).subject,/Commande/);
+  const withExtra = await saveProduct({...olive,variants:[...olive.variants,{id:'five',label:'5 L',price:0,stock:0}]});
+  await assert.rejects(createReservation({...pack,variantId:'five',expectedTotal:0,requestKey:crypto.randomUUID()}),e=>e.code==='stock','unpriced sizes are not offered');
+  const pre = await saveProduct({...withExtra,status:'preorder',preorderNote:{fr:'Mi-novembre',en:''}});
+  const preReq = await createReservation({...pack,quantity:1,expectedTotal:35000,requestKey:crypto.randomUUID()});
+  assert.deepEqual([preReq.harvest.preorder,preReq.harvest.availability],[true,'Mi-novembre']);
+  assert.match(reservationMessage(preReq).text,/PRÉCOMMANDE · disponibilité annoncée : Mi-novembre/);
+  await assert.rejects(saveProduct({...pre,status:'available',variants:pre.variants.map(v=>({...v,price:0}))}),e=>e.code==='price_required','Commande needs a priced size');
+  const sold = await saveProduct({...pre,status:'soldout'});
+  assert.equal(sold.harvestOffer.enabled,false);
+  await assert.rejects(createReservation({...pack,expectedTotal:70000,requestKey:crypto.randomUUID()}),e=>e.code==='closed');
+  await saveProduct({...sold,status:'available'});
   const edited = await savePromo({code:'AMIS10',kind:'percent',value:15,active:false,maxUses:5,endsOn:null});
   assert.equal(edited.uses,2,'editing keeps the usage count');
-  console.log('PASS: sold-out status, waitlist consent/dedupe/counts/notified/removal, promo validation, preview, redemption, limits, idempotency, email line, optional street address. No real email or production data.');
+  console.log('PASS: sold-out status, waitlist consent/dedupe/counts/notified/removal, promo validation, preview, redemption, limits, idempotency, email line, optional street address, sale states, pack and pre-order requests. No real email or production data.');
 } finally {globalThis.fetch=originalFetch;client?.close();}

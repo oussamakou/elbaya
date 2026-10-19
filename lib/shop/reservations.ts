@@ -3,7 +3,7 @@ import { db } from "./db";
 import { queueNotification, reservationMessage } from './notifications';
 import { id, integer, object, ShopError, text } from "./validation";
 import type { Product, ReservationRequest } from "./types";
-import {harvestQuote, harvestOffer, pickupLabel, type HarvestSelection} from './harvest';
+import {harvestQuote, harvestOffer, packQuote, pickupLabel, pricingMode, requestable, saleState, selectionLabel, type HarvestSelection} from './harvest';
 import {normalizeCode, redeemPromo} from './promo';
 export async function createReservation(input: unknown) {
   const o = object(input);
@@ -16,21 +16,21 @@ export async function createReservation(input: unknown) {
   const email = text(o.email ?? "", 254, false);
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
     throw new ShopError("email");
-  let harvest: HarvestSelection | undefined;
-  if (o.harvestKg !== undefined) {
-    if (o.productId !== 'pomegranates' || !['farm', 'tunis'].includes(String(o.pickup))) throw new ShopError('invalid');
-    const kg = integer(o.harvestKg, 5, 500);
-    if (kg % 5) throw new ShopError('invalid');
-    const quote = harvestQuote(kg);
-    harvest = {...quote, pickup: o.pickup as 'farm' | 'tunis'};
-  }
-  // Promo codes apply to harvest requests only.
+  // Pickup requests (every product page): weight for pomegranates, packs for the rest.
+  // Requests without a pickup come from the older address form and stay accepted for open pages.
+  const pickup = o.pickup === undefined ? undefined : String(o.pickup);
+  if (pickup !== undefined && pickup !== 'farm' && pickup !== 'tunis') throw new ShopError('invalid');
+  const kg = o.harvestKg === undefined ? undefined : integer(o.harvestKg, 5, 500);
+  if (kg !== undefined && (kg % 5 || !pickup)) throw new ShopError('invalid');
+  const quantity = integer(o.quantity ?? 1, 1, 99);
   const promoCode = o.promoCode === undefined || o.promoCode === '' ? undefined : normalizeCode(o.promoCode);
-  if (promoCode && !harvest) throw new ShopError('invalid');
-  const governorate = harvest ? '' : text(o.governorate, 80);
-  const city = harvest ? (harvest.pickup === 'farm' ? 'Testour' : 'Tunis') : text(o.city, 100);
-  const streetAddress = harvest ? pickupLabel(harvest.pickup) : text(o.address ?? "", 500, false);
-  const data = {
+  if (promoCode && !pickup) throw new ShopError('invalid');
+  const expectedTotal = pickup ? integer(o.expectedTotal) : undefined;
+  const place = pickup as 'farm' | 'tunis' | undefined;
+  const governorate = place ? '' : text(o.governorate, 80);
+  const city = place ? (place === 'farm' ? 'Testour' : 'Tunis') : text(o.city, 100);
+  const streetAddress = place ? pickupLabel(place) : text(o.address ?? "", 500, false);
+  const data: Omit<ReservationRequest, 'id' | 'revision' | 'createdAt' | 'status' | 'productName' | 'size'> = {
     firstName,
     lastName,
     phone,
@@ -38,15 +38,14 @@ export async function createReservation(input: unknown) {
     governorate,
     city,
     streetAddress,
-    address: harvest ? streetAddress : [streetAddress, city, governorate].filter(Boolean).join(", "),
-    ...(harvest ? {harvest} : {}),
+    address: place ? streetAddress : [streetAddress, city, governorate].filter(Boolean).join(", "),
     notes: text(o.notes ?? "", 1000, false),
     productId: id(o.productId),
     variantId: id(o.variantId),
-    quantity: harvest ? 1 : integer(o.quantity, 1, 99),
+    quantity: kg !== undefined ? 1 : quantity,
   };
   const requestKey = id(o.requestKey),
-    hash = createHash("sha256").update(JSON.stringify(harvest?{...data,harvest:{kg:harvest.kg,pickup:harvest.pickup},expectedTotal:integer(o.expectedTotal),promoCode}:data)).digest("hex");
+    hash = createHash("sha256").update(JSON.stringify(place?{...data,kg,pickup:place,expectedTotal,promoCode}:data)).digest("hex");
   const tx = await (await db()).transaction("write");
   try {
     const old = await tx.execute({
@@ -65,19 +64,29 @@ export async function createReservation(input: unknown) {
     if (!found.rows.length) throw new ShopError("stock", 409);
     const product = JSON.parse(String(found.rows[0].data)) as Product;
     const variant = product.variants.find((v) => v.id === data.variantId);
-    if (product.status === "draft" || !variant)
-      throw new ShopError("stock", 409);
-    if (product.status === "soldout") throw new ShopError("closed", 409);
-    if(product.id==='pomegranates'&&!harvestOffer(product).enabled)throw new ShopError('closed',409);
-    if(harvest) {
-      const offer=harvestOffer(product);
-      if(!offer.enabled)throw new ShopError('closed',409);
-      if(harvest.pickup==='farm'?!offer.pickupFarm:!offer.pickupTunis)throw new ShopError('zone',409);
-      const quote=harvestQuote(harvest.kg,offer);
+    const state = saleState(product);
+    if (state === "hidden" || !variant) throw new ShopError("stock", 409);
+    // Only Commande and Précommande take requests; Épuisé offers the waitlist instead.
+    if (!requestable(product)) throw new ShopError("closed", 409);
+    let size = variant.label;
+    if (place) {
+      const offer = harvestOffer(product);
+      if (place === 'farm' ? !offer.pickupFarm : !offer.pickupTunis) throw new ShopError('zone', 409);
+      const weight = pricingMode(product) === 'weight';
+      if (weight !== (kg !== undefined)) throw new ShopError('invalid');
+      if (!weight && variant.price <= 0) throw new ShopError('stock', 409);
+      const quote = weight ? harvestQuote(kg!, offer) : packQuote(variant, quantity);
       // The use is counted in this transaction, so a rejected request never spends the code.
-      const discount=promoCode?await redeemPromo(tx,promoCode,quote.total):0;
-      if(o.expectedTotal!==quote.total-discount)throw new ShopError('price_changed',409);
-      data.harvest={...quote,pickup:harvest.pickup,...(promoCode?{subtotal:quote.total,discount,promoCode,total:quote.total-discount}:{})};
+      const discount = promoCode ? await redeemPromo(tx, promoCode, quote.total) : 0;
+      if (expectedTotal !== quote.total - discount) throw new ShopError('price_changed', 409);
+      const availability = state === 'preorder' ? product.preorderNote?.fr || '' : '';
+      data.harvest = {
+        ...quote,
+        pickup: place,
+        ...(promoCode ? {subtotal: quote.total, discount, promoCode, total: quote.total - discount} : {}),
+        ...(state === 'preorder' ? {preorder: true, ...(availability ? {availability} : {})} : {}),
+      } as HarvestSelection;
+      size = selectionLabel(data.harvest);
     }
     const reservation: ReservationRequest = {
       ...data,
@@ -86,7 +95,7 @@ export async function createReservation(input: unknown) {
       createdAt: new Date().toISOString(),
       status: "new",
       productName: product.name.fr,
-      size: harvest ? `${harvest.kg} kg` : variant.label,
+      size,
     };
     await tx.execute({
       sql: "INSERT INTO shop_reservations(id,request_key,request_hash,data) VALUES (?,?,?,?)",

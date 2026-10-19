@@ -44,14 +44,15 @@ try {
   await client.execute({sql:'UPDATE shop_settings SET data=? WHERE id=1',args:[JSON.stringify({revision:0,acceptingOrders:true,zones:[{id:'tunis',name:'Tunis',fee:0}]})]});
   const orderInput=()=>({customer:{name:'Test',phone:'22123456',address:'Test address',notes:''},zoneId:'tunis',expectedTotal:10000,items:[{productId:'honey',variantId:'jar-250',quantity:1,fulfillment:product.status==='preorder'?'preorder':'ready',availability:product.status==='preorder'?'November':''}],requestKey:crypto.randomUUID()});
   const reservationInput=()=>({firstName:'Test',lastName:'Test',phone:'22123456',email:'',governorate:'Tunis',city:'Tunis',address:'Test address',productId:'honey',variantId:'jar-250',quantity:1,requestKey:crypto.randomUUID()});
-  for(const status of ['draft','seasonal','available','preorder']) {
+  for(const status of ['draft','seasonal','available','preorder','soldout']) {
     product=await saveProduct({...product,status,preorderNote:{fr:'November',en:''}});
     assert.equal((await catalogue()).products.some(p=>p.id===product.id),status!=='draft');
     assert.equal((await catalogue(true)).products.find(p=>p.id===product.id).status,status);
     assert.equal(orderable(product),['available','preorder'].includes(status));
-    if(status==='draft')await assert.rejects(createReservation(reservationInput()));
+    // Requests only for Commande and Précommande; legacy "seasonal" without open requests reads as Épuisé.
+    if(['draft','seasonal','soldout'].includes(status))await assert.rejects(createReservation(reservationInput()));
     else await createReservation(reservationInput());
-    if(['draft','seasonal'].includes(status))await assert.rejects(createOrder(orderInput()));
+    if(['draft','seasonal','soldout'].includes(status))await assert.rejects(createOrder(orderInput()));
     else {
       const order=await createOrder(orderInput());
       product=(await catalogue(true)).products.find(p=>p.id==='honey');
@@ -63,10 +64,12 @@ try {
   }
   await assert.rejects(saveProduct({...product,status:'invalid'}));
   await assert.rejects(saveProduct({...product,status:'available',variants:[{...product.variants[0],price:0}]}),e=>e.code==='price_required');
-  await assert.rejects(saveProduct({...product,status:'preorder',preorderNote:{fr:'',en:''}}),e=>e.code==='preorder_note');
+  // The pre-order availability note is optional under per-product states.
+  assert.equal((await saveProduct({...product,status:'preorder',preorderNote:{fr:'',en:''}})).status,'preorder');
+  product=(await catalogue(true)).products.find(p=>p.id==='honey');
   product=await saveProduct({...product,variants:[{id:'replacement',label:'One size',price:10000,stock:5}]});
   assert.equal(product.variants.length,1,'Completed/cancelled orders do not block removal');
-  console.log('PASS: one-format minimum, saved-format removal, active-order protection, all four visibility states, request/checkout restrictions, price and availability validation.');
+  console.log('PASS: one-format minimum, saved-format removal, active-order protection, all five states, request/checkout restrictions, price validation, optional pre-order note.');
 } finally {
   globalThis.fetch = originalFetch;
   client?.close();

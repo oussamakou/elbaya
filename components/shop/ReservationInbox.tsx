@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Check, MapPin, MessageCircle, Phone, Printer } from "lucide-react";
 import type { ReservationRequest } from "@/lib/shop/types";
 import { money } from "@/lib/shop/types";
+import { selectionLabel } from "@/lib/shop/harvest";
 import { displayPhone, internationalDigits, whatsappHref } from "./phone";
 
 type Status = ReservationRequest["status"];
@@ -29,7 +30,7 @@ const pickupDay = new Intl.DateTimeFormat("fr-FR", { weekday: "short", day: "num
 const formatPickup = (date?: string) => (date ? pickupDay.format(new Date(`${date}T00:00:00Z`)) : "");
 
 function orderLine(r: ReservationRequest) {
-  return r.harvest ? `${r.harvest.kg} kg de grenades` : `${r.quantity} × ${r.productName} (${r.size})`;
+  return r.harvest ? `${r.productName} · ${selectionLabel(r.harvest)}` : `${r.quantity} × ${r.productName} (${r.size})`;
 }
 function whatsappLink(r: ReservationRequest) {
   return whatsappHref(r.phone, `Bonjour ${r.firstName}, c’est Mehdi de Farm El Baya, au sujet de votre demande (${orderLine(r)}, réf. ${r.id}).`);
@@ -50,17 +51,19 @@ function Summary({ requests }: { requests: ReservationRequest[] }) {
         <small>{toCall === 1 ? "nouvelle demande" : "nouvelles demandes"}</small>
       </div>
       <div>
-        <dt>Grenades demandées</dt>
-        <dd>{kg(active)} kg</dd>
-        <small>dont {kg(confirmed)} kg confirmés</small>
+        <dt>Demandes en cours</dt>
+        <dd>{active.length}</dd>
+        <small>{kg(active) ? `dont ${kg(active)} kg de grenades (${kg(confirmed)} kg confirmés)` : `${confirmed.length} confirmée${confirmed.length > 1 ? "s" : ""}`}</small>
       </div>
       <div>
         <dt>Par lieu de retrait</dt>
         <dd className="inbox-summary-split">
-          <span>{kg(active.filter((r) => placeOf(r) === "farm"))} kg <em>Testour</em></span>
-          <span>{kg(active.filter((r) => placeOf(r) === "tunis"))} kg <em>Tunis</em></span>
+          {(["farm", "tunis"] as const).map((p) => {
+            const list = active.filter((r) => placeOf(r) === p);
+            return <span key={p}>{list.length} <em>{p === "farm" ? "Testour" : "Tunis"}{kg(list) ? ` · ${kg(list)} kg` : ""}</em></span>;
+          })}
         </dd>
-        <small>hors demandes annulées</small>
+        <small>demandes hors annulées</small>
       </div>
       <div>
         <dt>À encaisser</dt>
@@ -117,7 +120,7 @@ function RequestCard({ request, onSave }: { request: ReservationRequest; onSave:
         {request.harvest ? (
           <>
             <p className="inbox-order">
-              <strong>{request.harvest.kg} kg</strong>
+              <strong>{request.productName} · {selectionLabel(request.harvest)}</strong>
               <span>{money(request.harvest.total)}</span>
               {place && (
                 <span className="inbox-place" data-place={place}>
@@ -126,7 +129,11 @@ function RequestCard({ request, onSave }: { request: ReservationRequest; onSave:
                 </span>
               )}
             </p>
-            <p className="inbox-order-detail">{money(request.harvest.unitPrice)} / kg · paiement au retrait</p>
+            <p className="inbox-order-detail">
+              {request.harvest.preorder && <span className="inbox-preorder">Précommande{request.harvest.availability ? ` · ${request.harvest.availability}` : ""}</span>}
+              {money(request.harvest.unitPrice)} {request.harvest.kg !== undefined ? "/ kg" : "l’unité"} · paiement au retrait
+              {request.harvest.promoCode ? ` · code ${request.harvest.promoCode} (−${money(request.harvest.discount || 0)})` : ""}
+            </p>
           </>
         ) : (
           <>
@@ -237,7 +244,7 @@ function PrintList({ requests, title, includeCancelled }: { requests: Reservatio
                     <td>{formatPickup(r.pickupDate) || "—"}</td>
                     <td>{r.firstName} {r.lastName}</td>
                     <td>{displayPhone(r.phone)}</td>
-                    <td>{r.harvest ? `${r.harvest.kg} kg` : `${r.quantity} × ${r.productName} · ${r.size}`}</td>
+                    <td>{r.harvest ? `${r.productName} · ${selectionLabel(r.harvest)}${r.harvest.preorder ? " (préco.)" : ""}` : `${r.quantity} × ${r.productName} · ${r.size}`}</td>
                     <td>{r.harvest ? money(r.harvest.total) : "—"}</td>
                     <td>{statuses[r.status]}</td>
                     <td>{r.ownerNote || ""}</td>
@@ -249,7 +256,7 @@ function PrintList({ requests, title, includeCancelled }: { requests: Reservatio
                 <tfoot>
                   <tr>
                     <td colSpan={3}>{list.length} demande{list.length > 1 ? "s" : ""}</td>
-                    <td>{list.reduce((sum, r) => sum + (r.harvest?.kg || 0), 0)} kg</td>
+                    <td>{list.some((r) => r.harvest?.kg) ? `${list.reduce((sum, r) => sum + (r.harvest?.kg || 0), 0)} kg de grenades` : ""}</td>
                     <td>{money(list.reduce((sum, r) => sum + (r.harvest?.total || 0), 0))}</td>
                     <td colSpan={3} />
                   </tr>

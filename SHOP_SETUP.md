@@ -11,6 +11,21 @@ Run `npm install`, `npm run shop:setup`, then `npm run dev`.
 - Products, orders, images and delivery settings persist in `.shop/shop.db` during development. This is real local storage, not browser-only sample data. The basket alone is stored in the customer's browser; addresses are not.
 - To choose an owner password, provide `SHOP_SETUP_PASSWORD` securely in the environment before the first setup. Setup preserves existing credentials. Passwords must be 16–256 characters.
 
+## Selling: one state per product
+
+Every product is sold the same way as the pomegranates: the customer picks a size (or, for pomegranates, a weight), a quantity and a pickup place (farm in Testour or Tunis), sends a request, and pays at pickup after Mehdi confirms by phone. Each product's editor starts with **État de la vente**:
+
+| State | Stored status | Shop page |
+| --- | --- | --- |
+| **Masqué** | `draft` | hidden, 404 |
+| **Commande** | `available` | sizes with prices, "Commander"; available now |
+| **Précommande** | `preorder` | same, "Précommander", with an optional estimated availability ("Récolte prévue mi-novembre") |
+| **Épuisé** | `soldout` | no request; "Prévenez-moi" waitlist |
+
+Commande and Précommande need at least one size with a price (pomegranates use their per-kg tiers instead); a size at 0 DT is not offered. Requests from both states land in the admin **Demandes** tab; pre-order requests are tagged and keep the availability shown at the time. Records saved before these states may still say `seasonal`: pomegranates read as Commande while their request switch is on, other products read as Épuisé until a price and state are saved. The editor shows and saves the explicit state.
+
+The shop-wide **Accepter les commandes** switch and the delivery areas belonged to the basket checkout. No product uses that checkout now, so both left the admin; the switch stays off, which keeps the old order endpoint closed. A **Commandes panier** tab appears only if old basket orders exist.
+
 ## Launch workflow for Mehdi
 
 The site keeps room bookings as its main purpose. Farm products have a separate catalogue, product pages and request form. The homepage and farm story link to the shop; Guides stays in the footer and Forge redirects to the farm.
@@ -18,10 +33,14 @@ The site keeps room bookings as its main purpose. Farm products have a separate 
 1. Open /fr/admin with the password saved privately in .shop/admin-access.txt. The same generated password hash and session secret are configured in Vercel Production.
 2. Review product descriptions and formats. Upload real photos if available; the illustrations can remain until then.
 3. Share /fr/products/reserve or /en/products/reserve. Customers provide first name, last name, Tunisian phone, governorate, city/locality, an optional street address, optional email, product, size and quantity. No customer account is required.
-4. Check the **Précommandes** admin tab for requests. Call the customer, agree on price, delivery fee and availability, then mark Contacté or Confirmée. A request is not a guaranteed inventory reservation; status changes here do not change stock. Email alerts require the Resend connection described below; there are no SMS notifications.
+4. Check the **Demandes** admin tab for requests. Call the customer, agree on price, delivery fee and availability, then mark Contacté or Confirmée. A request is not a guaranteed inventory reservation; status changes here do not change stock. Email alerts require the Resend connection described below; there are no SMS notifications.
 5. When prices, inventory and delivery areas are finalized, optionally open direct cash-on-delivery checkout using the steps below.
 
-## Before accepting priced orders
+## Archived: basket checkout (no longer offered)
+
+The sections below describe the original basket and home-delivery checkout, kept for reference; per-product states above replaced it.
+
+### Before accepting priced orders
 
 1. Edit the three seeded seasonal products: pomegranates, olive oil and honey. Keep the illustrations or add actual photos to the gallery. Confirm descriptions, formats, prices and stock.
 2. Each format has independent inventory measured in **packs**, not kilograms. A 3 kg format with stock 20 means twenty 3 kg packs. Stock should exclude packs committed elsewhere.
@@ -32,7 +51,7 @@ The site keeps room bookings as its main purpose. Farm products have a separate 
 
 The defaults intentionally contain **no invented prices or stock** and keep ordering paused. Products with status **Brouillon** are private; **Hors saison** is visible with a pre-order request link; a format with zero stock cannot be ordered.
 
-## Priced pre-orders (optional direct checkout)
+### Priced pre-orders (basket checkout)
 
 Choose **Précommandes ouvertes** on a product, enter its estimated availability message, set a price for every size, and enter **Colis à réserver** for each size. Open the shop's order switch and configure delivery areas as for ready orders.
 
@@ -128,7 +147,7 @@ Run `node scripts/test-shop-notifications.mjs` for isolated tests with a mocked 
 
 The public shop and pomegranate page lead with real farm footage, a pack selector and an inline pickup request. The offer defaults to 10 kg / 45 DT. A 5 kg pack costs 25 DT; from 10 kg the entire quantity costs 4.5 DT/kg, adjustable in 5 kg steps. Server and browser share the pricing function in `lib/shop/harvest.ts`. This seasonal offer is separate from general stock checkout and does not consume ready stock or depend on the direct-order opening switch. Hiding pomegranates as a draft disables new requests and removes the public offer.
 
-These are priced requests, saved under **Précommandes**, confirmed by Mehdi by phone. No stock quantity was supplied, so no inventory guarantee or numerical scarcity counter is shown. Each request snapshots weight, unit price, total and pickup choice. Owner emails include that snapshot. Pickup is either the farm in Testour (Maps link) or Tunis (address and appointment supplied by phone). No customer delivery address or free-text notes are requested on this flow. Existing general requests remain supported.
+These are priced requests, saved under **Demandes**, confirmed by Mehdi by phone. No stock quantity was supplied, so no inventory guarantee or numerical scarcity counter is shown. Each request snapshots weight, unit price, total and pickup choice. Owner emails include that snapshot. Pickup is either the farm in Testour (Maps link) or Tunis (address and appointment supplied by phone). No customer delivery address or free-text notes are requested on this flow. Existing general requests remain supported.
 
 The growing-method statement is attributed to Mehdi. No certification logo or certified-organic claim was added. Video originals are preserved locally but excluded from Git/deployment; optimized MP4s use fast start, posters are real extracted footage frames, and videos mount only on opening an accessible story dialog. English and French pages include brief Tunisian Arabic accents; supplied spoken Arabic and embedded captions are preserved.
 
@@ -152,13 +171,13 @@ Homepage and farm-page teasers now read the public catalogue on each page reques
 
 ## Sold out, waitlist and promo codes
 
-**Épuisé** is a product status next to Brouillon, Hors saison, En vente and Précommandes ouvertes. The product stays visible with its sizes, but cannot be ordered or requested; its page shows **Prévenez-moi dès le retour** instead. Visitors leave a first name, a Tunisian phone (WhatsApp) and an optional email, and must tick an explicit consent box limited to that product's return. One entry is kept per phone and product, whatever the number format. When pomegranate requests are paused, the same form offers to hear about the next harvest.
+**Épuisé** is one of the four sale states (see above). The product stays visible with its sizes, but cannot be ordered or requested; its page shows **Prévenez-moi dès le retour** instead. Visitors leave a first name, a Tunisian phone (WhatsApp) and an optional email, and must tick an explicit consent box limited to that product's return. One entry is kept per phone and product, whatever the number format. When pomegranate requests are paused, the same form offers to hear about the next harvest.
 
 The owner sees everyone under **Produits → Liste d'attente**, grouped by product: one-tap WhatsApp with a prepared "c'est de retour" message, **Marquer prévenu**, **Retirer** (deletes the entry, for opt-outs), copy all waiting numbers, and CSV export. Nothing is sent automatically. The product list shows how many people are waiting for each sold-out product.
 
 Public pages show only real numbers: "N personnes attendent déjà son retour" appears from 3 people still waiting (not yet marked prévenu), and "Plus que N colis" appears when ready stock or pre-order places for the chosen size are 10 or fewer.
 
-**Codes promo** live under **Livraison & codes promo** and apply to pomegranate harvest requests only. A code has a percentage (1–90 %, rounded down to 0.1 DT) or a fixed amount in DT, an optional usage limit and an optional last day (inclusive, Tunis time); it can be deactivated and reactivated, and editing keeps its usage count. Customers apply a code before sending; the server re-checks it and counts one use in the same transaction as the request, so a rejected or retried request never spends it twice. The request, the owner email and the inbox keep the code, the discount and the total before discount.
+**Codes promo** live under the **Codes promo** tab and apply to every pickup request, in Commande or Précommande. A code has a percentage (1–90 %, rounded down to 0.1 DT) or a fixed amount in DT, an optional usage limit and an optional last day (inclusive, Tunis time); it can be deactivated and reactivated, and editing keeps its usage count. Customers apply a code before sending; the server re-checks it and counts one use in the same transaction as the request, so a rejected or retried request never spends it twice. The request, the owner email and the inbox keep the code, the discount and the total before discount.
 
 After a harvest request, the confirmation offers a WhatsApp share link, one-tap "Me prévenir" for sold-out or out-of-season products (using the phone just entered), and, for farm pickup, an invitation to the farm stay.
 

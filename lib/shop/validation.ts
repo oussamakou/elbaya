@@ -1,5 +1,5 @@
 import type {Product, ShopSettings} from './types';
-import {DEFAULT_HARVEST_OFFER, type HarvestOffer} from './harvest';
+import {DEFAULT_HARVEST_OFFER, DEFAULT_PACK_OFFER, pricingMode, type HarvestOffer} from './harvest';
 export class ShopError extends Error {
   constructor(
     public code: string,
@@ -43,14 +43,20 @@ function translation(value: unknown, required = true) {
 }
 export function productInput(value: unknown): Product {
   const o = object(value);
-  let harvestOffer:HarvestOffer|undefined;
-  if(o.id==='pomegranates') {
-    const h=o.harvestOffer===undefined?DEFAULT_HARVEST_OFFER:object(o.harvestOffer);
+  // Request settings for every product. The status alone opens or closes requests
+  // (Commande/Précommande open; Masqué/Épuisé closed); 'enabled' mirrors it for older records.
+  const weight = pricingMode({id: String(o.id)}) === 'weight';
+  let harvestOffer:HarvestOffer;
+  {
+    const h=o.harvestOffer===undefined?(weight?DEFAULT_HARVEST_OFFER:DEFAULT_PACK_OFFER):object(o.harvestOffer);
     if(typeof h.enabled!=='boolean'||typeof h.pickupFarm!=='boolean'||typeof h.pickupTunis!=='boolean')throw new ShopError('invalid');
-    harvestOffer={enabled:h.enabled,baseUnitPrice:integer(h.baseUnitPrice,1,1000000),bulkUnitPrice:integer(h.bulkUnitPrice,1,1000000),pickupFarm:h.pickupFarm,pickupTunis:h.pickupTunis};
-    harvestOffer.largeUnitPrice=integer(h.largeUnitPrice ?? Math.min(4000,harvestOffer.bulkUnitPrice),1,1000000);
+    harvestOffer=weight
+      ? {enabled:h.enabled,baseUnitPrice:integer(h.baseUnitPrice,1,1000000),bulkUnitPrice:integer(h.bulkUnitPrice,1,1000000),pickupFarm:h.pickupFarm,pickupTunis:h.pickupTunis}
+      : {enabled:h.enabled,baseUnitPrice:0,bulkUnitPrice:0,largeUnitPrice:0,pickupFarm:h.pickupFarm,pickupTunis:h.pickupTunis};
+    if(weight)harvestOffer.largeUnitPrice=integer(h.largeUnitPrice ?? Math.min(4000,harvestOffer.bulkUnitPrice),1,1000000);
     if(h.showStories!==undefined){if(typeof h.showStories!=='boolean')throw new ShopError('invalid');harvestOffer.showStories=h.showStories;}
-    if(harvestOffer.largeUnitPrice>harvestOffer.bulkUnitPrice || harvestOffer.bulkUnitPrice>harvestOffer.baseUnitPrice || (harvestOffer.enabled&&!harvestOffer.pickupFarm&&!harvestOffer.pickupTunis))throw new ShopError('invalid');
+    if(o.status!=='seasonal')harvestOffer.enabled=o.status==='available'||o.status==='preorder';
+    if((weight&&(harvestOffer.largeUnitPrice!>harvestOffer.bulkUnitPrice || harvestOffer.bulkUnitPrice>harvestOffer.baseUnitPrice)) || (harvestOffer.enabled&&!harvestOffer.pickupFarm&&!harvestOffer.pickupTunis))throw new ShopError('invalid');
   }
   if (
     !['draft', 'available', 'seasonal', 'preorder', 'soldout'].includes(
@@ -79,16 +85,13 @@ export function productInput(value: unknown): Product {
   });
   if (new Set(variants.map((v) => v.id)).size !== variants.length)
     throw new ShopError('invalid');
-  if (
-    ['available', 'preorder'].includes(String(o.status)) &&
-    variants.some((v) => v.price === 0) && !harvestOffer
-  )
+  // A pack product taking requests needs at least one priced size; unpriced sizes are not offered.
+  if (!weight && harvestOffer.enabled && !variants.some((v) => v.price > 0))
     throw new ShopError('price_required');
+  // Précommande may carry an estimated availability ("Récolte prévue mi-novembre"); optional.
   const preorderNote = o.preorderNote
     ? translation(o.preorderNote, false)
     : {fr: '', en: ''};
-  if (o.status === 'preorder' && !preorderNote.fr.trim() && !harvestOffer)
-    throw new ShopError('preorder_note');
   const images = o.images.map((image) => {
     const s = text(image, 200);
     if (
@@ -112,7 +115,7 @@ export function productInput(value: unknown): Product {
     variants,
     images,
     preorderNote,
-    ...(harvestOffer?{harvestOffer}:{}),
+    harvestOffer,
   };
 }
 export function settingsInput(value: unknown): ShopSettings {

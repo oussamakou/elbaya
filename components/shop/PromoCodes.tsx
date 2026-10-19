@@ -56,7 +56,7 @@ export default function PromoCodes({ promos, onSave }: { promos: PromoCode[]; on
       <div className="admin-heading">
         <div>
           <h2>Codes promo</h2>
-          <p>Pour les demandes de grenades. Le client saisit le code avant d’envoyer sa demande ; la remise est calculée et enregistrée avec la demande.</p>
+          <p>Pour toutes les demandes de la boutique (Commande et Précommande). Le client saisit le code avant d’envoyer ; la remise est calculée et enregistrée avec la demande.</p>
         </div>
       </div>
       <form className="promo-form" onSubmit={create}>
@@ -116,7 +116,7 @@ export default function PromoCodes({ promos, onSave }: { promos: PromoCode[]; on
           })}
         </ul>
       ) : (
-        <p className="shop-notice">Aucun code pour le moment. Exemple : AMIS10 pour −10 % sur une demande de grenades, limité à 20 utilisations.</p>
+        <p className="shop-notice">Aucun code pour le moment. Exemple : AMIS10 pour −10 % sur une demande, limité à 20 utilisations.</p>
       )}
     </section>
   );

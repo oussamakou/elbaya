@@ -4,7 +4,7 @@ import { integer, object, ShopError, text } from "./validation";
 import type { PromoCode } from "./types";
 import { promoDiscount } from "./harvest";
 
-// Promo codes apply to harvest requests. End dates are farm-local calendar days, inclusive.
+// Promo codes apply to pickup requests for any product. End dates are farm-local calendar days, inclusive.
 const tunisToday = () =>
   new Intl.DateTimeFormat("en-CA", { timeZone: "Africa/Tunis" }).format(new Date());
 

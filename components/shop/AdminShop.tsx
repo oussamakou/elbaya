@@ -12,7 +12,7 @@ import {
   Package,
   Plus,
   RefreshCw,
-  Settings,
+  Tag,
   ShoppingBag,
   Trash2,
   X,
@@ -29,7 +29,7 @@ import ReservationInbox from "./ReservationInbox";
 import type { PromoCode, ReservationRequest, WaitlistEntry } from "@/lib/shop/types";
 import WaitlistPanel from "./WaitlistPanel";
 import PromoCodes from "./PromoCodes";
-import {harvestOffer} from '@/lib/shop/harvest';
+import {harvestOffer, pricingMode, saleState, type HarvestOffer, type SaleState} from '@/lib/shop/harvest';
 import type {ContactRequest} from '@/lib/shop/contact';
 
 type AdminData = {
@@ -48,13 +48,6 @@ const statusNames = {
   delivering: "En livraison",
   delivered: "Livrée",
   cancelled: "Annulée",
-};
-const productStatus = {
-  draft: "Brouillon",
-  available: "En vente",
-  seasonal: "Hors saison",
-  preorder: "Précommande",
-  soldout: "Épuisé",
 };
 function matchesOrderFilter(order: Order, filter: string) {
   return (
@@ -78,6 +71,21 @@ async function api(path: string, data?: unknown, method = "POST") {
   const result = await response.json();
   if (!response.ok) throw new Error(errorMessage(result.error));
   return result;
+}
+// The four sale states Mehdi chooses per product (stored as the product status).
+const SALE_STATES: [Product["status"], string, string][] = [
+  ["draft", "Masqué", "Invisible sur le site."],
+  ["available", "Commande", "Disponible maintenant : les clients demandent un retrait et paient sur place."],
+  ["preorder", "Précommande", "Récolte à venir : les clients réservent maintenant, retrait et paiement quand c’est prêt."],
+  ["soldout", "Épuisé", "Visible, sans demande : les visiteurs s’inscrivent pour être prévenus du retour."],
+];
+const STATUS_OF: Record<SaleState, Product["status"]> = { hidden: "draft", order: "available", preorder: "preorder", soldout: "soldout" };
+// Older records may say "seasonal"; the editor shows what that means today and saves the explicit state.
+function editableProduct(product: Product): Product {
+  const copy = structuredClone(product);
+  copy.status = STATUS_OF[saleState(product)];
+  copy.harvestOffer = harvestOffer(product);
+  return copy;
 }
 function blankProduct(): Product {
   return {
@@ -127,11 +135,15 @@ function ProductEditor({
   onSave: (p: Product) => Promise<void>;
   onCancel: () => void;
 }) {
-  const [draft, setDraft] = useState<Product>(structuredClone(product)),
+  const [initial] = useState<Product>(() => editableProduct(product));
+  const [draft, setDraft] = useState<Product>(() => structuredClone(initial)),
     [busy, setBusy] = useState(false),
     [uploading, setUploading] = useState(false),
     [error, setError] = useState("");
-  const changed = JSON.stringify(draft) !== JSON.stringify(product);
+  const changed = JSON.stringify(draft) !== JSON.stringify(initial);
+  const weight = pricingMode(draft) === "weight";
+  const offer = harvestOffer(draft);
+  const setOffer = (patch: Partial<HarvestOffer>) => setDraft({ ...draft, harvestOffer: { ...harvestOffer(draft), ...patch } });
   useEffect(() => {
     const handler = (event: BeforeUnloadEvent) => {
       if (changed) event.preventDefault();
@@ -202,6 +214,37 @@ function ProductEditor({
       <fieldset disabled={busy || uploading} className="admin-editor-fields">
         <section className="admin-form-section">
           <div>
+            <h3>État de la vente</h3>
+            <p>Ce que les visiteurs peuvent faire avec ce produit, maintenant.</p>
+          </div>
+          <div className="admin-fields">
+            <div className="admin-states" role="radiogroup" aria-label="État de la vente">
+              {SALE_STATES.map(([status, title, help]) => (
+                <label key={status} className={`admin-state${draft.status === status ? " is-selected" : ""}`}>
+                  <input type="radio" name="sale-state" value={status} checked={draft.status === status} onChange={() => setDraft({ ...draft, status })} />
+                  <strong>{title}</strong>
+                  <small>{help}</small>
+                </label>
+              ))}
+            </div>
+            {draft.status === "preorder" && (
+              <div className="shop-two">
+                <label>
+                  Disponibilité annoncée (facultatif)
+                  <input className="field" maxLength={200} placeholder="Ex. Récolte prévue mi-novembre" value={draft.preorderNote?.fr || ""}
+                    onChange={(e) => setDraft({ ...draft, preorderNote: { fr: e.target.value, en: draft.preorderNote?.en || "" } })} />
+                </label>
+                <label>
+                  En anglais (facultatif)
+                  <input className="field" maxLength={200} placeholder="e.g. Harvest expected mid-November" value={draft.preorderNote?.en || ""}
+                    onChange={(e) => setDraft({ ...draft, preorderNote: { fr: draft.preorderNote?.fr || "", en: e.target.value } })} />
+                </label>
+              </div>
+            )}
+          </div>
+        </section>
+        <section className="admin-form-section">
+          <div>
             <h3>01. Le produit</h3>
             <p>Le nom et les mots que vos clients verront.</p>
           </div>
@@ -258,88 +301,7 @@ function ProductEditor({
                   <option value="other">Autres produits</option>
                 </select>
               </label>
-              <label>
-                Visibilité
-                <select
-                  className="field"
-                  value={draft.id === 'pomegranates' && draft.status !== 'draft' ? 'seasonal' : draft.status}
-                  onChange={(e) =>
-                    setDraft({
-                      ...draft,
-                      status: e.target.value as Product["status"],
-                    })
-                  }
-                >
-                  <option value="draft">Brouillon · masqué</option>
-                  {draft.id === 'pomegranates' ? <option value="seasonal">Visible sur la boutique</option> : <><option value="seasonal">Hors saison · demandes uniquement</option><option value="soldout">Épuisé · liste d’attente</option><option value="available">En vente</option><option value="preorder">Précommandes ouvertes</option></>}
-                </select>
-                <span className="pantry-small" aria-live="polite">
-                  {draft.id === 'pomegranates' ? (draft.status === 'draft' ? 'Offre masquée du site.' : 'Offre visible. Réglez les tarifs, les demandes et les retraits dans Offre récolte ci-dessous.') : draft.status === "draft"
-                    ? "Masqué du catalogue et inaccessible par lien direct."
-                    : draft.status === "seasonal"
-                      ? "Visible, avec demande de précommande à confirmer par téléphone. Aucun achat au panier."
-                      : draft.status === "soldout"
-                        ? "Visible, sans commande ni demande. Les visiteurs laissent leur numéro pour être prévenus en premier (voir Liste d’attente)."
-                      : draft.status === "preorder"
-                        ? "Réservation au prix affiché, selon les places disponibles et l’ouverture de la boutique."
-                        : "Achat au panier selon le stock disponible et l’ouverture de la boutique."}
-                  {" "}Enregistrez pour appliquer ce choix.
-                </span>
-              </label>
             </div>
-            {draft.status === "preorder" && draft.id !== "pomegranates" && (
-              <div className="admin-preorder-settings">
-                <h3>Réserver la prochaine récolte</h3>
-                <p>
-                  Les clients réservent des colis sans acompte. Indiquez une
-                  période estimée ; confirmez ensuite la livraison par
-                  téléphone.
-                </p>
-                <label>
-                  Disponibilité estimée
-                  <textarea
-                    className="field"
-                    required
-                    maxLength={500}
-                    rows={2}
-                    placeholder="Ex. Récolte prévue en novembre, date à confirmer par téléphone."
-                    value={draft.preorderNote?.fr || ""}
-                    onChange={(e) =>
-                      setDraft({
-                        ...draft,
-                        preorderNote: {
-                          fr: e.target.value,
-                          en: draft.preorderNote?.en || "",
-                        },
-                      })
-                    }
-                  />
-                </label>
-                <label>
-                  Disponibilité en anglais (facultatif)
-                  <textarea
-                    className="field"
-                    maxLength={500}
-                    rows={2}
-                    value={draft.preorderNote?.en || ""}
-                    onChange={(e) =>
-                      setDraft({
-                        ...draft,
-                        preorderNote: {
-                          fr: draft.preorderNote?.fr || "",
-                          en: e.target.value,
-                        },
-                      })
-                    }
-                  />
-                </label>
-                <p className="pantry-small">
-                  Le panier entier sera livré quand tous ses produits seront
-                  disponibles. Le prix est fixé à la réservation ; le paiement
-                  se fait à la livraison.
-                </p>
-              </div>
-            )}
             <details className="admin-translations">
               <summary>Version anglaise (facultatif)</summary>
               <label>
@@ -442,160 +404,63 @@ function ProductEditor({
             </p>
           </div>
         </section>
-        {draft.id === 'pomegranates' && <section className="admin-form-section"><div><h3>03. Offre récolte · grenades</h3><p>Un panier de 10 kg est proposé par défaut. Minimum 5 kg, puis ajouts de 5 kg. Les demandes arrivent dans Précommandes, avec le poids, le total et le lieu de retrait.</p></div><div className="admin-fields">
-          <label><input type="checkbox" checked={harvestOffer(draft).enabled} onChange={e=>setDraft({...draft,harvestOffer:{...harvestOffer(draft),enabled:e.target.checked}})}/> Accepter les demandes de récolte</label>
-          <div className="shop-two">{([['baseUnitPrice','Prix au kilo · panier de 5 kg'],['bulkUnitPrice','Prix au kilo · de 10 à 15 kg'],['largeUnitPrice','Prix au kilo · dès 20 kg']] as const).map(([field,label])=><label key={field}>{label}<input className="field" type="number" min="0.001" max={field==='largeUnitPrice'?harvestOffer(draft).bulkUnitPrice/1000:field==='bulkUnitPrice'?harvestOffer(draft).baseUnitPrice/1000:1000} step=".001" required value={harvestOffer(draft)[field]/1000} onChange={e=>setDraft({...draft,harvestOffer:{...harvestOffer(draft),[field]:Math.round(Number(e.target.value)*1000)}})}/></label>)}</div>
-          <p className="shop-notice">5 kg : {money(harvestOffer(draft).baseUnitPrice*5)} · 10 kg : {money(harvestOffer(draft).bulkUnitPrice*10)} · 15 kg : {money(harvestOffer(draft).bulkUnitPrice*15)} · 20 kg : {money(harvestOffer(draft).largeUnitPrice*20)}</p>
-          <label><input type="checkbox" checked={harvestOffer(draft).pickupFarm} onChange={e=>setDraft({...draft,harvestOffer:{...harvestOffer(draft),pickupFarm:e.target.checked}})}/> Retrait à la ferme · Testour</label>
-          <label><input type="checkbox" checked={harvestOffer(draft).pickupTunis} onChange={e=>setDraft({...draft,harvestOffer:{...harvestOffer(draft),pickupTunis:e.target.checked}})}/> Retrait à Tunis · adresse communiquée par téléphone</label>
-          <label><input type="checkbox" checked={harvestOffer(draft).showStories!==false} onChange={e=>setDraft({...draft,harvestOffer:{...harvestOffer(draft),showStories:e.target.checked}})}/> Afficher les vidéos de la ferme sous la galerie photo</label>
-          <p className="pantry-small">Gardez au moins un lieu de retrait si les demandes sont ouvertes. Le tarif réduit ne peut pas dépasser le tarif de base. Le paiement se fait au retrait, après confirmation par téléphone. Aucun stock n’est bloqué automatiquement. Le bouton d’ouverture des achats directs ne concerne pas cette offre.</p>
-        </div></section>}
-        {draft.id !== 'pomegranates' && <section className="admin-form-section">
+        <section className="admin-form-section">
           <div>
-            <h3>03. Formats & stock</h3>
+            <h3>03. L’offre</h3>
             <p>
-              Une ligne par format. Le stock correspond au nombre de colis ou de
-              bouteilles à vendre, pas au poids total.
+              {weight
+                ? "Prix au kilo par palier. Minimum 5 kg, puis ajouts de 5 kg ; 10 kg est proposé par défaut."
+                : "Une ligne par format, avec son prix. Le client choisit un format et une quantité."}
             </p>
-            <p className="pantry-small">
-              Exemple : « 3 kg », prix 18 DT, stock 20 = vingt colis de 3 kg
-              disponibles.
-            </p>
+            <p className="pantry-small">Les demandes arrivent dans l’onglet Demandes. Paiement au retrait, après confirmation par téléphone.</p>
           </div>
-          <div>
-            <div className="admin-variants">
-              {draft.variants.map((v, index) => (
-                <div key={v.id} className="admin-variant">
-                  <label>
-                    Format
-                    <input
-                      className="field"
-                      maxLength={80}
-                      required
-                      value={v.label}
-                      placeholder="3 kg / 1 L"
-                      onChange={(e) =>
-                        setDraft({
-                          ...draft,
-                          variants: draft.variants.map((x, i) =>
-                            i === index ? { ...x, label: e.target.value } : x,
-                          ),
-                        })
-                      }
-                    />
-                  </label>
-                  <label>
-                    Prix (DT)
-                    <input
-                      className="field"
-                      type="number"
-                      inputMode="decimal"
-                      min={
-                        ["available", "preorder"].includes(draft.status)
-                          ? ".001"
-                          : "0"
-                      }
-                      max="100000"
-                      step=".001"
-                      required
-                      value={v.price / 1000}
-                      onChange={(e) =>
-                        setDraft({
-                          ...draft,
-                          variants: draft.variants.map((x, i) =>
-                            i === index
-                              ? {
-                                  ...x,
-                                  price: Math.round(
-                                    Number(e.target.value) * 1000,
-                                  ),
-                                }
-                              : x,
-                          ),
-                        })
-                      }
-                    />
-                  </label>
-                  <label>
-                    {draft.status === "preorder"
-                      ? "Colis à réserver"
-                      : "Colis disponibles"}
-                    <input
-                      className="field"
-                      type="number"
-                      inputMode="numeric"
-                      min="0"
-                      max="100000"
-                      step="1"
-                      required
-                      value={
-                        draft.status === "preorder"
-                          ? v.preorderStock || 0
-                          : v.stock
-                      }
-                      onChange={(e) =>
-                        setDraft({
-                          ...draft,
-                          variants: draft.variants.map((x, i) =>
-                            i === index
-                              ? {
-                                  ...x,
-                                  [draft.status === "preorder"
-                                    ? "preorderStock"
-                                    : "stock"]: Number(e.target.value),
-                                }
-                              : x,
-                          ),
-                        })
-                      }
-                    />
-                  </label>
-                  {draft.variants.length > 1 && (
-                    <button
-                      type="button"
-                      aria-label={`Retirer le format ${v.label}`}
-                      onClick={() =>
-                        setDraft({
-                          ...draft,
-                          variants: draft.variants.filter(
-                            (_, i) => i !== index,
-                          ),
-                        })
-                      }
-                    >
-                      <Trash2 size={17} />
-                    </button>
-                  )}
+          <div className="admin-fields">
+            {weight ? (
+              <>
+                <div className="shop-two">{([['baseUnitPrice','Prix au kilo · panier de 5 kg'],['bulkUnitPrice','Prix au kilo · de 10 à 15 kg'],['largeUnitPrice','Prix au kilo · dès 20 kg']] as const).map(([field,label])=><label key={field}>{label}<input className="field" type="number" min="0.001" max={field==='largeUnitPrice'?offer.bulkUnitPrice/1000:field==='bulkUnitPrice'?offer.baseUnitPrice/1000:1000} step=".001" required value={offer[field]/1000} onChange={e=>setOffer({[field]:Math.round(Number(e.target.value)*1000)})}/></label>)}</div>
+                <p className="shop-notice">5 kg : {money(offer.baseUnitPrice*5)} · 10 kg : {money(offer.bulkUnitPrice*10)} · 15 kg : {money(offer.bulkUnitPrice*15)} · 20 kg : {money(offer.largeUnitPrice*20)}</p>
+              </>
+            ) : (
+              <>
+                <div className="admin-variants admin-packs">
+                  {draft.variants.map((v, index) => (
+                    <div key={v.id} className="admin-variant">
+                      <label>
+                        Format
+                        <input className="field" maxLength={80} required value={v.label} placeholder="1 L · 500 g · 3 kg"
+                          onChange={(e) => setDraft({ ...draft, variants: draft.variants.map((x, i) => (i === index ? { ...x, label: e.target.value } : x)) })} />
+                      </label>
+                      <label>
+                        Prix (DT)
+                        <input className="field" type="number" inputMode="decimal" min="0" max="100000" step=".001" required value={v.price / 1000}
+                          onChange={(e) => setDraft({ ...draft, variants: draft.variants.map((x, i) => (i === index ? { ...x, price: Math.round(Number(e.target.value) * 1000) } : x)) })} />
+                      </label>
+                      {draft.variants.length > 1 && (
+                        <button type="button" aria-label={`Retirer le format ${v.label}`}
+                          onClick={() => setDraft({ ...draft, variants: draft.variants.filter((_, i) => i !== index) })}>
+                          <Trash2 size={17} />
+                        </button>
+                      )}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            <button
-              type="button"
-              className="pantry-text-link"
-              disabled={draft.variants.length >= 12}
-              onClick={() =>
-                setDraft({
-                  ...draft,
-                  variants: [
-                    ...draft.variants,
-                    { id: crypto.randomUUID(), label: "", price: 0, stock: 0 },
-                  ],
-                })
-              }
-            >
-              <Plus size={17} />
-              Ajouter un format
-            </button>
-            <p className="pantry-small">
-              {draft.status === "preorder" &&
-                "Les places de précommande sont séparées du stock disponible. Une réservation retire des places ; son annulation les restitue. "}
-              Un seul format suffit. Ajoutez ou retirez les formats selon vos besoins ;
-              le dernier format doit être conservé. Un format lié à une commande
-              en cours reste protégé jusqu’à son traitement.
-            </p>
+                <button type="button" className="pantry-text-link" disabled={draft.variants.length >= 12}
+                  onClick={() => setDraft({ ...draft, variants: [...draft.variants, { id: crypto.randomUUID(), label: "", price: 0, stock: 0 }] })}>
+                  <Plus size={17} />
+                  Ajouter un format
+                </button>
+                <p className="pantry-small">Un format à 0 DT n’est pas proposé aux clients. Il faut au moins un format avec un prix pour Commande ou Précommande.</p>
+              </>
+            )}
+            <fieldset className="admin-checks">
+              <legend>Retrait</legend>
+              <label className="admin-check"><input type="checkbox" checked={offer.pickupFarm} onChange={e=>setOffer({pickupFarm:e.target.checked})}/> À la ferme · Testour</label>
+              <label className="admin-check"><input type="checkbox" checked={offer.pickupTunis} onChange={e=>setOffer({pickupTunis:e.target.checked})}/> À Tunis · adresse communiquée par téléphone</label>
+            </fieldset>
+            <label className="admin-check"><input type="checkbox" checked={offer.showStories!==false} onChange={e=>setOffer({showStories:e.target.checked})}/> Afficher les vidéos de la ferme sous la photo</label>
+            <p className="pantry-small">Gardez au moins un lieu de retrait pour Commande ou Précommande.{weight ? " Chaque palier ne peut pas dépasser le précédent." : ""}</p>
           </div>
-        </section>}
+        </section>
       </fieldset>
       {error && (
         <p className="shop-error" role="alert">
@@ -603,157 +468,12 @@ function ProductEditor({
         </p>
       )}
       <div className="admin-save">
-        <span>
-          {draft.id === 'pomegranates' ? (draft.status === 'draft' ? 'Offre masquée.' : harvestOffer(draft).enabled ? 'Demandes ouvertes · paiement au retrait après confirmation.' : 'Offre visible · demandes en pause.') : draft.status === "draft"
-            ? "Ce produit sera enregistré sans être visible sur le site."
-            : draft.status === "seasonal"
-              ? "Visible sur le site, sans possibilité de commander."
-              : draft.status === "soldout"
-                ? "Épuisé : les visiteurs s’inscrivent pour être prévenus du retour."
-              : draft.status === "preorder"
-                ? "Les clients pourront réserver les quantités prévues, sans acompte, si la boutique est ouverte."
-                : "Les formats avec du stock pourront être commandés si la boutique est ouverte."}
-        </span>
+        <span>{SALE_STATES.find(([status]) => status === draft.status)?.[2]}</span>
         <button className="shop-button" disabled={busy || uploading}>
           {busy ? "Enregistrement…" : "Enregistrer le produit"}
           <Check size={18} />
         </button>
       </div>
-    </form>
-  );
-}
-function DeliverySettings({
-  settings,
-  onSave,
-}: {
-  settings: ShopSettings;
-  onSave: (s: ShopSettings) => Promise<void>;
-}) {
-  const [draft, setDraft] = useState(structuredClone(settings)),
-    [busy, setBusy] = useState(false),
-    [error, setError] = useState("");
-  async function submit(event: FormEvent) {
-    event.preventDefault();
-    setBusy(true);
-    setError("");
-    try {
-      await onSave(draft);
-    } catch (e) {
-      setError((e as Error).message);
-    } finally {
-      setBusy(false);
-    }
-  }
-  return (
-    <form onSubmit={submit} className="admin-settings">
-      <h2>Livraison & ouverture</h2>
-      <p className="pantry-description">
-        Ajoutez uniquement les zones desservies par votre livreur. Le client
-        voit le prix exact avant de commander.
-      </p>
-      <fieldset disabled={busy}>
-        <label className="admin-toggle">
-          <input
-            type="checkbox"
-            checked={draft.acceptingOrders}
-            onChange={(e) =>
-              setDraft({ ...draft, acceptingOrders: e.target.checked })
-            }
-          />
-          <span>
-            <strong>Accepter les commandes</strong>
-            <small>
-              Décochez pour faire une pause. Le catalogue reste visible.
-            </small>
-          </span>
-        </label>
-        <div className="admin-zones">
-          {draft.zones.map((zone, index) => (
-            <div className="admin-zone" key={zone.id}>
-              <label>
-                Zone desservie
-                <input
-                  className="field"
-                  required
-                  maxLength={100}
-                  placeholder="Ex. Grand Tunis"
-                  value={zone.name}
-                  onChange={(e) =>
-                    setDraft({
-                      ...draft,
-                      zones: draft.zones.map((z, i) =>
-                        i === index ? { ...z, name: e.target.value } : z,
-                      ),
-                    })
-                  }
-                />
-              </label>
-              <label>
-                Frais (DT)
-                <input
-                  className="field"
-                  required
-                  type="number"
-                  min="0"
-                  max="1000"
-                  step=".001"
-                  value={zone.fee / 1000}
-                  onChange={(e) =>
-                    setDraft({
-                      ...draft,
-                      zones: draft.zones.map((z, i) =>
-                        i === index
-                          ? {
-                              ...z,
-                              fee: Math.round(Number(e.target.value) * 1000),
-                            }
-                          : z,
-                      ),
-                    })
-                  }
-                />
-              </label>
-              <button
-                type="button"
-                aria-label={`Retirer ${zone.name || "la zone"}`}
-                onClick={() =>
-                  setDraft({
-                    ...draft,
-                    zones: draft.zones.filter((_, i) => i !== index),
-                  })
-                }
-              >
-                <Trash2 size={19} />
-              </button>
-            </div>
-          ))}
-        </div>
-        <button
-          type="button"
-          className="pantry-text-link"
-          onClick={() =>
-            setDraft({
-              ...draft,
-              zones: [
-                ...draft.zones,
-                { id: crypto.randomUUID(), name: "", fee: 0 },
-              ],
-            })
-          }
-        >
-          <Plus size={17} />
-          Ajouter une zone de livraison
-        </button>
-      </fieldset>
-      {error && (
-        <p role="alert" className="shop-error">
-          {error}
-        </p>
-      )}
-      <button className="shop-button" disabled={busy}>
-        {busy ? "Enregistrement…" : "Enregistrer les réglages"}
-        <Check size={18} />
-      </button>
     </form>
   );
 }
@@ -904,6 +624,15 @@ function OrderRow({
     </details>
   );
 }
+// "2 en commande · 1 en précommande · 1 épuisé", from each product's sale state.
+function shopSummary(products: Product[]) {
+  const labels: [SaleState, string][] = [["order", "en commande"], ["preorder", "en précommande"], ["soldout", "épuisé"], ["hidden", "masqué"]];
+  const parts = labels
+    .map(([state, label]) => [products.filter((p) => saleState(p) === state).length, label] as const)
+    .filter(([n]) => n > 0)
+    .map(([n, label]) => `${n} ${label}${n > 1 && label !== "en commande" && label !== "en précommande" ? "s" : ""}`);
+  return parts.length ? `${parts.join(" · ")}. Paiement au retrait.` : "Aucun produit pour le moment.";
+}
 // Open where the work is: new harvest requests first, then new orders.
 function startTab(data: AdminData | null) {
   if (data?.reservations.some((r) => r.status === "new")) return "reservations";
@@ -982,14 +711,6 @@ export default function AdminShop({
     setEditor(null);
     setNotice("Produit enregistré.");
   }
-  async function saveSettings(settings: ShopSettings) {
-    const result = await api("/api/shop/admin", {
-      action: "settings",
-      data: settings,
-    });
-    setData((old) => old && { ...old, settings: result });
-    setNotice("Réglages enregistrés.");
-  }
   async function saveOrder(order: Order) {
     await api("/api/shop/admin", { action: "order", data: order });
     setData(await api("/api/shop/admin", undefined, "GET"));
@@ -1058,9 +779,10 @@ export default function AdminShop({
   const newRequests = data.reservations.filter((r) => r.status === "new").length;
   const tabs: [string, string, string, typeof Package, number][] = [
     ["products", "Produits", "Produits", Package, 0],
-    ["reservations", "Précommandes", "Demandes", Leaf, newRequests],
-    ["orders", "Commandes", "Commandes", ShoppingBag, newCount],
-    ["settings", "Livraison & codes promo", "Réglages", Settings, 0],
+    ["reservations", "Demandes", "Demandes", Leaf, newRequests],
+    // The old basket checkout: only shown while it holds orders, so it is not confused with the "Commande" state.
+    ...(data.orders.length ? [["orders", "Commandes panier", "Panier", ShoppingBag, newCount] as [string, string, string, typeof Package, number]] : []),
+    ["settings", "Codes promo", "Promos", Tag, 0],
     ["contacts", "Messages", "Messages", Mail, 0],
   ];
   return (
@@ -1100,11 +822,7 @@ export default function AdminShop({
       <div className="shop-wrap">
       <div className="admin-header">
         <h1>La boutique de Mehdi.</h1>
-        <p>
-          {data.settings.acceptingOrders
-            ? "La boutique accepte les commandes."
-            : "Achats directs en pause · demandes de précommande ouvertes."}
-        </p>
+        <p>{shopSummary(data.products)}</p>
       </div>
       {data.notifications && (!data.notifications.configured || data.notifications.pending > 0) && (
         <p className="shop-notice" role="status">
@@ -1195,19 +913,11 @@ export default function AdminShop({
                   )}
                   <span>
                     <strong>{p.name.fr}</strong>
-                    <small>{p.id === "pomegranates" ? `5 kg : ${money(harvestOffer(p).baseUnitPrice*5)} · 10 kg : ${money(harvestOffer(p).bulkUnitPrice*10)} · 20 kg : ${money(harvestOffer(p).largeUnitPrice*20)}` : p.variants.map((v) => v.label).join(" · ")}</small>
+                    <small>{pricingMode(p) === "weight" ? `5 kg : ${money(harvestOffer(p).baseUnitPrice*5)} · 10 kg : ${money(harvestOffer(p).bulkUnitPrice*10)} · 20 kg : ${money(harvestOffer(p).largeUnitPrice*20)}` : p.variants.some((v) => v.price > 0) ? p.variants.filter((v) => v.price > 0).map((v) => `${v.label} : ${money(v.price)}`).join(" · ") : `${p.variants.map((v) => v.label).join(" · ")} · prix à définir`}</small>
                   </span>
-                  <span>{p.id === "pomegranates" ? (p.status === "draft" ? "Masqué" : harvestOffer(p).enabled ? "Demandes ouvertes" : "Demandes en pause") : productStatus[p.status]}</span>
+                  <span className={`admin-state-tag is-${saleState(p)}`}>{SALE_STATES.find(([status]) => status === STATUS_OF[saleState(p)])?.[1]}</span>
                   <span>
-                    {p.id === "pomegranates" ? "Retrait sur rendez-vous" : p.status === "soldout" ? `${(data.waitlist || []).filter((w) => w.productId === p.id && !w.notifiedAt).length} en attente` : <>{p.variants.reduce(
-                      (n, v) =>
-                        n +
-                        (p.status === "preorder"
-                          ? v.preorderStock || 0
-                          : v.stock),
-                      0,
-                    )}{" "}
-                    {p.status === "preorder" ? "à réserver" : "colis"}</>}
+                    {saleState(p) === "soldout" ? `${(data.waitlist || []).filter((w) => w.productId === p.id && !w.notifiedAt).length} en attente` : saleState(p) === "hidden" ? "—" : "Retrait sur rendez-vous"}
                   </span>
                   <span className="admin-edit-label">
                     Modifier
@@ -1222,8 +932,7 @@ export default function AdminShop({
               </p>
             )}
             <p className="pantry-small">
-              Les brouillons sont masqués. Les produits hors saison restent
-              visibles sans pouvoir être commandés.
+              Choisissez l’état de chaque produit dans sa fiche : Masqué, Commande, Précommande ou Épuisé.
             </p>
             <WaitlistPanel
               entries={data.waitlist || []}
@@ -1249,11 +958,6 @@ export default function AdminShop({
       )}
       {tab === "settings" && (
         <>
-          <DeliverySettings
-            key={data.settings.revision}
-            settings={data.settings}
-            onSave={saveSettings}
-          />
           <PromoCodes
             promos={data.promos || []}
             onSave={async (promo) => {

@@ -33,6 +33,8 @@ try {
   const {flushNotifications, notificationStatus, orderMessage} = await load('notifications');
   const {createReservation} = await load('reservations');
   client = await db();
+  const honey = JSON.parse(String((await client.execute("SELECT data FROM shop_products WHERE id='honey'")).rows[0].data));
+  await client.execute({sql:'UPDATE shop_products SET data=? WHERE id=?',args:[JSON.stringify({...honey,status:'available',variants:honey.variants.map(v=>({...v,price:10000}))}),'honey']});
   const input = {firstName:'Test', lastName:'Client', phone:'22123456', email:'', governorate:'Tunis', city:'Tunis', address:'Test street', productId:'honey', variantId:'jar-250', quantity:2, requestKey:crypto.randomUUID()};
   const r = await createReservation(input);
   assert.equal((await createReservation(input)).id, r.id);
