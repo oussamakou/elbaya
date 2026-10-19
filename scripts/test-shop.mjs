@@ -349,15 +349,17 @@ try {
     },
   });
   assert.equal(savedPreorder.status, 200);
-  assert.equal(
-    (
-      await request('/api/shop/admin', {
-        action: 'product',
-        data: {...savedPreorder.data, preorderNote: {fr: '', en: ''}},
-      })
-    ).status,
-    400,
-  );
+  // The estimated availability is optional under per-product sale states.
+  const noNote = await request('/api/shop/admin', {
+    action: 'product',
+    data: {...savedPreorder.data, preorderNote: {fr: '', en: ''}},
+  });
+  assert.equal(noNote.status, 200);
+  savedPreorder = await request('/api/shop/admin', {
+    action: 'product',
+    data: {...noNote.data, preorderNote: {fr: availability, en: ''}},
+  });
+  assert.equal(savedPreorder.status, 200);
   const preInput = {
     ...input,
     requestKey: randomUUID(),

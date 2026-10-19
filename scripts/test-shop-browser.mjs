@@ -4,6 +4,10 @@ import {resolve} from 'node:path';
 import {createClient} from '@libsql/client';
 import assert from 'node:assert/strict';
 
+// End-to-end in Chrome against a local dev server and its default local database:
+// the storefront, the owner editor (sale states, photos, sizes), promo codes, pickup
+// requests (Commande and Précommande), the request inbox and the waitlist.
+// Every record it creates is labelled and deleted at the end.
 const base = process.env.SHOP_TEST_URL || 'http://localhost:3010';
 assert(['localhost', '127.0.0.1'].includes(new URL(base).hostname));
 assert(
@@ -13,16 +17,14 @@ assert(
 );
 const password =
   process.env.SHOP_TEST_PASSWORD ||
-  readFileSync('.shop/admin-access.txt', 'utf8').match(
-    /^Password: (.+)$/m,
-  )?.[1];
+  readFileSync('.shop/admin-access.txt', 'utf8').match(/^Password: (.+)$/m)?.[1];
 const client = createClient({
   url: `file:${resolve('.shop/shop.db').replaceAll('\\', '/')}`,
 });
-const oldSettings = (
-  await client.execute('SELECT data FROM shop_settings WHERE id=1')
-).rows[0].data;
-const name = `Test navigateur ${Date.now()}`;
+const stamp = Date.now();
+const name = `Test navigateur ${stamp}`;
+const lastName = `NAV-${stamp}`;
+const promo = `NAV${String(stamp).slice(-6)}`;
 const browser = await chromium.launch({channel: 'chrome', headless: true});
 const page = await browser.newPage({viewport: {width: 1440, height: 1000}});
 const errors = [];
@@ -30,251 +32,183 @@ page.on('pageerror', (error) => errors.push(error.message));
 let productId;
 async function shot(filename) {
   await page.evaluate(async () => {
-    for (const img of document.images) {
-      img.loading = 'eager';
-    }
-    await Promise.all(
-      Array.from(document.images).map((i) => i.decode().catch(() => {})),
-    );
+    for (const img of document.images) img.loading = 'eager';
+    await Promise.all(Array.from(document.images).map((i) => i.decode().catch(() => {})));
     await document.fonts.ready;
   });
-  await page.screenshot({
-    path: `.playwright-mcp/${filename}.png`,
-    fullPage: true,
-  });
+  await page.screenshot({path: `.playwright-mcp/${filename}.png`, fullPage: true});
   assert.equal(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth > innerWidth,
-    ),
+    await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),
     false,
     `Overflow at ${filename}`,
   );
 }
+async function openEditor() {
+  await page.goto(`${base}/fr/admin`);
+  await page.getByRole('button', {name: 'Produits', exact: true}).click();
+  await page.getByRole('button', {name: new RegExp(name)}).click();
+}
+async function saveProduct() {
+  await page.getByRole('button', {name: 'Enregistrer le produit'}).click();
+  await expect(page.getByText('Produit enregistré.', {exact: true})).toBeVisible();
+}
+// The state cards are labels wrapping a visually hidden radio; click the card like a person would.
+async function chooseState(title) {
+  await page.locator('label.admin-state', {has: page.locator('strong', {hasText: new RegExp(`^${title}$`)})}).click();
+  await expect(page.getByRole('radio', {name: new RegExp(`^${title}`)})).toBeChecked();
+}
+async function fillContact(firstName) {
+  await page.getByLabel('Prénom', {exact: true}).fill(firstName);
+  await page.getByLabel('Nom', {exact: true}).fill(lastName);
+  await page.getByLabel('Téléphone tunisien', {exact: true}).fill('22123456');
+}
 try {
+  // Storefront: the pomegranate page leads the shop, in both languages and on a phone.
   await page.goto(`${base}/fr/products`);
-  await expect(
-    page.getByRole('heading', {name: 'Les bonnes choses prennent leur temps.'}),
-  ).toBeVisible();
+  await expect(page.getByRole('heading', {name: 'Les grenades d’El Baya.', level: 1})).toBeVisible();
   await shot('shop-desktop');
   await page.setViewportSize({width: 390, height: 844});
   await shot('shop-mobile');
   await page.getByRole('button', {name: 'Open menu'}).click();
-  await expect(
-    page
-      .locator('#mobile-menu')
-      .getByRole('link', {name: 'Boutique', exact: true}),
-  ).toBeVisible();
+  await expect(page.locator('#mobile-menu').getByRole('link', {name: 'Boutique', exact: true})).toBeVisible();
   await page.keyboard.press('Escape');
-  await page.getByRole('button', {name: 'Huile d’olive', exact: true}).click();
-  await expect(page.locator('.pantry-product')).toHaveCount(1);
-  await page.getByRole('button', {name: 'Miel', exact: true}).click();
-  await page
-    .getByRole('link', {name: 'Découvrir le produit', exact: true})
-    .click();
-  await expect(page).toHaveURL(/\/fr\/products\/honey$/);
-  await expect(
-    page.getByRole('heading', {name: 'Le miel', level: 1}),
-  ).toBeVisible();
-  await shot('shop-honey-mobile');
   await page.setViewportSize({width: 1440, height: 1000});
-  await page.goto(`${base}/fr/products/pomegranates`);
-  await shot('shop-product-desktop');
   await page.goto(`${base}/en/products`);
-  await expect(
-    page.getByRole('heading', {name: 'Good things take their time.'}),
-  ).toBeVisible();
+  await expect(page.getByRole('heading', {name: 'El Baya pomegranates.', level: 1})).toBeVisible();
+
+  // Owner: log in, create a product in Commande with two photos and a priced size.
   await page.goto(`${base}/fr/admin`);
   await page.getByLabel('Mot de passe', {exact: true}).fill(password);
   await page.getByRole('button', {name: 'Ouvrir ma boutique'}).click();
-  await expect(
-    page.getByRole('heading', {name: 'La boutique de Mehdi.'}),
-  ).toBeVisible();
-  await shot('shop-admin-mobile');
-  await page.setViewportSize({width: 1440, height: 1000});
-  await shot('shop-admin-desktop');
-  await page.getByRole('button', {name: /Les grenades.*Modifier/}).click();
-  await shot('shop-admin-editor');
-  await page.setViewportSize({width: 390, height: 844});
-  await shot('shop-admin-editor-mobile');
-  await page.getByRole('button', {name: 'Tous les produits'}).click();
+  await expect(page.getByRole('heading', {name: 'La boutique de Mehdi.'})).toBeVisible();
+  await expect(page.locator('body > header, footer')).toHaveCount(0);
+  await page.getByRole('button', {name: 'Produits', exact: true}).click();
   await page.getByRole('button', {name: 'Ajouter un produit'}).click();
   await page.getByLabel('Nom du produit', {exact: true}).fill(name);
-  await page
-    .getByLabel('Description', {exact: true})
-    .fill('Produit temporaire du test navigateur.');
-  await page.getByLabel('Visibilité').selectOption('available');
-  await page
-    .locator('input[type=file]')
-    .setInputFiles(['public/assets/images/picking_tree_fruits.webp', 'public/assets/images/beekeeping_activity.webp']);
-  await expect(page.getByText('Préparation des photos…')).toHaveCount(0);
+  await page.getByLabel('Description', {exact: true}).fill('Produit temporaire du test navigateur.');
+  await chooseState('Commande');
+  await page.locator('input[type=file]').setInputFiles([
+    'public/assets/images/picking_tree_fruits.webp',
+    'public/assets/images/beekeeping_activity.webp',
+  ]);
+  // Photos are resized in the browser before upload; two large images take a few seconds headless.
+  await expect(page.getByText('Préparation des photos…')).toHaveCount(0, {timeout: 30000});
   await expect(page.locator('.admin-photo')).toHaveCount(2);
-  const mainPhoto = await page.locator('.admin-photo img').nth(1).getAttribute('src');
-  await page.getByRole('button', {name:'Couverture', exact:true}).click();
-  await expect(page.locator('.admin-photo img').first()).toHaveAttribute('src',mainPhoto);
-  await shot('shop-multiple-photos-mobile');
-  await page.getByLabel('Format', {exact: true}).fill('3 kg');
-  await page.getByLabel('Prix (DT)', {exact: true}).fill('18.5');
-  await page.getByLabel('Colis disponibles', {exact: true}).fill('5');
-  await page.getByRole('button', {name: 'Enregistrer le produit'}).click();
-  await expect(
-    page.getByText('Produit enregistré.', {exact: true}),
-  ).toBeVisible();
-  const products = await client.execute('SELECT id,data FROM shop_products');
-  productId = products.rows.find(
+  const cover = await page.locator('.admin-photo img').nth(1).getAttribute('src');
+  await page.getByRole('button', {name: 'Couverture', exact: true}).click();
+  await expect(page.locator('.admin-photo img').first()).toHaveAttribute('src', cover);
+  await page.getByLabel('Format', {exact: true}).fill('1 L');
+  await page.getByLabel('Prix (DT)', {exact: true}).fill('35');
+  await shot('shop-admin-editor');
+  await saveProduct();
+  productId = (await client.execute('SELECT id,data FROM shop_products')).rows.find(
     (r) => JSON.parse(String(r.data)).name.fr === name,
   ).id;
-  await page
-    .getByRole('button', {name: 'Livraison & ouverture', exact: true})
-    .click();
-  await page
-    .getByRole('button', {name: 'Ajouter une zone de livraison'})
-    .click();
-  await page.getByLabel('Zone desservie').last().fill('Zone test navigateur');
-  await page.getByLabel('Frais (DT)').last().fill('7');
-  await page.getByLabel('Accepter les commandes').check();
-  await page.getByRole('button', {name: 'Enregistrer les réglages'}).click();
-  await expect(
-    page.getByText('Réglages enregistrés.', {exact: true}),
-  ).toBeVisible();
-  await page.goto(`${base}/fr/products`);
-  const product = page
-    .locator('article')
-    .filter({has: page.getByRole('heading', {name, exact: true})});
-  await product
-    .getByRole('link', {name: 'Découvrir le produit', exact: true})
-    .click();
-  await expect(page.locator('.pantry-detail-gallery .pantry-product-photo img')).toHaveAttribute('src',mainPhoto);
-  await expect(page.locator('.pantry-thumbnails button')).toHaveCount(2);
-  const otherPhoto = await page.locator('.pantry-thumbnails img').nth(1).getAttribute('src');
-  await page.getByRole('button',{name:'Photo 2',exact:true}).click();
-  await expect(page.locator('.pantry-detail-gallery .pantry-product-photo img')).toHaveAttribute('src',otherPhoto);
-  await shot('shop-gallery-mobile');
-  await page.getByRole('button', {name: 'Ajouter au panier'}).click();
-  await page.locator('.pantry-detail-nav a[href="#pantry-basket"]').click();
-  await page.getByLabel('Nom complet').fill('Client test navigateur');
-  await page.getByLabel('Téléphone tunisien').fill('22123456');
-  await page
-    .getByLabel('Zone de livraison')
-    .selectOption({label: 'Zone test navigateur · 7 DT'});
-  await page.getByLabel('Adresse complète').fill('Adresse temporaire du test');
-  await shot('shop-checkout-mobile');
-  await page
-    .getByRole('button', {name: 'Commander · paiement à la livraison'})
-    .click();
-  await expect(
-    page.getByRole('heading', {name: 'Merci, votre commande est reçue.'}),
-  ).toBeVisible();
-  await page.goto(`${base}/fr/admin`);
-  await page.getByRole('button', {name: /^Commandes/}).click();
-  await page
-    .locator('.admin-order')
-    .filter({hasText: 'Client test navigateur'})
-    .locator('summary')
-    .click();
-  await shot('shop-order-mobile');
-  await page.getByLabel('Statut').selectOption('delivered');
-  await page.getByLabel('Paiement encaissé').check();
-  await page.getByRole('button', {name: 'Mettre à jour'}).click();
-  await expect(
-    page.getByText('Commande mise à jour.', {exact: true}),
-  ).toBeVisible();
-  const order = (await client.execute('SELECT data FROM shop_orders')).rows
-    .map((r) => JSON.parse(String(r.data)))
-    .find((o) => o.customer.name === 'Client test navigateur');
-  assert.equal(order.total, 25500);
-  assert.equal(order.paid, true);
-  assert.equal(order.status, 'delivered');
-  await page.getByRole('button', {name: 'Produits', exact: true}).click();
-  await page.getByRole('button', {name: new RegExp(name)}).click();
-  await page.getByLabel('Visibilité').selectOption('preorder');
-  await page
-    .getByLabel('Disponibilité estimée', {exact: true})
-    .fill('Prochaine récolte — période de test, à confirmer par téléphone.');
-  await page.getByLabel('Colis à réserver', {exact: true}).fill('3');
-  await shot('shop-preorder-admin-mobile');
-  await page.getByRole('button', {name: 'Enregistrer le produit'}).click();
-  await expect(
-    page.getByText('Produit enregistré.', {exact: true}),
-  ).toBeVisible();
+  await expect(page.locator('.admin-product-row').filter({hasText: name})).toContainText('Commande');
+
+  // Owner: a promo code for this test.
+  await page.getByRole('button', {name: 'Codes promo', exact: true}).click();
+  await page.getByLabel('Code', {exact: true}).fill(promo);
+  await page.locator('.promo-form input[name=value]').fill('10');
+  await page.getByLabel('Limite d’utilisations').fill('5');
+  await page.getByRole('button', {name: 'Créer le code'}).click();
+  await expect(page.locator('.promo-list li').filter({hasText: promo})).toContainText('Actif');
+
+  // Customer: the same page template as the pomegranates, with packs, quantity, pickup and the code.
   await page.goto(`${base}/fr/products/${productId}`);
-  await expect(
-    page.getByText('Votre place dans la prochaine récolte.', {exact: true}),
-  ).toBeVisible();
-  await page.setViewportSize({width: 1440, height: 1000});
-  await shot('shop-preorder-desktop');
+  await expect(page.getByRole('heading', {name: `${name}.`, level: 1})).toBeVisible();
+  await expect(page.locator('.harvest-photo img')).toHaveAttribute('src', cover);
+  await page.getByRole('button', {name: 'Image suivante'}).click();
+  await expect(page.locator('.harvest-photo img')).not.toHaveAttribute('src', cover);
+  await page.getByRole('button', {name: 'Ajouter un'}).click();
+  await page.getByRole('radio', {name: /À Tunis/}).check();
+  await fillContact('Commande');
+  await page.getByRole('button', {name: 'J’ai un code promo'}).click();
+  await page.getByLabel('Code promo').fill(promo.toLowerCase());
+  await page.getByRole('button', {name: 'Appliquer'}).click();
+  await expect(page.locator('.harvest-total')).toContainText('63 DT');
   await page.setViewportSize({width: 390, height: 844});
-  await shot('shop-preorder-mobile');
-  await page
-    .getByRole('button', {name: 'Réserver ma part', exact: true})
-    .click();
-  await page.locator('.pantry-detail-nav a[href="#pantry-basket"]').click();
-  await page.getByLabel('Nom complet').fill('Client précommande navigateur');
-  await page.getByLabel('Téléphone tunisien').fill('22123456');
-  await page
-    .getByLabel('Zone de livraison')
-    .selectOption({label: 'Zone test navigateur · 7 DT'});
-  await page
-    .getByLabel('Adresse complète')
-    .fill('Adresse temporaire du test précommande');
-  await expect(
-    page.getByText(/Votre panier contient une précommande/),
-  ).toBeVisible();
-  await page
-    .getByRole('button', {
-      name: 'Réserver · paiement à la livraison',
-      exact: true,
-    })
-    .click();
-  await expect(
-    page.getByRole('heading', {name: 'Votre réservation est enregistrée.'}),
-  ).toBeVisible();
+  await shot('shop-product-mobile');
+  await page.setViewportSize({width: 1440, height: 1000});
+  await page.getByRole('button', {name: /^Commander/}).click();
+  await expect(page.getByRole('heading', {name: 'Votre commande est envoyée.'})).toBeVisible();
+  await expect(page.locator('.harvest-confirmation')).toContainText(`2 × 1 L · 63 DT · code ${promo}`);
+
+  // Owner: the request is in Demandes; confirm it with a pickup date.
   await page.goto(`${base}/fr/admin`);
-  await page.getByRole('button', {name: /^Commandes/}).click();
-  await page.getByRole('button', {name: 'Précommandes', exact: true}).click();
-  await expect(page.locator('.admin-order')).toHaveCount(1);
-  await expect(page.locator('.admin-order')).toContainText(
-    'Client précommande navigateur',
+  await page.getByRole('button', {name: /^Demandes/}).click();
+  const card = page.locator('.inbox-card').filter({hasText: lastName});
+  await expect(card).toHaveCount(1);
+  await expect(card).toContainText(`${name} · 2 × 1 L`);
+  await expect(card).toContainText(`code ${promo}`);
+  await card.getByRole('button', {name: 'Confirmée'}).click();
+  await expect(card).toHaveAttribute('data-status', 'confirmed');
+  await card.getByLabel('Date de retrait').fill('2026-11-02');
+  await card.getByRole('button', {name: 'Enregistrer'}).click();
+  await expect(card.getByText('Enregistré')).toBeVisible();
+  await shot('shop-admin-inbox');
+  const stored = (await client.execute({sql: 'SELECT data FROM shop_reservations WHERE data LIKE ?', args: [`%${lastName}%`]})).rows.map((r) => JSON.parse(String(r.data)));
+  assert.deepEqual(
+    [stored.length, stored[0].status, stored[0].pickupDate, stored[0].harvest.total, stored[0].harvest.discount, stored[0].harvest.pickup],
+    [1, 'confirmed', '2026-11-02', 63000, 7000, 'tunis'],
   );
+
+  // Précommande: the page announces the estimate and the request is tagged.
+  await openEditor();
+  await chooseState('Précommande');
+  await page.getByLabel('Disponibilité annoncée (facultatif)').fill('Récolte test mi-novembre');
+  await saveProduct();
+  await page.goto(`${base}/fr/products/${productId}`);
+  await expect(page.locator('.harvest-preorder')).toContainText('Récolte test mi-novembre');
+  await fillContact('Precommande');
+  await page.getByRole('button', {name: /^Précommander/}).click();
+  await expect(page.getByRole('heading', {name: 'Votre précommande est envoyée.'})).toBeVisible();
+  await page.goto(`${base}/fr/admin`);
+  await page.getByRole('button', {name: /^Demandes/}).click();
+  await expect(page.locator('.inbox-card').filter({hasText: 'Precommande'}).locator('.inbox-preorder')).toContainText('Récolte test mi-novembre');
+
+  // Épuisé: no request form, only the waitlist; the signup reaches the owner.
+  await openEditor();
+  await chooseState('Épuisé');
+  await saveProduct();
+  await expect(page.locator('.admin-product-row').filter({hasText: name})).toContainText('Épuisé');
+  await page.goto(`${base}/fr/products/${productId}`);
+  await expect(page.locator('.harvest-order')).toHaveCount(0);
+  await page.getByLabel('Prénom', {exact: true}).fill(`Attente ${lastName}`);
+  await page.getByLabel('Téléphone (WhatsApp)').fill('22123456');
+  await page.locator('.waitlist-form input[name=consent]').check();
+  await page.getByRole('button', {name: 'Me prévenir en premier'}).click();
+  await expect(page.getByText(/C’est noté/)).toBeVisible();
+  await page.goto(`${base}/fr/admin`);
+  await page.getByRole('button', {name: 'Produits', exact: true}).click();
+  await expect(page.locator('#liste-attente')).toContainText(`Attente ${lastName}`);
+  await page.setViewportSize({width: 390, height: 844});
+  await shot('shop-admin-mobile');
   await page.getByRole('button', {name: 'Se déconnecter'}).click();
-  await expect(
-    page.getByRole('heading', {name: 'Bonjour, Mehdi.'}),
-  ).toBeVisible();
+  await expect(page.getByRole('heading', {name: 'Bonjour, Mehdi.'})).toBeVisible();
   assert.deepEqual(errors, [], 'Browser runtime errors');
   console.log(
-    'PASS: desktop/mobile product pages, honey, French/English catalogue, navigation, owner login, uploads, ready-order checkout, admin pre-order configuration, reservation checkout and pre-order filtering.',
+    'PASS: pomegranate storefront FR/EN, phone menu, owner login without guest chrome, product editor (states, photos, cover, sizes), promo code, pack request with code, inbox confirmation and pickup date, Précommande request and tag, Épuisé waitlist signup, logout.',
   );
 } catch (error) {
-  await page.screenshot({
-    path: '.playwright-mcp/shop-test-failure.png',
-    fullPage: true,
-  });
+  await page.screenshot({path: '.playwright-mcp/shop-test-failure.png', fullPage: true});
   throw error;
 } finally {
-  await client.execute({
-    sql: 'UPDATE shop_settings SET data=? WHERE id=1',
-    args: [oldSettings],
-  });
-  const result = await client.execute('SELECT id,data FROM shop_products');
-  const test = result.rows.find(
-    (r) => JSON.parse(String(r.data)).name.fr === name,
-  );
-  if (test) {
-    productId = test.id;
-    for (const src of JSON.parse(String(test.data)).images)
-      if (src.startsWith('/api/shop/images/'))
-        await client.execute({
-          sql: 'DELETE FROM shop_images WHERE id=?',
-          args: [src.split('/').at(-1)],
-        });
-    await client.execute({
-      sql: 'DELETE FROM shop_orders WHERE data LIKE ?',
-      args: [`%${productId}%`],
-    });
-    await client.execute({
-      sql: 'DELETE FROM shop_products WHERE id=?',
-      args: [productId],
-    });
+  if (!productId) {
+    const row = (await client.execute('SELECT id,data FROM shop_products')).rows.find((r) => JSON.parse(String(r.data)).name.fr === name);
+    productId = row?.id;
   }
+  if (productId) {
+    const product = (await client.execute({sql: 'SELECT data FROM shop_products WHERE id=?', args: [productId]})).rows[0];
+    for (const src of product ? JSON.parse(String(product.data)).images : [])
+      if (src.startsWith('/api/shop/images/'))
+        await client.execute({sql: 'DELETE FROM shop_images WHERE id=?', args: [src.split('/').at(-1)]});
+    await client.execute({sql: 'DELETE FROM shop_notifications WHERE id IN (SELECT id FROM shop_reservations WHERE data LIKE ?)', args: [`%${lastName}%`]});
+    await client.execute({sql: 'DELETE FROM shop_reservations WHERE data LIKE ?', args: [`%${lastName}%`]});
+    await client.execute({sql: 'DELETE FROM shop_waitlist WHERE product_id=?', args: [productId]});
+    await client.execute({sql: 'DELETE FROM shop_products WHERE id=?', args: [productId]});
+  }
+  await client.execute({sql: 'DELETE FROM shop_promos WHERE code=?', args: [promo]});
   client.close();
   await browser.close();
 }
