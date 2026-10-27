@@ -14,6 +14,7 @@ import {
   RefreshCw,
   Tag,
   ShoppingBag,
+  Sprout,
   Trash2,
   X,
 } from "lucide-react";
@@ -31,6 +32,7 @@ import WaitlistPanel from "./WaitlistPanel";
 import PromoCodes from "./PromoCodes";
 import {harvestOffer, pricingMode, saleState, type HarvestOffer, type SaleState} from '@/lib/shop/harvest';
 import type {ContactRequest} from '@/lib/shop/contact';
+import EventPanel, {type EventData} from '@/components/events/EventPanel';
 
 type AdminData = {
   contacts?: ContactRequest[];
@@ -41,6 +43,7 @@ type AdminData = {
   reservations: ReservationRequest[];
   waitlist?: WaitlistEntry[];
   promos?: PromoCode[];
+  event?: EventData;
 };
 const statusNames = {
   new: "Nouvelle",
@@ -635,6 +638,7 @@ function shopSummary(products: Product[]) {
 }
 // Open where the work is: new harvest requests first, then new orders.
 function startTab(data: AdminData | null) {
+  if (data?.event?.guests.some((g) => g.status === "new")) return "event";
   if (data?.reservations.some((r) => r.status === "new")) return "reservations";
   if (data?.orders.some((o) => o.status === "new")) return "orders";
   return "products";
@@ -653,6 +657,23 @@ export default function AdminShop({
     [error, setError] = useState(""),
     [notice, setNotice] = useState(""),
     [orderFilter, setOrderFilter] = useState("all");
+  const mailPending = Boolean(data?.notifications?.configured && data.notifications.pending);
+  useEffect(() => {
+    if (!mailPending) return;
+    let cancelled = false;
+    let timer: ReturnType<typeof setTimeout>;
+    async function poll() {
+      try {
+        const loaded: AdminData = await api("/api/shop/admin", undefined, "GET");
+        if (!cancelled) setData((current) => current ? {...current, notifications: loaded.notifications, event: loaded.event} : current);
+      } catch {
+        // Keep the queue visible and retry after temporary connection failures.
+      }
+      if (!cancelled) timer = setTimeout(poll, 10000);
+    }
+    timer = setTimeout(poll, 10000);
+    return () => { cancelled = true; clearTimeout(timer); };
+  }, [mailPending]);
   async function refresh() {
     setBusy(true);
     setError("");
@@ -778,6 +799,7 @@ export default function AdminShop({
   const newCount = data.orders.filter((o) => o.status === "new").length;
   const newRequests = data.reservations.filter((r) => r.status === "new").length;
   const tabs: [string, string, string, typeof Package, number][] = [
+    ...(data.event ? [["event", "Pomegranate Day", "Événement", Sprout, data.event.guests.filter((g) => g.status === "new").length] as [string, string, string, typeof Package, number]] : []),
     ["products", "Produits", "Produits", Package, 0],
     ["reservations", "Demandes", "Demandes", Leaf, newRequests],
     // The old basket checkout: only shown while it holds orders, so it is not confused with the "Commande" state.
@@ -828,7 +850,7 @@ export default function AdminShop({
         <p className="shop-notice" role="status">
           {!data.notifications.configured
             ? 'Alertes email non activées. Consultez les commandes et précommandes ici en attendant la connexion du service email.'
-            : `${data.notifications.pending} alerte(s) email en attente. L’envoi sera retenté lors d’une actualisation du tableau de bord ou d’une nouvelle commande. Les demandes restent enregistrées ici.`}
+            : `${data.notifications.pending} email(s) en attente. Gardez ce tableau de bord ouvert : l’envoi et les nouvelles tentatives continuent automatiquement. Si vous le fermez, la file reste enregistrée et reprend à la prochaine ouverture.`}
         </p>
       )}
       <nav className="admin-tabs" aria-label="Administration">
@@ -944,6 +966,16 @@ export default function AdminShop({
             />
           </>
         ))}
+      {tab === "event" && data.event && (
+        <EventPanel
+          data={data.event}
+          run={async (action, payload) => {
+            const result = await api("/api/shop/admin", { action, data: payload });
+            setData(await api("/api/shop/admin", undefined, "GET"));
+            return result;
+          }}
+        />
+      )}
       {tab === "reservations" && (
         <ReservationInbox
           requests={data.reservations}

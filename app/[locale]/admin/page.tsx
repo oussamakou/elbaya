@@ -5,6 +5,8 @@ import { reservations } from "@/lib/shop/reservations";
 import {contacts} from '@/lib/shop/contact';
 import {waitlist} from '@/lib/shop/waitlist';
 import {promos} from '@/lib/shop/promo';
+import {eventAdmin} from '@/lib/events/pomegranate';
+import {notificationStatus} from '@/lib/shop/notifications';
 import AdminShop from "@/components/shop/AdminShop";
 import "@/components/shop/shop.css";
 export const dynamic = "force-dynamic";
@@ -21,12 +23,14 @@ export default async function AdminPage() {
       initial={
         authenticated
           ? {
+              notifications: await notificationStatus(),
               ...(await catalogue(true)),
               orders: await orders(),
               reservations: await reservations(),
               contacts: await contacts(),
               waitlist: await waitlist(),
               promos: await promos(),
+              event: await eventAdmin(),
             }
           : null
       }

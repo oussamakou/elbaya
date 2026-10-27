@@ -209,6 +209,10 @@ const errors: Record<string, [string, string]> = {
     'Cette zone n’est plus desservie. Choisissez une autre zone.',
     'This area is no longer served. Choose another area.',
   ],
+  event_closed: [
+    'Les demandes pour cet événement sont fermées.',
+    'Requests for this event are closed.',
+  ],
   rate_limit: [
     'Trop de tentatives. Patientez avant de réessayer.',
     'Too many attempts. Please wait before trying again.',
