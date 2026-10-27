@@ -1,11 +1,13 @@
 import type {Metadata} from 'next';
-import {Cormorant_Garamond, DM_Sans, Lateef, Noto_Kufi_Arabic} from 'next/font/google';
+import {Cormorant_Garamond, Lateef, Noto_Kufi_Arabic} from 'next/font/google';
+import localFont from 'next/font/local';
 import {setRequestLocale} from 'next-intl/server';
 import PomegranateDay from '@/components/events/PomegranateDay';
 import {calendarLinks, EVENT, publicState} from '@/lib/events/pomegranate';
 
 const cormorant = Cormorant_Garamond({subsets: ['latin'], weight: ['500', '600'], style: ['italic'], variable: '--pd-cormorant', display: 'swap'});
-const dmSans = DM_Sans({subsets: ['latin'], weight: ['400', '500', '600'], variable: '--pd-dm-sans', display: 'swap'});
+// Bundle the variable font directly to avoid the Google font URL resolver failing on Vercel.
+const dmSans = localFont({src: '../../../public/fonts/dm-sans.ttf', weight: '100 1000', variable: '--pd-dm-sans', display: 'swap'});
 const lateef = Lateef({subsets: ['arabic'], weight: ['200', '300'], variable: '--pd-lateef', display: 'swap'});
 const kufi = Noto_Kufi_Arabic({subsets: ['arabic'], weight: ['100'], variable: '--pd-kufi', display: 'swap'});
 
