@@ -657,6 +657,23 @@ export default function AdminShop({
     [error, setError] = useState(""),
     [notice, setNotice] = useState(""),
     [orderFilter, setOrderFilter] = useState("all");
+  const mailPending = Boolean(data?.notifications?.configured && data.notifications.pending);
+  useEffect(() => {
+    if (!mailPending) return;
+    let cancelled = false;
+    let timer: ReturnType<typeof setTimeout>;
+    async function poll() {
+      try {
+        const loaded: AdminData = await api("/api/shop/admin", undefined, "GET");
+        if (!cancelled) setData((current) => current ? {...current, notifications: loaded.notifications, event: loaded.event} : current);
+      } catch {
+        // Keep the queue visible and retry after temporary connection failures.
+      }
+      if (!cancelled) timer = setTimeout(poll, 10000);
+    }
+    timer = setTimeout(poll, 10000);
+    return () => { cancelled = true; clearTimeout(timer); };
+  }, [mailPending]);
   async function refresh() {
     setBusy(true);
     setError("");
@@ -833,7 +850,7 @@ export default function AdminShop({
         <p className="shop-notice" role="status">
           {!data.notifications.configured
             ? 'Alertes email non activées. Consultez les commandes et précommandes ici en attendant la connexion du service email.'
-            : `${data.notifications.pending} alerte(s) email en attente. L’envoi sera retenté lors d’une actualisation du tableau de bord ou d’une nouvelle commande. Les demandes restent enregistrées ici.`}
+            : `${data.notifications.pending} email(s) en attente. Gardez ce tableau de bord ouvert : l’envoi et les nouvelles tentatives continuent automatiquement. Si vous le fermez, la file reste enregistrée et reprend à la prochaine ouverture.`}
         </p>
       )}
       <nav className="admin-tabs" aria-label="Administration">

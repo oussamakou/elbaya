@@ -67,14 +67,23 @@ export async function notificationStatus() {
 
 // Retry pending alerts on subsequent submissions and authenticated dashboard visits.
 // A lease prevents concurrent requests sending the same alert. Resend also deduplicates retries.
+let flushing: Promise<void> | undefined;
 export async function flushNotifications() {
+  flushing ??= drainNotifications().finally(() => { flushing = undefined; });
+  await flushing;
+}
+
+async function drainNotifications() {
   const settings = config();
   if (!settings) return;
   try {
     const client = await db();
-    const now = Date.now();
-    const rows = await client.execute({sql: 'SELECT id FROM shop_notifications WHERE sent_at IS NULL AND next_attempt <= ? ORDER BY rowid LIMIT 3', args: [now]});
-    for (const row of rows.rows) {
+    // Bound each invocation; the open dashboard continues draining/retrying leftovers.
+    const deadline = Date.now() + 20000;
+    while (Date.now() < deadline - 8000) {
+      const rows = await client.execute({sql: 'SELECT id FROM shop_notifications WHERE sent_at IS NULL AND next_attempt <= ? ORDER BY rowid LIMIT 1', args: [Date.now()]});
+      if (!rows.rows.length) break;
+      const row = rows.rows[0];
       const token = randomUUID();
       const claimed = await client.execute({
         sql: 'UPDATE shop_notifications SET lease=?,next_attempt=? WHERE id=? AND sent_at IS NULL AND next_attempt <= ? RETURNING data',
@@ -92,9 +101,12 @@ export async function flushNotifications() {
         const result = await response.json();
         if (typeof result.id !== 'string' || !result.id) throw new Error('Email provider returned no receipt');
         await client.execute({sql: 'UPDATE shop_notifications SET sent_at=?,data=? WHERE id=? AND lease=?', args: [Date.now(), '{}', String(row.id), token]});
+        // Pace requests instead of flooding the provider during a bulk send.
+        await new Promise((resolve) => setTimeout(resolve, 600));
       } catch {
         // No credentials, addresses or customer details in logs. The dashboard exposes pending count.
         console.error('Shop email pending; delivery will be retried.');
+        break;
       }
     }
   } catch {

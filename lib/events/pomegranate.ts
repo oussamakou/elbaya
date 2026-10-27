@@ -45,8 +45,9 @@ export type Guest = {
   arrivedWhenFull?: boolean;
   checkedInAt?: string;
   ownerNote?: string;
-  // When each kind of email was queued for this guest.
+  // Stored as queue timestamps; eventAdmin replaces these with provider acceptance receipts.
   emailed?: Partial<Record<EmailKind, string>>;
+  emailPending?: Partial<Record<EmailKind, boolean>>;
 };
 export type EventSettings = {revision: number; open: boolean; capacity: number};
 const DEFAULT_SETTINGS: EventSettings = {revision: 0, open: true, capacity: 200};
@@ -174,9 +175,22 @@ export async function eventAdmin() {
     sql: 'SELECT data FROM event_guests WHERE event=? ORDER BY rowid DESC LIMIT ?',
     args: [EVENT_ID, MAX_GUESTS],
   });
+  // Queue receipts are authoritative, including emails queued by older versions.
+  const messages = await c.execute("SELECT id, sent_at FROM shop_notifications WHERE id LIKE 'event-mail-%' ORDER BY rowid");
+  const guests = rows.rows.map((r) => ({...JSON.parse(String(r.data)), emailed: {}, emailPending: {}} as Guest));
+  const byId = new Map(guests.map((g) => [g.id, g]));
+  for (const message of messages.rows) {
+    const match = /^event-mail-(PD-[A-Z0-9-]+)-(confirmed|waitlist|declined)-/.exec(String(message.id));
+    if (!match) continue;
+    const guest = byId.get(match[1]);
+    if (!guest) continue;
+    const kind = match[2] as EmailKind;
+    if (message.sent_at === null) guest.emailPending![kind] = true;
+    else guest.emailed![kind] = new Date(Number(message.sent_at)).toISOString();
+  }
   return {
     settings: await readSettings(c),
-    guests: rows.rows.map((r) => JSON.parse(String(r.data)) as Guest),
+    guests,
     // Guest emails need the same Resend setup as the owner alerts.
     emailReady: Boolean(process.env.RESEND_API_KEY && process.env.SHOP_EMAIL_FROM && process.env.SHOP_NOTIFY_EMAIL),
   };
@@ -326,9 +340,12 @@ export async function emailGuests(input: unknown) {
       const guest = await loadGuest(tx, guestId);
       if (guest.status === 'new') continue;
       const kind: EmailKind = guest.status;
+      const prefix = `event-mail-${guest.id}-${kind}-`;
+      const pending = await tx.execute({sql: 'SELECT id FROM shop_notifications WHERE substr(id,1,?)=? AND sent_at IS NULL LIMIT 1', args: [prefix.length, prefix]});
+      if (pending.rows.length) continue;
       if (guest.emailed?.[kind] && !again) continue;
       const stamp = new Date().toISOString();
-      await queueNotification(tx, `event-mail-${guest.id}-${kind}-${Date.now()}`, {
+      await queueNotification(tx, `${prefix}${randomUUID()}`, {
         ...guestEmail(guest, kind),
         to: [guest.email],
         ...(process.env.SHOP_NOTIFY_EMAIL ? {reply_to: process.env.SHOP_NOTIFY_EMAIL} : {}),

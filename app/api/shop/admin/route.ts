@@ -16,6 +16,7 @@ import {removeWaitlist, updateWaitlist, waitlist} from '@/lib/shop/waitlist';
 import {promos, savePromo} from '@/lib/shop/promo';
 import {bulkStatus, emailGuests, eventAdmin, removeGuest, saveEventSettings, updateGuest} from '@/lib/events/pomegranate';
 export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 export async function GET() {
   try {
     await requireAdmin();

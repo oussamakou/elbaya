@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowUpRight, Check, Download, Mail, Printer, Search, Trash2, UserCheck } from "lucide-react";
 import type { EventSettings, Guest, GuestStatus } from "@/lib/events/pomegranate";
+import {csvCell} from '@/lib/events/csv';
 import "./event-admin.css";
 
 // Owner tab for Pomegranate Day: every request, a decision per guest, emails, and check-in on the day.
@@ -35,14 +36,13 @@ const fmt = (iso?: string) => (iso ? received.format(new Date(iso)) : "");
 const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 
 function csv(guests: Guest[]) {
-  const head = ["Réf.", "Reçue", "Nom", "Email", "Téléphone", "Vient de", "Déjà venu", "Statut", "Email envoyé", "Présent", "Note"];
+  const head = ["Réf.", "Reçue", "Nom", "Email", "Téléphone", "Vient de", "Déjà venu", "Statut", "Email accepté par le service", "Présent", "Note"];
   const rows = guests.map((g) => [
     g.id, fmt(g.createdAt), g.name, g.email, g.phone || "", g.from, g.been === "yes" ? "Oui" : "Non",
-    statusNames[g.status], g.status !== "new" && g.emailed?.[g.status] ? fmt(g.emailed[g.status]) : "",
+    statusNames[g.status], g.status !== "new" && g.emailPending?.[g.status] ? "En file d’envoi" : g.status !== "new" && g.emailed?.[g.status] ? fmt(g.emailed[g.status]) : "",
     g.checkedInAt ? fmt(g.checkedInAt) : "", g.ownerNote || "",
   ]);
-  const cell = (v: string) => (/[",;\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v);
-  return "﻿" + [head, ...rows].map((r) => r.map(cell).join(";")).join("\r\n");
+  return "﻿" + [head, ...rows].map((r) => r.map(csvCell).join(";")).join("\r\n");
 }
 function download(name: string, content: string) {
   const url = URL.createObjectURL(new Blob([content], { type: "text/csv;charset=utf-8" }));
@@ -135,6 +135,7 @@ function GuestCard({
   const update = (patch: Record<string, unknown>, done?: string) => act("event_guest", { id: guest.id, revision: guest.revision, ...patch }, done);
   const mailKind = guest.status === "new" ? null : guest.status;
   const mailedAt = mailKind ? guest.emailed?.[mailKind] : undefined;
+  const pending = mailKind ? guest.emailPending?.[mailKind] : false;
   return (
     <article className="inbox-card event-card" data-status={guest.status} data-selected={selected || undefined}>
       <div className="inbox-card-main">
@@ -180,16 +181,16 @@ function GuestCard({
             <button
               type="button"
               className="shop-button secondary"
-              disabled={busy || !emailReady}
+              disabled={busy || !emailReady || pending}
               onClick={() => {
                 if (mailedAt && !window.confirm(`${emailNames[mailKind]} a déjà été envoyé le ${fmt(mailedAt)}. L’envoyer de nouveau ?`)) return;
-                void act("event_email", { ids: [guest.id], again: Boolean(mailedAt) }, "Email envoyé");
+                void act("event_email", { ids: [guest.id], again: Boolean(mailedAt) }, "Email mis en file d’envoi");
               }}
             >
               <Mail size={16} />
-              {mailedAt ? "Renvoyer" : "Envoyer"} {emailNames[mailKind]}
+              {pending ? "En attente d’envoi :" : mailedAt ? "Renvoyer" : "Envoyer"} {emailNames[mailKind]}
             </button>
-            <small>{mailedAt ? `Envoyé le ${fmt(mailedAt)}` : emailReady ? "Pas encore envoyé" : "Envoi d’emails non activé : écrivez depuis votre messagerie."}</small>
+            <small>{pending ? "En file d’envoi · nouvelle tentative automatique si nécessaire." : mailedAt ? `Accepté par le service email le ${fmt(mailedAt)}` : emailReady ? "Pas encore envoyé" : "Envoi d’emails non activé : écrivez depuis votre messagerie."}</small>
           </div>
         )}
         <label>
@@ -273,9 +274,9 @@ export default function EventPanel({ data, run }: { data: EventData; run: Run })
   }
   function bulkEmail() {
     const ready = chosen.filter((g) => g.status !== "new");
-    const fresh = ready.filter((g) => g.status !== "new" && !g.emailed?.[g.status]);
+    const fresh = ready.filter((g) => g.status !== "new" && !g.emailed?.[g.status] && !g.emailPending?.[g.status]);
     if (!ready.length) return setError("Choisissez d’abord une décision (confirmé, attente ou refusé) pour ces demandes.");
-    if (!window.confirm(`Envoyer à chaque invité l’email qui correspond à sa décision ?\n\n${fresh.length} à envoyer${ready.length - fresh.length ? ` · ${ready.length - fresh.length} déjà envoyé(s), ignoré(s)` : ""}.`)) return;
+    if (!window.confirm(`Envoyer à chaque invité l’email qui correspond à sa décision ?\n\n${fresh.length} à envoyer${ready.length - fresh.length ? ` · ${ready.length - fresh.length} déjà envoyé(s) ou en file, ignoré(s)` : ""}.`)) return;
     void bulk("event_email", { ids: ready.map((g) => g.id) }, (r) => `${(r as { queued: number }).queued} email(s) en cours d’envoi.`);
   }
   const here = guests.filter((g) => g.checkedInAt).length;
