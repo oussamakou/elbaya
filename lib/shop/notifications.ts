@@ -4,7 +4,8 @@ import {db} from './db';
 import {money, type Order, type ReservationRequest} from './types';
 import {pickupLabel} from './harvest';
 
-type Message = {subject: string; text: string; reply_to?: string};
+// `to` is set for messages addressed to a guest; without it the message goes to the owner.
+type Message = {subject: string; text: string; reply_to?: string; to?: string[]};
 const dashboard = 'https://www.farmelbaya.com/fr/admin';
 
 export function orderMessage(order: Order): Message {

@@ -5,6 +5,7 @@ import { reservations } from "@/lib/shop/reservations";
 import {contacts} from '@/lib/shop/contact';
 import {waitlist} from '@/lib/shop/waitlist';
 import {promos} from '@/lib/shop/promo';
+import {eventAdmin} from '@/lib/events/pomegranate';
 import AdminShop from "@/components/shop/AdminShop";
 import "@/components/shop/shop.css";
 export const dynamic = "force-dynamic";
@@ -27,6 +28,7 @@ export default async function AdminPage() {
               contacts: await contacts(),
               waitlist: await waitlist(),
               promos: await promos(),
+              event: await eventAdmin(),
             }
           : null
       }
