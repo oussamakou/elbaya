@@ -3,6 +3,7 @@ import type {Client, Transaction} from '@libsql/client';
 import {db} from '@/lib/shop/db';
 import {queueNotification} from '@/lib/shop/notifications';
 import {id, integer, object, ShopError, text} from '@/lib/shop/validation';
+import {FAMILY_RELATIONS, MAX_FAMILY, MAX_FRIENDS, partyLineFr, type Party} from './party';
 
 // Pomegranate Day, Sunday 1 November 2026, 3–7 pm at the farm in Testour.
 // Guests send a request; the farm reviews each one and confirms personally.
@@ -44,6 +45,9 @@ export type Guest = {
   phone?: string;
   // When the owner opened a WhatsApp message for each decision.
   whatsapp?: Partial<Record<GuestStatus, string>>;
+  // Who they bring (every person is part of the request) and their own message to the farm.
+  party?: Party;
+  guestNote?: string;
   status: GuestStatus;
   // Set when the request arrived after the confirmed list was already full.
   arrivedWhenFull?: boolean;
@@ -83,9 +87,10 @@ async function readSettings(c: Client | Transaction): Promise<EventSettings> {
   const r = await c.execute({sql: 'SELECT data FROM event_settings WHERE id=?', args: [EVENT_ID]});
   return r.rows.length ? {...DEFAULT_SETTINGS, ...JSON.parse(String(r.rows[0].data))} : DEFAULT_SETTINGS;
 }
+// Places are counted in people: each confirmed guest plus everyone they bring.
 async function confirmedCount(c: Client | Transaction) {
   const r = await c.execute({
-    sql: "SELECT COUNT(*) AS n FROM event_guests WHERE event=? AND json_extract(data,'$.status')='confirmed'",
+    sql: "SELECT COALESCE(SUM(1 + COALESCE(json_array_length(data,'$.party.people'),0)),0) AS n FROM event_guests WHERE event=? AND json_extract(data,'$.status')='confirmed'",
     args: [EVENT_ID],
   });
   return Number(r.rows[0].n);
@@ -115,6 +120,26 @@ export function whatsappNumber(value: unknown) {
   return `+${digits}`;
 }
 
+function partyInput(value: unknown): Party {
+  if (value === undefined) return {type: 'alone', people: []};
+  const o = object(value);
+  const type = o.type;
+  if (type !== 'alone' && type !== 'family' && type !== 'friend') throw new ShopError('invalid');
+  if (type === 'alone') return {type, people: []};
+  if (!Array.isArray(o.people)) throw new ShopError('invalid');
+  const max = type === 'family' ? MAX_FAMILY : MAX_FRIENDS;
+  if (o.people.length < 1 || o.people.length > max) throw new ShopError('party');
+  const people = o.people.map((item) => {
+    const person = object(item);
+    const name = clean(person.name, 80);
+    if (name.length < 2) throw new ShopError('party');
+    const relation = person.relation;
+    if (type === 'friend' ? relation !== 'friend' : !FAMILY_RELATIONS.includes(relation as never)) throw new ShopError('party');
+    return {name, relation: relation as Party['people'][number]['relation']};
+  });
+  return {type, people};
+}
+
 export async function requestSpot(input: unknown) {
   const o = object(input);
   if (o.website) throw new ShopError('invalid'); // hidden field filled by a bot
@@ -125,6 +150,8 @@ export async function requestSpot(input: unknown) {
   if (name.length < 2 || from.length < 2) throw new ShopError('invalid');
   if (email && !EMAIL.test(email)) throw new ShopError('email');
   if (o.been !== 'yes' && o.been !== 'no') throw new ShopError('invalid');
+  const party = partyInput(o.party);
+  const guestNote = o.note === undefined ? '' : text(o.note, 600, false).trim();
   const contactKey = `wa:${phone}`;
   const requestKey = id(o.requestKey);
 
@@ -152,6 +179,8 @@ export async function requestSpot(input: unknown) {
       from,
       been: o.been,
       phone,
+      party,
+      ...(guestNote ? {guestNote} : {}),
       status: full ? 'waitlist' : 'new',
       ...(full ? {arrivedWhenFull: true} : {}),
     };
@@ -168,6 +197,8 @@ export async function requestSpot(input: unknown) {
         ...(guest.email ? [`Email : ${guest.email}`] : []),
         `Vient de : ${guest.from}`,
         `Déjà venu à la ferme : ${guest.been === 'yes' ? 'oui' : 'non, première fois'}`,
+        partyLineFr(guest.party),
+        ...(guest.guestNote ? ['', `Son message : ${guest.guestNote}`] : []),
         '',
         'Confirmez ou répondez depuis l’onglet Pomegranate Day :',
         'https://www.farmelbaya.com/fr/admin',

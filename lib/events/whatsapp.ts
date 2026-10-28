@@ -2,20 +2,35 @@
 export type WhatsappKind = 'new' | 'confirmed' | 'waitlist' | 'declined';
 const MAPS = 'https://www.google.com/maps/search/?api=1&query=Farm+Elbaya+Testour+Tunisia';
 
-export function whatsappMessage(name: string, kind: WhatsappKind) {
+export function whatsappMessage(name: string, kind: WhatsappKind, companions: string[] = []) {
   const first = name.trim().split(/\s+/)[0] || name;
   const hello = `Hello ${first}, this is Farm Elbaya 🌿`;
-  if (kind === 'confirmed')
+  if (kind === 'confirmed') {
+    const names = companions.length > 1 ? `${companions.slice(0, -1).join(', ')} and ${companions[companions.length - 1]}` : companions[0];
     return [
-      hello,
+      `Hello ${first}, مرحبا بيك 🌿`,
       '',
-      'Your spot for Pomegranate Day is confirmed.',
+      companions.length
+        ? `We are so happy to tell you that your spots for Pomegranate Day are confirmed, for you and ${names}.`
+        : 'We are so happy to tell you that your spot for Pomegranate Day is confirmed.',
+      '',
+      'يوم الرمّان في فيرمة البية',
       'Sunday 1 November · 3 – 7 pm · Testour',
-      `Find the farm: ${MAPS}`,
       '',
+      '3:00 pm · Arrival and farm walk',
+      'Harvest and tasting of our first products',
+      '5:30 pm · Sunset together on the rooftop',
+      '',
+      'Find the farm:',
+      `📍 ${MAPS}`,
+      '',
+      'Wear comfortable shoes for the walk among the trees.',
       'If your plans change, just tell us here so we can offer your spot to someone else.',
-      'نستناوكم 🤍',
+      '',
+      'The farm is ready to welcome you. نستناوك 🤍',
+      'Farm Elbaya',
     ].join('\n');
+  }
   if (kind === 'waitlist')
     return [
       hello,

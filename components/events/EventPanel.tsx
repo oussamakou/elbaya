@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowUpRight, Check, Copy, Download, Mail, MessageCircle, Phone, Printer, Search, Trash2, UserCheck } from "lucide-react";
 import { displayWhatsapp, whatsappLink, whatsappMessage } from "@/lib/events/whatsapp";
+import { partySize, relationFr } from "@/lib/events/party";
 import type { EventSettings, Guest, GuestStatus } from "@/lib/events/pomegranate";
 import {csvCell} from '@/lib/events/csv';
 import "./event-admin.css";
@@ -35,6 +36,8 @@ const filters = {
   waitlist: { label: "Liste d’attente", test: (g: Guest) => g.status === "waitlist" },
   declined: { label: "Refusés", test: (g: Guest) => g.status === "declined" },
   first: { label: "Première visite", test: (g: Guest) => g.been === "no" },
+  party: { label: "Accompagnés", test: (g: Guest) => partySize(g.party) > 1 },
+  notes: { label: "Avec un message", test: (g: Guest) => Boolean(g.guestNote) },
   unmailed: { label: "Pas encore prévenus", test: (g: Guest) => g.status !== "new" && !g.whatsapp?.[g.status] && !g.emailed?.[g.status] },
 };
 type Filter = keyof typeof filters;
@@ -43,9 +46,10 @@ const fmt = (iso?: string) => (iso ? received.format(new Date(iso)) : "");
 const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 
 function csv(guests: Guest[]) {
-  const head = ["Réf.", "Reçue", "Nom", "Email", "Téléphone", "Vient de", "Déjà venu", "Statut", "WhatsApp envoyé", "Email accepté par le service", "Présent", "Note"];
+  const head = ["Réf.", "Reçue", "Nom", "Email", "Téléphone", "Vient de", "Déjà venu", "Personnes", "Accompagnants", "Message de l’invité", "Statut", "WhatsApp envoyé", "Email accepté par le service", "Présent", "Note"];
   const rows = guests.map((g) => [
-    g.id, fmt(g.createdAt), g.name, g.email, g.phone ? displayWhatsapp(g.phone) : "", g.from, g.been === "yes" ? "Oui" : "Non",
+    g.id, fmt(g.createdAt), g.name, g.email, g.phone ? displayWhatsapp(g.phone).replace(/^\+/, "") : "", g.from, g.been === "yes" ? "Oui" : "Non",
+    String(partySize(g.party)), (g.party?.people || []).map((p) => `${p.name} (${relationFr[p.relation]})`).join(", "), g.guestNote || "",
     statusNames[g.status], g.whatsapp?.[g.status] ? fmt(g.whatsapp[g.status]) : "", g.status !== "new" && g.emailPending?.[g.status] ? "En file d’envoi" : g.status !== "new" && g.emailed?.[g.status] ? fmt(g.emailed[g.status]) : "",
     g.checkedInAt ? fmt(g.checkedInAt) : "", g.ownerNote || "",
   ]);
@@ -97,9 +101,9 @@ function Settings({ settings, confirmed, run }: { settings: EventSettings; confi
         </span>
       </button>
       <label className="event-capacity">
-        Places
+        Places (en personnes)
         <input className="field" type="number" min={1} max={3000} inputMode="numeric" value={capacity} disabled={busy} onChange={(e) => setCapacity(e.target.value)} />
-        <small>{confirmed} confirmé{confirmed > 1 ? "s" : ""}. Au-delà, les nouvelles demandes passent en liste d’attente.</small>
+        <small>{confirmed} personne{confirmed > 1 ? "s" : ""} confirmée{confirmed > 1 ? "s" : ""}, accompagnants compris. Une fois complet, les nouvelles demandes passent en liste d’attente.</small>
       </label>
       <div className="event-settings-actions">
         <button type="button" className="shop-button" disabled={busy || !dirty || !Number.isInteger(cap) || cap < 1} onClick={save}>
@@ -154,12 +158,26 @@ function GuestCard({
           <span>{guest.id} · reçue le {fmt(guest.createdAt)}</span>
           {guest.arrivedWhenFull && <span className="event-tag">arrivée après complet</span>}
         </p>
-        <h3>{guest.name}</h3>
+        <h3>
+          {guest.name}
+          {partySize(guest.party) > 1 && <span className="event-party-count">+{partySize(guest.party) - 1}</span>}
+        </h3>
         <p className="inbox-order">
           <span className="inbox-place">{guest.from}</span>
           <span className={`event-tag${guest.been === "no" ? " first" : ""}`}>{guest.been === "yes" ? "Déjà venu à la ferme" : "Première visite"}</span>
           {guest.checkedInAt && <span className="event-tag here"><UserCheck size={13} />Présent · {fmt(guest.checkedInAt)}</span>}
         </p>
+        {guest.party && guest.party.people.length > 0 && (
+          <div className="event-party">
+            <p>{guest.party.type === "family" ? "Vient en famille" : "Vient avec un·e ami·e"} · {partySize(guest.party)} personnes</p>
+            <ul>
+              {guest.party.people.map((p, i) => (
+                <li key={i}><span className="event-avatar" aria-hidden="true">{p.name.charAt(0).toUpperCase()}</span>{p.name}<em>{relationFr[p.relation]}</em></li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {guest.guestNote && <blockquote className="inbox-customer-note">« {guest.guestNote} »</blockquote>}
         {guest.phone && <p className="inbox-phone">{displayWhatsapp(guest.phone)}</p>}
         <div className="inbox-contact">
           {guest.phone && (
@@ -194,7 +212,7 @@ function GuestCard({
           <div className="event-mail">
             <a
               className={`shop-button${guest.status !== "new" && !guest.whatsapp?.[guest.status] ? "" : " secondary"}`}
-              href={whatsappLink(guest.phone, whatsappMessage(guest.name, guest.status))}
+              href={whatsappLink(guest.phone, whatsappMessage(guest.name, guest.status, (guest.party?.people || []).map((p) => p.name)))}
               target="_blank"
               rel="noreferrer"
               onClick={() => { if (!busy) void update({ whatsappSent: guest.status }, "WhatsApp ouvert"); }}
@@ -267,14 +285,16 @@ export default function EventPanel({ data, run }: { data: EventData; run: Run })
     [notice, setNotice] = useState(""),
     [error, setError] = useState("");
   const count = (s: GuestStatus) => guests.filter((g) => g.status === s).length;
-  const confirmed = count("confirmed");
+  const people = (s: GuestStatus) => guests.filter((g) => g.status === s).reduce((n, g) => n + partySize(g.party), 0);
+  // Places are counted in people: each guest plus everyone they bring.
+  const confirmed = people("confirmed");
   // The list is fixed when a view is chosen (or a request arrives), so a card that changes
   // status stays in place with its feedback instead of vanishing mid-task.
   const viewIds = useMemo(() => {
     const q = norm(query.trim());
     return guests
       .filter(dayMode ? filters.confirmed.test : filters[filter].test)
-      .filter((g) => !q || norm(`${g.name} ${g.email} ${g.from} ${g.ownerNote || ""} ${g.id} ${g.phone || ""}`).includes(q))
+      .filter((g) => !q || norm(`${g.name} ${g.email} ${g.from} ${g.ownerNote || ""} ${g.guestNote || ""} ${(g.party?.people || []).map((p) => p.name).join(" ")} ${g.id} ${g.phone || ""}`).includes(q))
       .sort((a, b) => (dayMode ? a.name.localeCompare(b.name, "fr") : 0))
       .map((g) => g.id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -314,7 +334,7 @@ export default function EventPanel({ data, run }: { data: EventData; run: Run })
     if (!window.confirm(`Envoyer à chaque invité l’email qui correspond à sa décision ?\n\n${fresh.length} à envoyer${ready.length - fresh.length ? ` · ${ready.length - fresh.length} déjà envoyé(s) ou en file, ignoré(s)` : ""}.`)) return;
     void bulk("event_email", { ids: ready.map((g) => g.id) }, (r) => `${(r as { queued: number }).queued} email(s) en cours d’envoi.`);
   }
-  const here = guests.filter((g) => g.checkedInAt).length;
+  const here = guests.filter((g) => g.checkedInAt).reduce((n, g) => n + partySize(g.party), 0);
 
   return (
     <section className="inbox event-inbox">
@@ -340,12 +360,12 @@ export default function EventPanel({ data, run }: { data: EventData; run: Run })
         <div data-tone={count("new") ? "alert" : undefined}>
           <dt>À traiter</dt>
           <dd>{count("new")}</dd>
-          <small>sur {guests.length} demande{guests.length > 1 ? "s" : ""}</small>
+          <small>{people("new")} personne{people("new") > 1 ? "s" : ""} · sur {guests.length} demande{guests.length > 1 ? "s" : ""}</small>
         </div>
         <div>
-          <dt>Confirmés</dt>
+          <dt>Confirmés · personnes</dt>
           <dd>{confirmed}<span className="event-of"> / {settings.capacity}</span></dd>
-          <small>{Math.max(0, settings.capacity - confirmed)} place{settings.capacity - confirmed > 1 ? "s" : ""} libre{settings.capacity - confirmed > 1 ? "s" : ""}</small>
+          <small>{count("confirmed")} demande{count("confirmed") > 1 ? "s" : ""} · {Math.max(0, settings.capacity - confirmed)} place{settings.capacity - confirmed > 1 ? "s" : ""} libre{settings.capacity - confirmed > 1 ? "s" : ""}</small>
         </div>
         <div>
           <dt>Attente · Refusés</dt>
@@ -355,7 +375,7 @@ export default function EventPanel({ data, run }: { data: EventData; run: Run })
         <div>
           <dt>Le jour J</dt>
           <dd>{here}<span className="event-of"> / {confirmed}</span></dd>
-          <small>présents parmi les confirmés</small>
+          <small>personnes arrivées parmi les confirmées</small>
         </div>
       </dl>
 
@@ -451,10 +471,10 @@ export default function EventPanel({ data, run }: { data: EventData; run: Run })
       <div className="inbox-print event-print">
         <h2>Pomegranate Day · {dayMode ? "Liste d’accueil" : filters[filter].label} · {visible.length}</h2>
         <table>
-          <thead><tr><th>Nom</th><th>WhatsApp</th><th>Vient de</th><th>Déjà venu</th><th>Statut</th><th>Note</th><th>Présent</th></tr></thead>
+          <thead><tr><th>Nom</th><th>Accompagnants</th><th>WhatsApp</th><th>Vient de</th><th>Déjà venu</th><th>Statut</th><th>Note</th><th>Présent</th></tr></thead>
           <tbody>
             {visible.map((g) => (
-              <tr key={g.id}><td>{g.name}</td><td>{g.phone ? displayWhatsapp(g.phone) : g.email}</td><td>{g.from}</td><td>{g.been === "yes" ? "Oui" : "Non"}</td><td>{statusNames[g.status]}</td><td>{g.ownerNote || ""}</td><td><span className="inbox-print-tick" /></td></tr>
+              <tr key={g.id}><td>{g.name}{partySize(g.party) > 1 ? ` (${partySize(g.party)})` : ""}</td><td>{(g.party?.people || []).map((p) => `${p.name} (${relationFr[p.relation]})`).join(", ")}</td><td>{g.phone ? displayWhatsapp(g.phone) : g.email}</td><td>{g.from}</td><td>{g.been === "yes" ? "Oui" : "Non"}</td><td>{statusNames[g.status]}</td><td>{[g.guestNote, g.ownerNote].filter(Boolean).join(" · ")}</td><td><span className="inbox-print-tick" /></td></tr>
             ))}
           </tbody>
         </table>
