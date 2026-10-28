@@ -4,7 +4,8 @@ import {useEffect, useRef, useState, type FormEvent} from 'react';
 import {FAMILY_RELATIONS, MAX_FAMILY, relationEn, type PartyType, type Relation} from '@/lib/events/party';
 import './pomegranate-day.css';
 
-type Field = 'name' | 'phone' | 'from' | 'been';
+type Field = 'name' | 'phone' | 'email' | 'from' | 'been';
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 type Values = Record<Field, string>;
 // Eight digits are a Tunisian number; anything else needs its country code (+33…, 0033…).
 const phoneOk = (v: string) => {
@@ -15,6 +16,7 @@ const clean = (s: string) => s.replace(/\s+/g, ' ').trim();
 const rules: Record<Field, (v: Values) => string> = {
   name: (v) => (clean(v.name).length < 2 ? 'Please add your full name.' : ''),
   phone: (v) => (phoneOk(v.phone) ? '' : 'Please check your WhatsApp number. Add the country code if it is not Tunisian.'),
+  email: (v) => (EMAIL.test(clean(v.email)) ? '' : 'Please check your email address.'),
   from: (v) => (clean(v.from).length < 2 ? 'Please tell us where you are coming from.' : ''),
   been: (v) => (v.been ? '' : 'Please choose one.'),
 };
@@ -23,6 +25,7 @@ const serverErrors: Record<string, string> = {
   whatsapp: 'Please check your WhatsApp number. Add the country code if it is not Tunisian.',
   rate_limit: 'Too many attempts from this connection. Please wait a little and try again.',
   invalid: 'Please check the form fields.',
+  email: 'Please check your email address.',
   party: 'Please check the people coming with you.',
 };
 
@@ -51,7 +54,7 @@ export default function PomegranateDay({
   calendar: {google: string; outlook: string};
   maps: string;
 }) {
-  const [values, setValues] = useState<Values>({name: '', phone: '', from: '', been: ''});
+  const [values, setValues] = useState<Values>({name: '', phone: '', email: '', from: '', been: ''});
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [summary, setSummary] = useState('');
   const [busy, setBusy] = useState(false);
@@ -66,6 +69,7 @@ export default function PomegranateDay({
   const refs = {
     name: useRef<HTMLInputElement>(null),
     phone: useRef<HTMLInputElement>(null),
+    email: useRef<HTMLInputElement>(null),
     from: useRef<HTMLInputElement>(null),
     been: useRef<HTMLInputElement>(null),
   };
@@ -162,6 +166,7 @@ export default function PomegranateDay({
         body: JSON.stringify({
           name: clean(values.name),
           phone: clean(values.phone),
+          email: clean(values.email),
           from: clean(values.from),
           been: values.been,
           party: {type: partyType, people: people.map((p) => ({name: clean(p.name), relation: p.relation}))},
@@ -295,6 +300,11 @@ export default function PomegranateDay({
                 <p className="error" id="phone-error">{errors.phone}</p>
               </div>
               <div className="pd-field">
+                <label htmlFor="email">Email</label>
+                <input type="email" autoComplete="email" inputMode="email" maxLength={254} enterKeyHint="next" disabled={!open} {...fieldProps('email')} />
+                <p className="error" id="email-error">{errors.email}</p>
+              </div>
+              <div className="pd-field">
                 <label htmlFor="from">Coming from</label>
                 <input type="text" autoComplete="address-level2" maxLength={80} placeholder="City or town" enterKeyHint="done" disabled={!open} {...fieldProps('from')} />
                 <p className="error" id="from-error">{errors.from}</p>
@@ -425,6 +435,7 @@ export default function PomegranateDay({
               {!done.already && (<dl className="summary">
                 <dt>Name</dt><dd>{clean(values.name)}</dd>
                 <dt>WhatsApp</dt><dd>{clean(values.phone)}</dd>
+                <dt>Email</dt><dd>{clean(values.email)}</dd>
                 <dt>From</dt><dd>{clean(values.from)}</dd>
                 <dt>Been before</dt><dd>{values.been === 'yes' ? 'Yes' : 'No, first time'}</dd>
                 <dt>Coming with</dt><dd>{people.length ? people.map((p) => `${clean(p.name)} (${p.relation ? relationEn[p.relation] : ''})`).join(', ') : 'Just me'}</dd>

@@ -37,7 +37,7 @@ export type Guest = {
   createdAt: string;
   updatedAt?: string;
   name: string;
-  // Empty for requests made with a WhatsApp number only.
+  // Asked again with the WhatsApp number; a few requests from before have only the number.
   email: string;
   from: string;
   been: 'yes' | 'no';
@@ -145,10 +145,10 @@ export async function requestSpot(input: unknown) {
   if (o.website) throw new ShopError('invalid'); // hidden field filled by a bot
   const name = clean(o.name, 80);
   const phone = whatsappNumber(o.phone);
-  const email = o.email === undefined || o.email === '' ? '' : clean(o.email, 254).toLowerCase();
+  const email = clean(o.email, 254).toLowerCase();
   const from = clean(o.from, 80);
   if (name.length < 2 || from.length < 2) throw new ShopError('invalid');
-  if (email && !EMAIL.test(email)) throw new ShopError('email');
+  if (!EMAIL.test(email)) throw new ShopError('email');
   if (o.been !== 'yes' && o.been !== 'no') throw new ShopError('invalid');
   const party = partyInput(o.party);
   const guestNote = o.note === undefined ? '' : text(o.note, 600, false).trim();
@@ -158,8 +158,8 @@ export async function requestSpot(input: unknown) {
   const tx = await (await store()).transaction('write');
   try {
     const existing = await tx.execute({
-      sql: "SELECT data FROM event_guests WHERE request_key=? OR (event=? AND (email=? OR json_extract(data,'$.phone')=?)) LIMIT 1",
-      args: [requestKey, EVENT_ID, contactKey, phone],
+      sql: "SELECT data FROM event_guests WHERE request_key=? OR (event=? AND (email=? OR email=? OR json_extract(data,'$.phone')=? OR json_extract(data,'$.email')=?)) LIMIT 1",
+      args: [requestKey, EVENT_ID, contactKey, email, phone, email],
     });
     if (existing.rows.length) {
       const guest = JSON.parse(String(existing.rows[0].data)) as Guest;
