@@ -1,24 +1,38 @@
 'use client';
 
 import {useEffect, useRef, useState, type FormEvent} from 'react';
+import {FAMILY_RELATIONS, MAX_FAMILY, relationEn, type PartyType, type Relation} from '@/lib/events/party';
 import './pomegranate-day.css';
 
-type Field = 'name' | 'email' | 'from' | 'been';
+type Field = 'name' | 'phone' | 'from' | 'been';
 type Values = Record<Field, string>;
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+// Eight digits are a Tunisian number; anything else needs its country code (+33…, 0033…).
+const phoneOk = (v: string) => {
+  const raw = v.replace(/[\s().\/-]/g, '');
+  return /^[2-9][0-9]{7}$/.test(raw) || /^(\+|00)(216[2-9][0-9]{7}|(?!216)[1-9][0-9]{7,14})$/.test(raw);
+};
 const clean = (s: string) => s.replace(/\s+/g, ' ').trim();
 const rules: Record<Field, (v: Values) => string> = {
   name: (v) => (clean(v.name).length < 2 ? 'Please add your full name.' : ''),
-  email: (v) => (EMAIL.test(clean(v.email)) ? '' : 'Please check your email address.'),
+  phone: (v) => (phoneOk(v.phone) ? '' : 'Please check your WhatsApp number. Add the country code if it is not Tunisian.'),
   from: (v) => (clean(v.from).length < 2 ? 'Please tell us where you are coming from.' : ''),
   been: (v) => (v.been ? '' : 'Please choose one.'),
 };
 const serverErrors: Record<string, string> = {
   event_closed: 'Requests for Pomegranate Day are closed.',
-  email: 'Please check your email address.',
+  whatsapp: 'Please check your WhatsApp number. Add the country code if it is not Tunisian.',
   rate_limit: 'Too many attempts from this connection. Please wait a little and try again.',
   invalid: 'Please check the form fields.',
+  party: 'Please check the people coming with you.',
 };
+
+type Person = {name: string; relation: Relation | ''};
+const PARTY_OPTIONS: [PartyType, string, string][] = [
+  ['alone', 'Just me', 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM5 20a7 7 0 0 1 14 0'],
+  ['family', 'With family', 'M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM3 20a6 6 0 0 1 12 0M16.5 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15.5 15.2A4.8 4.8 0 0 1 21 20'],
+  ['friend', 'With a friend', 'M8 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM2.5 20a5.5 5.5 0 0 1 11 0M16 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM10.5 20a5.5 5.5 0 0 1 11 0'],
+];
+const NOTE_MAX = 600;
 
 const Clock = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
@@ -37,16 +51,21 @@ export default function PomegranateDay({
   calendar: {google: string; outlook: string};
   maps: string;
 }) {
-  const [values, setValues] = useState<Values>({name: '', email: '', from: '', been: ''});
+  const [values, setValues] = useState<Values>({name: '', phone: '', from: '', been: ''});
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [summary, setSummary] = useState('');
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState<null | {waitlist: boolean; already: boolean}>(null);
   const [floatShown, setFloatShown] = useState(false);
+  const [partyType, setPartyType] = useState<PartyType>('alone');
+  const [people, setPeople] = useState<Person[]>([]);
+  const [peopleErrors, setPeopleErrors] = useState<string[]>([]);
+  const [note, setNote] = useState('');
+  const peopleRefs = useRef<(HTMLInputElement | null)[]>([]);
   const key = useRef('');
   const refs = {
     name: useRef<HTMLInputElement>(null),
-    email: useRef<HTMLInputElement>(null),
+    phone: useRef<HTMLInputElement>(null),
     from: useRef<HTMLInputElement>(null),
     been: useRef<HTMLInputElement>(null),
   };
@@ -54,17 +73,25 @@ export default function PomegranateDay({
   const cardRef = useRef<HTMLElement>(null);
   const whenRef = useRef<HTMLElement>(null);
 
-  // Phone: a floating button once the top is scrolled away, hidden while the form is on screen.
+  // Phone: a floating button between the date and the form; it hides once the form comes into view, and after sending.
   useEffect(() => {
-    if (!('IntersectionObserver' in window) || !whenRef.current || !cardRef.current) return;
-    let topOut = false, cardIn = false;
-    const update = () => setFloatShown(topOut && !cardIn);
-    const a = new IntersectionObserver(([e]) => { topOut = !e.isIntersecting; update(); });
-    const b = new IntersectionObserver(([e]) => { cardIn = e.isIntersecting; update(); }, {threshold: 0.1});
-    a.observe(whenRef.current);
-    b.observe(cardRef.current);
-    return () => { a.disconnect(); b.disconnect(); };
-  }, []);
+    const when = whenRef.current, card = cardRef.current;
+    if (!when || !card || done) { setFloatShown(false); return; }
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      setFloatShown(when.getBoundingClientRect().bottom < 0 && card.getBoundingClientRect().top > window.innerHeight - 60);
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [done]);
 
   useEffect(() => {
     if (done) doneTitle.current?.focus({preventScroll: true});
@@ -73,10 +100,40 @@ export default function PomegranateDay({
   function set(field: Field, value: string) {
     const next = {...values, [field]: value};
     setValues(next);
+    setSummary('');
     if (errors[field]) setErrors((e) => ({...e, [field]: rules[field](next)}));
   }
   function check(field: Field) {
     if (clean(values[field])) setErrors((e) => ({...e, [field]: rules[field](values)}));
+  }
+
+  function personError(p: Person) {
+    if (clean(p.name).length < 2) return partyType === 'friend' ? 'Please add your friend’s name.' : 'Please add their name.';
+    if (partyType === 'family' && !p.relation) return 'Please choose how you are related.';
+    return '';
+  }
+  function choosePartyType(type: PartyType) {
+    setPartyType(type);
+    setPeopleErrors([]);
+    setPeople((current) => {
+      if (type === 'alone') return [];
+      if (type === 'friend') return [{name: current[0]?.name || '', relation: 'friend'}];
+      return current.length && partyType === 'family' ? current : [{name: current[0]?.name || '', relation: ''}];
+    });
+  }
+  function setPerson(i: number, patch: Partial<Person>) {
+    setPeople((list) => list.map((p, j) => (j === i ? {...p, ...patch} : p)));
+    setSummary('');
+    if (peopleErrors[i]) setPeopleErrors((errs) => errs.map((e, j) => (j === i ? '' : e)));
+  }
+  function addPerson() {
+    if (people.length >= MAX_FAMILY) return;
+    setPeople((list) => [...list, {name: '', relation: ''}]);
+    window.setTimeout(() => peopleRefs.current[people.length]?.focus(), 0);
+  }
+  function removePerson(i: number) {
+    setPeople((list) => list.filter((_, j) => j !== i));
+    setPeopleErrors((errs) => errs.filter((_, j) => j !== i));
   }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -86,9 +143,13 @@ export default function PomegranateDay({
     if (form.get('website')) return; // hidden field filled by a bot
     const found = (Object.keys(rules) as Field[]).map((f) => [f, rules[f](values)] as const).filter(([, m]) => m);
     setErrors(Object.fromEntries(found));
-    if (found.length) {
-      setSummary(found.length === 1 ? 'One detail needs a look.' : `${found.length} details need a look.`);
-      refs[found[0][0]].current?.focus();
+    const personErrs = people.map(personError);
+    setPeopleErrors(personErrs);
+    const total = found.length + personErrs.filter(Boolean).length;
+    if (total) {
+      setSummary(total === 1 ? 'One detail needs a look.' : `${total} details need a look.`);
+      if (found.length) refs[found[0][0]].current?.focus();
+      else peopleRefs.current[personErrs.findIndex(Boolean)]?.focus();
       return;
     }
     setSummary('');
@@ -100,9 +161,11 @@ export default function PomegranateDay({
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
           name: clean(values.name),
-          email: clean(values.email),
+          phone: clean(values.phone),
           from: clean(values.from),
           been: values.been,
+          party: {type: partyType, people: people.map((p) => ({name: clean(p.name), relation: p.relation}))},
+          note: note.trim(),
           requestKey: key.current,
         }),
       });
@@ -227,9 +290,9 @@ export default function PomegranateDay({
                 <p className="error" id="name-error">{errors.name}</p>
               </div>
               <div className="pd-field">
-                <label htmlFor="email">Email</label>
-                <input type="email" autoComplete="email" inputMode="email" maxLength={254} enterKeyHint="next" disabled={!open} {...fieldProps('email')} />
-                <p className="error" id="email-error">{errors.email}</p>
+                <label htmlFor="phone">WhatsApp number</label>
+                <input type="tel" autoComplete="tel" inputMode="tel" maxLength={30} placeholder="+216" enterKeyHint="next" disabled={!open} {...fieldProps('phone')} />
+                <p className="error" id="phone-error">{errors.phone}</p>
               </div>
               <div className="pd-field">
                 <label htmlFor="from">Coming from</label>
@@ -256,6 +319,89 @@ export default function PomegranateDay({
                 </div>
                 <p className="error" id="been-error">{errors.been}</p>
               </fieldset>
+
+              <fieldset className="party" disabled={!open}>
+                <legend>Coming with anyone?</legend>
+                <p className="hint">Bring the people you love. Everyone you bring is part of your request, and we confirm each place personally.</p>
+                <div className="party-options">
+                  {PARTY_OPTIONS.map(([value, label, icon]) => (
+                    <label className="party-option" key={value}>
+                      <input type="radio" name="party" value={value} checked={partyType === value} onChange={() => choosePartyType(value)} />
+                      <span>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d={icon} /></svg>
+                        {label}
+                        <small>{value === 'alone' ? 'only you' : value === 'family' ? `up to ${MAX_FAMILY}` : '+1'}</small>
+                      </span>
+                    </label>
+                  ))}
+                </div>
+
+                {partyType !== 'alone' && (
+                  <div className="companions">
+                    {people.map((person, i) => (
+                      <div className="companion" key={i}>
+                        <span className="avatar" aria-hidden="true">{clean(person.name).charAt(0).toUpperCase() || i + 1}</span>
+                        <div className="companion-body">
+                          <input
+                            type="text"
+                            ref={(el) => { peopleRefs.current[i] = el; }}
+                            value={person.name}
+                            maxLength={80}
+                            placeholder={partyType === 'friend' ? 'Your friend’s name' : 'Their name'}
+                            aria-label={partyType === 'friend' ? 'Your friend’s name' : `Name of family member ${i + 1}`}
+                            aria-invalid={peopleErrors[i] ? true : undefined}
+                            onChange={(e) => setPerson(i, {name: e.target.value})}
+                          />
+                          {partyType === 'family' ? (
+                            <div className="relations" role="radiogroup" aria-label={`How you are related to ${clean(person.name) || `family member ${i + 1}`}`}>
+                              {FAMILY_RELATIONS.map((rel) => (
+                                <label className="relation" key={rel}>
+                                  <input type="radio" name={`relation-${i}`} value={rel} checked={person.relation === rel} onChange={() => setPerson(i, {relation: rel})} />
+                                  <span>{relationEn[rel]}</span>
+                                </label>
+                              ))}
+                            </div>
+                          ) : (
+                            <p className="relation-fixed">Friend · your +1</p>
+                          )}
+                          {peopleErrors[i] && <p className="error">{peopleErrors[i]}</p>}
+                        </div>
+                        {partyType === 'family' && people.length > 1 && (
+                          <button type="button" className="remove" onClick={() => removePerson(i)} aria-label={`Remove ${clean(person.name) || `family member ${i + 1}`}`}>
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                    {partyType === 'family' && people.length < MAX_FAMILY && (
+                      <button type="button" className="add-person" onClick={addPerson}>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+                        Add someone
+                        <small>{people.length} of {MAX_FAMILY}</small>
+                      </button>
+                    )}
+                    <p className="party-total">
+                      Your request: <strong>{1 + people.length} people</strong>
+                      {partyType === 'family' && people.length === MAX_FAMILY ? ' · the most we can welcome per family' : ''}
+                    </p>
+                  </div>
+                )}
+              </fieldset>
+
+              <div className="pd-field">
+                <label htmlFor="note">A note for us <span className="optional">optional</span></label>
+                <textarea
+                  id="note"
+                  name="note"
+                  rows={3}
+                  maxLength={NOTE_MAX}
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  placeholder="A special request, something you look forward to, anything you would like us to know…"
+                  disabled={!open}
+                />
+                {note.length > NOTE_MAX - 100 && <small className="count">{note.length} / {NOTE_MAX}</small>}
+              </div>
               <div className="hp" aria-hidden="true">
                 <label htmlFor="website">Leave this empty</label>
                 <input type="text" id="website" name="website" tabIndex={-1} autoComplete="off" />
@@ -270,17 +416,19 @@ export default function PomegranateDay({
                 <h2 id="review-title" tabIndex={-1} ref={doneTitle}>Thank you{firstName ? `, ${firstName}` : ''}</h2>
                 <p className="sub" style={{marginBottom: 0}}>
                   {done.already
-                    ? 'We already have your request. We will be in touch soon.'
+                    ? 'We already have your request. We will be in touch on WhatsApp soon.'
                     : done.waitlist
-                      ? 'Your request is in. All places are taken for now, so you are on our waiting list. If a spot opens, we will write to you.'
-                      : 'Your request is in. Places are limited, so we confirm each guest personally. We will be in touch soon.'}
+                      ? 'Your request is in. All places are taken for now, so you are on our waiting list. If a spot opens, we will message you on WhatsApp.'
+                      : `Your request${people.length ? ` for ${1 + people.length} people` : ''} is in. Places are limited, so we confirm each guest personally. We will be in touch on WhatsApp soon.`}
                 </p>
               </div>
               {!done.already && (<dl className="summary">
                 <dt>Name</dt><dd>{clean(values.name)}</dd>
-                <dt>Email</dt><dd>{clean(values.email)}</dd>
+                <dt>WhatsApp</dt><dd>{clean(values.phone)}</dd>
                 <dt>From</dt><dd>{clean(values.from)}</dd>
                 <dt>Been before</dt><dd>{values.been === 'yes' ? 'Yes' : 'No, first time'}</dd>
+                <dt>Coming with</dt><dd>{people.length ? people.map((p) => `${clean(p.name)} (${p.relation ? relationEn[p.relation] : ''})`).join(', ') : 'Just me'}</dd>
+                {note.trim() && (<><dt>Your note</dt><dd style={{whiteSpace: 'pre-wrap'}}>{note.trim()}</dd></>)}
               </dl>)}
             </div>
           )}

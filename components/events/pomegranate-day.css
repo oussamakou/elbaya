@@ -101,7 +101,7 @@
   .pd form { display: flex; flex-direction: column; gap: 14px; }
   .pd .pd-field { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .pd .pd-field > label, .pd fieldset legend { font-size: 11px; font-weight: 500; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); padding: 0; }
-  .pd input[type="text"], .pd input[type="email"] { width: 100%; min-width: 0; min-height: 40px; font: inherit; font-size: 16px; color: var(--earth); background: transparent; border: 0; border-bottom: 1px solid var(--olive-light); border-radius: 0; padding: 7px 0; outline: none; appearance: none; -webkit-appearance: none; transition: border-color .2s ease, box-shadow .2s ease; }
+  .pd input[type="text"], .pd input[type="email"], .pd input[type="tel"] { width: 100%; min-width: 0; min-height: 40px; font: inherit; font-size: 16px; color: var(--earth); background: transparent; border: 0; border-bottom: 1px solid var(--olive-light); border-radius: 0; padding: 7px 0; outline: none; appearance: none; -webkit-appearance: none; transition: border-color .2s ease, box-shadow .2s ease; }
   .pd input::placeholder { color: #8A7C71; }
   .pd input:focus { border-bottom-color: var(--earth); box-shadow: 0 1px 0 0 var(--earth); }
   .pd input[aria-invalid="true"] { border-bottom-color: var(--error); box-shadow: 0 1px 0 0 var(--error); }
@@ -163,3 +163,47 @@
   .pd .closed { margin: 0 0 14px; padding: 12px 14px; border-radius: 12px; background: var(--sand); color: var(--muted); font-size: 13.5px; }
   .pd .btn[disabled] { opacity: .6; cursor: progress; }
   @media (min-width: 920px) { .pd { padding-top: 104px; } .pd .card { top: 104px; } }
+
+  /* Coming with anyone: three choices, then one small card per person */
+  .pd .party { gap: 10px; }
+  .pd .hint { margin: -2px 0 2px; font-size: 12.5px; line-height: 1.5; color: var(--soft); }
+  .pd .party-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .pd .party-option { position: relative; }
+  .pd .party-option input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .pd .party-option > span { display: flex; flex-direction: column; align-items: center; gap: 3px; min-height: 76px; padding: 10px 6px 9px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); font-size: 13px; font-weight: 500; text-align: center; line-height: 1.25; cursor: pointer; transition: border-color .2s ease, background-color .2s ease, color .2s ease; }
+  .pd .party-option svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; color: var(--olive); margin-bottom: 2px; }
+  .pd .party-option small { font-size: 11px; font-weight: 400; color: var(--soft); }
+  .pd .party-option:hover input:not(:checked) + span { border-color: var(--olive-light); }
+  .pd .party-option input:checked + span { border-color: var(--olive); background: #F1F0E4; box-shadow: inset 0 0 0 1px var(--olive); }
+  .pd .party-option input:focus-visible + span { outline: 2px solid var(--olive); outline-offset: 2px; }
+
+  .pd .companions { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; animation: pd-rise .35s ease both; }
+  @keyframes pd-rise { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  .pd .companion { position: relative; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; padding: 12px 12px 12px 10px; border: 1px solid var(--line); border-radius: 14px; background: var(--sand); }
+  .pd .avatar { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: #F6E1DF; color: #7A1F2B; font-family: var(--serif); font-style: italic; font-weight: 600; font-size: 15px; }
+  .pd .companion-body { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .pd .companion input[type="text"] { min-height: 32px; padding: 3px 26px 5px 0; font-size: 15px; }
+  .pd .relations { display: flex; flex-wrap: wrap; gap: 5px; }
+  .pd .relation { position: relative; }
+  .pd .relation input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .pd .relation span { display: inline-flex; align-items: center; min-height: 28px; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: 12px; cursor: pointer; transition: background-color .2s ease, border-color .2s ease, color .2s ease; }
+  .pd .relation:hover input:not(:checked) + span { border-color: var(--olive-light); }
+  .pd .relation input:checked + span { background: var(--olive); border-color: var(--olive); color: var(--surface); }
+  .pd .relation input:focus-visible + span { outline: 2px solid var(--olive); outline-offset: 2px; }
+  .pd .relation-fixed { margin: 0; font-size: 12px; color: var(--muted); }
+  .pd .remove { position: absolute; top: 10px; right: 8px; width: 26px; height: 26px; border-radius: 50%; border: 0; background: transparent; color: var(--soft); display: grid; place-items: center; cursor: pointer; }
+  .pd .remove:hover { background: var(--surface); color: var(--earth); }
+  .pd .remove svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+  .pd .add-person { display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; min-height: 38px; padding: 6px 14px 6px 10px; border-radius: 999px; border: 1px dashed var(--olive-light); background: transparent; color: var(--olive-dark); font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; }
+  .pd .add-person:hover { border-style: solid; background: var(--surface); }
+  .pd .add-person svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+  .pd .add-person small { font-weight: 400; color: var(--soft); }
+  .pd .party-total { margin: 2px 0 0; font-size: 12.5px; color: var(--muted); }
+  .pd .party-total strong { color: var(--earth); font-weight: 600; }
+
+  .pd textarea { width: 100%; min-width: 0; min-height: 84px; font: inherit; font-size: 15px; line-height: 1.5; color: var(--earth); background: var(--sand); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin-top: 6px; resize: vertical; outline: none; transition: border-color .2s ease; }
+  .pd textarea::placeholder { color: #8A7C71; }
+  .pd textarea:focus { border-color: var(--earth); }
+  .pd .optional { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--soft); margin-left: 4px; }
+  .pd .count { align-self: flex-end; font-size: 11px; color: var(--soft); margin-top: 3px; }
+  @media (prefers-reduced-motion: reduce) { .pd .companions { animation: none; } }

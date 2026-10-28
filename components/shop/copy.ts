@@ -209,6 +209,14 @@ const errors: Record<string, [string, string]> = {
     'Cette zone n’est plus desservie. Choisissez une autre zone.',
     'This area is no longer served. Choose another area.',
   ],
+  whatsapp: [
+    'Saisissez un numéro WhatsApp valide.',
+    'Enter a valid WhatsApp number.',
+  ],
+  party: [
+    'Vérifiez les personnes qui vous accompagnent.',
+    'Please check the people coming with you.',
+  ],
   event_closed: [
     'Les demandes pour cet événement sont fermées.',
     'Requests for this event are closed.',

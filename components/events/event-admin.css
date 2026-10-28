@@ -44,9 +44,19 @@
 .event-inbox .event-tag.here { background:color-mix(in srgb, var(--color-olive) 16%, var(--color-cream)); color:var(--color-olive-dark); }
 .event-inbox .inbox-contact .pantry-text-link { display:inline-flex; align-items:center; gap:7px; }
 .event-inbox .event-mail { display:grid; gap:6px; }
+.event-inbox .event-mail a.shop-button { justify-content:center; }
+.event-inbox .inbox-contact .shop-button { min-height:40px; padding:8px 16px; gap:8px; }
 .event-inbox .event-mail .shop-button { gap:8px; min-height:42px; padding:8px 14px; font-size:.78rem; }
 .event-inbox .event-checkin { gap:8px; min-height:52px; }
 .event-inbox .inbox-cancel { display:inline-flex; align-items:center; gap:5px; }
+
+.event-inbox .event-party-count { display:inline-grid; place-items:center; min-width:34px; height:24px; margin-left:10px; padding:0 8px; border-radius:999px; background:#f6e1df; color:#7a1f2b; font-family:var(--font-sans); font-size:.75rem; font-weight:600; vertical-align:middle; }
+.event-inbox .event-party { margin-top:14px; }
+.event-inbox .event-party > p { font-size:.72rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--color-olive); }
+.event-inbox .event-party ul { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+.event-inbox .event-party li { display:inline-flex; align-items:center; gap:8px; padding:4px 12px 4px 4px; border:1px solid var(--inbox-rule); border-radius:999px; font-size:.85rem; }
+.event-inbox .event-party li em { font-style:normal; font-size:.72rem; color:color-mix(in srgb, var(--color-earth) 65%, transparent); }
+.event-inbox .event-avatar { width:24px; height:24px; border-radius:50%; display:grid; place-items:center; background:#f6e1df; color:#7a1f2b; font-size:.72rem; font-weight:600; }
 
 @media (max-width: 900px) {
   .event-inbox .event-settings { grid-template-columns:1fr; }
