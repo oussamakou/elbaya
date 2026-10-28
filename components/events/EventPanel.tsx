@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowUpRight, Check, Download, Mail, Printer, Search, Trash2, UserCheck } from "lucide-react";
+import { ArrowUpRight, Check, Copy, Download, Mail, MessageCircle, Phone, Printer, Search, Trash2, UserCheck } from "lucide-react";
+import { displayWhatsapp, whatsappLink, whatsappMessage } from "@/lib/events/whatsapp";
 import type { EventSettings, Guest, GuestStatus } from "@/lib/events/pomegranate";
 import {csvCell} from '@/lib/events/csv';
 import "./event-admin.css";
@@ -16,6 +17,12 @@ const statusNames: Record<GuestStatus, string> = {
   waitlist: "Liste d’attente",
   declined: "Refusé",
 };
+const whatsappNames: Record<GuestStatus, string> = {
+  new: "Écrire sur WhatsApp",
+  confirmed: "WhatsApp : confirmer sa place",
+  waitlist: "WhatsApp : liste d’attente",
+  declined: "WhatsApp : pas de place",
+};
 const emailNames: Record<Exclude<GuestStatus, "new">, string> = {
   confirmed: "l’email de confirmation",
   waitlist: "l’email de liste d’attente",
@@ -28,7 +35,7 @@ const filters = {
   waitlist: { label: "Liste d’attente", test: (g: Guest) => g.status === "waitlist" },
   declined: { label: "Refusés", test: (g: Guest) => g.status === "declined" },
   first: { label: "Première visite", test: (g: Guest) => g.been === "no" },
-  unmailed: { label: "Sans email envoyé", test: (g: Guest) => g.status !== "new" && !g.emailed?.[g.status] },
+  unmailed: { label: "Pas encore prévenus", test: (g: Guest) => g.status !== "new" && !g.whatsapp?.[g.status] && !g.emailed?.[g.status] },
 };
 type Filter = keyof typeof filters;
 const received = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Africa/Tunis" });
@@ -36,10 +43,10 @@ const fmt = (iso?: string) => (iso ? received.format(new Date(iso)) : "");
 const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 
 function csv(guests: Guest[]) {
-  const head = ["Réf.", "Reçue", "Nom", "Email", "Téléphone", "Vient de", "Déjà venu", "Statut", "Email accepté par le service", "Présent", "Note"];
+  const head = ["Réf.", "Reçue", "Nom", "Email", "Téléphone", "Vient de", "Déjà venu", "Statut", "WhatsApp envoyé", "Email accepté par le service", "Présent", "Note"];
   const rows = guests.map((g) => [
-    g.id, fmt(g.createdAt), g.name, g.email, g.phone || "", g.from, g.been === "yes" ? "Oui" : "Non",
-    statusNames[g.status], g.status !== "new" && g.emailPending?.[g.status] ? "En file d’envoi" : g.status !== "new" && g.emailed?.[g.status] ? fmt(g.emailed[g.status]) : "",
+    g.id, fmt(g.createdAt), g.name, g.email, g.phone ? displayWhatsapp(g.phone) : "", g.from, g.been === "yes" ? "Oui" : "Non",
+    statusNames[g.status], g.whatsapp?.[g.status] ? fmt(g.whatsapp[g.status]) : "", g.status !== "new" && g.emailPending?.[g.status] ? "En file d’envoi" : g.status !== "new" && g.emailed?.[g.status] ? fmt(g.emailed[g.status]) : "",
     g.checkedInAt ? fmt(g.checkedInAt) : "", g.ownerNote || "",
   ]);
   return "﻿" + [head, ...rows].map((r) => r.map(csvCell).join(";")).join("\r\n");
@@ -153,11 +160,18 @@ function GuestCard({
           <span className={`event-tag${guest.been === "no" ? " first" : ""}`}>{guest.been === "yes" ? "Déjà venu à la ferme" : "Première visite"}</span>
           {guest.checkedInAt && <span className="event-tag here"><UserCheck size={13} />Présent · {fmt(guest.checkedInAt)}</span>}
         </p>
+        {guest.phone && <p className="inbox-phone">{displayWhatsapp(guest.phone)}</p>}
         <div className="inbox-contact">
-          <a className="pantry-text-link" href={`mailto:${guest.email}?subject=${encodeURIComponent("Pomegranate Day · Farm Elbaya")}`}>
-            <Mail size={15} /> {guest.email}
-          </a>
-          {guest.phone && <a className="pantry-text-link" href={`https://wa.me/${guest.phone.replace(/\D/g, "")}`} target="_blank" rel="noreferrer">WhatsApp {guest.phone}</a>}
+          {guest.phone && (
+            <a className="shop-button secondary" href={`tel:${guest.phone}`}>
+              <Phone size={16} /> Appeler
+            </a>
+          )}
+          {guest.email && (
+            <a className="pantry-text-link" href={`mailto:${guest.email}?subject=${encodeURIComponent("Pomegranate Day · Farm Elbaya")}`}>
+              <Mail size={15} /> {guest.email}
+            </a>
+          )}
         </div>
       </div>
       <div className="inbox-card-side">
@@ -176,7 +190,28 @@ function GuestCard({
             ))}
           </div>
         )}
-        {mailKind && !dayMode && (
+        {guest.phone && !dayMode && (
+          <div className="event-mail">
+            <a
+              className={`shop-button${guest.status !== "new" && !guest.whatsapp?.[guest.status] ? "" : " secondary"}`}
+              href={whatsappLink(guest.phone, whatsappMessage(guest.name, guest.status))}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => { if (!busy) void update({ whatsappSent: guest.status }, "WhatsApp ouvert"); }}
+            >
+              <MessageCircle size={16} />
+              {whatsappNames[guest.status]}
+            </a>
+            <small>
+              {guest.whatsapp?.[guest.status]
+                ? `Message ouvert le ${fmt(guest.whatsapp[guest.status])}`
+                : guest.status === "new"
+                  ? "Choisissez une décision pour préparer le bon message."
+                  : "Le message est prêt : il s’ouvre dans WhatsApp, il suffit d’envoyer."}
+            </small>
+          </div>
+        )}
+        {mailKind && guest.email && !dayMode && (
           <div className="event-mail">
             <button
               type="button"
@@ -273,9 +308,9 @@ export default function EventPanel({ data, run }: { data: EventData; run: Run })
     void bulk("event_bulk", { ids: chosen.map((g) => g.id), status }, () => `${chosen.length} demande${chosen.length > 1 ? "s" : ""} mise${chosen.length > 1 ? "s" : ""} à jour.`);
   }
   function bulkEmail() {
-    const ready = chosen.filter((g) => g.status !== "new");
+    const ready = chosen.filter((g) => g.status !== "new" && g.email);
     const fresh = ready.filter((g) => g.status !== "new" && !g.emailed?.[g.status] && !g.emailPending?.[g.status]);
-    if (!ready.length) return setError("Choisissez d’abord une décision (confirmé, attente ou refusé) pour ces demandes.");
+    if (!ready.length) return setError("Aucune de ces demandes n’a à la fois une décision et une adresse email.");
     if (!window.confirm(`Envoyer à chaque invité l’email qui correspond à sa décision ?\n\n${fresh.length} à envoyer${ready.length - fresh.length ? ` · ${ready.length - fresh.length} déjà envoyé(s) ou en file, ignoré(s)` : ""}.`)) return;
     void bulk("event_email", { ids: ready.map((g) => g.id) }, (r) => `${(r as { queued: number }).queued} email(s) en cours d’envoi.`);
   }
@@ -286,7 +321,7 @@ export default function EventPanel({ data, run }: { data: EventData; run: Run })
       <div className="admin-heading">
         <div>
           <h2>Pomegranate Day</h2>
-          <p>Dimanche 1er novembre, 15 h – 19 h. Chaque demande attend votre réponse : confirmez, mettez en attente ou refusez, puis envoyez l’email correspondant.</p>
+          <p>Dimanche 1er novembre, 15 h – 19 h. Chaque demande attend votre réponse : confirmez, mettez en attente ou refusez, puis envoyez le message WhatsApp préparé.</p>
         </div>
         <div className="event-heading-actions">
           <a className="shop-button secondary" href="/en/pomegranate-day" target="_blank" rel="noreferrer">
@@ -325,14 +360,14 @@ export default function EventPanel({ data, run }: { data: EventData; run: Run })
       </dl>
 
       <Settings settings={settings} confirmed={confirmed} run={run} />
-      {!emailReady && (
+      {!emailReady && guests.some((g) => g.email) && (
         <p className="shop-notice">L’envoi d’emails aux invités n’est pas activé (service Resend). Les demandes sont bien enregistrées : répondez depuis votre messagerie en cliquant sur l’adresse de chaque invité.</p>
       )}
 
       <div className="event-toolbar">
         <label className="event-search">
           <Search size={16} aria-hidden="true" />
-          <input className="field" type="search" placeholder="Rechercher un nom, un email, une ville…" value={query} onChange={(e) => setQuery(e.target.value)} aria-label="Rechercher" />
+          <input className="field" type="search" placeholder="Rechercher un nom, un numéro, une ville…" value={query} onChange={(e) => setQuery(e.target.value)} aria-label="Rechercher" />
         </label>
         <button type="button" className={`shop-button${dayMode ? "" : " secondary"}`} aria-pressed={dayMode} onClick={() => setDayMode((v) => !v)}>
           <UserCheck size={16} /> {dayMode ? "Quitter le mode accueil" : "Mode accueil (le jour J)"}
@@ -371,7 +406,23 @@ export default function EventPanel({ data, run }: { data: EventData; run: Run })
               <button type="button" className="shop-button" disabled={busy} onClick={() => bulkStatus("confirmed")}>Confirmer</button>
               <button type="button" className="shop-button secondary" disabled={busy} onClick={() => bulkStatus("waitlist")}>Liste d’attente</button>
               <button type="button" className="shop-button secondary" disabled={busy} onClick={() => bulkStatus("declined")}>Refuser</button>
-              <button type="button" className="shop-button secondary" disabled={busy || !emailReady} onClick={bulkEmail}><Mail size={15} /> Envoyer les emails</button>
+              <button
+                type="button"
+                className="shop-button secondary"
+                disabled={busy}
+                onClick={async () => {
+                  const numbers = chosen.filter((g) => g.phone).map((g) => displayWhatsapp(g.phone!));
+                  try {
+                    await navigator.clipboard.writeText(numbers.join("\n"));
+                    setNotice(`${numbers.length} numéro(s) copié(s), un par ligne, pour une liste de diffusion WhatsApp.`);
+                  } catch {
+                    setError("La copie n’a pas fonctionné dans ce navigateur. Utilisez l’export CSV.");
+                  }
+                }}
+              >
+                <Copy size={15} /> Copier les numéros
+              </button>
+              {chosen.some((g) => g.email) && <button type="button" className="shop-button secondary" disabled={busy || !emailReady} onClick={bulkEmail}><Mail size={15} /> Envoyer les emails</button>}
               <button type="button" className="pantry-text-link" onClick={() => setSelected(new Set())}>Effacer</button>
             </div>
           )}
@@ -400,10 +451,10 @@ export default function EventPanel({ data, run }: { data: EventData; run: Run })
       <div className="inbox-print event-print">
         <h2>Pomegranate Day · {dayMode ? "Liste d’accueil" : filters[filter].label} · {visible.length}</h2>
         <table>
-          <thead><tr><th>Nom</th><th>Email</th><th>Vient de</th><th>Déjà venu</th><th>Statut</th><th>Note</th><th>Présent</th></tr></thead>
+          <thead><tr><th>Nom</th><th>WhatsApp</th><th>Vient de</th><th>Déjà venu</th><th>Statut</th><th>Note</th><th>Présent</th></tr></thead>
           <tbody>
             {visible.map((g) => (
-              <tr key={g.id}><td>{g.name}</td><td>{g.email}</td><td>{g.from}</td><td>{g.been === "yes" ? "Oui" : "Non"}</td><td>{statusNames[g.status]}</td><td>{g.ownerNote || ""}</td><td><span className="inbox-print-tick" /></td></tr>
+              <tr key={g.id}><td>{g.name}</td><td>{g.phone ? displayWhatsapp(g.phone) : g.email}</td><td>{g.from}</td><td>{g.been === "yes" ? "Oui" : "Non"}</td><td>{statusNames[g.status]}</td><td>{g.ownerNote || ""}</td><td><span className="inbox-print-tick" /></td></tr>
             ))}
           </tbody>
         </table>

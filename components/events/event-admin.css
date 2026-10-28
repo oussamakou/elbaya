@@ -44,6 +44,8 @@
 .event-inbox .event-tag.here { background:color-mix(in srgb, var(--color-olive) 16%, var(--color-cream)); color:var(--color-olive-dark); }
 .event-inbox .inbox-contact .pantry-text-link { display:inline-flex; align-items:center; gap:7px; }
 .event-inbox .event-mail { display:grid; gap:6px; }
+.event-inbox .event-mail a.shop-button { justify-content:center; }
+.event-inbox .inbox-contact .shop-button { min-height:40px; padding:8px 16px; gap:8px; }
 .event-inbox .event-mail .shop-button { gap:8px; min-height:42px; padding:8px 14px; font-size:.78rem; }
 .event-inbox .event-checkin { gap:8px; min-height:52px; }
 .event-inbox .inbox-cancel { display:inline-flex; align-items:center; gap:5px; }

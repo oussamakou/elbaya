@@ -101,7 +101,7 @@
   .pd form { display: flex; flex-direction: column; gap: 14px; }
   .pd .pd-field { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .pd .pd-field > label, .pd fieldset legend { font-size: 11px; font-weight: 500; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); padding: 0; }
-  .pd input[type="text"], .pd input[type="email"] { width: 100%; min-width: 0; min-height: 40px; font: inherit; font-size: 16px; color: var(--earth); background: transparent; border: 0; border-bottom: 1px solid var(--olive-light); border-radius: 0; padding: 7px 0; outline: none; appearance: none; -webkit-appearance: none; transition: border-color .2s ease, box-shadow .2s ease; }
+  .pd input[type="text"], .pd input[type="email"], .pd input[type="tel"] { width: 100%; min-width: 0; min-height: 40px; font: inherit; font-size: 16px; color: var(--earth); background: transparent; border: 0; border-bottom: 1px solid var(--olive-light); border-radius: 0; padding: 7px 0; outline: none; appearance: none; -webkit-appearance: none; transition: border-color .2s ease, box-shadow .2s ease; }
   .pd input::placeholder { color: #8A7C71; }
   .pd input:focus { border-bottom-color: var(--earth); box-shadow: 0 1px 0 0 var(--earth); }
   .pd input[aria-invalid="true"] { border-bottom-color: var(--error); box-shadow: 0 1px 0 0 var(--error); }

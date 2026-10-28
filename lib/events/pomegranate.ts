@@ -36,10 +36,14 @@ export type Guest = {
   createdAt: string;
   updatedAt?: string;
   name: string;
+  // Empty for requests made with a WhatsApp number only.
   email: string;
   from: string;
   been: 'yes' | 'no';
+  // WhatsApp number in international form, e.g. +21622123456.
   phone?: string;
+  // When the owner opened a WhatsApp message for each decision.
+  whatsapp?: Partial<Record<GuestStatus, string>>;
   status: GuestStatus;
   // Set when the request arrived after the confirmed list was already full.
   arrivedWhenFull?: boolean;
@@ -60,7 +64,8 @@ async function store() {
     await client.batch(
       [
         'CREATE TABLE IF NOT EXISTS event_settings (id TEXT PRIMARY KEY, data TEXT NOT NULL)',
-        // One request per email per event: sending again returns the first request.
+        // One request per contact per event: sending again returns the first request.
+        // The `email` column holds the contact key: the email for early requests, 'wa:' + number since the WhatsApp form.
         'CREATE TABLE IF NOT EXISTS event_guests (id TEXT PRIMARY KEY, event TEXT NOT NULL, email TEXT NOT NULL, request_key TEXT UNIQUE NOT NULL, data TEXT NOT NULL, UNIQUE(event, email))',
         {sql: 'INSERT OR IGNORE INTO event_settings (id, data) VALUES (?, ?)', args: [EVENT_ID, JSON.stringify(DEFAULT_SETTINGS)]},
       ],
@@ -98,27 +103,36 @@ function clean(value: unknown, max: number) {
   return text(value, max).replace(/\s+/g, ' ');
 }
 
+// WhatsApp number in international form. Eight digits are read as a Tunisian number.
+export function whatsappNumber(value: unknown) {
+  const raw = text(value, 30).replace(/[\s().\/-]/g, '');
+  let digits: string;
+  if (/^[2-9][0-9]{7}$/.test(raw)) digits = `216${raw}`;
+  else if (/^\+[0-9]{8,15}$/.test(raw)) digits = raw.slice(1);
+  else if (/^00[0-9]{8,15}$/.test(raw)) digits = raw.slice(2);
+  else throw new ShopError('whatsapp');
+  if (digits.startsWith('216') && !/^216[2-9][0-9]{7}$/.test(digits)) throw new ShopError('whatsapp');
+  return `+${digits}`;
+}
+
 export async function requestSpot(input: unknown) {
   const o = object(input);
   if (o.website) throw new ShopError('invalid'); // hidden field filled by a bot
   const name = clean(o.name, 80);
-  const email = clean(o.email, 254).toLowerCase();
+  const phone = whatsappNumber(o.phone);
+  const email = o.email === undefined || o.email === '' ? '' : clean(o.email, 254).toLowerCase();
   const from = clean(o.from, 80);
   if (name.length < 2 || from.length < 2) throw new ShopError('invalid');
-  if (!EMAIL.test(email)) throw new ShopError('email');
+  if (email && !EMAIL.test(email)) throw new ShopError('email');
   if (o.been !== 'yes' && o.been !== 'no') throw new ShopError('invalid');
-  let phone: string | undefined;
-  if (o.phone !== undefined && o.phone !== '') {
-    phone = text(o.phone, 30).replace(/[\s().-]/g, '');
-    if (!/^\+?[0-9]{8,15}$/.test(phone)) throw new ShopError('phone');
-  }
+  const contactKey = `wa:${phone}`;
   const requestKey = id(o.requestKey);
 
   const tx = await (await store()).transaction('write');
   try {
     const existing = await tx.execute({
-      sql: 'SELECT data FROM event_guests WHERE request_key=? OR (event=? AND email=?) LIMIT 1',
-      args: [requestKey, EVENT_ID, email],
+      sql: "SELECT data FROM event_guests WHERE request_key=? OR (event=? AND (email=? OR json_extract(data,'$.phone')=?)) LIMIT 1",
+      args: [requestKey, EVENT_ID, contactKey, phone],
     });
     if (existing.rows.length) {
       const guest = JSON.parse(String(existing.rows[0].data)) as Guest;
@@ -137,28 +151,28 @@ export async function requestSpot(input: unknown) {
       email,
       from,
       been: o.been,
-      ...(phone ? {phone} : {}),
+      phone,
       status: full ? 'waitlist' : 'new',
       ...(full ? {arrivedWhenFull: true} : {}),
     };
     await tx.execute({
       sql: 'INSERT INTO event_guests (id, event, email, request_key, data) VALUES (?,?,?,?,?)',
-      args: [guest.id, EVENT_ID, email, requestKey, JSON.stringify(guest)],
+      args: [guest.id, EVENT_ID, contactKey, requestKey, JSON.stringify(guest)],
     });
     await queueNotification(tx, `event-${guest.id}`, {
       subject: `Pomegranate Day · Nouvelle demande · ${guest.name}`,
       text: [
         `Demande ${guest.id}${full ? ' (liste confirmée complète : placée en liste d’attente)' : ''}`,
         `Nom : ${guest.name}`,
-        `Email : ${guest.email}`,
-        ...(guest.phone ? [`Téléphone : ${guest.phone}`] : []),
+        `WhatsApp : ${guest.phone}`,
+        ...(guest.email ? [`Email : ${guest.email}`] : []),
         `Vient de : ${guest.from}`,
         `Déjà venu à la ferme : ${guest.been === 'yes' ? 'oui' : 'non, première fois'}`,
         '',
         'Confirmez ou répondez depuis l’onglet Pomegranate Day :',
         'https://www.farmelbaya.com/fr/admin',
       ].join('\n'),
-      reply_to: guest.email,
+      ...(guest.email ? {reply_to: guest.email} : {}),
     });
     await tx.commit();
     return {id: guest.id, already: false, waitlist: full};
@@ -243,6 +257,8 @@ export async function updateGuest(input: unknown) {
     if (note) guest.ownerNote = note;
     else delete guest.ownerNote;
   }
+  // The owner opened a WhatsApp message for this decision.
+  if (o.whatsappSent !== undefined) guest.whatsapp = {...guest.whatsapp, [status(o.whatsappSent)]: new Date().toISOString()};
   if (o.checkedIn !== undefined) {
     if (typeof o.checkedIn !== 'boolean') throw new ShopError('invalid');
     if (o.checkedIn) guest.checkedInAt ??= new Date().toISOString();
@@ -338,7 +354,7 @@ export async function emailGuests(input: unknown) {
   try {
     for (const guestId of list) {
       const guest = await loadGuest(tx, guestId);
-      if (guest.status === 'new') continue;
+      if (guest.status === 'new' || !guest.email) continue;
       const kind: EmailKind = guest.status;
       const prefix = `event-mail-${guest.id}-${kind}-`;
       const pending = await tx.execute({sql: 'SELECT id FROM shop_notifications WHERE substr(id,1,?)=? AND sent_at IS NULL LIMIT 1', args: [prefix.length, prefix]});

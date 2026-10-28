@@ -3,19 +3,23 @@
 import {useEffect, useRef, useState, type FormEvent} from 'react';
 import './pomegranate-day.css';
 
-type Field = 'name' | 'email' | 'from' | 'been';
+type Field = 'name' | 'phone' | 'from' | 'been';
 type Values = Record<Field, string>;
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+// Eight digits are a Tunisian number; anything else needs its country code (+33…, 0033…).
+const phoneOk = (v: string) => {
+  const raw = v.replace(/[\s().\/-]/g, '');
+  return /^[2-9][0-9]{7}$/.test(raw) || /^(\+|00)(216[2-9][0-9]{7}|(?!216)[1-9][0-9]{7,14})$/.test(raw);
+};
 const clean = (s: string) => s.replace(/\s+/g, ' ').trim();
 const rules: Record<Field, (v: Values) => string> = {
   name: (v) => (clean(v.name).length < 2 ? 'Please add your full name.' : ''),
-  email: (v) => (EMAIL.test(clean(v.email)) ? '' : 'Please check your email address.'),
+  phone: (v) => (phoneOk(v.phone) ? '' : 'Please check your WhatsApp number. Add the country code if it is not Tunisian.'),
   from: (v) => (clean(v.from).length < 2 ? 'Please tell us where you are coming from.' : ''),
   been: (v) => (v.been ? '' : 'Please choose one.'),
 };
 const serverErrors: Record<string, string> = {
   event_closed: 'Requests for Pomegranate Day are closed.',
-  email: 'Please check your email address.',
+  whatsapp: 'Please check your WhatsApp number. Add the country code if it is not Tunisian.',
   rate_limit: 'Too many attempts from this connection. Please wait a little and try again.',
   invalid: 'Please check the form fields.',
 };
@@ -37,7 +41,7 @@ export default function PomegranateDay({
   calendar: {google: string; outlook: string};
   maps: string;
 }) {
-  const [values, setValues] = useState<Values>({name: '', email: '', from: '', been: ''});
+  const [values, setValues] = useState<Values>({name: '', phone: '', from: '', been: ''});
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [summary, setSummary] = useState('');
   const [busy, setBusy] = useState(false);
@@ -46,7 +50,7 @@ export default function PomegranateDay({
   const key = useRef('');
   const refs = {
     name: useRef<HTMLInputElement>(null),
-    email: useRef<HTMLInputElement>(null),
+    phone: useRef<HTMLInputElement>(null),
     from: useRef<HTMLInputElement>(null),
     been: useRef<HTMLInputElement>(null),
   };
@@ -100,7 +104,7 @@ export default function PomegranateDay({
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
           name: clean(values.name),
-          email: clean(values.email),
+          phone: clean(values.phone),
           from: clean(values.from),
           been: values.been,
           requestKey: key.current,
@@ -227,9 +231,9 @@ export default function PomegranateDay({
                 <p className="error" id="name-error">{errors.name}</p>
               </div>
               <div className="pd-field">
-                <label htmlFor="email">Email</label>
-                <input type="email" autoComplete="email" inputMode="email" maxLength={254} enterKeyHint="next" disabled={!open} {...fieldProps('email')} />
-                <p className="error" id="email-error">{errors.email}</p>
+                <label htmlFor="phone">WhatsApp number</label>
+                <input type="tel" autoComplete="tel" inputMode="tel" maxLength={30} placeholder="+216" enterKeyHint="next" disabled={!open} {...fieldProps('phone')} />
+                <p className="error" id="phone-error">{errors.phone}</p>
               </div>
               <div className="pd-field">
                 <label htmlFor="from">Coming from</label>
@@ -270,15 +274,15 @@ export default function PomegranateDay({
                 <h2 id="review-title" tabIndex={-1} ref={doneTitle}>Thank you{firstName ? `, ${firstName}` : ''}</h2>
                 <p className="sub" style={{marginBottom: 0}}>
                   {done.already
-                    ? 'We already have your request. We will be in touch soon.'
+                    ? 'We already have your request. We will be in touch on WhatsApp soon.'
                     : done.waitlist
-                      ? 'Your request is in. All places are taken for now, so you are on our waiting list. If a spot opens, we will write to you.'
-                      : 'Your request is in. Places are limited, so we confirm each guest personally. We will be in touch soon.'}
+                      ? 'Your request is in. All places are taken for now, so you are on our waiting list. If a spot opens, we will message you on WhatsApp.'
+                      : 'Your request is in. Places are limited, so we confirm each guest personally. We will be in touch on WhatsApp soon.'}
                 </p>
               </div>
               {!done.already && (<dl className="summary">
                 <dt>Name</dt><dd>{clean(values.name)}</dd>
-                <dt>Email</dt><dd>{clean(values.email)}</dd>
+                <dt>WhatsApp</dt><dd>{clean(values.phone)}</dd>
                 <dt>From</dt><dd>{clean(values.from)}</dd>
                 <dt>Been before</dt><dd>{values.been === 'yes' ? 'Yes' : 'No, first time'}</dd>
               </dl>)}
