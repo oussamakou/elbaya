@@ -207,3 +207,13 @@
   .pd .optional { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--soft); margin-left: 4px; }
   .pd .count { align-self: flex-end; font-size: 11px; color: var(--soft); margin-top: 3px; }
   @media (prefers-reduced-motion: reduce) { .pd .companions { animation: none; } }
+
+  /* Fully booked: the card says thank you instead of showing the form */
+  .pd .booked { display: flex; flex-direction: column; gap: 10px; }
+  .pd .booked h2 { margin-top: 2px; }
+  .pd .booked .sub { margin: -4px 0 6px; }
+  .pd .booked p:not(.sub):not(.booked-ar) { margin: 0; color: var(--muted); line-height: 1.65; }
+  .pd .booked-mark { width: 42px; height: 42px; border-radius: 50%; border: 1px solid #E3BDC0; display: grid; place-items: center; color: var(--red); background: #FBEFEE; }
+  .pd .booked-mark svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linejoin: round; }
+  .pd .booked-ar { align-self: flex-start; font-family: var(--pd-kufi), "Noto Kufi Arabic", var(--ar); font-weight: 100; font-size: 17px; line-height: 1.6; color: var(--red); margin-top: 6px; }
+  .pd .booked-chip { align-self: center; margin-left: 4px; padding: 3px 11px; border-radius: 999px; background: #F6E1DF; color: #7A1F2B; font-family: var(--sans); font-style: normal; font-size: 12px; font-weight: 600; letter-spacing: .04em; }

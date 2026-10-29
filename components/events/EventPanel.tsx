@@ -8,7 +8,7 @@ import {csvCell} from '@/lib/events/csv';
 import "./event-admin.css";
 
 // Owner tab for Pomegranate Day: every request, a decision per guest, emails, and check-in on the day.
-export type EventData = { settings: EventSettings; guests: Guest[]; emailReady: boolean };
+export type EventData = { settings: EventSettings; guests: Guest[]; emailReady: boolean; fullyBooked?: boolean };
 type Action = "event_settings" | "event_guest" | "event_bulk" | "event_remove" | "event_email";
 type Run = (action: Action, data: unknown) => Promise<unknown>;
 
@@ -379,6 +379,9 @@ export default function EventPanel({ data, run }: { data: EventData; run: Run })
         </div>
       </dl>
 
+      {data.fullyBooked && (
+        <p className="shop-notice" role="status">Événement complet : le formulaire est fermé sur le site et affiche un message de remerciement. Aucune nouvelle demande n’est acceptée. Vous pouvez toujours gérer les demandes ci-dessous.</p>
+      )}
       <Settings settings={settings} confirmed={confirmed} run={run} />
       {!emailReady && guests.some((g) => g.email) && (
         <p className="shop-notice">L’envoi d’emails aux invités n’est pas activé (service Resend). Les demandes sont bien enregistrées : répondez depuis votre messagerie en cliquant sur l’adresse de chaque invité.</p>

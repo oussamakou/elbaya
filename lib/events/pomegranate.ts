@@ -57,6 +57,10 @@ export type Guest = {
   emailed?: Partial<Record<EmailKind, string>>;
   emailPending?: Partial<Record<EmailKind, boolean>>;
 };
+// Pomegranate Day is fully booked (29 October): the page shows a thank-you instead of the form and
+// the API accepts no new requests, whatever the dashboard switch says. Set to false to reopen.
+export const FULLY_BOOKED = true;
+
 export type EventSettings = {revision: number; open: boolean; capacity: number};
 const DEFAULT_SETTINGS: EventSettings = {revision: 0, open: true, capacity: 200};
 const MAX_GUESTS = 3000;
@@ -100,7 +104,7 @@ async function confirmedCount(c: Client | Transaction) {
 export async function publicState() {
   const c = await store();
   const settings = await readSettings(c);
-  return {open: settings.open, full: (await confirmedCount(c)) >= settings.capacity};
+  return {open: settings.open && !FULLY_BOOKED, full: (await confirmedCount(c)) >= settings.capacity};
 }
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -166,7 +170,7 @@ export async function requestSpot(input: unknown) {
       return {id: guest.id, already: true, waitlist: guest.status === 'waitlist'};
     }
     const settings = await readSettings(tx);
-    if (!settings.open) throw new ShopError('event_closed', 409);
+    if (FULLY_BOOKED || !settings.open) throw new ShopError('event_closed', 409);
     const total = await tx.execute({sql: 'SELECT COUNT(*) AS n FROM event_guests WHERE event=?', args: [EVENT_ID]});
     if (Number(total.rows[0].n) >= MAX_GUESTS) throw new ShopError('event_closed', 409);
     const full = (await confirmedCount(tx)) >= settings.capacity;
@@ -237,6 +241,7 @@ export async function eventAdmin() {
     settings: await readSettings(c),
     guests,
     // Guest emails need the same Resend setup as the owner alerts.
+    fullyBooked: FULLY_BOOKED,
     emailReady: Boolean(process.env.RESEND_API_KEY && process.env.SHOP_EMAIL_FROM && process.env.SHOP_NOTIFY_EMAIL),
   };
 }
