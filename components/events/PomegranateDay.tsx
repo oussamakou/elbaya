@@ -287,10 +287,9 @@ export default function PomegranateDay({
               </span>
               <p className="ar booked-ar" lang="ar" dir="rtl">شكراً من القلب</p>
               <h2>We are fully booked</h2>
-              <p className="sub">Sunday 1 November · <span style={{whiteSpace: 'nowrap'}}>3 – 7 pm</span> · Testour</p>
-              <p>Thank you, from the heart. Every place for Pomegranate Day has found its guest, so we are no longer taking requests.</p>
-              <p>If you have already sent a request, there is nothing more to do: we will be in touch with you on WhatsApp.</p>
-              <p>And if you could not join us this time, we would love to welcome you on a next day at the farm.</p>
+              <p>Every place has found its guest. Thank you, from the heart.</p>
+              <p>Already sent a request? We will be in touch on WhatsApp.</p>
+              <p>See you on a next day at the farm.</p>
             </div>
           ) : !done ? (
             <form onSubmit={submit} noValidate autoComplete="on">
