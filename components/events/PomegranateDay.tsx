@@ -218,7 +218,7 @@ export default function PomegranateDay({
             </div>
 
             <section className="when" aria-label="When" ref={whenRef}>
-              <p className="when-line"><span>Sunday, 1 November</span><span className="sep" aria-hidden="true">·</span><span className="clock">3 – 7 pm</span></p>
+              <p className="when-line"><span>Sunday, 1 November</span><span className="sep" aria-hidden="true">·</span><span className="clock">3 – 7 pm</span>{!open && <span className="booked-chip">Fully booked</span>}</p>
               <div className="tl" role="img" aria-label="3:00 pm: arrival, farm walk, harvest and tasting. 5:30 pm: sunset on the rooftop, until 7:00 pm.">
                 <div className="tl-times" aria-hidden="true"><span className="t0">3:00 pm</span><span className="t1">5:30 pm</span><span className="t2">7:00 pm</span></div>
                 <div className="tl-bar" aria-hidden="true"><i className="a" /><i className="b" /><b className="d0" /><b className="d1" /><b className="d2" /></div>
@@ -280,7 +280,19 @@ export default function PomegranateDay({
         </div>
 
         <section className="card" id="card" aria-labelledby={done ? 'review-title' : 'form-title'} ref={cardRef}>
-          {!done ? (
+          {!open && !done ? (
+            <div className="booked" role="status">
+              <span className="booked-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z" /></svg>
+              </span>
+              <p className="ar booked-ar" lang="ar" dir="rtl">شكراً من القلب</p>
+              <h2>We are fully booked</h2>
+              <p className="sub">Sunday 1 November · <span style={{whiteSpace: 'nowrap'}}>3 – 7 pm</span> · Testour</p>
+              <p>Thank you, from the heart. Every place for Pomegranate Day has found its guest, so we are no longer taking requests.</p>
+              <p>If you have already sent a request, there is nothing more to do: we will be in touch with you on WhatsApp.</p>
+              <p>And if you could not join us this time, we would love to welcome you on a next day at the farm.</p>
+            </div>
+          ) : !done ? (
             <form onSubmit={submit} noValidate autoComplete="on">
               <div>
                 <h2 id="form-title">Request your spot</h2>
@@ -451,9 +463,11 @@ export default function PomegranateDay({
         </section>
       </div>
 
-      <a className={`btn float${floatShown ? ' show' : ''}`} href="#card" aria-hidden={!floatShown} tabIndex={floatShown ? 0 : -1}>
-        Request my spot
-      </a>
+      {open && (
+        <a className={`btn float${floatShown ? ' show' : ''}`} href="#card" aria-hidden={!floatShown} tabIndex={floatShown ? 0 : -1}>
+          Request my spot
+        </a>
+      )}
     </div>
   );
 }
